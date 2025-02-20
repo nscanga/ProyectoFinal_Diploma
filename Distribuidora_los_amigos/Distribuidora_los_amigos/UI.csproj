@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0FD78DBF-3D32-4EF9-A73B-1328A3596250}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Distribuidora_los_amigos</RootNamespace>
+    <AssemblyName>Distribuidora_los_amigos</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Syncfusion.Core.WinForms, Version=28.2462.5.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Core.WinForms.28.2.5\lib\net462\Syncfusion.Core.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Data.WinForms, Version=28.2462.5.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Data.WinForms.28.2.5\lib\net462\Syncfusion.Data.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.DataSource.WinForms, Version=28.2462.5.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.DataSource.WinForms.28.2.5\lib\net462\Syncfusion.DataSource.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Grid.Windows, Version=28.2462.5.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Grid.Windows.28.2.5\lib\net462\Syncfusion.Grid.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.GridCommon.WinForms, Version=28.2462.5.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.GridCommon.WinForms.28.2.5\lib\net462\Syncfusion.GridCommon.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Licensing, Version=28.2462.5.0, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Licensing.28.2.5\lib\net462\Syncfusion.Licensing.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfDataGrid.WinForms, Version=28.2462.5.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.SfDataGrid.WinForms.28.2.5\lib\net462\Syncfusion.SfDataGrid.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfInput.WinForms, Version=28.2462.5.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.SfInput.WinForms.28.2.5\lib\net462\Syncfusion.SfInput.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfListView.WinForms, Version=28.2462.5.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.SfListView.WinForms.28.2.5\lib\net462\Syncfusion.SfListView.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Shared.Base, Version=28.2462.5.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Shared.Base.28.2.5\lib\net462\Syncfusion.Shared.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Shared.Windows, Version=28.2462.5.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Shared.Windows.28.2.5\lib\net462\Syncfusion.Shared.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Forms\GestionUsuarios\BackUpForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GestionUsuarios\BackUpForm.Designer.cs">
+      <DependentUpon>BackUpForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\GestionUsuarios\CrearPatenteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GestionUsuarios\CrearPatenteForm.Designer.cs">
+      <DependentUpon>CrearPatenteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\GestionUsuarios\CrearRolForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GestionUsuarios\CrearRolForm.Designer.cs">
+      <DependentUpon>CrearRolForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\GestionUsuarios\CrearUsuarioForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GestionUsuarios\CrearUsuarioForm.Designer.cs">
+      <DependentUpon>CrearUsuarioForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\GestionUsuarios\AsignarRolForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GestionUsuarios\AsignarRolForm.Designer.cs">
+      <DependentUpon>AsignarRolForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\GestionUsuarios\ModificarUsuarioForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GestionUsuarios\ModificarUsuarioForm.Designer.cs">
+      <DependentUpon>ModificarUsuarioForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\GestionUsuarios\MostrarUsuariosForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GestionUsuarios\MostrarUsuariosForm.Designer.cs">
+      <DependentUpon>MostrarUsuariosForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\LoginForm\LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LoginForm\LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\main.Designer.cs">
+      <DependentUpon>main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Productos\CrearProductoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Productos\CrearProductoForm.Designer.cs">
+      <DependentUpon>CrearProductoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Productos\EliminarProductoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Productos\EliminarProductoForm.Designer.cs">
+      <DependentUpon>EliminarProductoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Productos\ModificarProductoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Productos\ModificarProductoForm.Designer.cs">
+      <DependentUpon>ModificarProductoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Productos\MostrarProductosForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Productos\MostrarProductosForm.Designer.cs">
+      <DependentUpon>MostrarProductosForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Proveedores\CrearProveedorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Proveedores\CrearProveedorForm.Designer.cs">
+      <DependentUpon>CrearProveedorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Proveedores\ModificarProveedorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Proveedores\ModificarProveedorForm.Designer.cs">
+      <DependentUpon>ModificarProveedorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Proveedores\MostrarProveedoresForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Proveedores\MostrarProveedoresForm.Designer.cs">
+      <DependentUpon>MostrarProveedoresForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StockForm\ModificarStockForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\StockForm\ModificarStockForm.Designer.cs">
+      <DependentUpon>ModificarStockForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StockForm\MostrarStockForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\StockForm\MostrarStockForm.Designer.cs">
+      <DependentUpon>MostrarStockForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\GestionUsuarios\BackUpForm.resx">
+      <DependentUpon>BackUpForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GestionUsuarios\CrearPatenteForm.resx">
+      <DependentUpon>CrearPatenteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GestionUsuarios\CrearRolForm.resx">
+      <DependentUpon>CrearRolForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GestionUsuarios\CrearUsuarioForm.resx">
+      <DependentUpon>CrearUsuarioForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GestionUsuarios\AsignarRolForm.resx">
+      <DependentUpon>AsignarRolForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GestionUsuarios\ModificarUsuarioForm.resx">
+      <DependentUpon>ModificarUsuarioForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GestionUsuarios\MostrarUsuariosForm.resx">
+      <DependentUpon>MostrarUsuariosForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\LoginForm\LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\main.resx">
+      <DependentUpon>main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Productos\CrearProductoForm.resx">
+      <DependentUpon>CrearProductoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Productos\EliminarProductoForm.resx">
+      <DependentUpon>EliminarProductoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Productos\ModificarProductoForm.resx">
+      <DependentUpon>ModificarProductoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Productos\MostrarProductosForm.resx">
+      <DependentUpon>MostrarProductosForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Proveedores\CrearProveedorForm.resx">
+      <DependentUpon>CrearProveedorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Proveedores\ModificarProveedorForm.resx">
+      <DependentUpon>ModificarProveedorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Proveedores\MostrarProveedoresForm.resx">
+      <DependentUpon>MostrarProveedoresForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StockForm\ModificarStockForm.resx">
+      <DependentUpon>ModificarStockForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StockForm\MostrarStockForm.resx">
+      <DependentUpon>MostrarStockForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="l18n\2vbwypcf.qlm~" />
+    <None Include="l18n\d0j2zvho.vgb~" />
+    <None Include="l18n\fuumdsp0.odh~" />
+    <None Include="l18n\language.en-US" />
+    <None Include="l18n\language.en-US~RF124752.TMP" />
+    <None Include="l18n\language.en-US~RF27aeb00.TMP" />
+    <None Include="l18n\language.en-US~RF44da30b.TMP" />
+    <None Include="l18n\language.en-US~RF57a3896f.TMP" />
+    <None Include="l18n\language.es-ES" />
+    <None Include="l18n\language.pt-PT" />
+    <None Include="l18n\nka0xxix.j14~" />
+    <None Include="l18n\xlotjyi1.pow~" />
+    <None Include="l18n\yykjdril.wlf~" />
+    <None Include="l18n\z011ila2.n5t~" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Diploma\Diploma\Proyectos Campo\TC\TC-ClinicaDental %286%29\TC-ClinicaDental\TC-ClinicaDental\repos\Service\Service.csproj">
+      <Project>{52931B7D-6058-4AFD-93B1-2B937C4B98A1}</Project>
+      <Name>Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BLL\BLL.csproj">
+      <Project>{4BF3045C-F70D-4D2A-AD45-05E204129154}</Project>
+      <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DOMAIN\DOMAIN.csproj">
+      <Project>{9BBEF0CB-3DD1-46C4-AA2D-D58E48BF584D}</Project>
+      <Name>DOMAIN</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
