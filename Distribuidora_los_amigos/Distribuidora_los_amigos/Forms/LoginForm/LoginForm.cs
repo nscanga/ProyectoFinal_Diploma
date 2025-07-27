@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Service.DAL.Contracts;
+using Service.DAL.Implementations.SqlServer.Helpers;
 using Service.DOMAIN;
 using Service.Facade;
 using Services.Facade;
@@ -33,12 +34,34 @@ namespace Distribuidora_los_amigos
         {
             try
             {
+                string hash = CryptographyService.HashMd5("admin123");
+                MessageBox.Show("Hash generado: " + hash);
                 InicializadorDeIdioma();
                 // Suscribirse a los cambios de idioma
                 IdiomaService.Subscribe(this);
 
                 // Cargar el idioma guardado y aplicarlo
                 string currentLanguage = IdiomaService.LoadUserLanguage();
+
+
+                IUsuarioRepository usuarioRepo = new UsuarioRepository();
+
+                if (usuarioRepo.GetAll().Count == 0)
+                {
+                    MessageBox.Show("No hay usuarios creados. Se creará un usuario administrador por defecto.", "Sistema", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    var usuarioAdmin = new Usuario
+                    {
+                        IdUsuario = Guid.NewGuid(),
+                        UserName = "admin",
+                        Password = "admin123",
+                        Email = "admin@admin.com",
+                        Estado = "Habilitado",
+                        Language = "es-ES"
+                    };
+
+                    usuarioRepo.CreateUsuario(usuarioAdmin);
+                }
 
 
                 // Establecer la cultura del hilo principal al idioma guardado
@@ -59,7 +82,7 @@ namespace Distribuidora_los_amigos
         }
         private void LoginForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-
+            
             IdiomaService.Unsubscribe(this);
             // Registrar el cierre del formulario
             LoggerService.WriteLog($"Formulario '{this.Text}' cerrado.", System.Diagnostics.TraceLevel.Info);

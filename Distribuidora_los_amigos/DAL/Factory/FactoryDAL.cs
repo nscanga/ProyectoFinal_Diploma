@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DAL.Contracts;
 using DAL.Contratcs;
 using DAL.Implementations.SqlServer;
 
@@ -11,33 +8,30 @@ namespace DAL.Factory
 {
     public static class FactoryDAL
     {
-        // Objeto de bloqueo para asegurar que la inicialización de repositorios sea segura en un entorno multi-hilo.
+        // Objeto de bloqueo para garantizar la seguridad en entornos multi-hilo
         private static readonly object _lock = new object();
 
-        // Repositorios privados para cada tipo de entidad en la base de datos.
+        // Repositorios privados
         private static IProductoRepository _productoRepository;
         private static IStockRepository _stockRepository;
         private static IProveedorRepository _proveedorRepository;
+        private static IPedidoRepository _pedidoRepository;
+        private static IClienteRepository _clienteRepository;
+        private static IDetallePedidoRepository _detallePedidoRepository;
+        private static IEstadoPedidoRepository _estadoPedidoRepository;
 
-
-
-
-        // Variables para leer la configuración del tipo de backend y cadena de conexión.
+        // Variables de configuración
         private static readonly int backendType;
         private static readonly string connectionString;
 
         static FactoryDAL()
         {
-            // Lee el tipo de backend (por ejemplo, SQL Server) desde la configuración.
             backendType = int.Parse(ConfigurationManager.AppSettings["BackendType"]);
-
-            // Lee la cadena de conexión desde la configuración.
             connectionString = ConfigurationManager.AppSettings["MiConexion"];
         }
 
         /// <summary>
-        /// Propiedad para acceder al repositorio de Paciente. Se utiliza el patrón Singleton para asegurarse de que solo se cree una instancia del repositorio.
-        /// Dependiendo de la configuración, el repositorio se crea para el tipo de backend especificado.
+        /// Obtiene el repositorio de productos
         /// </summary>
         public static IProductoRepository SqlProductoRepository
         {
@@ -49,13 +43,11 @@ namespace DAL.Factory
                     {
                         if (_productoRepository == null)
                         {
-                            // Instancia el repositorio de Paciente para el backend SQL Server.
                             switch ((BackendType)backendType)
                             {
                                 case BackendType.SqlServer:
                                     _productoRepository = new SqlProductoRepository();
                                     break;
-
                                 default:
                                     throw new NotSupportedException("Backend no soportado.");
                             }
@@ -67,7 +59,7 @@ namespace DAL.Factory
         }
 
         /// <summary>
-        /// Propiedad para acceder al repositorio de Stock usando el patrón Singleton.
+        /// Obtiene el repositorio de stock
         /// </summary>
         public static IStockRepository SqlStockRepository
         {
@@ -94,6 +86,9 @@ namespace DAL.Factory
             }
         }
 
+        /// <summary>
+        /// Obtiene el repositorio de proveedores
+        /// </summary>
         public static IProveedorRepository SqlProveedorRepository
         {
             get
@@ -109,7 +104,6 @@ namespace DAL.Factory
                                 case BackendType.SqlServer:
                                     _proveedorRepository = new SqlProveedorRepository();
                                     break;
-
                                 default:
                                     throw new NotSupportedException("Backend no soportado.");
                             }
@@ -120,10 +114,115 @@ namespace DAL.Factory
             }
         }
 
+        /// <summary>
+        /// Obtiene el repositorio de pedidos
+        /// </summary>
+        public static IPedidoRepository SqlPedidoRepository
+        {
+            get
+            {
+                if (_pedidoRepository == null)
+                {
+                    lock (_lock)
+                    {
+                        if (_pedidoRepository == null)
+                        {
+                            switch ((BackendType)backendType)
+                            {
+                                case BackendType.SqlServer:
+                                    _pedidoRepository = new SqlPedidoRepository();
+                                    break;
+                                default:
+                                    throw new NotSupportedException("Backend no soportado.");
+                            }
+                        }
+                    }
+                }
+                return _pedidoRepository;
+            }
+        }
+
+        public static IClienteRepository SqlClienteRepository
+        {
+            get
+            {
+                if (_clienteRepository == null)
+                {
+                    lock (_lock)
+                    {
+                        if (_clienteRepository == null)
+                        {
+                            switch ((BackendType)backendType)
+                            {
+                                case BackendType.SqlServer:
+                                    _clienteRepository = new SqlClienteRepository();
+                                    break;
+                                default:
+                                    throw new NotSupportedException("Backend no soportado.");
+                            }
+                        }
+                    }
+                }
+                return _clienteRepository;
+            }
+        }
+
+        public static IDetallePedidoRepository SqlDetallePedidoRepository
+        {
+            get
+            {
+                if (_detallePedidoRepository == null)
+                {
+                    lock (_lock)
+                    {
+                        if (_detallePedidoRepository == null)
+                        {
+                            switch ((BackendType)backendType)
+                            {
+                                case BackendType.SqlServer:
+                                    _detallePedidoRepository = new SqlDetallePedidoRepository();
+                                    break;
+                                default:
+                                    throw new NotSupportedException("Backend no soportado.");
+                            }
+                        }
+                    }
+                }
+                return _detallePedidoRepository;
+            }
+        }
+
+        public static IEstadoPedidoRepository SqlEstadoPedidoRepository
+        {
+            get
+            {
+                if (_estadoPedidoRepository == null)
+                {
+                    lock (_lock)
+                    {
+                        if (_estadoPedidoRepository == null)
+                        {
+                            switch ((BackendType)backendType)
+                            {
+                                case BackendType.SqlServer:
+                                    _estadoPedidoRepository = new SqlEstadoPedidoRepository();
+                                    break;
+                                default:
+                                    throw new NotSupportedException("Backend no soportado.");
+                            }
+                        }
+                    }
+                }
+                return _estadoPedidoRepository;
+            }
+        }
+
+        /// <summary>
+        /// Enumera los tipos de backend disponibles
+        /// </summary>
         internal enum BackendType
         {
             SqlServer = 1
         }
-
     }
 }

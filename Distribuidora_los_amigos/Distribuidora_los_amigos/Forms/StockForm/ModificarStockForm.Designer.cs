@@ -66,6 +66,11 @@
             // numericUpDownStock
             // 
             this.numericUpDownStock.Location = new System.Drawing.Point(125, 31);
+            this.numericUpDownStock.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
             this.numericUpDownStock.Name = "numericUpDownStock";
             this.numericUpDownStock.Size = new System.Drawing.Size(172, 20);
             this.numericUpDownStock.TabIndex = 24;

@@ -10,6 +10,7 @@ namespace DAL.Contratcs
 {
     public interface IStockRepository : IGenericServiceDAL<Stock>
     {
+        void DescontarStock(Guid idProducto, int cantidad);
         void EliminarStockPorProducto(Guid idProducto);
         List<Stock> GetByProducto(Guid idProducto);
 

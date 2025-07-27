@@ -79,6 +79,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\Clientes\CrearClienteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Clientes\CrearClienteForm.Designer.cs">
+      <DependentUpon>CrearClienteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Clientes\ModificarClienteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Clientes\ModificarClienteForm.Designer.cs">
+      <DependentUpon>ModificarClienteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Clientes\MostrarClientesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Clientes\MostrarClientesForm.Designer.cs">
+      <DependentUpon>MostrarClientesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\GestionUsuarios\BackUpForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,6 +150,30 @@
     </Compile>
     <Compile Include="Forms\main.Designer.cs">
       <DependentUpon>main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pedidos\CrearPedidoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pedidos\CrearPedidoForm.Designer.cs">
+      <DependentUpon>CrearPedidoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pedidos\ModificarPedidoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pedidos\ModificarPedidoForm.Designer.cs">
+      <DependentUpon>ModificarPedidoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pedidos\MostrarDetallePedidoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pedidos\MostrarDetallePedidoForm.Designer.cs">
+      <DependentUpon>MostrarDetallePedidoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pedidos\MostrarPedidosForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pedidos\MostrarPedidosForm.Designer.cs">
+      <DependentUpon>MostrarPedidosForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Productos\CrearProductoForm.cs">
       <SubType>Form</SubType>
@@ -189,6 +231,15 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\Clientes\CrearClienteForm.resx">
+      <DependentUpon>CrearClienteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Clientes\ModificarClienteForm.resx">
+      <DependentUpon>ModificarClienteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Clientes\MostrarClientesForm.resx">
+      <DependentUpon>MostrarClientesForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\GestionUsuarios\BackUpForm.resx">
       <DependentUpon>BackUpForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -215,6 +266,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\main.resx">
       <DependentUpon>main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pedidos\CrearPedidoForm.resx">
+      <DependentUpon>CrearPedidoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pedidos\ModificarPedidoForm.resx">
+      <DependentUpon>ModificarPedidoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pedidos\MostrarDetallePedidoForm.resx">
+      <DependentUpon>MostrarDetallePedidoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pedidos\MostrarPedidosForm.resx">
+      <DependentUpon>MostrarPedidosForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Productos\CrearProductoForm.resx">
       <DependentUpon>CrearProductoForm.cs</DependentUpon>

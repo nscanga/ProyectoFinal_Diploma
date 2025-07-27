@@ -123,5 +123,22 @@ namespace DAL.Implementations.SqlServer
             }
             return stockList;
         }
+
+        public void DescontarStock(Guid idProducto, int cantidad)
+        {
+            string query = @"
+                UPDATE Stock 
+                SET Cantidad = Cantidad - @Cantidad
+                WHERE IdProducto = @IdProducto AND Cantidad >= @Cantidad";
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@IdProducto", idProducto),
+                new SqlParameter("@Cantidad", cantidad)
+            };
+
+            SqlHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
+        }
+
     }
 }

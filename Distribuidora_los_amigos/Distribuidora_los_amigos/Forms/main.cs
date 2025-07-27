@@ -11,7 +11,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BLL.Exceptions;
+using Distribuidora_los_amigos.Forms.Clientes;
 using Distribuidora_los_amigos.Forms.GestionUsuarios;
+using Distribuidora_los_amigos.Forms.Pedidos;
 using Distribuidora_los_amigos.Forms.Productos;
 using Distribuidora_los_amigos.Forms.Proveedores;
 using Distribuidora_los_amigos.Forms.StockForm;
@@ -31,6 +33,7 @@ namespace Distribuidora_los_amigos
         {
             InitializeComponent();
             this.IsMdiContainer = true;
+            this.SizeChanged += MainForm_SizeChanged;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -38,8 +41,6 @@ namespace Distribuidora_los_amigos
             try
             {
                 InicializadorDeIdioma();
-
-
                 // Obtener el usuario logueado desde el SesionService
                 Usuario usuarioLogueado = SesionService.UsuarioLogueado;
                 // Obtener los roles del usuario logueado
@@ -64,17 +65,12 @@ namespace Distribuidora_los_amigos
 
                 // Traducir los controles del formulario
                 IdiomaService.TranslateForm(this);
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error " + ex.Message, "Error");
                 LoggerService.WriteException(ex);
             }
-
-
-
-
         }
 
 
@@ -243,6 +239,57 @@ namespace Distribuidora_los_amigos
         {
             var form = new ModificarProveedorForm();
             form.Show();
+        }
+
+        private void CREARPEDIDOToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new CrearPedidoForm();
+            form.Show();
+        }
+
+        private void mOSTRARPEDIDOSToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (Form form in this.MdiChildren)
+            {
+                if (form is MostrarPedidosForm)
+                {
+                    form.BringToFront();
+                    form.WindowState = FormWindowState.Maximized;
+                    form.Dock = DockStyle.Fill; // 📌 Para que se ajuste bien
+                    return;
+                }
+            }
+
+            MostrarPedidosForm pedidosForm = new MostrarPedidosForm
+            {
+                MdiParent = this,
+                FormBorderStyle = FormBorderStyle.None, // 📌 Sin bordes para mejor ajuste
+                Dock = DockStyle.Fill, // 📌 Ocupará todo el espacio disponible
+                WindowState = FormWindowState.Maximized
+            };
+
+            pedidosForm.Show();
+        }
+
+        private void CrearClienteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new CrearClienteForm();
+            form.Show();
+        }
+
+        private void mostrarClientesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new MostrarClientesForm();
+            form.Show();
+        }
+
+        private void MainForm_SizeChanged(object sender, EventArgs e)
+        {
+            foreach (Form form in this.MdiChildren)
+            {
+                form.Dock = DockStyle.Fill; // 📌 Mantiene el formulario hijo ajustado al tamaño del MDI
+                form.WindowState = FormWindowState.Maximized;
+            }
         }
     }
 }

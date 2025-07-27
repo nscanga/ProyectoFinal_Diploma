@@ -93,6 +93,13 @@ namespace BLL
             return _productoRepository.GetById(idProducto);
         }
 
+        public decimal ObtenerPrecioProducto(Guid idProducto)
+        {
+            Producto producto = _productoRepository.GetById(idProducto);
+            return producto != null ? producto.Precio : 0;
+        }
+
+
         public void EliminarProducto(Guid idProducto)
         {
             // Primero eliminar el stock relacionado

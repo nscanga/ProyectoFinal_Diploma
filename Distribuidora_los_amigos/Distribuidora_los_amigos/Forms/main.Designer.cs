@@ -29,10 +29,12 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main));
-            this.cOMPANYToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addCompanyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cATEGORYToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CLIENTEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CrearClienteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mostrarClientesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PEDIDOSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CREARPEDIDOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mOSTRARPEDIDOSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iTEMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mODIFICARToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -97,34 +99,52 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
-            // cOMPANYToolStripMenuItem
+            // CLIENTEToolStripMenuItem
             // 
-            this.cOMPANYToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addCompanyToolStripMenuItem});
-            this.cOMPANYToolStripMenuItem.Name = "cOMPANYToolStripMenuItem";
-            this.cOMPANYToolStripMenuItem.Size = new System.Drawing.Size(238, 32);
-            this.cOMPANYToolStripMenuItem.Text = "EMPRESA";
+            this.CLIENTEToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CrearClienteToolStripMenuItem,
+            this.mostrarClientesToolStripMenuItem});
+            this.CLIENTEToolStripMenuItem.Name = "CLIENTEToolStripMenuItem";
+            this.CLIENTEToolStripMenuItem.Size = new System.Drawing.Size(238, 32);
+            this.CLIENTEToolStripMenuItem.Text = "CLIENTE";
             // 
-            // addCompanyToolStripMenuItem
+            // CrearClienteToolStripMenuItem
             // 
-            this.addCompanyToolStripMenuItem.Name = "addCompanyToolStripMenuItem";
-            this.addCompanyToolStripMenuItem.Size = new System.Drawing.Size(246, 32);
-            this.addCompanyToolStripMenuItem.Text = "Agregar empresa";
+            this.CrearClienteToolStripMenuItem.Name = "CrearClienteToolStripMenuItem";
+            this.CrearClienteToolStripMenuItem.Size = new System.Drawing.Size(238, 32);
+            this.CrearClienteToolStripMenuItem.Text = "Crear cliente";
+            this.CrearClienteToolStripMenuItem.Click += new System.EventHandler(this.CrearClienteToolStripMenuItem_Click);
             // 
-            // cATEGORYToolStripMenuItem
+            // mostrarClientesToolStripMenuItem
             // 
-            this.cATEGORYToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addCategoryToolStripMenuItem});
-            this.cATEGORYToolStripMenuItem.Name = "cATEGORYToolStripMenuItem";
-            this.cATEGORYToolStripMenuItem.Size = new System.Drawing.Size(238, 32);
-            this.cATEGORYToolStripMenuItem.Text = "CATEGORIA";
-            this.cATEGORYToolStripMenuItem.Click += new System.EventHandler(this.cATEGORYToolStripMenuItem_Click);
+            this.mostrarClientesToolStripMenuItem.Name = "mostrarClientesToolStripMenuItem";
+            this.mostrarClientesToolStripMenuItem.Size = new System.Drawing.Size(238, 32);
+            this.mostrarClientesToolStripMenuItem.Text = "Mostrar clientes";
+            this.mostrarClientesToolStripMenuItem.Click += new System.EventHandler(this.mostrarClientesToolStripMenuItem_Click);
             // 
-            // addCategoryToolStripMenuItem
+            // PEDIDOSToolStripMenuItem
             // 
-            this.addCategoryToolStripMenuItem.Name = "addCategoryToolStripMenuItem";
-            this.addCategoryToolStripMenuItem.Size = new System.Drawing.Size(255, 32);
-            this.addCategoryToolStripMenuItem.Text = "Agregar categoria";
+            this.PEDIDOSToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CREARPEDIDOToolStripMenuItem,
+            this.mOSTRARPEDIDOSToolStripMenuItem});
+            this.PEDIDOSToolStripMenuItem.Name = "PEDIDOSToolStripMenuItem";
+            this.PEDIDOSToolStripMenuItem.Size = new System.Drawing.Size(238, 32);
+            this.PEDIDOSToolStripMenuItem.Text = "PEDIDOS";
+            this.PEDIDOSToolStripMenuItem.Click += new System.EventHandler(this.cATEGORYToolStripMenuItem_Click);
+            // 
+            // CREARPEDIDOToolStripMenuItem
+            // 
+            this.CREARPEDIDOToolStripMenuItem.Name = "CREARPEDIDOToolStripMenuItem";
+            this.CREARPEDIDOToolStripMenuItem.Size = new System.Drawing.Size(272, 32);
+            this.CREARPEDIDOToolStripMenuItem.Text = "CREAR PEDIDO";
+            this.CREARPEDIDOToolStripMenuItem.Click += new System.EventHandler(this.CREARPEDIDOToolStripMenuItem_Click);
+            // 
+            // mOSTRARPEDIDOSToolStripMenuItem
+            // 
+            this.mOSTRARPEDIDOSToolStripMenuItem.Name = "mOSTRARPEDIDOSToolStripMenuItem";
+            this.mOSTRARPEDIDOSToolStripMenuItem.Size = new System.Drawing.Size(272, 32);
+            this.mOSTRARPEDIDOSToolStripMenuItem.Text = "MOSTRAR PEDIDOS";
+            this.mOSTRARPEDIDOSToolStripMenuItem.Click += new System.EventHandler(this.mOSTRARPEDIDOSToolStripMenuItem_Click);
             // 
             // iTEMToolStripMenuItem
             // 
@@ -297,8 +317,8 @@
             this.mainmenuMenuStrip.Dock = System.Windows.Forms.DockStyle.Left;
             this.mainmenuMenuStrip.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold);
             this.mainmenuMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cOMPANYToolStripMenuItem,
-            this.cATEGORYToolStripMenuItem,
+            this.PEDIDOSToolStripMenuItem,
+            this.CLIENTEToolStripMenuItem,
             this.iTEMToolStripMenuItem,
             this.sTOCKToolStripMenuItem,
             this.sEARCHToolStripMenuItem,
@@ -626,6 +646,7 @@
             this.Controls.Add(this.btnCerrarSesion);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.mainmenuMenuStrip);
+            this.IsMdiContainer = true;
             this.Name = "main";
             this.Text = "main";
             this.Load += new System.EventHandler(this.MainForm_Load);
@@ -639,10 +660,10 @@
 
         #endregion
 
-        private System.Windows.Forms.ToolStripMenuItem cOMPANYToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addCompanyToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem cATEGORYToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addCategoryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem CLIENTEToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem CrearClienteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem PEDIDOSToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem CREARPEDIDOToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem iTEMToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addItemToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sTOCKToolStripMenuItem;
@@ -703,5 +724,7 @@
         private System.Windows.Forms.ToolStripMenuItem mostrarProveedoresToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem modificarProveedorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem crearProveedorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mOSTRARPEDIDOSToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mostrarClientesToolStripMenuItem;
     }
 }

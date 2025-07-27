@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Service.Facade;
 using Syncfusion.Licensing;
 
 namespace Distribuidora_los_amigos

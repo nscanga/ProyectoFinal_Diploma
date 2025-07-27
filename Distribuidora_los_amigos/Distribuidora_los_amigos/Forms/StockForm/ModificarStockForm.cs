@@ -46,7 +46,7 @@ namespace Distribuidora_los_amigos.Forms.StockForm
                 _stock.Tipo = comboBoxTipoStock.Text;
 
                 // Actualizar en la base de datos
-                _stockService.ModificarStock(_stock);
+                _stockService.ModificarStock(_stock.IdProducto, _stock.Cantidad);
 
                 MessageBox.Show("Stock modificado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();

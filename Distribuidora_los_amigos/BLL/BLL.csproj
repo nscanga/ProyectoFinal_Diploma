@@ -41,8 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="ClienteService.cs" />
+    <Compile Include="DetallePedidoService.cs" />
     <Compile Include="Exceptions\ProductoException.cs" />
+    <Compile Include="PedidoService.cs" />
     <Compile Include="ProductoService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProveedorService.cs" />

@@ -43,12 +43,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Contratcs\IClienteRepository.cs" />
+    <Compile Include="Contratcs\IDetallePedidoRepository.cs" />
+    <Compile Include="Contratcs\IEstadoPedidoRepository.cs" />
     <Compile Include="Contratcs\IGenericServiceDal.cs" />
+    <Compile Include="Contratcs\IPedidoRepository.cs" />
     <Compile Include="Contratcs\IProductoRepository.cs" />
     <Compile Include="Contratcs\IProveedorRepository.cs" />
     <Compile Include="Contratcs\IStockRepository.cs" />
     <Compile Include="Factory\FactoryDAL.cs" />
+    <Compile Include="Implementations\SqlDetallePedidoRepository.cs" />
     <Compile Include="Implementations\SqlServer\Helpers\SQLHelper.cs" />
+    <Compile Include="Implementations\SqlServer\SqlClienteRepository.cs" />
+    <Compile Include="Implementations\SqlServer\SqlEstadoPedidoRepository.cs" />
+    <Compile Include="Implementations\SqlServer\SqlPedidoRepository.cs" />
     <Compile Include="Implementations\SqlServer\SqlProveedorRepository.cs" />
     <Compile Include="Implementations\SqlServer\SqlStockRepository.cs" />
     <Compile Include="Implementations\SqlServer\SqlProductoRepository.cs" />
