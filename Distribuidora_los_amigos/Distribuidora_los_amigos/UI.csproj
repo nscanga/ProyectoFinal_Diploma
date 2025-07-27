@@ -344,17 +344,21 @@
     <None Include="Properties\App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Diploma\Diploma\Proyectos Campo\TC\TC-ClinicaDental %286%29\TC-ClinicaDental\TC-ClinicaDental\repos\Service\Service.csproj">
-      <Project>{52931B7D-6058-4AFD-93B1-2B937C4B98A1}</Project>
-      <Name>Service</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BLL\BLL.csproj">
       <Project>{4BF3045C-F70D-4D2A-AD45-05E204129154}</Project>
       <Name>BLL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{93f58cc9-ec55-4db9-99a1-2f6355a5332a}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DOMAIN\DOMAIN.csproj">
       <Project>{9BBEF0CB-3DD1-46C4-AA2D-D58E48BF584D}</Project>
       <Name>DOMAIN</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Service\Service.csproj">
+      <Project>{52931b7d-6058-4afd-93b1-2b937c4b98a1}</Project>
+      <Name>Service</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

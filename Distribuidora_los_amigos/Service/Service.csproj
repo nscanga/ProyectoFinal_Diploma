@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{52931B7D-6058-4AFD-93B1-2B937C4B98A1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Service</RootNamespace>
+    <AssemblyName>Service</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>..\packages\BouncyCastle.Cryptography.2.4.0\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Context\LoggerContext.cs" />
+    <Compile Include="DAL\Contracts\IBackUpRepository.cs" />
+    <Compile Include="DAL\Contracts\IBitacoraRepository.cs" />
+    <Compile Include="DAL\Contracts\IControlAccess.cs" />
+    <Compile Include="DAL\Contracts\IDVHRepository.cs" />
+    <Compile Include="DAL\Contracts\IFamiliaRepository.cs" />
+    <Compile Include="DAL\Contracts\IGenericServiceDAL.cs" />
+    <Compile Include="DAL\Contracts\IIdiomaObserver.cs" />
+    <Compile Include="DAL\Contracts\ILoggerStrategy.cs" />
+    <Compile Include="DAL\Contracts\IUsuarioRepository.cs" />
+    <Compile Include="DAL\FactoryServices\FactoryDAL.cs" />
+    <Compile Include="DAL\FactoryServices\LoggerFactory.cs" />
+    <Compile Include="DAL\Implementations\SqlServer\BackupRepository.cs" />
+    <Compile Include="DAL\Implementations\SqlServer\BitacoraRepository.cs" />
+    <Compile Include="DAL\Implementations\SqlServer\DVHRepository.cs" />
+    <Compile Include="DAL\Implementations\SqlServer\IdiomaRepository.cs" />
+    <Compile Include="DAL\Implementations\SqlServer\FamiliaRepository.cs" />
+    <Compile Include="DAL\Implementations\SqlServer\Helpers\SqlHelper.cs" />
+    <Compile Include="DAL\Implementations\SqlServer\LoggerRepository.cs" />
+    <Compile Include="DAL\Implementations\SqlServer\ManualRepository.cs" />
+    <Compile Include="DAL\Implementations\SqlServer\UsuarioRepository.cs" />
+    <Compile Include="DAL\Implementations\Strategy\DatabaseLoggerStrategy.cs" />
+    <Compile Include="DAL\Implementations\Strategy\FileLoggerStrategy.cs" />
+    <Compile Include="DOMAIN\Acceso.cs" />
+    <Compile Include="DOMAIN\DTO\BackUp\BackUpConfiguration.cs" />
+    <Compile Include="DOMAIN\Bitacora.cs" />
+    <Compile Include="DOMAIN\DTO\UsuarioRolDto.cs" />
+    <Compile Include="DOMAIN\EstadoUsuario.cs" />
+    <Compile Include="DOMAIN\Familia.cs" />
+    <Compile Include="DOMAIN\Log.cs" />
+    <Compile Include="DOMAIN\Patente.cs" />
+    <Compile Include="DOMAIN\TipoAcceso.cs" />
+    <Compile Include="DOMAIN\Usuario.cs" />
+    <Compile Include="Facade\AccesoService.cs" />
+    <Compile Include="Facade\BackUpService.cs" />
+    <Compile Include="Facade\BitacoraService.cs" />
+    <Compile Include="Facade\CryptograhpyService.cs" />
+    <Compile Include="Facade\DVHService.cs" />
+    <Compile Include="Facade\EmailService.cs" />
+    <Compile Include="Facade\FamiliaService.cs" />
+    <Compile Include="Facade\IdiomaService.cs" />
+    <Compile Include="Facade\LoggerService.cs" />
+    <Compile Include="Facade\ManualService.cs" />
+    <Compile Include="Facade\RecuperoPassService.cs" />
+    <Compile Include="Facade\SesionService.cs" />
+    <Compile Include="Facade\SE\StringExtention.cs" />
+    <Compile Include="Facade\UserService.cs" />
+    <Compile Include="Logic\AccesoLogic.cs" />
+    <Compile Include="Logic\BackUpLogic.cs" />
+    <Compile Include="Logic\BitacoraLogic.cs" />
+    <Compile Include="Logic\DVHLogic.cs" />
+    <Compile Include="Logic\FamiliaLogic.cs" />
+    <Compile Include="Logic\IdiomaLogic.cs" />
+    <Compile Include="Logic\LogerLogic.cs" />
+    <Compile Include="Logic\RecuperoPassLogic.cs" />
+    <Compile Include="Logic\SesionLogic.cs" />
+    <Compile Include="Logic\UserLogic.cs" />
+    <Compile Include="ManegerEx\ErrorHandler.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DOMAIN\DOMAIN.csproj">
+      <Project>{7398b3ba-50f7-45b3-b775-1f16ed4ac3ba}</Project>
+      <Name>DOMAIN</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

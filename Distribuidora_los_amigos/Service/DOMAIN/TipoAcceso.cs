@@ -4,9 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services
+namespace Service.DOMAIN
 {
-    public class Class1
+    public enum TipoAcceso
     {
+    
+    UI ,
+    Control ,
+    UseCases
+       
     }
 }

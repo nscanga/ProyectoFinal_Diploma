@@ -73,7 +73,7 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
 
                     if (result == DialogResult.Yes)
                     {
-                        UserService.EnabledUsuario((Guid)cbUsuarios.SelectedValue);
+                        //UserService.EnabledUsuario((Guid)cbUsuarios.SelectedValue);
 
                         string successMessageKey = "Usuario habilitado correctamente.";
                         string translatedSuccessMessage = TranslateMessageKey(successMessageKey);

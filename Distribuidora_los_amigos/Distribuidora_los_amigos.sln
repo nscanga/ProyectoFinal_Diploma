@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DOMAIN", "DOMAIN\DOMAIN.csproj", "{9BBEF0CB-3DD1-46C4-AA2D-D58E48BF584D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "..\..\Diploma\Diploma\Proyectos Campo\TC\TC-ClinicaDental (6)\TC-ClinicaDental\TC-ClinicaDental\repos\Service\Service.csproj", "{52931B7D-6058-4AFD-93B1-2B937C4B98A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{52931B7D-6058-4AFD-93B1-2B937C4B98A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
