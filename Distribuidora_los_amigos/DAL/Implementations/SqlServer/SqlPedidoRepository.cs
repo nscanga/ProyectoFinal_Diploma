@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using DAL.Contracts;
@@ -186,6 +187,30 @@ namespace DAL.Implementations.SqlServer
                 }
             }
             return estados;
+        }
+
+        // Agrega este método privado para obtener la conexión
+        private SqlConnection GetConnection()
+        {
+            // Reemplaza "DefaultConnection" por el nombre correcto de tu cadena de conexión
+            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            return new SqlConnection(connectionString);
+        }
+
+        public void UpdateEstado(Guid idPedido, Guid nuevoEstadoId)
+        {
+            string query = @"
+                UPDATE Pedido 
+                SET IdEstadoPedido = @nuevoEstadoId
+                WHERE IdPedido = @idPedido";
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@idPedido", idPedido),
+                new SqlParameter("@nuevoEstadoId", nuevoEstadoId)
+            };
+
+            SqlHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
         }
     }
 }

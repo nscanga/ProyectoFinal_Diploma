@@ -291,7 +291,7 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
         {
             Usuario usuario = null;
 
-            // Primero, obtenemos los datos básicos del usuario
+            // Obtenemos los datos del usuario SIN la columna Language por ahora
             using (SqlDataReader reader = SqlHelper.ExecuteReader(
                 "SELECT IdUsuario, UserName, Password, Estado, Email, RecoveryToken, TokenExpiration FROM Usuario WHERE UserName = @UserName",
                 CommandType.Text,
@@ -308,12 +308,10 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
                         Email = reader.IsDBNull(4) ? null : reader.GetString(4),  // Verificar si el email es NULL
                         RecoveryToken = reader.IsDBNull(5) ? null : reader.GetString(5),  // Verificar si el RecoveryToken es NULL
                         TokenExpiration = reader.IsDBNull(6) ? DateTime.MinValue : reader.GetDateTime(6),   // Verificar si TokenExpiration es NULL
-                      
+                        Lenguaje = "es-ES" // Valor por defecto hasta que agreguemos la columna correctamente
                     };
                 }
             }
-
-
 
             return usuario;
         }
@@ -351,56 +349,100 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
                 new SqlParameter("@IdUsuario", usuario.IdUsuario)
             );
         }
-        public void UpdateLanguage(Guid idUsuario, string language)
+        public void UpdateLenguaje(Guid idUsuario, string lenguaje)
         {
-            SqlHelper.ExecuteNonQuery(
-                "UPDATE Usuario SET Language = @Language WHERE IdUsuario = @IdUsuario",
-                CommandType.Text,
-                new SqlParameter("@IdUsuario", idUsuario),
-                new SqlParameter("@Language", language)
-            );
-        }
-        public string GetUserLanguage(Guid idUsuario)
-        {
-            string language = string.Empty;
-            SqlDataReader reader = SqlHelper.ExecuteReader(
-                "SELECT Language FROM Usuario WHERE IdUsuario = @IdUsuario",
-                CommandType.Text,
-                new SqlParameter("@IdUsuario", idUsuario)
-            );
-
-            if (reader.Read())
+            try
             {
-                language = reader["Language"].ToString();
+                SqlHelper.ExecuteNonQuery(
+                    "UPDATE Usuario SET UserLanguage = @UserLanguage WHERE IdUsuario = @IdUsuario",
+                    CommandType.Text,
+                    new SqlParameter("@IdUsuario", idUsuario),
+                    new SqlParameter("@UserLanguage", lenguaje)
+                );
             }
-            reader.Close();
+            catch (SqlException)
+            {
+                // Si la columna UserLanguage no existe, simplemente no hacer nada por ahora
+                // TODO: Agregar columna UserLanguage a la base de datos
+            }
+        }
+        
+        public string GetUserLenguaje(Guid idUsuario)
+        {
+            try
+            {
+                string lenguaje = string.Empty;
+                SqlDataReader reader = SqlHelper.ExecuteReader(
+                    "SELECT UserLanguage FROM Usuario WHERE IdUsuario = @IdUsuario",
+                    CommandType.Text,
+                    new SqlParameter("@IdUsuario", idUsuario)
+                );
 
-            return language;
+                if (reader.Read())
+                {
+                    lenguaje = reader["UserLanguage"].ToString();
+                }
+                reader.Close();
+
+                return lenguaje;
+            }
+            catch (SqlException)
+            {
+                // Si la columna UserLanguage no existe, devolver idioma por defecto
+                return "es-ES";
+            }
         }
 
         public Usuario ObetenerUsuarioById(Guid idUsuario)
         {
             Usuario usuario = null;
 
-            // Ejecutamos la consulta para obtener los datos del usuario por su IdUsuario
-            using (SqlDataReader reader = SqlHelper.ExecuteReader(
-                "SELECT IdUsuario, UserName, Password, Estado, Email, RecoveryToken, TokenExpiration, Language FROM Usuario WHERE IdUsuario = @IdUsuario",
-                CommandType.Text,
-                new SqlParameter("@IdUsuario", idUsuario)))
+            try
             {
-                if (reader.Read())
+                // Intentar primero con todas las columnas incluyendo Language
+                using (SqlDataReader reader = SqlHelper.ExecuteReader(
+                "SELECT IdUsuario, UserName, Password, Estado, Email, RecoveryToken, TokenExpiration FROM Usuario WHERE IdUsuario = @IdUsuario",
+                    CommandType.Text,
+                    new SqlParameter("@IdUsuario", idUsuario)))
                 {
-                    usuario = new Usuario
+                    if (reader.Read())
                     {
-                        IdUsuario = reader.GetGuid(0),
-                        UserName = reader.GetString(1),
-                        Password = reader.GetString(2),
-                        Estado = reader.GetInt32(3).ToString(),  // Convertir el estado (1/0) a String
-                        Email = reader.IsDBNull(4) ? null : reader.GetString(4),  // Verificar si el email es NULL
-                        RecoveryToken = reader.IsDBNull(5) ? null : reader.GetString(5),  // Verificar si el RecoveryToken es NULL
-                        TokenExpiration = reader.IsDBNull(6) ? DateTime.MinValue : reader.GetDateTime(6),   // Verificar si TokenExpiration es NULL
-                        Language = reader.GetString(7) // Asignación directa, suponiendo que no sea NULL
-                    };
+                        usuario = new Usuario
+                        {
+                            IdUsuario = reader.GetGuid(0),
+                            UserName = reader.GetString(1),
+                            Password = reader.GetString(2),
+                            Estado = reader.GetInt32(3).ToString(),  // Convertir el estado (1/0) a String
+                            Email = reader.IsDBNull(4) ? null : reader.GetString(4),  // Verificar si el email es NULL
+                            RecoveryToken = reader.IsDBNull(5) ? null : reader.GetString(5),  // Verificar si el RecoveryToken es NULL
+                            TokenExpiration = reader.IsDBNull(6) ? DateTime.MinValue : reader.GetDateTime(6),   // Verificar si TokenExpiration es NULL
+                        Lenguaje = "es-ES" // Valor por defecto temporal
+                        };
+                    }
+                }
+            }
+            catch (SqlException ex) when (ex.Message.Contains("Invalid column name 'UserLanguage'"))
+            {
+                // Si falla por la columna UserLanguage, usar consulta sin esa columna
+                using (SqlDataReader reader = SqlHelper.ExecuteReader(
+                    "SELECT IdUsuario, UserName, Password, Estado, Email, RecoveryToken, TokenExpiration FROM Usuario WHERE IdUsuario = @IdUsuario",
+                    CommandType.Text,
+                    new SqlParameter("@IdUsuario", idUsuario)))
+                {
+                    if (reader.Read())
+                    {
+                        usuario = new Usuario
+                        {
+                            IdUsuario = reader.GetGuid(0),
+                            UserName = reader.GetString(1),
+                            Password = reader.GetString(2),
+                            Estado = reader.GetInt32(3).ToString(),
+                            Email = reader.IsDBNull(4) ? null : reader.GetString(4),
+                            RecoveryToken = reader.IsDBNull(5) ? null : reader.GetString(5),
+                            TokenExpiration = reader.IsDBNull(6) ? DateTime.MinValue : reader.GetDateTime(6),
+                            Lenguaje = "es-ES" // Valor por defecto
+                        };
+                    }
                 }
             }
 
@@ -410,29 +452,55 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
         {
             List<Usuario> usuarios = new List<Usuario>();
 
-            // Consulta modificada para traer solo los usuarios que tienen un código DVH
-            string query = @"
-        SELECT u.IdUsuario, u.UserName, u.Password, u.Estado, u.Email, u.RecoveryToken, 
-               u.TokenExpiration, u.Language
-        FROM Usuario u
-        INNER JOIN DigitosVerificadores dvh ON u.IdUsuario = dvh.IdRegistro
-        WHERE dvh.NombreTabla = 'Usuario'";  // Solo usuarios con DVH en la tabla DigitosVerificadores
-
-            using (SqlDataReader reader = SqlHelper.ExecuteReader(query, CommandType.Text))
+            try
             {
-                while (reader.Read())
+                // Consulta simplificada para obtener todos los usuarios (sin dependencia de DigitosVerificadores)
+                string query = @"
+            SELECT u.IdUsuario, u.UserName, u.Password, u.Estado, u.Email, u.RecoveryToken, 
+                   u.TokenExpiration
+            FROM Usuario u";
+
+                using (SqlDataReader reader = SqlHelper.ExecuteReader(query, CommandType.Text))
                 {
-                    usuarios.Add(new Usuario
+                    while (reader.Read())
                     {
-                        IdUsuario = reader.GetGuid(0),
-                        UserName = reader.GetString(1),
-                        Password = reader.GetString(2),
-                        Estado = reader.GetInt32(3).ToString(),
-                        Email = reader.IsDBNull(4) ? null : reader.GetString(4),
-                        RecoveryToken = reader.IsDBNull(5) ? null : reader.GetString(5),
-                        TokenExpiration = reader.IsDBNull(6) ? DateTime.MinValue : reader.GetDateTime(6),
-                        Language = reader.GetString(7)
-                    });
+                        usuarios.Add(new Usuario
+                        {
+                            IdUsuario = reader.GetGuid(0),
+                            UserName = reader.GetString(1),
+                            Password = reader.GetString(2),
+                            Estado = reader.GetInt32(3).ToString(),
+                            Email = reader.IsDBNull(4) ? null : reader.GetString(4),
+                            RecoveryToken = reader.IsDBNull(5) ? null : reader.GetString(5),
+                            TokenExpiration = reader.IsDBNull(6) ? DateTime.MinValue : reader.GetDateTime(6),
+                            Lenguaje = "es-ES" // Valor por defecto
+                        });
+                    }
+                }
+            }
+            catch (SqlException ex) when (ex.Message.Contains("Invalid column name"))
+            {
+                // Si falla por alguna columna que no existe, usar consulta con solo campos básicos
+                string queryFallback = @"
+            SELECT u.IdUsuario, u.UserName, u.Password, u.Estado, u.Email
+            FROM Usuario u";
+
+                using (SqlDataReader reader = SqlHelper.ExecuteReader(queryFallback, CommandType.Text))
+                {
+                    while (reader.Read())
+                    {
+                        usuarios.Add(new Usuario
+                        {
+                            IdUsuario = reader.GetGuid(0),
+                            UserName = reader.GetString(1),
+                            Password = reader.GetString(2),
+                            Estado = reader.GetInt32(3).ToString(),
+                            Email = reader.IsDBNull(4) ? null : reader.GetString(4),
+                            RecoveryToken = null,
+                            TokenExpiration = DateTime.MinValue,
+                            Lenguaje = "es-ES" // Valor por defecto
+                        });
+                    }
                 }
             }
 

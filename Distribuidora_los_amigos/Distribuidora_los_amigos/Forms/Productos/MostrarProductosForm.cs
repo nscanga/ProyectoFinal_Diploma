@@ -15,8 +15,8 @@ namespace Distribuidora_los_amigos.Forms.Productos
     public partial class MostrarProductosForm : Form
     {
         private readonly ProductoService _productoService;
-        private Producto _producto;
-
+        private Producto    
+            _producto;
 
         public MostrarProductosForm()
         {

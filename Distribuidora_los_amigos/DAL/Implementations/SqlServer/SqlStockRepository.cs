@@ -126,15 +126,42 @@ namespace DAL.Implementations.SqlServer
 
         public void DescontarStock(Guid idProducto, int cantidad)
         {
-            string query = @"
-                UPDATE Stock 
-                SET Cantidad = Cantidad - @Cantidad
-                WHERE IdProducto = @IdProducto AND Cantidad >= @Cantidad";
+            try
+            {
+                string query = @"
+                    UPDATE Stock 
+                    SET Cantidad = Cantidad - @Cantidad
+                    WHERE IdProducto = @IdProducto AND Cantidad >= @Cantidad";
+
+                SqlParameter[] parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@IdProducto", idProducto),
+                    new SqlParameter("@Cantidad", cantidad)
+                };
+
+                int rowsAffected = SqlHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
+                
+                if (rowsAffected == 0)
+                {
+                    throw new InvalidOperationException("No se pudo descontar el stock. Stock insuficiente o producto no encontrado.");
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception($"Error al descontar stock: {ex.Message}", ex);
+            }
+        }
+
+        public void AumentarStock(Guid idProducto, int cantidad)
+        {
+            string query = @"UPDATE Stock 
+                             SET Cantidad = Cantidad + @cantidad 
+                             WHERE IdProducto = @idProducto";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@IdProducto", idProducto),
-                new SqlParameter("@Cantidad", cantidad)
+                new SqlParameter("@idProducto", idProducto),
+                new SqlParameter("@cantidad", cantidad)
             };
 
             SqlHelper.ExecuteNonQuery(query, CommandType.Text, parameters);

@@ -55,8 +55,10 @@ namespace Service.Logic
             // Hashear la contraseña en texto plano
             usuario.Password = CryptographyService.HashMd5(plainPassword);
             usuario.Email = emial;
-            //// Guardar el usuario en el repositorio
-            _dvhLogic.GenerarYGuardarCodigoVerificador(usuario);
+            
+            // COMENTADO: Sistema de DVH deshabilitado temporalmente
+            // _dvhLogic.GenerarYGuardarCodigoVerificador(usuario);
+            
             _usuarioRepository.CreateUsuario(usuario);
         }
 
@@ -64,18 +66,20 @@ namespace Service.Logic
         public void DisableUser(Guid idUsuario)
         {
             _usuarioRepository.DisableUsuario(idUsuario);
-            var usuario = _usuarioRepository.ObetenerUsuarioById(idUsuario);
-            if (usuario != null)
-            {
-                _dvhLogic.ActualizarCodigoVerificador(usuario);
-            }
+            
+            // COMENTADO: Sistema de DVH deshabilitado temporalmente
+            // var usuario = _usuarioRepository.ObetenerUsuarioById(idUsuario);
+            // if (usuario != null)
+            // {
+            //     _dvhLogic.ActualizarCodigoVerificador(usuario);
+            // }
         }
 
         // método para habilitar un usuario por su id
         //public void enabledusuario(guid idusuario)
         //{
         //    _usuariorepository.enabledusuario(idusuario);
-        //    var usuario = _usuariorepository.obetenerusuariobyid(idusuario);
+        //    var usuario = _usuariorepository.obetenerusiariobyid(idusuario);
         //    if (usuario != null)
         //    {
         //        _dvhlogic.actualizarcodigoverificador(usuario);
@@ -85,7 +89,14 @@ namespace Service.Logic
         // Método para actualizar los accesos (permisos) de un usuario
         public void UpdateUserAccesos(Guid idUsuario, List<Acceso> accesos)
         {
-            _usuarioRepository.UpdateAccesos(idUsuario, accesos);
+            // Tu lógica de actualización de accesos aquí...
+            
+            // COMENTADO: Sistema de DVH deshabilitado temporalmente
+            // var usuario = _usuarioRepository.ObetenerUsuarioById(idUsuario);
+            // if (usuario != null)
+            // {
+            //     _dvhLogic.ActualizarCodigoVerificador(usuario);
+            // }
         }
 
         // Método para obtener todos los usuarios
@@ -115,9 +126,9 @@ namespace Service.Logic
             _usuarioRepository.CreatePatente(patente);
         }
 
-        public void SaveLanguage(Guid idUsuario, string language)
+        public void SaveLenguaje(Guid idUsuario, string lenguaje)
         {
-            _usuarioRepository.UpdateLanguage(idUsuario, language);
+            _usuarioRepository.UpdateLenguaje(idUsuario, lenguaje);
 
             var usuario = _usuarioRepository.ObetenerUsuarioById(idUsuario);
             if (usuario != null)
@@ -126,17 +137,17 @@ namespace Service.Logic
             }
         }
 
-        public string GetUserLanguage(Guid idUsuario)
+        public string GetUserLenguaje(Guid idUsuario)
         {
             try
             {
-                string language = _usuarioRepository.GetUserLanguage(idUsuario);
-                return string.IsNullOrEmpty(language) ? "en-US" : language;
+                string lenguaje = _usuarioRepository.GetUserLenguaje(idUsuario);
+                return string.IsNullOrEmpty(lenguaje) ? "es-ES" : lenguaje;
             }
             catch (Exception ex)
             {
                 // Aquí podrías loguear el error
-                return "en-US"; // Valor predeterminado en caso de error
+                return "es-ES"; // Valor predeterminado en caso de error
             }
         }
     }

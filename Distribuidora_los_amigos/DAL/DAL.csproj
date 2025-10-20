@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Contracts\IUnitOfWork.cs" />
     <Compile Include="Contratcs\IClienteRepository.cs" />
     <Compile Include="Contratcs\IDetallePedidoRepository.cs" />
     <Compile Include="Contratcs\IEstadoPedidoRepository.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Implementations\SqlServer\SqlProveedorRepository.cs" />
     <Compile Include="Implementations\SqlServer\SqlStockRepository.cs" />
     <Compile Include="Implementations\SqlServer\SqlProductoRepository.cs" />
+    <Compile Include="Implementations\SqlServer\SqlUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

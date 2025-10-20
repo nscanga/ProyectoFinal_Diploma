@@ -16,28 +16,85 @@ namespace Distribuidora_los_amigos.Forms.StockForm
 {
     public partial class MostrarStockForm : Form
     {
-
         private readonly StockService _stockService;
+        
         public MostrarStockForm()
         {
             InitializeComponent();
             _stockService = new StockService();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.Load += MostrarStockForm_Load;
-
         }
 
         private void MostrarStockForm_Load(object sender, EventArgs e)
         {
             CargarStock();
+            ConfigurarDataGridView();
+        }
+
+        private void ConfigurarDataGridView()
+        {
+            // Ocultar las columnas de IDs que no son amigables para el usuario
+            if (dataGridViewStock.Columns["IdStock"] != null)
+                dataGridViewStock.Columns["IdStock"].Visible = false;
+            
+            if (dataGridViewStock.Columns["IdProducto"] != null)
+                dataGridViewStock.Columns["IdProducto"].Visible = false;
+
+            // Configurar nombres de encabezados más amigables
+            if (dataGridViewStock.Columns["NombreProducto"] != null)
+                dataGridViewStock.Columns["NombreProducto"].HeaderText = "Producto";
+            
+            if (dataGridViewStock.Columns["Categoria"] != null)
+                dataGridViewStock.Columns["Categoria"].HeaderText = "Categoría";
+            
+            if (dataGridViewStock.Columns["Cantidad"] != null)
+                dataGridViewStock.Columns["Cantidad"].HeaderText = "Cantidad";
+            
+            if (dataGridViewStock.Columns["Tipo"] != null)
+                dataGridViewStock.Columns["Tipo"].HeaderText = "Tipo de Stock";
+            
+            if (dataGridViewStock.Columns["PrecioUnitario"] != null)
+            {
+                dataGridViewStock.Columns["PrecioUnitario"].HeaderText = "Precio";
+                dataGridViewStock.Columns["PrecioUnitario"].DefaultCellStyle.Format = "C2"; // Formato de moneda
+            }
+            
+            if (dataGridViewStock.Columns["Activo"] != null)
+                dataGridViewStock.Columns["Activo"].HeaderText = "Activo";
+
+            // Opcional: Configurar orden de columnas
+            int orden = 0;
+            if (dataGridViewStock.Columns["NombreProducto"] != null)
+                dataGridViewStock.Columns["NombreProducto"].DisplayIndex = orden++;
+            
+            if (dataGridViewStock.Columns["Categoria"] != null)
+                dataGridViewStock.Columns["Categoria"].DisplayIndex = orden++;
+            
+            if (dataGridViewStock.Columns["Cantidad"] != null)
+                dataGridViewStock.Columns["Cantidad"].DisplayIndex = orden++;
+            
+            if (dataGridViewStock.Columns["Tipo"] != null)
+                dataGridViewStock.Columns["Tipo"].DisplayIndex = orden++;
+            
+            if (dataGridViewStock.Columns["PrecioUnitario"] != null)
+                dataGridViewStock.Columns["PrecioUnitario"].DisplayIndex = orden++;
+            
+            if (dataGridViewStock.Columns["Activo"] != null)
+                dataGridViewStock.Columns["Activo"].DisplayIndex = orden++;
+
+            // Ajustar ancho de columnas
+            dataGridViewStock.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private void CargarStock()
         {
             try
             {
-                List<Stock> stockList = _stockService.ObtenerStock();
+                // 🆕 USAR EL NUEVO MÉTODO CON DETALLES
+                List<StockDTO> stockList = _stockService.ObtenerStockConDetalles();
                 dataGridViewStock.DataSource = stockList;
+                
                 LoggerService.WriteLog($"Se cargó la lista de stock en {this.Text}", System.Diagnostics.TraceLevel.Info);
             }
             catch (Exception ex)
@@ -51,8 +108,19 @@ namespace Distribuidora_los_amigos.Forms.StockForm
         {
             if (dataGridViewStock.SelectedRows.Count > 0)
             {
-                // Obtener el objeto Stock seleccionado
-                Stock stockSeleccionado = (Stock)dataGridViewStock.SelectedRows[0].DataBoundItem;
+                // Obtener el StockDTO seleccionado
+                StockDTO stockDTOSeleccionado = (StockDTO)dataGridViewStock.SelectedRows[0].DataBoundItem;
+                
+                // Crear objeto Stock a partir del DTO para pasar al formulario de modificación
+                Stock stockSeleccionado = new Stock()
+                {
+                    IdStock = stockDTOSeleccionado.IdStock,
+                    IdProducto = stockDTOSeleccionado.IdProducto,
+                    Cantidad = stockDTOSeleccionado.Cantidad,
+                    Tipo = stockDTOSeleccionado.Tipo,
+                    Activo = stockDTOSeleccionado.Activo
+                };
+                
                 ModificarStockForm formModificar = new ModificarStockForm(stockSeleccionado);
                 formModificar.ShowDialog();
                 CargarStock(); // Refresca la lista después de modificar
@@ -68,11 +136,11 @@ namespace Distribuidora_los_amigos.Forms.StockForm
             if (dataGridViewStock.SelectedRows.Count > 0)
             {
                 // Obtener el stock seleccionado
-                Stock stockSeleccionado = (Stock)dataGridViewStock.SelectedRows[0].DataBoundItem;
+                StockDTO stockDTOSeleccionado = (StockDTO)dataGridViewStock.SelectedRows[0].DataBoundItem;
 
-                // Confirmación antes de eliminar
+                // Confirmación antes de eliminar (ahora muestra el nombre del producto)
                 DialogResult resultado = MessageBox.Show(
-                    $"¿Estás seguro de que deseas eliminar el stock del producto: {stockSeleccionado.IdProducto}?",
+                    $"¿Estás seguro de que deseas eliminar el stock del producto: {stockDTOSeleccionado.NombreProducto}?",
                     "Confirmar Eliminación",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning
@@ -83,10 +151,10 @@ namespace Distribuidora_los_amigos.Forms.StockForm
                     try
                     {
                         // Llamar al servicio para eliminar el stock
-                        _stockService.EliminarStock(stockSeleccionado.IdStock);
+                        _stockService.EliminarStock(stockDTOSeleccionado.IdStock);
 
                         // Log de eliminación
-                        LoggerService.WriteLog($"Se eliminó el stock con ID: {stockSeleccionado.IdStock}", System.Diagnostics.TraceLevel.Info);
+                        LoggerService.WriteLog($"Se eliminó el stock con ID: {stockDTOSeleccionado.IdStock} - Producto: {stockDTOSeleccionado.NombreProducto}", System.Diagnostics.TraceLevel.Info);
 
                         // Refrescar la lista después de la eliminación
                         CargarStock();

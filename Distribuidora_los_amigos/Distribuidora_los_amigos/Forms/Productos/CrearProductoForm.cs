@@ -18,13 +18,47 @@ namespace Distribuidora_los_amigos.Forms.Productos
     public partial class CrearProductoForm : Form
     {
         private readonly ProductoService _productoService;
+        
         public CrearProductoForm()
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             _productoService = new ProductoService();
             this.KeyPreview = true;
-            //this.KeyDown += AgregarProductoForm_KeyDown;
+            
+            // Cargar datos en los ComboBox
+            CargarCategorias();
+            CargarTiposStock();
+        }
+
+        private void CargarCategorias()
+        {
+            comboBoxCrearProducto.Items.Clear();
+            comboBoxCrearProducto.Items.Add("Pollo Fresco");
+            comboBoxCrearProducto.Items.Add("Pollo Congelado");
+            comboBoxCrearProducto.Items.Add("Menudencias");
+            comboBoxCrearProducto.Items.Add("Embutidos de Pollo");
+            comboBoxCrearProducto.Items.Add("Huevos");
+            comboBoxCrearProducto.Items.Add("Productos Elaborados");
+            comboBoxCrearProducto.Items.Add("Condimentos y Salsas");
+            comboBoxCrearProducto.Items.Add("Insumos");
+            
+            comboBoxCrearProducto.DropDownStyle = ComboBoxStyle.DropDownList;
+        }
+
+        private void CargarTiposStock()
+        {
+            comboBoxTipoStock.Items.Clear();
+            comboBoxTipoStock.Items.Add("Unidad");
+            comboBoxTipoStock.Items.Add("Kilogramo");
+            comboBoxTipoStock.Items.Add("Caja");
+            comboBoxTipoStock.Items.Add("Bandeja");
+            comboBoxTipoStock.Items.Add("Maple");
+            comboBoxTipoStock.Items.Add("Docena");
+            comboBoxTipoStock.Items.Add("Paquete");
+            comboBoxTipoStock.Items.Add("Litro");
+            
+            comboBoxTipoStock.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         private void btnGuardarProducto_Click(object sender, EventArgs e)
@@ -45,8 +79,15 @@ namespace Distribuidora_los_amigos.Forms.Productos
                     return;
                 }
 
+                // Validar que el tipo de stock no esté vacío
+                if (string.IsNullOrWhiteSpace(comboBoxTipoStock.Text))
+                {
+                    MessageBox.Show("Error: Debes seleccionar un tipo de stock.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 // Obtener la cantidad inicial de stock y el tipo
-                int cantidadStock = int.Parse(numericUpDownStock.Text);
+                int cantidadStock = (int)numericUpDownStock.Value;
                 string tipoStock = comboBoxTipoStock.Text;
 
                 // Obtener las fechas de ingreso y vencimiento
@@ -62,7 +103,7 @@ namespace Distribuidora_los_amigos.Forms.Productos
 
                 Producto producto = new Producto()
                 {
-                    IdProducto = Guid.NewGuid(), // Generar un nuevo GUID
+                    IdProducto = Guid.NewGuid(),
                     Nombre = textBoxNombreProducto.Text.Trim(),
                     Categoria = comboBoxCrearProducto.Text.Trim(),
                     Precio = precio,
@@ -71,24 +112,26 @@ namespace Distribuidora_los_amigos.Forms.Productos
                     Activo = true
                 };
 
-                MessageBox.Show("Producto y stock creados correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 // Guardar el producto
                 _productoService.CrearProducto(producto, cantidadStock, tipoStock);
+                
                 LoggerService.WriteLog($"Producto creado: {producto.Nombre}, Categoría: {producto.Categoria}, Cantidad inicial: {cantidadStock}", System.Diagnostics.TraceLevel.Info);
 
                 string messageKey = "Producto creado correctamente.";
                 string translatedMessage = TranslateMessageKey(messageKey);
-                MessageBox.Show(translatedMessage);
+                MessageBox.Show(translatedMessage, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // Limpiar los campos
-                textBoxNombreProducto.Text = "";
+                textBoxNombreProducto.Clear();
                 comboBoxCrearProducto.SelectedIndex = -1;
                 numericUpDownPrecioProducto.Value = 0;
                 dateTimePicker1.Value = DateTime.Now;
                 dateTimePicker2.Value = DateTime.Now;
+                dateTimePicker2.Checked = false;
                 numericUpDownStock.Value = 0;
                 comboBoxTipoStock.SelectedIndex = -1;
+                
+                textBoxNombreProducto.Focus();
             }
             catch (Exception ex)
             {
@@ -97,28 +140,10 @@ namespace Distribuidora_los_amigos.Forms.Productos
             }
         }
 
-
         private string TranslateMessageKey(string messageKey)
         {
             return IdiomaService.Translate(messageKey);
         }
-
-        //private void AgregarProductoForm_KeyDown(object sender, KeyEventArgs e)
-        //{
-        //    try
-        //    {
-        //        if (e.KeyCode == Keys.F1)
-        //        {
-        //            ManualService manualService = new ManualService();
-        //            manualService.AbrirAyudaAltaProducto();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("Error " + ex.Message, "Error");
-        //        LoggerService.WriteException(ex);
-        //    }
-        //}
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {

@@ -12,6 +12,6 @@ namespace DAL.Contratcs
     {
         List<Pedido> GetPedidosPendientes();
         List<EstadoPedido> ObtenerEstadosPedido();
-
+        void UpdateEstado(Guid idPedido, Guid nuevoEstadoId);
     }
 }

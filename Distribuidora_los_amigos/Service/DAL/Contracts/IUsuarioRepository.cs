@@ -31,8 +31,8 @@ namespace Service.DAL.Contracts
         void UpdateUsuarioToken(Usuario usuario);
         void UpdatePassword(Usuario usuario);
 
-        void UpdateLanguage(Guid idUsuario, string language);
+        void UpdateLenguaje(Guid idUsuario, string lenguaje);
 
-        string GetUserLanguage(Guid idUsuario);
+        string GetUserLenguaje(Guid idUsuario);
     }
 }

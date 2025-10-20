@@ -33,7 +33,7 @@ namespace Service.Logic
         public string GenerarYGuardarCodigoVerificador(Usuario usuario)
         {
             // Concatenar las propiedades relevantes del usuario para el cálculo del DVH
-            string data = usuario.UserName + usuario.Password + usuario.Estado + usuario.Email + usuario.Language
+            string data = usuario.UserName + usuario.Password + usuario.Estado + usuario.Email + usuario.Lenguaje
                     + usuario.RecoveryToken + usuario.TokenExpiration.ToString("yyyyMMddHHmmss");
 
             // Generar el hash (por ejemplo, usando SHA256)
@@ -57,7 +57,7 @@ namespace Service.Logic
         public void ActualizarCodigoVerificador(Usuario usuario)
         {
             // Concatenar las propiedades relevantes del usuario para el cálculo del DVH
-            string data = usuario.UserName + usuario.Password + usuario.Estado + usuario.Email + usuario.Language
+            string data = usuario.UserName + usuario.Password + usuario.Estado + usuario.Email + usuario.Lenguaje
                     + usuario.RecoveryToken + usuario.TokenExpiration.ToString("yyyyMMddHHmmss");
 
             // Generar el hash (por ejemplo, usando SHA256)
@@ -78,7 +78,7 @@ namespace Service.Logic
         private string GenerarCodigoVerificador(Usuario usuario)
         {
             // Concatenar las propiedades relevantes del usuario para el cálculo del DVH
-            string data = usuario.UserName + usuario.Password + usuario.Estado + usuario.Email + usuario.Language
+            string data = usuario.UserName + usuario.Password + usuario.Estado + usuario.Email + usuario.Lenguaje
                 + usuario.RecoveryToken + usuario.TokenExpiration.ToString("yyyyMMddHHmmss");
 
             // Generar el hash (por ejemplo, usando SHA256)

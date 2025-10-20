@@ -218,11 +218,53 @@ namespace DAL.Factory
         }
 
         /// <summary>
+        /// Método genérico para crear repositorios con reflection
+        /// </summary>
+        /// <typeparam name="TInterface">Tipo de interfaz del repositorio</typeparam>
+        /// <typeparam name="TImplementation">Tipo de implementación concreta</typeparam>
+        /// <returns>Instancia del repositorio</returns>
+        private static TInterface CreateRepository<TInterface, TImplementation>()
+            where TImplementation : class, TInterface, new()
+        {
+            switch ((BackendType)backendType)
+            {
+                case BackendType.SqlServer:
+                    return new TImplementation();
+                default:
+                    throw new NotSupportedException($"Backend {backendType} no soportado para {typeof(TInterface).Name}.");
+            }
+        }
+
+        /// <summary>
+        /// Método thread-safe genérico para obtener repositorios
+        /// </summary>
+        /// <typeparam name="TInterface">Tipo de interfaz del repositorio</typeparam>
+        /// <typeparam name="TImplementation">Tipo de implementación concreta</typeparam>
+        /// <param name="repository">Referencia al campo del repositorio</param>
+        /// <returns>Instancia del repositorio</returns>
+        private static TInterface GetOrCreateRepository<TInterface, TImplementation>(ref TInterface repository)
+            where TImplementation : class, TInterface, new()
+        {
+            if (repository == null)
+            {
+                lock (_lock)
+                {
+                    if (repository == null)
+                    {
+                        repository = CreateRepository<TInterface, TImplementation>();
+                    }
+                }
+            }
+            return repository;
+        }
+
+        /// <summary>
         /// Enumera los tipos de backend disponibles
         /// </summary>
         internal enum BackendType
         {
-            SqlServer = 1
+            SqlServer = 1,
+            // Futuras implementaciones: Oracle = 2, MySQL = 3, etc.
         }
     }
 }

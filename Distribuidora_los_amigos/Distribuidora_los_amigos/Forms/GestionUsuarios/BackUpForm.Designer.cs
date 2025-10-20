@@ -41,6 +41,7 @@
             this.button1.Tag = "CrearBackUp";
             this.button1.Text = "Crear BackUp";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // label1
             // 

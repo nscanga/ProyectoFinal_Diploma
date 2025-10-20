@@ -1,8 +1,9 @@
 ﻿using Service.DAL.Implementations;
-using Service.DAL.Implementations.SqlServer;
 using Service.Facade;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -17,98 +18,103 @@ namespace Service.Logic
         {
             try
             {
-                // Simplemente llamar a la DAO para traducir la clave
+                // ✅ Usar tu LanguageRepository existente que lee archivos de texto
                 return LanguageRepository.Translate(key);
             }
             catch (Exception ex)
             {
-                // Registrar cualquier excepción, si es necesario
-                Console.WriteLine(ex.Message);
-                //LoggerService.WriteException(ex);
+                Console.WriteLine($"Error translating key '{key}': {ex.Message}");
+                return key; // Retorna la clave original si no se encuentra
             }
-
-            return key; // Si ocurre un error, se retorna la clave original
         }
 
         public static void TranslateForm(Control control)
         {
-            foreach (Control ctrl in control.Controls)
+            try
             {
-                if (ctrl.Tag != null && !string.IsNullOrEmpty(ctrl.Tag.ToString()))
+                foreach (Control ctrl in control.Controls)
                 {
-                    ctrl.Text = Translate(ctrl.Tag.ToString());
+                    if (ctrl.Tag != null && !string.IsNullOrEmpty(ctrl.Tag.ToString()))
+                    {
+                        ctrl.Text = Translate(ctrl.Tag.ToString());
+                    }
+
+                    if (ctrl.HasChildren)
+                    {
+                        TranslateForm(ctrl);
+                    }
+
+                    if (ctrl is MenuStrip menuStrip)
+                    {
+                        foreach (ToolStripMenuItem item in menuStrip.Items)
+                        {
+                            TranslateMenuItem(item);
+                        }
+                    }
                 }
 
-                // Traducir recursivamente subcontroles
-                if (ctrl.HasChildren)
+                if (control is MenuStrip menuStripDirect)
                 {
-                    TranslateForm(ctrl);
-                }
-
-                // Verificar si es un MenuStrip
-                if (ctrl is MenuStrip menuStrip)
-                {
-                    foreach (ToolStripMenuItem item in menuStrip.Items)
+                    foreach (ToolStripMenuItem item in menuStripDirect.Items)
                     {
                         TranslateMenuItem(item);
                     }
                 }
-                if (ctrl is MessageBox)
-                {
-                    string Message = ctrl.Tag.ToString();
-                    if (!string.IsNullOrEmpty(Message))
-                    {
-                        Message = Translate(Message);
-                        MessageBox.Show(Message);
-                    }
-                }
             }
-
-            // Si el control en sí es un MenuStrip
-            if (control is MenuStrip menuStripDirect)
+            catch (Exception ex)
             {
-                foreach (ToolStripMenuItem item in menuStripDirect.Items)
-                {
-                    TranslateMenuItem(item);
-                }
+                Console.WriteLine($"Error translating form: {ex.Message}");
             }
         }
 
         private static void TranslateMenuItem(ToolStripMenuItem menuItem)
         {
-            if (menuItem.Tag != null && !string.IsNullOrEmpty(menuItem.Tag.ToString()))
+            try
             {
-                menuItem.Text = Translate(menuItem.Tag.ToString());
-            }
-
-            // Traducir recursivamente subitems
-            foreach (ToolStripItem subItem in menuItem.DropDownItems)
-            {
-                if (subItem is ToolStripMenuItem subMenuItem)
+                if (menuItem.Tag != null && !string.IsNullOrEmpty(menuItem.Tag.ToString()))
                 {
-                    TranslateMenuItem(subMenuItem);
+                    menuItem.Text = Translate(menuItem.Tag.ToString());
+                }
+
+                foreach (ToolStripItem subItem in menuItem.DropDownItems)
+                {
+                    if (subItem is ToolStripMenuItem subMenuItem)
+                    {
+                        TranslateMenuItem(subMenuItem);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error translating menu item: {ex.Message}");
+            }
         }
-        public static void ShowTranslatedMessage(string messageKey)
-        {
-            string translatedMessage = Translate(messageKey);
-            
-        }
-        // Guardar el idioma seleccionado llamando a la capa de acceso a datos (DAO)
+
         public static void SaveUserLanguage(string languageCode)
         {
-            LanguageRepository.SaveUserLanguage(languageCode);
-           
+            try
+            {
+                // ✅ Usar tu LanguageRepository existente
+                LanguageRepository.SaveUserLanguage(languageCode);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving language: {ex.Message}");
+            }
         }
 
-        // Cargar el idioma seleccionado desde la capa de acceso a datos (DAO)
         public static string LoadUserLanguage()
         {
-            return LanguageRepository.LoadUserLanguage();
+            try
+            {
+                // ✅ Usar tu LanguageRepository existente
+                return LanguageRepository.LoadUserLanguage();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading language: {ex.Message}");
+                return "es-ES";
+            }
         }
-
-
-
     }
 }

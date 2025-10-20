@@ -42,7 +42,7 @@
             this.buttonModificarProveedor.Name = "buttonModificarProveedor";
             this.buttonModificarProveedor.Size = new System.Drawing.Size(120, 30);
             this.buttonModificarProveedor.TabIndex = 10;
-            this.buttonModificarProveedor.Tag = "Actualizar";
+            this.buttonModificarProveedor.Tag = "Modificar";
             this.buttonModificarProveedor.Text = "Modificar Proveedor";
             this.buttonModificarProveedor.UseVisualStyleBackColor = true;
             this.buttonModificarProveedor.Click += new System.EventHandler(this.buttonModificarProveedor_Click);
@@ -53,7 +53,7 @@
             this.buttonCrearProveedor.Name = "buttonCrearProveedor";
             this.buttonCrearProveedor.Size = new System.Drawing.Size(120, 30);
             this.buttonCrearProveedor.TabIndex = 9;
-            this.buttonCrearProveedor.Tag = "Actualizar";
+            this.buttonCrearProveedor.Tag = "Crear";
             this.buttonCrearProveedor.Text = "Crear Proveedor";
             this.buttonCrearProveedor.UseVisualStyleBackColor = true;
             this.buttonCrearProveedor.Click += new System.EventHandler(this.buttonCrearProveedor_Click);
@@ -64,7 +64,7 @@
             this.buttonEliminarProveedor.Name = "buttonEliminarProveedor";
             this.buttonEliminarProveedor.Size = new System.Drawing.Size(120, 30);
             this.buttonEliminarProveedor.TabIndex = 8;
-            this.buttonEliminarProveedor.Tag = "Actualizar";
+            this.buttonEliminarProveedor.Tag = "Eliminar";
             this.buttonEliminarProveedor.Text = "Eliminar Proveedor";
             this.buttonEliminarProveedor.UseVisualStyleBackColor = true;
             this.buttonEliminarProveedor.Click += new System.EventHandler(this.buttonEliminarProveedor_Click_1);

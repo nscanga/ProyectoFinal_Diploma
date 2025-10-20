@@ -9,10 +9,12 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BLL;
 using DOMAIN;
+using Service.DAL.Contracts;
+using Service.Facade;
 
 namespace Distribuidora_los_amigos.Forms.Proveedores
 {
-    public partial class MostrarProveedoresForm : Form
+    public partial class MostrarProveedoresForm : Form, IIdiomaObserver
     {
         private readonly ProveedorService _proveedorService;
 
@@ -20,8 +22,10 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
         {
             InitializeComponent();
             _proveedorService = new ProveedorService();
-            this.StartPosition = FormStartPosition.CenterScreen;
             CargarProveedores();
+            
+            IdiomaService.Subscribe(this);
+            IdiomaService.TranslateForm(this);
         }
 
         private void CargarProveedores()
@@ -42,7 +46,7 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
         {
             CrearProveedorForm crearForm = new CrearProveedorForm();
             crearForm.ShowDialog();
-            CargarProveedores();
+            CargarProveedores();  
         }
 
         private void buttonModificarProveedor_Click(object sender, EventArgs e)
@@ -126,6 +130,18 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
             {
                 MessageBox.Show("Seleccione un proveedor para eliminar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        public void UpdateIdioma()
+        {
+            IdiomaService.TranslateForm(this);
+            this.Refresh();
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            IdiomaService.Unsubscribe(this);
+            base.OnFormClosed(e);
         }
     }
 }

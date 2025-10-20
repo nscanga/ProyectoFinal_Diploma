@@ -18,7 +18,7 @@ namespace Service.DOMAIN
         public string RecoveryToken { get; set; } // El token de recuperación
         public DateTime TokenExpiration { get; set; } // El momento de expiración del token
 
-        public string Language { get; set; } 
+        public string Lenguaje { get; set; } = "en";
 
         public string Estado { get; set; } // Deshabilitado  habilitado
 

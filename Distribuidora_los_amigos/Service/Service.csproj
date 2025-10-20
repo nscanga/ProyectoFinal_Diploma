@@ -58,6 +58,7 @@
     <Compile Include="DAL\Contracts\IUsuarioRepository.cs" />
     <Compile Include="DAL\FactoryServices\FactoryDAL.cs" />
     <Compile Include="DAL\FactoryServices\LoggerFactory.cs" />
+    <Compile Include="DAL\Implementations\SqlServer\LanguajeRepository.cs" />
     <Compile Include="DAL\Implementations\SqlServer\BackupRepository.cs" />
     <Compile Include="DAL\Implementations\SqlServer\BitacoraRepository.cs" />
     <Compile Include="DAL\Implementations\SqlServer\DVHRepository.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Facade\SE\StringExtention.cs" />
     <Compile Include="Facade\UserService.cs" />
     <Compile Include="Logic\AccesoLogic.cs" />
+    <Compile Include="Logic\AccessControlDecorators.cs" />
     <Compile Include="Logic\BackUpLogic.cs" />
     <Compile Include="Logic\BitacoraLogic.cs" />
     <Compile Include="Logic\DVHLogic.cs" />

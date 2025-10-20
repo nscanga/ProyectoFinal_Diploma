@@ -67,6 +67,7 @@
             this.comboBoxEstadoPedido.Name = "comboBoxEstadoPedido";
             this.comboBoxEstadoPedido.Size = new System.Drawing.Size(196, 21);
             this.comboBoxEstadoPedido.TabIndex = 2;
+            this.comboBoxEstadoPedido.SelectedIndexChanged += new System.EventHandler(this.comboBoxEstadoPedido_SelectedIndexChanged);
             // 
             // label1
             // 

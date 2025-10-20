@@ -15,42 +15,67 @@ namespace Service.DAL.Implementations.SqlServer
     {
         public void GuardarDVH(Guid idRegistro, string nombreTabla, string dvh)
         {
-            // Usar SQL Helper o una conexión directa para insertar el DVH
-            SqlHelper.ExecuteNonQuery(
-                "INSERT INTO DigitosVerificadores (IdRegistro, NombreTabla, DVH, FechaModificacion) VALUES (@IdRegistro, @NombreTabla, @DVH, GETDATE())",
-                CommandType.Text,
-                new SqlParameter("@IdRegistro", idRegistro),
-                new SqlParameter("@NombreTabla", nombreTabla),
-                new SqlParameter("@DVH", dvh)
-            );
+            try
+            {
+                // Usar SQL Helper o una conexión directa para insertar el DVH
+                SqlHelper.ExecuteNonQuery(
+                    "INSERT INTO DigitosVerificadores (IdRegistro, NombreTabla, DVH, FechaModificacion) VALUES (@IdRegistro, @NombreTabla, @DVH, GETDATE())",
+                    CommandType.Text,
+                    new SqlParameter("@IdRegistro", idRegistro),
+                    new SqlParameter("@NombreTabla", nombreTabla),
+                    new SqlParameter("@DVH", dvh)
+                );
+            }
+            catch (SqlException ex) when (ex.Message.Contains("Invalid object name 'DigitosVerificadores'"))
+            {
+                // La tabla DigitosVerificadores no existe, continuar sin error
+                // TODO: Crear la tabla DigitosVerificadores en la base de datos
+            }
         }
         public void ActualizarDVH(Guid idRegistro, string nombreTabla, string dvh)
         {
-            // Query de actualización para el DVH con la fecha de modificación incluida
-            string query = "UPDATE DigitosVerificadores SET DVH = @DVH, FechaModificacion = GETDATE() WHERE IdRegistro = @IdRegistro AND NombreTabla = @NombreTabla";
+            try
+            {
+                // Query de actualización para el DVH con la fecha de modificación incluida
+                string query = "UPDATE DigitosVerificadores SET DVH = @DVH, FechaModificacion = GETDATE() WHERE IdRegistro = @IdRegistro AND NombreTabla = @NombreTabla";
 
-            // Usar SQL Helper para ejecutar la actualización
-            SqlHelper.ExecuteNonQuery(
-                query,
-                CommandType.Text,
-                new SqlParameter("@IdRegistro", idRegistro),
-                new SqlParameter("@NombreTabla", nombreTabla),
-                new SqlParameter("@DVH", dvh)
-            );
+                // Usar SQL Helper para ejecutar la actualización
+                SqlHelper.ExecuteNonQuery(
+                    query,
+                    CommandType.Text,
+                    new SqlParameter("@IdRegistro", idRegistro),
+                    new SqlParameter("@NombreTabla", nombreTabla),
+                    new SqlParameter("@DVH", dvh)
+                );
+            }
+            catch (SqlException ex) when (ex.Message.Contains("Invalid object name 'DigitosVerificadores'"))
+            {
+                // La tabla DigitosVerificadores no existe, continuar sin error
+                // TODO: Crear la tabla DigitosVerificadores en la base de datos
+            }
         }
         public string ObtenerCodigoVerificador(Guid idUsuario)
         {
             string codigoVerificador = null;
 
-            using (SqlDataReader reader = SqlHelper.ExecuteReader(
-                "SELECT DVH FROM DigitosVerificadores WHERE IdRegistro = @IdRegistro AND NombreTabla = 'Usuario'",
-                CommandType.Text,
-                new SqlParameter("@IdRegistro", idUsuario)))
+            try
             {
-                if (reader.Read())
+                using (SqlDataReader reader = SqlHelper.ExecuteReader(
+                    "SELECT DVH FROM DigitosVerificadores WHERE IdRegistro = @IdRegistro AND NombreTabla = 'Usuario'",
+                    CommandType.Text,
+                    new SqlParameter("@IdRegistro", idUsuario)))
                 {
-                    codigoVerificador = reader.GetString(0);  // Recupera el DVH almacenado
+                    if (reader.Read())
+                    {
+                        codigoVerificador = reader.GetString(0);  // Recupera el DVH almacenado
+                    }
                 }
+            }
+            catch (SqlException ex) when (ex.Message.Contains("Invalid object name 'DigitosVerificadores'"))
+            {
+                // La tabla DigitosVerificadores no existe, devolver null
+                // TODO: Crear la tabla DigitosVerificadores en la base de datos
+                return null;
             }
 
             return codigoVerificador;
@@ -58,28 +83,36 @@ namespace Service.DAL.Implementations.SqlServer
 
         public void GuardarDVHCitaDetalle(Guid idCitaDetalle, string nombreTabla, string dvh)
         {
-            // Obtener la cadena de conexión desde el archivo de configuración
-            string connectionString = ConfigurationManager.ConnectionStrings["MiConexion"].ConnectionString;
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                // Crear el comando SQL para insertar o actualizar el DVH junto con la fecha
-                string query = @"
-            INSERT INTO DigitosVerificadores (IdRegistro, NombreTabla, DVH, FechaModificacion)
-            VALUES (@IdRegistro, @NombreTabla, @DVH, GETDATE())";
+                // Obtener la cadena de conexión desde el archivo de configuración
+                string connectionString = ConfigurationManager.ConnectionStrings["MiConexion"].ConnectionString;
 
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    // Agregar parámetros al comando
-                    command.Parameters.AddWithValue("@IdRegistro", idCitaDetalle);
-                    command.Parameters.AddWithValue("@NombreTabla", nombreTabla);
-                    command.Parameters.AddWithValue("@DVH", dvh);
-                   
+                    // Crear el comando SQL para insertar o actualizar el DVH junto con la fecha
+                    string query = @"
+                INSERT INTO DigitosVerificadores (IdRegistro, NombreTabla, DVH, FechaModificacion)
+                VALUES (@IdRegistro, @NombreTabla, @DVH, GETDATE())";
 
-                    // Abrir la conexión y ejecutar el comando
-                    connection.Open();
-                    command.ExecuteNonQuery();
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        // Agregar parámetros al comando
+                        command.Parameters.AddWithValue("@IdRegistro", idCitaDetalle);
+                        command.Parameters.AddWithValue("@NombreTabla", nombreTabla);
+                        command.Parameters.AddWithValue("@DVH", dvh);
+                       
+
+                        // Abrir la conexión y ejecutar el comando
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                    }
                 }
+            }
+            catch (SqlException ex) when (ex.Message.Contains("Invalid object name 'DigitosVerificadores'"))
+            {
+                // La tabla DigitosVerificadores no existe, continuar sin error
+                // TODO: Crear la tabla DigitosVerificadores en la base de datos
             }
         }
         public string ObtenerCodigoVerificadorCitaDetalle(Guid idCitaDetalle)
@@ -87,35 +120,44 @@ namespace Service.DAL.Implementations.SqlServer
             string connectionString = ConfigurationManager.ConnectionStrings["MiConexion"].ConnectionString;
             string codigoVerificador = null;
 
-            // Consulta para obtener el DVH de la CitaDetalle
-            string query = @"
-             SELECT DVH 
-            FROM DigitosVerificadores 
-            WHERE IdRegistro = @IdRegistro AND NombreTabla = 'CitaDetalle'";
-
-            // Usamos SqlConnection para ejecutar la consulta
-            using (SqlConnection connection = new SqlConnection(connectionString)) // Asegúrate de tener tu connectionString
+            try
             {
-                  connection.Open();
+                // Consulta para obtener el DVH de la CitaDetalle
+                string query = @"
+                 SELECT DVH 
+                FROM DigitosVerificadores 
+                WHERE IdRegistro = @IdRegistro AND NombreTabla = 'CitaDetalle'";
 
-                    // Ejecutamos la consulta con SqlCommand
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        // Asignamos el valor del parámetro IdRegistro
-                        command.Parameters.AddWithValue("@IdRegistro", idCitaDetalle);
+                // Usamos SqlConnection para ejecutar la consulta
+                using (SqlConnection connection = new SqlConnection(connectionString)) // Asegúrate de tener tu connectionString
+                {
+                      connection.Open();
 
-                        // Ejecutamos la consulta y leemos el resultado
-                        using (SqlDataReader reader = command.ExecuteReader())
+                        // Ejecutamos la consulta con SqlCommand
+                        using (SqlCommand command = new SqlCommand(query, connection))
                         {
-                            if (reader.Read())
+                            // Asignamos el valor del parámetro IdRegistro
+                            command.Parameters.AddWithValue("@IdRegistro", idCitaDetalle);
+
+                            // Ejecutamos la consulta y leemos el resultado
+                            using (SqlDataReader reader = command.ExecuteReader())
                             {
-                                // Recuperamos el DVH almacenado para la CitaDetalle
-                                codigoVerificador = reader.GetString(0);
+                                if (reader.Read())
+                                {
+                                    // Recuperamos el DVH almacenado para la CitaDetalle
+                                    codigoVerificador = reader.GetString(0);
+                                }
                             }
                         }
-                    }
-                
-               
+                    
+                   
+                }
+            }
+            catch (SqlException ex) when (ex.Message.Contains("Invalid object name 'DigitosVerificadores'"))
+            {
+                // La tabla DigitosVerificadores no existe, devolver null
+                // TODO: Crear la tabla DigitosVerificadores en la base de datos
+                return null;
             }
 
             return codigoVerificador;

@@ -77,8 +77,8 @@ namespace DAL.Implementations.SqlServer
                         IdCliente = (Guid)reader["IdCliente"],
                         Nombre = reader["Nombre"].ToString(),
                         Direccion = reader["Direccion"].ToString(),
-                        Email = reader["Telefono"].ToString(),
-                        Telefono = reader["Email"].ToString(),
+                        Email = reader["Email"].ToString(),    
+                        Telefono = reader["Telefono"].ToString(), 
                         CUIT = reader["CUIT"].ToString(),
                         Activo = (bool)reader["Estado"]
                     };

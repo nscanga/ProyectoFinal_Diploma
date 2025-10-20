@@ -92,15 +92,15 @@ namespace Service.Facade
             var emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
             return Regex.IsMatch(email, emailPattern);
         }
-        public static void SaveLanguage(Guid idUsuario, string language)
+        public static void SaveLenguaje(Guid idUsuario, string lenguaje)
         {
-            _userLogic.SaveLanguage(idUsuario, language);
+            _userLogic.SaveLenguaje(idUsuario, lenguaje);
         }
 
 
-        public static string GetUserLanguage(Guid idUsuario)
+        public static string GetUserLenguaje(Guid idUsuario)
         {
-            return _userLogic.GetUserLanguage(idUsuario);
+            return _userLogic.GetUserLenguaje(idUsuario);
         }
     }
 }

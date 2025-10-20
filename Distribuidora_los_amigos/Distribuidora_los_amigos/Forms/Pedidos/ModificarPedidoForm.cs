@@ -54,7 +54,6 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             numericUpDown1.Value = _pedidoSeleccionado.Detalles.Sum(d => d.Cantidad);
         }
 
-
         private void CargarEstadosPedido()
         {
             comboBoxEstadoPedido.DataSource = _pedidoService.ObtenerEstadosPedido();
@@ -62,83 +61,115 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             comboBoxEstadoPedido.ValueMember = "IdEstadoPedido"; // Se usa el ID internamente
         }
 
-
-        private void buttonModificarProducto_Click(object sender, EventArgs e)
+        // 🆕 NUEVO MÉTODO: Solo cambiar estado (este va en el botón "Modificar Pedido")
+        private void buttonModificarPedido_Click(object sender, EventArgs e)
         {
             try
             {
-                int nuevaCantidad = (int)numericUpDown1.Value;
-                if (nuevaCantidad <= 0)
-                {
-                    MessageBox.Show("La cantidad debe ser mayor a 0.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // 📌 1️⃣ Obtener el detalle del pedido
-                DetallePedido detalleSeleccionado = _pedidoSeleccionado.Detalles.FirstOrDefault();
-
-                if (detalleSeleccionado == null)
-                {
-                    MessageBox.Show("Error al obtener el detalle del pedido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // 📌 2️⃣ Recuperar el stock del producto
-                Stock stockProducto = _stockService.ObtenerStockPorProducto(detalleSeleccionado.IdProducto);
-                if (stockProducto == null)
-                {
-                    MessageBox.Show("No se encontró stock para este producto.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // 📌 3️⃣ Devolver la cantidad original al stock antes de modificar
-                _stockService.AumentarStock(detalleSeleccionado.IdProducto, detalleSeleccionado.Cantidad);
-
-                // 📌 4️⃣ Verificar si hay suficiente stock para la nueva cantidad
-                if (stockProducto.Cantidad < nuevaCantidad)
-                {
-                    MessageBox.Show("No hay suficiente stock disponible para este cambio.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // 📌 5️⃣ Modificar la cantidad y recalcular el subtotal
-                detalleSeleccionado.Cantidad = nuevaCantidad;
-                detalleSeleccionado.Subtotal = nuevaCantidad * _productoService.ObtenerProductoPorId(detalleSeleccionado.IdProducto).Precio;
-
-                // 📌 6️⃣ Descontar el stock con la nueva cantidad
-                _stockService.DisminuirStock(detalleSeleccionado.IdProducto, nuevaCantidad);
-
-                // 📌 7️⃣ ACTUALIZAR EL ESTADO DEL PEDIDO  
                 if (comboBoxEstadoPedido.SelectedValue == null)
                 {
-                    MessageBox.Show("Seleccione un estado válido para el pedido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Seleccione un estado válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                _pedidoSeleccionado.IdEstadoPedido = (Guid)comboBoxEstadoPedido.SelectedValue; // ✅ Guardar el nuevo estado
+                Guid nuevoEstadoId = (Guid)comboBoxEstadoPedido.SelectedValue;
+                
+                // Verificar si realmente hay un cambio
+                if (_pedidoSeleccionado.IdEstadoPedido == nuevoEstadoId)
+                {
+                    MessageBox.Show("El estado seleccionado es el mismo actual.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
 
-                // 📌 8️⃣ Guardar los cambios en el pedido (incluye los detalles)
-                _pedidoSeleccionado.Total = _pedidoSeleccionado.Detalles.Sum(d => d.Subtotal);
-                _pedidoService.ModificarPedido(_pedidoSeleccionado);
+                // 🎯 SOLO CAMBIAR EL ESTADO - Sin tocar productos
+                _pedidoService.CambiarEstadoPedido(_pedidoSeleccionado.IdPedido, nuevoEstadoId);
 
-                MessageBox.Show("Pedido modificado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Verificar si se envió email
+                string nuevoEstado = _pedidoService.ObtenerNombreEstadoPorId(nuevoEstadoId);
+                bool cambiaAEnCamino = nuevoEstado.Equals("En camino", StringComparison.OrdinalIgnoreCase);
 
-                // Cerrar el formulario y notificar que se ha realizado un cambio
+                if (cambiaAEnCamino)
+                {
+                    Cliente cliente = _clienteService.ObtenerClientePorId(_pedidoSeleccionado.IdCliente);
+                    if (cliente != null && !string.IsNullOrEmpty(cliente.Email))
+                    {
+                        MessageBox.Show($"✅ Estado cambiado a '{nuevoEstado}' correctamente.\n\n📧 Se envió notificación por email a: {cliente.Email}", 
+                                       "Éxito - Email Enviado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"✅ Estado cambiado a '{nuevoEstado}' correctamente.\n\n⚠️ No se pudo enviar email (cliente sin email válido).", 
+                                       "Éxito - Sin Email", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show($"✅ Estado cambiado a '{nuevoEstado}' correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al modificar el producto en el pedido: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al cambiar el estado: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        // 🔄 RENOMBRADO: Modificar productos (mantener lógica actual para modificar cantidades)
+        private void buttonModificarProducto_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (comboBoxEstadoPedido.SelectedValue == null)
+                {
+                    MessageBox.Show("Seleccione un estado válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
+                Guid nuevoEstadoId = (Guid)comboBoxEstadoPedido.SelectedValue;
+                
+                // Verificar si realmente hay un cambio
+                if (_pedidoSeleccionado.IdEstadoPedido == nuevoEstadoId)
+                {
+                    MessageBox.Show("El estado seleccionado es el mismo actual.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
 
+                // 🎯 SOLO CAMBIAR EL ESTADO - Sin tocar productos
+                _pedidoService.CambiarEstadoPedido(_pedidoSeleccionado.IdPedido, nuevoEstadoId);
 
+                // Verificar si se envió email
+                string nuevoEstado = _pedidoService.ObtenerNombreEstadoPorId(nuevoEstadoId);
+                bool cambiaAEnCamino = nuevoEstado.Equals("En camino", StringComparison.OrdinalIgnoreCase);
 
+                if (cambiaAEnCamino)
+                {
+                    Cliente cliente = _clienteService.ObtenerClientePorId(_pedidoSeleccionado.IdCliente);
+                    if (cliente != null && !string.IsNullOrEmpty(cliente.Email))
+                    {
+                        MessageBox.Show($"✅ Estado cambiado a '{nuevoEstado}' correctamente.\n\n📧 Se envió notificación por email a: {cliente.Email}", 
+                                       "Éxito - Email Enviado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"✅ Estado cambiado a '{nuevoEstado}' correctamente.\n\n⚠️ No se pudo enviar email (cliente sin email válido).", 
+                                       "Éxito - Sin Email", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show($"✅ Estado cambiado a '{nuevoEstado}' correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
 
-
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cambiar el estado: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         private void buttonEliminarProducto_Click(object sender, EventArgs e)
         {
@@ -164,8 +195,7 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
 
         private void buttonGuardarPedido_Click(object sender, EventArgs e)
         {
-
+            // Implementar si es necesario
         }
-
     }
 }

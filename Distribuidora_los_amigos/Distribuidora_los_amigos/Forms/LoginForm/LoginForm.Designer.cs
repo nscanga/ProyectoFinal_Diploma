@@ -61,6 +61,7 @@
             this.label4.Size = new System.Drawing.Size(120, 33);
             this.label4.TabIndex = 9;
             this.label4.Text = "LOG IN";
+            this.label4.Tag = "LOG_IN";
             // 
             // panel1
             // 
@@ -116,6 +117,7 @@
             this.lblClear.Size = new System.Drawing.Size(58, 16);
             this.lblClear.TabIndex = 18;
             this.lblClear.Text = "Limpiar";
+            this.lblClear.Tag = "Limpiar";
             this.lblClear.Click += new System.EventHandler(this.lblClear_Click);
             // 
             // checkBoxPass
@@ -127,6 +129,7 @@
             this.checkBoxPass.Size = new System.Drawing.Size(141, 20);
             this.checkBoxPass.TabIndex = 17;
             this.checkBoxPass.Text = "Mostrar contraseña";
+            this.checkBoxPass.Tag = "Mostrar_contraseña";
             this.checkBoxPass.UseVisualStyleBackColor = true;
             this.checkBoxPass.CheckedChanged += new System.EventHandler(this.checkBoxPass_CheckedChanged);
             // 
@@ -152,6 +155,7 @@
             this.btnLogin.Size = new System.Drawing.Size(275, 33);
             this.btnLogin.TabIndex = 15;
             this.btnLogin.Text = "Ingresar";
+            this.btnLogin.Tag = "Ingresar";
             this.btnLogin.UseVisualStyleBackColor = false;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
@@ -164,6 +168,7 @@
             this.label2.Size = new System.Drawing.Size(76, 16);
             this.label2.TabIndex = 14;
             this.label2.Text = "Contraseña";
+            this.label2.Tag = "Contraseña";
             // 
             // textBoxPass
             // 
@@ -183,6 +188,7 @@
             this.label1.Size = new System.Drawing.Size(54, 16);
             this.label1.TabIndex = 12;
             this.label1.Text = "Usuario";
+            this.label1.Tag = "Usuario";
             // 
             // textBoxUser
             // 
@@ -202,6 +208,9 @@
             this.label5.Size = new System.Drawing.Size(161, 16);
             this.label5.TabIndex = 19;
             this.label5.Text = "Recuperar contraseña";
+            this.label5.Tag = "Recuperar_contraseña";
+            this.label5.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // listBox1
             // 

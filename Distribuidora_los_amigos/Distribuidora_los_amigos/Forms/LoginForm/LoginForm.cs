@@ -34,8 +34,8 @@ namespace Distribuidora_los_amigos
         {
             try
             {
-                string hash = CryptographyService.HashMd5("admin123");
-                MessageBox.Show("Hash generado: " + hash);
+                //string hash = CryptographyService.HashMd5("admin123");
+                //MessageBox.Show("Hash generado: " + hash);
                 InicializadorDeIdioma();
                 // Suscribirse a los cambios de idioma
                 IdiomaService.Subscribe(this);
@@ -57,7 +57,7 @@ namespace Distribuidora_los_amigos
                         Password = "admin123",
                         Email = "admin@admin.com",
                         Estado = "Habilitado",
-                        Language = "es-ES"
+                        Lenguaje = "es-ES"
                     };
 
                     usuarioRepo.CreateUsuario(usuarioAdmin);
@@ -252,6 +252,25 @@ namespace Distribuidora_los_amigos
                 string translatedMessage = TranslateMessageKey(messageKey);
 
                 MessageBox.Show(translatedMessage + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                LoggerService.WriteException(ex);
+            }
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Abrir formulario de recuperación de contraseña
+                var recuperarForm = new Forms.RecuperarPassword.RecuperarPasswordForm();
+                recuperarForm.ShowDialog(this);
+                
+                LoggerService.WriteLog("Se abrió el formulario de recuperación de contraseña.", System.Diagnostics.TraceLevel.Info);
+            }
+            catch (Exception ex)
+            {
+                string messageKey = "Error al abrir el formulario de recuperación de contraseña:";
+                string translatedMessage = TranslateMessageKey(messageKey);
+                MessageBox.Show(translatedMessage + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 LoggerService.WriteException(ex);
             }
         }

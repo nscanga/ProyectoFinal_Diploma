@@ -19,6 +19,7 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
         private readonly ProductoService _productoService;
         private readonly StockService _stockService;
         private List<DetallePedido> _detallePedidoList;
+        private List<DetallePedidoDTO> _detallePedidoDTOList;
 
         public CrearPedidoForm()
         {
@@ -28,10 +29,81 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             _productoService = new ProductoService();
             _stockService = new StockService();
             _detallePedidoList = new List<DetallePedido>();
+            _detallePedidoDTOList = new List<DetallePedidoDTO>();
+
+            // 🆕 Suscribirse al evento Resize
+            this.Resize += CrearPedidoForm_Resize;
 
             CargarClientes();
             CargarProductos();
-            CargarEstadosPedido(); 
+            CargarEstadosPedido();
+            ConfigurarDataGridViews();
+        }
+
+        private void ConfigurarDataGridViews()
+        {
+            // 🆕 CONFIGURAR SCROLL Y AJUSTE AUTOMÁTICO para DataGridView de productos
+            dataGridViewProductos.ScrollBars = ScrollBars.Both; // Habilitar scroll horizontal y vertical
+            dataGridViewProductos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells; // Ajustar al contenido
+            dataGridViewProductos.AllowUserToResizeColumns = true;
+            dataGridViewProductos.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right; // Anclaje para redimensionar
+
+            // 🆕 CONFIGURAR SCROLL Y AJUSTE AUTOMÁTICO para DataGridView de detalles
+            dataGridViewDetallePedido.ScrollBars = ScrollBars.Both; // Habilitar scroll horizontal y vertical
+            dataGridViewDetallePedido.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells; // Ajustar al contenido
+            dataGridViewDetallePedido.AllowUserToResizeColumns = true;
+            dataGridViewDetallePedido.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right; // Anclaje completo
+            dataGridViewDetallePedido.AutoGenerateColumns = true;
+
+            // Configurar DataGridView de productos disponibles
+            if (dataGridViewProductos.Columns.Count > 0)
+            {
+                if (dataGridViewProductos.Columns["IdProducto"] != null)
+                    dataGridViewProductos.Columns["IdProducto"].Visible = false;
+
+                if (dataGridViewProductos.Columns["Nombre"] != null)
+                    dataGridViewProductos.Columns["Nombre"].HeaderText = "Producto";
+                
+                if (dataGridViewProductos.Columns["Categoria"] != null)
+                    dataGridViewProductos.Columns["Categoria"].HeaderText = "Categoría";
+                
+                if (dataGridViewProductos.Columns["Precio"] != null)
+                {
+                    dataGridViewProductos.Columns["Precio"].HeaderText = "Precio";
+                    dataGridViewProductos.Columns["Precio"].DefaultCellStyle.Format = "C2";
+                }
+                
+                if (dataGridViewProductos.Columns["FechaIngreso"] != null)
+                    dataGridViewProductos.Columns["FechaIngreso"].HeaderText = "Fecha Ingreso";
+                
+                if (dataGridViewProductos.Columns["Vencimiento"] != null)
+                    dataGridViewProductos.Columns["Vencimiento"].HeaderText = "Vencimiento";
+                
+                if (dataGridViewProductos.Columns["Activo"] != null)
+                    dataGridViewProductos.Columns["Activo"].Visible = false;
+            }
+        }
+
+        // 🆕 NUEVO MÉTODO: Manejar redimensionamiento del formulario
+        private void CrearPedidoForm_Resize(object sender, EventArgs e)
+        {
+            // Calcular nuevo ancho para los DataGridViews cuando se redimensiona la ventana
+            int margenIzquierdo = 406;
+            int margenDerecho = 20;
+            int nuevoAncho = this.ClientSize.Width - margenIzquierdo - margenDerecho;
+
+            if (nuevoAncho > 200) // Ancho mínimo
+            {
+                dataGridViewProductos.Width = nuevoAncho;
+                dataGridViewDetallePedido.Width = nuevoAncho;
+            }
+
+            // Ajustar altura del DataGridView de detalles
+            int alturaDisponible = this.ClientSize.Height - dataGridViewDetallePedido.Top - 30;
+            if (alturaDisponible > 100)
+            {
+                dataGridViewDetallePedido.Height = alturaDisponible;
+            }
         }
 
         private void CargarClientes()
@@ -41,13 +113,13 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             comboBoxSeleccionCliente.ValueMember = "IdCliente";
         }
 
-
         private void CargarProductos()
         {
             try
             {
                 List<Producto> listaProductos = _productoService.ObtenerTodosProductos();
                 dataGridViewProductos.DataSource = listaProductos;
+                ConfigurarDataGridViews();
             }
             catch (Exception ex)
             {
@@ -58,10 +130,9 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
         private void CargarEstadosPedido()
         {
             comboBoxEstadoPedido.DataSource = _pedidoService.ObtenerEstadosPedido();
-            comboBoxEstadoPedido.DisplayMember = "NombreEstado"; // Se muestra el nombre
-            comboBoxEstadoPedido.ValueMember = "IdEstadoPedido"; // Se usa el ID internamente
+            comboBoxEstadoPedido.DisplayMember = "NombreEstado";
+            comboBoxEstadoPedido.ValueMember = "IdEstadoPedido";
         }
-
 
         private void buttonAgregarProducto_Click_1(object sender, EventArgs e)
         {
@@ -69,35 +140,73 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             {
                 Producto productoSeleccionado = (Producto)dataGridViewProductos.SelectedRows[0].DataBoundItem;
 
-                if (!int.TryParse(numericUpDown1.Text, out int cantidad) || cantidad <= 0)
+                if (numericUpDown1.Value <= 0)
                 {
                     MessageBox.Show("Ingrese una cantidad válida mayor a 0.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
+                int cantidad = (int)numericUpDown1.Value;
 
-                // Obtener el stock del producto seleccionado
                 Stock stockProducto = _stockService.ObtenerStockPorProducto(productoSeleccionado.IdProducto);
 
                 if (stockProducto == null || stockProducto.Cantidad < cantidad)
                 {
-                    MessageBox.Show($"No hay suficiente stock para el producto: {productoSeleccionado.Nombre}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show($"No hay suficiente stock para el producto: {productoSeleccionado.Nombre}.\nStock disponible: {stockProducto?.Cantidad ?? 0}", 
+                                    "Stock Insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-
-                // Crear el detalle del pedido
-                DetallePedido nuevoDetalle = new DetallePedido()
+                var detalleExistente = _detallePedidoList.FirstOrDefault(d => d.IdProducto == productoSeleccionado.IdProducto);
+                
+                if (detalleExistente != null)
                 {
-                    IdDetallePedido = Guid.NewGuid(),
-                    IdProducto = productoSeleccionado.IdProducto,
-                    Cantidad = cantidad,
-                    PrecioUnitario = productoSeleccionado.Precio,
-                    Subtotal = cantidad * productoSeleccionado.Precio
-                };
+                    int cantidadTotal = detalleExistente.Cantidad + cantidad;
+                    
+                    if (stockProducto.Cantidad < cantidadTotal)
+                    {
+                        MessageBox.Show($"No hay suficiente stock para agregar {cantidad} unidades más.\nStock disponible: {stockProducto.Cantidad}\nYa agregado al pedido: {detalleExistente.Cantidad}", 
+                                        "Stock Insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                    
+                    detalleExistente.Cantidad = cantidadTotal;
+                    detalleExistente.Subtotal = cantidadTotal * productoSeleccionado.Precio;
+                    
+                    var dtoExistente = _detallePedidoDTOList.FirstOrDefault(d => d.IdProducto == productoSeleccionado.IdProducto);
+                    if (dtoExistente != null)
+                    {
+                        dtoExistente.Cantidad = cantidadTotal;
+                        dtoExistente.Subtotal = cantidadTotal * productoSeleccionado.Precio;
+                    }
+                }
+                else
+                {
+                    DetallePedido nuevoDetalle = new DetallePedido()
+                    {
+                        IdDetallePedido = Guid.NewGuid(),
+                        IdProducto = productoSeleccionado.IdProducto,
+                        Cantidad = cantidad,
+                        PrecioUnitario = productoSeleccionado.Precio,
+                        Subtotal = cantidad * productoSeleccionado.Precio
+                    };
 
-                // Agregar a la lista
-                _detallePedidoList.Add(nuevoDetalle);
+                    DetallePedidoDTO nuevoDetalleDTO = new DetallePedidoDTO()
+                    {
+                        IdDetallePedido = nuevoDetalle.IdDetallePedido,
+                        IdProducto = nuevoDetalle.IdProducto,
+                        NombreProducto = productoSeleccionado.Nombre,
+                        Categoria = productoSeleccionado.Categoria,
+                        Cantidad = nuevoDetalle.Cantidad,
+                        PrecioUnitario = nuevoDetalle.PrecioUnitario,
+                        Subtotal = nuevoDetalle.Subtotal
+                    };
+
+                    _detallePedidoList.Add(nuevoDetalle);
+                    _detallePedidoDTOList.Add(nuevoDetalleDTO);
+                }
+
                 ActualizarListaProductosPedido();
+                numericUpDown1.Value = 1;
             }
             else
             {
@@ -105,11 +214,73 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             }
         }
 
-
         private void ActualizarListaProductosPedido()
         {
             dataGridViewDetallePedido.DataSource = null;
-            dataGridViewDetallePedido.DataSource = _detallePedidoList;
+            dataGridViewDetallePedido.DataSource = _detallePedidoDTOList;
+            
+            ConfigurarDataGridViewDetalles();
+            ActualizarTotalPedido();
+        }
+
+        private void ConfigurarDataGridViewDetalles()
+        {
+            if (dataGridViewDetallePedido.Columns.Count > 0)
+            {
+                // Ocultar IDs
+                if (dataGridViewDetallePedido.Columns["IdDetallePedido"] != null)
+                    dataGridViewDetallePedido.Columns["IdDetallePedido"].Visible = false;
+                
+                if (dataGridViewDetallePedido.Columns["IdPedido"] != null)
+                    dataGridViewDetallePedido.Columns["IdPedido"].Visible = false;
+                
+                if (dataGridViewDetallePedido.Columns["IdProducto"] != null)
+                    dataGridViewDetallePedido.Columns["IdProducto"].Visible = false;
+
+                // Configurar encabezados
+                if (dataGridViewDetallePedido.Columns["NombreProducto"] != null)
+                {
+                    dataGridViewDetallePedido.Columns["NombreProducto"].HeaderText = "Producto";
+                    dataGridViewDetallePedido.Columns["NombreProducto"].DisplayIndex = 0;
+                    dataGridViewDetallePedido.Columns["NombreProducto"].MinimumWidth = 150; // 🆕 Ancho mínimo
+                }
+                
+                if (dataGridViewDetallePedido.Columns["Categoria"] != null)
+                {
+                    dataGridViewDetallePedido.Columns["Categoria"].HeaderText = "Categoría";
+                    dataGridViewDetallePedido.Columns["Categoria"].DisplayIndex = 1;
+                    dataGridViewDetallePedido.Columns["Categoria"].MinimumWidth = 100; // 🆕 Ancho mínimo
+                }
+                
+                if (dataGridViewDetallePedido.Columns["Cantidad"] != null)
+                {
+                    dataGridViewDetallePedido.Columns["Cantidad"].HeaderText = "Cantidad";
+                    dataGridViewDetallePedido.Columns["Cantidad"].DisplayIndex = 2;
+                    dataGridViewDetallePedido.Columns["Cantidad"].MinimumWidth = 70; // 🆕 Ancho mínimo
+                }
+                
+                if (dataGridViewDetallePedido.Columns["PrecioUnitario"] != null)
+                {
+                    dataGridViewDetallePedido.Columns["PrecioUnitario"].HeaderText = "Precio Unitario";
+                    dataGridViewDetallePedido.Columns["PrecioUnitario"].DefaultCellStyle.Format = "C2";
+                    dataGridViewDetallePedido.Columns["PrecioUnitario"].DisplayIndex = 3;
+                    dataGridViewDetallePedido.Columns["PrecioUnitario"].MinimumWidth = 100; // 🆕 Ancho mínimo
+                }
+                
+                if (dataGridViewDetallePedido.Columns["Subtotal"] != null)
+                {
+                    dataGridViewDetallePedido.Columns["Subtotal"].HeaderText = "Subtotal";
+                    dataGridViewDetallePedido.Columns["Subtotal"].DefaultCellStyle.Format = "C2";
+                    dataGridViewDetallePedido.Columns["Subtotal"].DisplayIndex = 4;
+                    dataGridViewDetallePedido.Columns["Subtotal"].MinimumWidth = 100; // 🆕 Ancho mínimo
+                }
+            }
+        }
+
+        private void ActualizarTotalPedido()
+        {
+            decimal total = _detallePedidoList.Sum(d => d.Subtotal);
+            Console.WriteLine($"Total del pedido: {total:C2}");
         }
 
         private void buttonGuardarPedido_Click_1(object sender, EventArgs e)
@@ -122,42 +293,41 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
                     return;
                 }
 
-
-                //Obtener el estado seleccionado
                 Guid idEstadoPedido = (Guid)comboBoxEstadoPedido.SelectedValue;
 
-
-                // 📌 Crear el pedido con el ID del estado
                 Pedido nuevoPedido = new Pedido()
                 {
                     IdPedido = Guid.NewGuid(),
-                    IdCliente = (Guid)comboBoxSeleccionCliente.SelectedValue, // Asociar el cliente seleccionado
+                    IdCliente = (Guid)comboBoxSeleccionCliente.SelectedValue,
                     FechaPedido = dateTimePickerCrearPedido.Value,
-                    IdEstadoPedido = (Guid)comboBoxEstadoPedido.SelectedValue, // 📌 Verifica que no sea null
-                    Detalles = new List<DetallePedido>(_detallePedidoList), // Asegurar que se asignan los detalles
-                    Total = _detallePedidoList.Sum(d => d.Subtotal) // Calculamos el total antes de enviar
-
+                    IdEstadoPedido = (Guid)comboBoxEstadoPedido.SelectedValue,
+                    Detalles = new List<DetallePedido>(_detallePedidoList),
+                    Total = _detallePedidoList.Sum(d => d.Subtotal)
                 };
+                
                 if (comboBoxEstadoPedido.SelectedValue == null)
                 {
                     MessageBox.Show("El estado del pedido no ha sido seleccionado correctamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-
-
                 int cantidadTotal = _detallePedidoList.Sum(d => d.Cantidad);
 
-                // Guardar pedido en la base de datos
                 _pedidoService.CrearPedido(nuevoPedido, cantidadTotal);
 
-                MessageBox.Show("Pedido creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Pedido creado correctamente.\n\nTotal: {nuevoPedido.Total:C2}\nProductos: {_detallePedidoList.Count}\nCantidad total: {cantidadTotal}", 
+                                "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al crear el pedido: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void comboBoxEstadoPedido_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
