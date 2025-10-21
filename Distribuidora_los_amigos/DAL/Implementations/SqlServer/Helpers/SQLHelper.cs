@@ -9,14 +9,31 @@ using System.Configuration;
 
 namespace DAL
 {
+    /// <summary>
+    /// Proporciona utilidades comunes para ejecutar comandos SQL sobre SQL Server.
+    /// </summary>
     internal static class SqlHelper
     {
+        /// <summary>
+        /// Cadena de conexión utilizada por los métodos auxiliares.
+        /// </summary>
         public readonly static string conString;
 
+        /// <summary>
+        /// Inicializa los valores estáticos resolviendo la cadena de conexión configurada.
+        /// </summary>
         static SqlHelper()
         {
             conString = ConfigurationManager.ConnectionStrings["MiConexion"].ConnectionString;
         }
+
+        /// <summary>
+        /// Ejecuta un comando que no devuelve resultados (INSERT, UPDATE, DELETE).
+        /// </summary>
+        /// <param name="commandText">Texto del comando a ejecutar.</param>
+        /// <param name="commandType">Tipo de comando (texto, procedimiento almacenado, etc.).</param>
+        /// <param name="parameters">Parámetros de entrada para el comando.</param>
+        /// <returns>Cantidad de filas afectadas.</returns>
         public static Int32 ExecuteNonQuery(String commandText,
             CommandType commandType, params SqlParameter[] parameters)
         {
@@ -37,6 +54,10 @@ namespace DAL
             }
         }
 
+        /// <summary>
+        /// Reemplaza valores nulos en parámetros por <see cref="DBNull.Value"/>.
+        /// </summary>
+        /// <param name="parameters">Colección de parámetros a validar.</param>
         private static void CheckNullables(SqlParameter[] parameters)
         {
             foreach (SqlParameter item in parameters)
@@ -51,6 +72,10 @@ namespace DAL
         /// <summary>
         /// Set the connection, command, and then execute the command and only return one value.
         /// </summary>
+        /// <param name="commandText">Texto del comando a ejecutar.</param>
+        /// <param name="commandType">Tipo de comando.</param>
+        /// <param name="parameters">Parámetros del comando.</param>
+        /// <returns>Valor escalar devuelto por la consulta.</returns>
         public static Object ExecuteScalar(String commandText,
             CommandType commandType, params SqlParameter[] parameters)
         {
@@ -70,6 +95,10 @@ namespace DAL
         /// <summary>
         /// Set the connection, command, and then execute the command with query and return the reader.
         /// </summary>
+        /// <param name="commandText">Texto del comando a ejecutar.</param>
+        /// <param name="commandType">Tipo de comando.</param>
+        /// <param name="parameters">Parámetros del comando.</param>
+        /// <returns>Lector de datos asociado al resultado.</returns>
         public static SqlDataReader ExecuteReader(String commandText,
             CommandType commandType, params SqlParameter[] parameters)
         {
@@ -88,6 +117,13 @@ namespace DAL
                 return reader;
             }
         }
+        /// <summary>
+        /// Ejecuta una consulta y materializa el resultado en un <see cref="DataTable"/>.
+        /// </summary>
+        /// <param name="commandText">Texto del comando a ejecutar.</param>
+        /// <param name="commandType">Tipo de comando.</param>
+        /// <param name="parameters">Parámetros del comando.</param>
+        /// <returns>Tabla con los registros devueltos por la consulta.</returns>
         public static DataTable ExecuteDataTable(string commandText, CommandType commandType, params SqlParameter[] parameters)
         {
             using (SqlConnection conn = new SqlConnection(conString))

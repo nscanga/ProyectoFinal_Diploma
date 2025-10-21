@@ -8,6 +8,9 @@ using DOMAIN;
 
 namespace DAL.Contratcs
 {
+    /// <summary>
+    /// Representa el contrato específico para administrar los estados de los pedidos.
+    /// </summary>
     public interface IEstadoPedidoRepository : IGenericServiceDAL<EstadoPedido>
     {
 

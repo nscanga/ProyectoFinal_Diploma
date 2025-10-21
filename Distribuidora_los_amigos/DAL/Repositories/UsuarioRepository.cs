@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
+    /// <summary>
+    /// Repositorio placeholder para futuras operaciones de persistencia de usuarios.
+    /// </summary>
     internal class UsuarioRepository
     {
     }

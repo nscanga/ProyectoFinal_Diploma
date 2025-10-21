@@ -6,6 +6,9 @@ using DAL.Implementations.SqlServer;
 
 namespace DAL.Factory
 {
+    /// <summary>
+    /// Expone métodos de fábrica para obtener instancias de repositorios DAL configurados.
+    /// </summary>
     public static class FactoryDAL
     {
         // Objeto de bloqueo para garantizar la seguridad en entornos multi-hilo
@@ -115,7 +118,7 @@ namespace DAL.Factory
         }
 
         /// <summary>
-        /// Obtiene el repositorio de pedidos
+        /// Obtiene el repositorio de pedidos.
         /// </summary>
         public static IPedidoRepository SqlPedidoRepository
         {
@@ -142,6 +145,9 @@ namespace DAL.Factory
             }
         }
 
+        /// <summary>
+        /// Obtiene el repositorio de clientes.
+        /// </summary>
         public static IClienteRepository SqlClienteRepository
         {
             get
@@ -167,6 +173,9 @@ namespace DAL.Factory
             }
         }
 
+        /// <summary>
+        /// Obtiene el repositorio de detalles de pedido.
+        /// </summary>
         public static IDetallePedidoRepository SqlDetallePedidoRepository
         {
             get
@@ -192,6 +201,9 @@ namespace DAL.Factory
             }
         }
 
+        /// <summary>
+        /// Obtiene el repositorio de estados de pedido.
+        /// </summary>
         public static IEstadoPedidoRepository SqlEstadoPedidoRepository
         {
             get

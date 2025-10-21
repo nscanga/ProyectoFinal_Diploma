@@ -10,8 +10,15 @@ using DOMAIN;
 
 namespace DAL.Implementations.SqlServer
 {
+    /// <summary>
+    /// Repositorio SQL Server responsable de la persistencia de productos.
+    /// </summary>
     public class SqlProductoRepository : IProductoRepository
     {
+        /// <summary>
+        /// Inserta un nuevo producto en la base de datos.
+        /// </summary>
+        /// <param name="producto">Entidad de producto a guardar.</param>
         public void Add(Producto producto)
         {
             string query = @"
@@ -32,6 +39,10 @@ namespace DAL.Implementations.SqlServer
             SqlHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
         }
 
+        /// <summary>
+        /// Actualiza los campos editables de un producto.
+        /// </summary>
+        /// <param name="producto">Entidad con los datos modificados.</param>
         public void Update(Producto producto)
         {
             string query = @"
@@ -58,6 +69,10 @@ namespace DAL.Implementations.SqlServer
             SqlHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
         }
 
+        /// <summary>
+        /// Deshabilita lógicamente un producto.
+        /// </summary>
+        /// <param name="id">Identificador del producto.</param>
         public void Disable(Guid id)
         {
             string query = "UPDATE Producto SET Activo = 0 WHERE IdProducto = @IdProducto";
@@ -70,6 +85,10 @@ namespace DAL.Implementations.SqlServer
             SqlHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
         }
 
+        /// <summary>
+        /// Obtiene todos los productos almacenados.
+        /// </summary>
+        /// <returns>Lista completa de productos.</returns>
         public List<Producto> GetAll()
         {
             List<Producto> productos = new List<Producto>();
@@ -96,6 +115,11 @@ namespace DAL.Implementations.SqlServer
             return productos;
         }
 
+        /// <summary>
+        /// Recupera un producto según su identificador único.
+        /// </summary>
+        /// <param name="id">Identificador del producto.</param>
+        /// <returns>El producto encontrado o <c>null</c> si no existe.</returns>
         public Producto GetById(Guid id)
         {
             string query = "SELECT * FROM Producto WHERE IdProducto = @IdProducto";
@@ -122,6 +146,11 @@ namespace DAL.Implementations.SqlServer
         }
 
 
+        /// <summary>
+        /// Obtiene los productos pertenecientes a una categoría específica.
+        /// </summary>
+        /// <param name="categoria">Nombre de la categoría.</param>
+        /// <returns>Lista de productos filtrados por categoría.</returns>
         public List<Producto> GetByCategoria(string categoria)
         {
             List<Producto> productos = new List<Producto>();
@@ -150,6 +179,10 @@ namespace DAL.Implementations.SqlServer
         }
 
 
+        /// <summary>
+        /// Elimina físicamente un producto del sistema.
+        /// </summary>
+        /// <param name="id">Identificador del producto a eliminar.</param>
         public void Remove(Guid id)
         {
             string query = "DELETE FROM Producto WHERE IdProducto = @IdProducto";
@@ -162,6 +195,11 @@ namespace DAL.Implementations.SqlServer
             SqlHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
         }
 
+        /// <summary>
+        /// Obtiene únicamente los productos activos (pendiente de implementación).
+        /// </summary>
+        /// <returns>Lista de productos activos.</returns>
+        /// <exception cref="NotImplementedException">Siempre, hasta que se implemente.</exception>
         public List<Producto> ObtenerProductosActivos()
         {
             throw new NotImplementedException();

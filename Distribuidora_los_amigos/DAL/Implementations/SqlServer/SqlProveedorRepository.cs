@@ -10,8 +10,15 @@ using DOMAIN;
 
 namespace DAL.Implementations.SqlServer
 {
+    /// <summary>
+    /// Implementación SQL Server del repositorio de proveedores.
+    /// </summary>
     public class SqlProveedorRepository : IProveedorRepository
     {
+        /// <summary>
+        /// Inserta un nuevo proveedor en la base de datos.
+        /// </summary>
+        /// <param name="proveedor">Entidad con la información a registrar.</param>
         public void Add(Proveedor proveedor)
         {
             string query = @"
@@ -32,6 +39,10 @@ namespace DAL.Implementations.SqlServer
             SqlHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
         }
 
+        /// <summary>
+        /// Actualiza los datos de un proveedor existente.
+        /// </summary>
+        /// <param name="proveedor">Entidad con los cambios aplicados.</param>
         public void Update(Proveedor proveedor)
         {
             string query = @"
@@ -54,6 +65,10 @@ namespace DAL.Implementations.SqlServer
             SqlHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
         }
 
+        /// <summary>
+        /// Elimina físicamente un proveedor mediante su identificador.
+        /// </summary>
+        /// <param name="id">Identificador del proveedor.</param>
         public void Remove(Guid id)
         {
             string query = "DELETE FROM Proveedor WHERE IdProveedor = @IdProveedor";
@@ -66,6 +81,11 @@ namespace DAL.Implementations.SqlServer
             SqlHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
         }
 
+        /// <summary>
+        /// Recupera un proveedor por su identificador único.
+        /// </summary>
+        /// <param name="id">Identificador del proveedor buscado.</param>
+        /// <returns>El proveedor encontrado o <c>null</c> si no existe.</returns>
         public Proveedor GetById(Guid id)
         {
             string query = "SELECT * FROM Proveedor WHERE IdProveedor = @IdProveedor";
@@ -91,6 +111,10 @@ namespace DAL.Implementations.SqlServer
             return null;
         }
 
+        /// <summary>
+        /// Obtiene la lista completa de proveedores.
+        /// </summary>
+        /// <returns>Colección de proveedores almacenados.</returns>
         public List<Proveedor> GetAll()
         {
             List<Proveedor> proveedores = new List<Proveedor>();

@@ -9,8 +9,15 @@ using DOMAIN;
 
 namespace DAL.Implementations.SqlServer
 {
+    /// <summary>
+    /// Implementación SQL Server de las operaciones de persistencia para pedidos.
+    /// </summary>
     public class SqlPedidoRepository : IPedidoRepository
     {
+        /// <summary>
+        /// Registra un nuevo pedido junto con su estado asociado.
+        /// </summary>
+        /// <param name="pedido">Entidad de pedido a insertar.</param>
         public void Add(Pedido pedido)
         {
             string query = @"
@@ -29,6 +36,10 @@ namespace DAL.Implementations.SqlServer
             SqlHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
         }
 
+        /// <summary>
+        /// Actualiza el total y el estado de un pedido existente.
+        /// </summary>
+        /// <param name="pedido">Pedido con la información actualizada.</param>
         public void Update(Pedido pedido)
         {
             string query = @"
@@ -47,6 +58,10 @@ namespace DAL.Implementations.SqlServer
             SqlHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
         }
 
+        /// <summary>
+        /// Elimina un pedido según su identificador.
+        /// </summary>
+        /// <param name="id">Identificador del pedido a eliminar.</param>
         public void Remove(Guid id)
         {
             string query = "DELETE FROM Pedido WHERE IdPedido = @IdPedido";
@@ -56,6 +71,11 @@ namespace DAL.Implementations.SqlServer
             SqlHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
         }
 
+        /// <summary>
+        /// Recupera un pedido y su estado a partir del identificador.
+        /// </summary>
+        /// <param name="idPedido">Identificador del pedido buscado.</param>
+        /// <returns>El pedido encontrado o <c>null</c> si no existe.</returns>
         public Pedido GetById(Guid idPedido)
         {
             string query = @"
@@ -84,6 +104,10 @@ namespace DAL.Implementations.SqlServer
             return null;
         }
 
+        /// <summary>
+        /// Obtiene todos los pedidos con su estado asociado.
+        /// </summary>
+        /// <returns>Lista de pedidos almacenados.</returns>
         public List<Pedido> GetAll()
         {
             List<Pedido> pedidos = new List<Pedido>();
@@ -111,6 +135,11 @@ namespace DAL.Implementations.SqlServer
             return pedidos;
         }
 
+        /// <summary>
+        /// Recupera los pedidos pertenecientes a un cliente en particular.
+        /// </summary>
+        /// <param name="idCliente">Identificador del cliente.</param>
+        /// <returns>Lista de pedidos del cliente indicado.</returns>
         public List<Pedido> GetPedidosPorCliente(Guid idCliente)
         {
             List<Pedido> pedidos = new List<Pedido>();
@@ -141,6 +170,10 @@ namespace DAL.Implementations.SqlServer
             return pedidos;
         }
 
+        /// <summary>
+        /// Devuelve los pedidos cuyo estado es "Pendiente".
+        /// </summary>
+        /// <returns>Lista de pedidos en estado pendiente.</returns>
         public List<Pedido> GetPedidosPendientes()
         {
             List<Pedido> pedidos = new List<Pedido>();
@@ -169,6 +202,10 @@ namespace DAL.Implementations.SqlServer
             return pedidos;
         }
 
+        /// <summary>
+        /// Obtiene el catálogo completo de estados de pedido.
+        /// </summary>
+        /// <returns>Lista de estados disponibles.</returns>
         public List<EstadoPedido> ObtenerEstadosPedido()
         {
             List<EstadoPedido> estados = new List<EstadoPedido>();
@@ -190,6 +227,10 @@ namespace DAL.Implementations.SqlServer
         }
 
         // Agrega este método privado para obtener la conexión
+        /// <summary>
+        /// Crea una conexión SQL Server utilizando la cadena configurada.
+        /// </summary>
+        /// <returns>Instancia de <see cref="SqlConnection"/> preparada para abrirse.</returns>
         private SqlConnection GetConnection()
         {
             // Reemplaza "DefaultConnection" por el nombre correcto de tu cadena de conexión
@@ -197,6 +238,11 @@ namespace DAL.Implementations.SqlServer
             return new SqlConnection(connectionString);
         }
 
+        /// <summary>
+        /// Actualiza solamente el estado de un pedido existente.
+        /// </summary>
+        /// <param name="idPedido">Identificador del pedido a modificar.</param>
+        /// <param name="nuevoEstadoId">Nuevo estado que se asignará.</param>
         public void UpdateEstado(Guid idPedido, Guid nuevoEstadoId)
         {
             string query = @"
