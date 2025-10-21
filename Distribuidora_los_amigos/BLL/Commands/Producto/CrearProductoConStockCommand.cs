@@ -16,6 +16,13 @@ namespace BLL.Commands.Producto
         private readonly IUnitOfWork _unitOfWork;
         private bool _wasExecuted = false;
 
+        /// <summary>
+        /// Inicializa el comando con los datos del producto, stock inicial y unidad de trabajo.
+        /// </summary>
+        /// <param name="producto">Producto que se registrará.</param>
+        /// <param name="cantidadInicial">Cantidad inicial de stock a crear.</param>
+        /// <param name="tipoStock">Descripción del tipo de stock.</param>
+        /// <param name="unitOfWork">Unidad de trabajo encargada de las operaciones atómicas.</param>
         public CrearProductoConStockCommand(
             DOMAIN.Producto producto, 
             int cantidadInicial, 
@@ -28,6 +35,10 @@ namespace BLL.Commands.Producto
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
+        /// <summary>
+        /// Valida que el comando cuente con la información mínima para poder ejecutarse.
+        /// </summary>
+        /// <returns>True cuando los datos son consistentes.</returns>
         public override bool CanExecute()
         {
             return _producto != null && 
@@ -36,6 +47,9 @@ namespace BLL.Commands.Producto
                    !string.IsNullOrWhiteSpace(_tipoStock);
         }
 
+        /// <summary>
+        /// Ejecuta la creación del producto y su stock inicial dentro de una transacción.
+        /// </summary>
         public override void Execute()
         {
             if (!CanExecute())
@@ -81,6 +95,9 @@ namespace BLL.Commands.Producto
             }
         }
 
+        /// <summary>
+        /// Revierte la operación eliminando el producto y su stock asociado si fue ejecutado previamente.
+        /// </summary>
         public override void Undo()
         {
             if (!_wasExecuted)

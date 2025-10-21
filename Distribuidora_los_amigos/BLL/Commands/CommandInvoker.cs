@@ -6,13 +6,17 @@ using System.Linq;
 namespace BLL.Commands
 {
     /// <summary>
-    /// Invoker para gestionar la ejecución de comandos
+    /// Invoker para gestionar la ejecuciÃ³n de comandos
     /// </summary>
     public class CommandInvoker
     {
         private readonly Stack<ICommand> _commandHistory = new Stack<ICommand>();
         private readonly int _maxHistorySize;
 
+        /// <summary>
+        /// Crea un invocador indicando la cantidad mÃ¡xima de comandos a conservar en el historial.
+        /// </summary>
+        /// <param name="maxHistorySize">LÃ­mite de comandos almacenados para deshacer.</param>
         public CommandInvoker(int maxHistorySize = 50)
         {
             _maxHistorySize = maxHistorySize;
@@ -33,14 +37,14 @@ namespace BLL.Commands
             {
                 command.Execute();
                 
-                // Agregar al historial, limitando el tamaño
+                // Agregar al historial, limitando el tamaÃ±o
                 _commandHistory.Push(command);
                 if (_commandHistory.Count > _maxHistorySize)
                 {
                     var excess = _commandHistory.Count - _maxHistorySize;
                     var tempStack = new Stack<ICommand>();
                     
-                    // Mantener solo los comandos más recientes
+                    // Mantener solo los comandos mÃ¡s recientes
                     for (int i = 0; i < _maxHistorySize; i++)
                     {
                         tempStack.Push(_commandHistory.Pop());
@@ -85,7 +89,7 @@ namespace BLL.Commands
         }
 
         /// <summary>
-        /// Deshace el último comando ejecutado
+        /// Deshace el Ãºltimo comando ejecutado
         /// </summary>
         public void UndoLastCommand()
         {
@@ -121,7 +125,7 @@ namespace BLL.Commands
         }
 
         /// <summary>
-        /// Obtiene el número de comandos en el historial
+        /// Obtiene el nÃºmero de comandos en el historial
         /// </summary>
         public int HistoryCount => _commandHistory.Count;
     }

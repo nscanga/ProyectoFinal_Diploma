@@ -13,17 +13,28 @@ namespace BLL
     {
         private readonly IClienteRepository _clienteRepository;
 
+        /// <summary>
+        /// Inicializa el servicio de clientes resolviendo el repositorio concreto a utilizar.
+        /// </summary>
         public ClienteService()
         {
             _clienteRepository = FactoryDAL.SqlClienteRepository;
         }
 
+        /// <summary>
+        /// Registra un nuevo cliente luego de verificar que sus datos sean válidos.
+        /// </summary>
+        /// <param name="cliente">Cliente que se agregará al sistema.</param>
         public void CrearCliente(Cliente cliente)
         {
             ValidarCliente(cliente);
             _clienteRepository.Add(cliente);
         }
 
+        /// <summary>
+        /// Revisa que la información del cliente cumpla con los campos obligatorios y formatos esperados.
+        /// </summary>
+        /// <param name="cliente">Entidad a validar.</param>
         private void ValidarCliente(Cliente cliente)
         {
             if (string.IsNullOrWhiteSpace(cliente.Nombre) ||
@@ -53,32 +64,51 @@ namespace BLL
             }
         }
 
+        /// <summary>
+        /// Actualiza los datos almacenados de un cliente existente.
+        /// </summary>
+        /// <param name="cliente">Cliente con la información actualizada.</param>
         public void ModificarCliente(Cliente cliente)
         {
             ValidarCliente(cliente);
             _clienteRepository.Update(cliente);
         }
 
+        /// <summary>
+        /// Elimina definitivamente un cliente del repositorio.
+        /// </summary>
+        /// <param name="idCliente">Identificador del cliente a remover.</param>
         public void EliminarCliente(Guid idCliente)
         {
             _clienteRepository.Remove(idCliente);
         }
 
+        /// <summary>
+        /// Recupera el listado completo de clientes registrados.
+        /// </summary>
+        /// <returns>Lista con todos los clientes disponibles.</returns>
         public List<Cliente> ObtenerTodosClientes()
         {
             return _clienteRepository.GetAll();
         }
 
+        /// <summary>
+        /// Busca un cliente por su identificador único.
+        /// </summary>
+        /// <param name="idCliente">Id del cliente a consultar.</param>
+        /// <returns>Cliente correspondiente o null si no existe.</returns>
         public Cliente ObtenerClientePorId(Guid idCliente)
         {
             return _clienteRepository.GetById(idCliente);
         }
 
-        // Agregar este método temporalmente para debugging
+        /// <summary>
+        /// Imprime por consola información detallada de los emails de los clientes para depuración.
+        /// </summary>
         public void VerificarEmailsClientes()
         {
             var clientes = _clienteRepository.GetAll();
-            
+
             Console.WriteLine($"🔍 VERIFICANDO EMAILS DE {clientes.Count} CLIENTES:");
             Console.WriteLine(new string('=', 60));
             
