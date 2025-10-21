@@ -10,8 +10,15 @@ using DOMAIN;
 
 namespace DAL.Implementations.SqlServer
 {
+    /// <summary>
+    /// Implementación SQL Server del repositorio de clientes.
+    /// </summary>
     public class SqlClienteRepository : IClienteRepository
     {
+        /// <summary>
+        /// Inserta un cliente en la base de datos.
+        /// </summary>
+        /// <param name="cliente">Entidad con los datos a persistir.</param>
         public void Add(Cliente cliente)
         {
             string query = @"
@@ -32,6 +39,10 @@ namespace DAL.Implementations.SqlServer
             SqlHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
         }
 
+        /// <summary>
+        /// Actualiza la información de un cliente existente.
+        /// </summary>
+        /// <param name="cliente">Entidad que contiene los datos modificados.</param>
         public void Update(Cliente cliente)
         {
             string query = @"
@@ -53,6 +64,10 @@ namespace DAL.Implementations.SqlServer
             SqlHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
         }
 
+        /// <summary>
+        /// Elimina un cliente por su identificador.
+        /// </summary>
+        /// <param name="id">Identificador del cliente a eliminar.</param>
         public void Remove(Guid id)
         {
             string query = "DELETE FROM Cliente WHERE IdCliente = @IdCliente";
@@ -62,6 +77,11 @@ namespace DAL.Implementations.SqlServer
             SqlHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
         }
 
+        /// <summary>
+        /// Recupera un cliente utilizando su identificador único.
+        /// </summary>
+        /// <param name="id">Identificador buscado.</param>
+        /// <returns>El cliente encontrado o <c>null</c> si no existe.</returns>
         public Cliente GetById(Guid id)
         {
             string query = "SELECT * FROM Cliente WHERE IdCliente = @IdCliente";
@@ -87,6 +107,10 @@ namespace DAL.Implementations.SqlServer
             return null;
         }
 
+        /// <summary>
+        /// Obtiene todos los clientes registrados.
+        /// </summary>
+        /// <returns>Lista con los clientes almacenados.</returns>
         public List<Cliente> GetAll()
         {
             List<Cliente> clientes = new List<Cliente>();
@@ -112,6 +136,10 @@ namespace DAL.Implementations.SqlServer
             return clientes;
         }
 
+        /// <summary>
+        /// Devuelve únicamente los clientes marcados como activos.
+        /// </summary>
+        /// <returns>Lista con los clientes activos.</returns>
         public List<Cliente> GetClientesActivos()
         {
             List<Cliente> clientes = new List<Cliente>();

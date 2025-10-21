@@ -4,23 +4,65 @@ using System;
 namespace DAL.Contracts
 {
     /// <summary>
-    /// Patr髇 Unit of Work para gestionar transacciones
+    /// Define el patr贸n Unit of Work para coordinar repositorios y transacciones.
     /// </summary>
     public interface IUnitOfWork : IDisposable
     {
         // Repositorios
+        /// <summary>
+        /// Repositorio para operar con entidades de producto.
+        /// </summary>
         IProductoRepository ProductoRepository { get; }
+
+        /// <summary>
+        /// Repositorio encargado de las operaciones de stock.
+        /// </summary>
         IStockRepository StockRepository { get; }
+
+        /// <summary>
+        /// Repositorio asociado a la persistencia de proveedores.
+        /// </summary>
         IProveedorRepository ProveedorRepository { get; }
+
+        /// <summary>
+        /// Repositorio responsable de los pedidos de clientes.
+        /// </summary>
         IPedidoRepository PedidoRepository { get; }
+
+        /// <summary>
+        /// Repositorio para el mantenimiento de clientes.
+        /// </summary>
         IClienteRepository ClienteRepository { get; }
+
+        /// <summary>
+        /// Repositorio que administra los detalles de pedido.
+        /// </summary>
         IDetallePedidoRepository DetallePedidoRepository { get; }
+
+        /// <summary>
+        /// Repositorio que expone el cat谩logo de estados de pedido.
+        /// </summary>
         IEstadoPedidoRepository EstadoPedidoRepository { get; }
 
-        // M閠odos de transacci髇
+        // M茅todos de transacci贸n
+        /// <summary>
+        /// Inicia una transacci贸n expl铆cita sobre la conexi贸n subyacente.
+        /// </summary>
         void BeginTransaction();
+
+        /// <summary>
+        /// Confirma los cambios realizados dentro de la transacci贸n activa.
+        /// </summary>
         void Commit();
+
+        /// <summary>
+        /// Revierte los cambios realizados durante la transacci贸n actual.
+        /// </summary>
         void Rollback();
+
+        /// <summary>
+        /// Persiste los cambios cuando no existe una transacci贸n manual.
+        /// </summary>
         void SaveChanges();
     }
 }

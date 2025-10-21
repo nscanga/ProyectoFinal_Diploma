@@ -2,14 +2,14 @@ using DAL.Contracts;
 using DAL.Contratcs;
 using DAL.Factory;
 using System;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Configuration;
 
 namespace DAL.Implementations.SqlServer
 {
     /// <summary>
-    /// Implementaci髇 del patr髇 Unit of Work para SQL Server
+    /// Implementaci贸n del patr贸n Unit of Work para SQL Server.
     /// </summary>
     public class SqlUnitOfWork : IUnitOfWork
     {
@@ -27,6 +27,9 @@ namespace DAL.Implementations.SqlServer
         private IDetallePedidoRepository _detallePedidoRepository;
         private IEstadoPedidoRepository _estadoPedidoRepository;
 
+        /// <summary>
+        /// Inicializa una instancia del Unit of Work configurando la conexi贸n SQL Server.
+        /// </summary>
         public SqlUnitOfWork()
         {
             _connectionString = ConfigurationManager.AppSettings["MiConexion"];
@@ -34,27 +37,51 @@ namespace DAL.Implementations.SqlServer
         }
 
         // Propiedades de repositorios con lazy loading
-        public IProductoRepository ProductoRepository => 
+        /// <summary>
+        /// Obtiene el repositorio de productos administrado por la unidad de trabajo.
+        /// </summary>
+        public IProductoRepository ProductoRepository =>
             _productoRepository ?? (_productoRepository = FactoryDAL.SqlProductoRepository);
 
-        public IStockRepository StockRepository => 
+        /// <summary>
+        /// Obtiene el repositorio de stock administrado por la unidad de trabajo.
+        /// </summary>
+        public IStockRepository StockRepository =>
             _stockRepository ?? (_stockRepository = FactoryDAL.SqlStockRepository);
 
-        public IProveedorRepository ProveedorRepository => 
+        /// <summary>
+        /// Obtiene el repositorio de proveedores administrado por la unidad de trabajo.
+        /// </summary>
+        public IProveedorRepository ProveedorRepository =>
             _proveedorRepository ?? (_proveedorRepository = FactoryDAL.SqlProveedorRepository);
 
-        public IPedidoRepository PedidoRepository => 
+        /// <summary>
+        /// Obtiene el repositorio de pedidos administrado por la unidad de trabajo.
+        /// </summary>
+        public IPedidoRepository PedidoRepository =>
             _pedidoRepository ?? (_pedidoRepository = FactoryDAL.SqlPedidoRepository);
 
-        public IClienteRepository ClienteRepository => 
+        /// <summary>
+        /// Obtiene el repositorio de clientes administrado por la unidad de trabajo.
+        /// </summary>
+        public IClienteRepository ClienteRepository =>
             _clienteRepository ?? (_clienteRepository = FactoryDAL.SqlClienteRepository);
 
-        public IDetallePedidoRepository DetallePedidoRepository => 
+        /// <summary>
+        /// Obtiene el repositorio de detalles de pedido administrado por la unidad de trabajo.
+        /// </summary>
+        public IDetallePedidoRepository DetallePedidoRepository =>
             _detallePedidoRepository ?? (_detallePedidoRepository = FactoryDAL.SqlDetallePedidoRepository);
 
-        public IEstadoPedidoRepository EstadoPedidoRepository => 
+        /// <summary>
+        /// Obtiene el repositorio de estados de pedido administrado por la unidad de trabajo.
+        /// </summary>
+        public IEstadoPedidoRepository EstadoPedidoRepository =>
             _estadoPedidoRepository ?? (_estadoPedidoRepository = FactoryDAL.SqlEstadoPedidoRepository);
 
+        /// <summary>
+        /// Inicia una transacci贸n sobre la conexi贸n subyacente.
+        /// </summary>
         public void BeginTransaction()
         {
             if (_connection.State != ConnectionState.Open)
@@ -64,6 +91,9 @@ namespace DAL.Implementations.SqlServer
             _transaction = _connection.BeginTransaction();
         }
 
+        /// <summary>
+        /// Confirma los cambios realizados durante la transacci贸n activa.
+        /// </summary>
         public void Commit()
         {
             try
@@ -82,6 +112,9 @@ namespace DAL.Implementations.SqlServer
             }
         }
 
+        /// <summary>
+        /// Revierte los cambios realizados en la transacci贸n activa.
+        /// </summary>
         public void Rollback()
         {
             try
@@ -95,10 +128,13 @@ namespace DAL.Implementations.SqlServer
             }
         }
 
+        /// <summary>
+        /// Persiste los cambios ejecutando un ciclo de transacci贸n impl铆cito si fuera necesario.
+        /// </summary>
         public void SaveChanges()
         {
-            // En este contexto, SaveChanges podr韆 hacer commit autom醫ico
-            // si no hay transacci髇 expl韈ita
+            // En este contexto, SaveChanges podr铆a hacer commit autom谩tico
+            // si no hay transacci贸n expl铆cita
             if (_transaction == null)
             {
                 BeginTransaction();
@@ -106,12 +142,19 @@ namespace DAL.Implementations.SqlServer
             }
         }
 
+        /// <summary>
+        /// Libera los recursos administrados por la unidad de trabajo.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Patr贸n de liberaci贸n de recursos para cerrar conexiones y transacciones.
+        /// </summary>
+        /// <param name="disposing">Indica si se liberan recursos administrados.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposed && disposing)
