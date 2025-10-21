@@ -18,16 +18,22 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
     {
         private readonly ProveedorService _proveedorService;
 
+        /// <summary>
+        /// Inicializa el listado de proveedores, carga datos y suscribe el formulario a cambios de idioma.
+        /// </summary>
         public MostrarProveedoresForm()
         {
             InitializeComponent();
             _proveedorService = new ProveedorService();
             CargarProveedores();
-            
+
             IdiomaService.Subscribe(this);
             IdiomaService.TranslateForm(this);
         }
 
+        /// <summary>
+        /// Recupera los proveedores del servicio y los muestra en la grilla.
+        /// </summary>
         private void CargarProveedores()
         {
             try
@@ -42,13 +48,23 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
         }
 
 
+        /// <summary>
+        /// Abre el formulario de creación y actualiza la lista al cerrarlo.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonCrearProveedor_Click(object sender, EventArgs e)
         {
             CrearProveedorForm crearForm = new CrearProveedorForm();
             crearForm.ShowDialog();
-            CargarProveedores();  
+            CargarProveedores();
         }
 
+        /// <summary>
+        /// Abre el formulario de modificación para el proveedor seleccionado.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonModificarProveedor_Click(object sender, EventArgs e)
         {
             if (dataGridViewProveedores.SelectedRows.Count > 0)
@@ -64,6 +80,11 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
             }
         }
 
+        /// <summary>
+        /// Elimina el proveedor seleccionado tras solicitar confirmación.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonEliminarProveedor_Click(object sender, EventArgs e)
         {
             if (dataGridViewProveedores.SelectedRows.Count > 0)
@@ -97,6 +118,11 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
             }
         }
 
+        /// <summary>
+        /// Maneja la eliminación desde el botón adicional confirmando y recargando la lista.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonEliminarProveedor_Click_1(object sender, EventArgs e)
         {
             if (dataGridViewProveedores.SelectedRows.Count > 0)
@@ -132,12 +158,19 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
             }
         }
 
+        /// <summary>
+        /// Retraduce el formulario cuando se modifica el idioma.
+        /// </summary>
         public void UpdateIdioma()
         {
             IdiomaService.TranslateForm(this);
             this.Refresh();
         }
 
+        /// <summary>
+        /// Cancela la suscripción al servicio de idioma al cerrar el formulario.
+        /// </summary>
+        /// <param name="e">Argumentos del evento.</param>
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
             IdiomaService.Unsubscribe(this);

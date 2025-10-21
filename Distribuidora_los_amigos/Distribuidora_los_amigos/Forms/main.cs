@@ -29,6 +29,9 @@ namespace Distribuidora_los_amigos
 {
     public partial class main : Form, IIdiomaObserver
     {
+        /// <summary>
+        /// Inicializa el formulario principal como contenedor MDI y registra el evento de cambio de tamaño.
+        /// </summary>
         public main()
         {
             InitializeComponent();
@@ -36,6 +39,11 @@ namespace Distribuidora_los_amigos
             this.SizeChanged += MainForm_SizeChanged;
         }
 
+        /// <summary>
+        /// Carga la sesión activa, aplica permisos, configura el idioma y traduce el formulario al iniciarse.
+        /// </summary>
+        /// <param name="sender">Origen del evento de carga.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void MainForm_Load(object sender, EventArgs e)
         {
             try
@@ -74,20 +82,40 @@ namespace Distribuidora_los_amigos
         }
 
 
+        /// <summary>
+        /// Placeholder para la opción de menú Category (sin implementación actual).
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void cATEGORYToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Placeholder para el clic en label1 (sin implementación actual).
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void label1_Click(object sender, EventArgs e)
         {
 
         }
+        /// <summary>
+        /// Traduce una clave de mensaje utilizando el servicio de idiomas.
+        /// </summary>
+        /// <param name="messageKey">Clave que se desea traducir.</param>
+        /// <returns>Cadena traducida para la clave indicada.</returns>
         private string TranslateMessageKey(string messageKey)
         {
             return IdiomaService.Translate(messageKey);
         }
 
+        /// <summary>
+        /// Maneja el cierre de sesión registrando la auditoría, limpiando la sesión y reiniciando la aplicación.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void btnCerrarSesion_Click(object sender, EventArgs e)
         {
             try
@@ -114,12 +142,20 @@ namespace Distribuidora_los_amigos
             }
         }
 
+        /// <summary>
+        /// Vuelve a traducir los textos del formulario principal cuando cambia el idioma.
+        /// </summary>
         public void UpdateIdioma()
         {
             IdiomaService.TranslateForm(this);
             this.Refresh();
         }
 
+        /// <summary>
+        /// Abre el formulario de creación de clientes como ventana hija MDI.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void CrearClienteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new CrearClienteForm();
@@ -130,6 +166,11 @@ namespace Distribuidora_los_amigos
             form.Show();
         }
 
+        /// <summary>
+        /// Muestra el formulario de listado de clientes reutilizando instancias abiertas cuando es posible.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void mostrarClientesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Verificar si ya existe una instancia abierta
@@ -151,6 +192,11 @@ namespace Distribuidora_los_amigos
             clientesForm.Show();
         }
 
+        /// <summary>
+        /// Abre el formulario para crear un nuevo usuario dentro del contenedor MDI.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void btnCrearUsuario_Click(object sender, EventArgs e)
         {
             var form = new CrearUsuarioForm();
@@ -161,6 +207,11 @@ namespace Distribuidora_los_amigos
             form.Show();
         }
 
+        /// <summary>
+        /// Muestra el formulario de administración de usuarios evitando duplicar ventanas abiertas.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void notepadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (Form form in this.MdiChildren)
@@ -178,6 +229,11 @@ namespace Distribuidora_los_amigos
 
         }
 
+        /// <summary>
+        /// Abre el formulario para asignar roles a los usuarios.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void AsignarRolToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new AsignarRolForm();
@@ -188,6 +244,11 @@ namespace Distribuidora_los_amigos
             form.Show();
         }
 
+        /// <summary>
+        /// Presenta el formulario para habilitar o deshabilitar usuarios.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void taskManagerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new ModificarUsuarioForm();
@@ -198,6 +259,11 @@ namespace Distribuidora_los_amigos
             form.Show();
         }
 
+        /// <summary>
+        /// Lanza el formulario de creación de roles en el área MDI.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void crearRolToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new CrearRolForm();
@@ -208,6 +274,9 @@ namespace Distribuidora_los_amigos
             form.Show();
         }
 
+        /// <summary>
+        /// Configura la lista de idiomas disponibles y selecciona el idioma persistido para el usuario.
+        /// </summary>
         private void InicializadorDeIdioma()
         {
             listBox1.Items.AddRange(new string[] { "Español", "Inglés", "Portugués" });
@@ -226,12 +295,22 @@ namespace Distribuidora_los_amigos
             listBox1.SelectedItem = reverseLanguageMap.ContainsKey(currentLanguage) ? reverseLanguageMap[currentLanguage] : "Inglés";
         }
 
+        /// <summary>
+        /// Abre el cuadro de diálogo de creación de roles como ventana independiente.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void crearToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new CrearRolForm();
             form.Show();
         }
 
+        /// <summary>
+        /// Inicia el formulario para crear productos dentro del contenedor MDI.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void addItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new CrearProductoForm();
@@ -242,6 +321,11 @@ namespace Distribuidora_los_amigos
             form.Show();
         }
 
+        /// <summary>
+        /// Muestra el listado de productos y reutiliza una instancia abierta si ya existe.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void vERPRODUCTOSToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (Form form in this.MdiChildren)
@@ -258,6 +342,11 @@ namespace Distribuidora_los_amigos
             usuariosForm.Show();
         }
 
+        /// <summary>
+        /// Abre el formulario para modificar productos dentro del espacio MDI.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void mODIFICARToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new ModificarProductoForm();
@@ -268,6 +357,11 @@ namespace Distribuidora_los_amigos
             form.Show();
         }
 
+        /// <summary>
+        /// Despliega la pantalla de stock como formulario hijo maximizado.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void mostrarStockStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new MostrarStockForm();
@@ -278,6 +372,11 @@ namespace Distribuidora_los_amigos
             form.Show();
         }
 
+        /// <summary>
+        /// Abre el listado de proveedores evitando crear más de una instancia visible.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void mostrarProveedoresToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Verificar si ya existe una instancia abierta
@@ -299,12 +398,22 @@ namespace Distribuidora_los_amigos
             proveedoresForm.Show();
         }
 
+        /// <summary>
+        /// Muestra el diálogo para crear un nuevo proveedor.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void crearProveedorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new CrearProveedorForm(); // ✅ Corregido
             form.Show();
         }
 
+        /// <summary>
+        /// Presenta la pantalla de modificación de proveedores integrada al MDI.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void modificarProveedorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new ModificarProveedorForm();
@@ -315,6 +424,11 @@ namespace Distribuidora_los_amigos
             form.Show();
         }
 
+        /// <summary>
+        /// Abre el formulario para crear pedidos dentro del contenedor MDI.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void CREARPEDIDOToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new CrearPedidoForm();
@@ -325,6 +439,11 @@ namespace Distribuidora_los_amigos
             form.Show();
         }
 
+        /// <summary>
+        /// Muestra el listado de pedidos y reutiliza instancias ya cargadas cuando corresponde.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void mOSTRARPEDIDOSToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (Form form in this.MdiChildren)
@@ -349,6 +468,11 @@ namespace Distribuidora_los_amigos
             pedidosForm.Show();
         }
 
+        /// <summary>
+        /// Mantiene las ventanas hijas ajustadas al tamaño del formulario principal.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void MainForm_SizeChanged(object sender, EventArgs e)
         {
             foreach (Form form in this.MdiChildren)
@@ -358,11 +482,21 @@ namespace Distribuidora_los_amigos
             }
         }
 
+        /// <summary>
+        /// Placeholder para el menú Tools (sin implementación asociada).
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void tOOLSToolStripMenuItem1_Click(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Actualiza y persiste el idioma de la interfaz cuando el usuario selecciona una opción distinta.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listBox1.SelectedItem == null) return;
@@ -392,6 +526,11 @@ namespace Distribuidora_los_amigos
             // No es necesario hacerlo manualmente ya que IdiomaService.SaveUserLanguage debería notificar
         }
 
+        /// <summary>
+        /// Abre el formulario de generación de backups manejando errores de inicialización.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void generarBackupToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try

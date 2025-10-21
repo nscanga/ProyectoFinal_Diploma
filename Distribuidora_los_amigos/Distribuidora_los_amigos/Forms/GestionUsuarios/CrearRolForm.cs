@@ -15,6 +15,9 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
 {
     public partial class CrearRolForm : Form
     {
+        /// <summary>
+        /// Inicializa el formulario de creación de roles y configura eventos auxiliares.
+        /// </summary>
         public CrearRolForm()
         {
             InitializeComponent();
@@ -24,6 +27,11 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             this.KeyDown += CrearRolForm_KeyDown;
         }
 
+        /// <summary>
+        /// Traduce la interfaz y carga las patentes disponibles al iniciar el formulario.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void CrearRolForm_Load(object sender, EventArgs e)
         {
             LoggerService.WriteLog($"Formulario '{this.Text}' abierto.", System.Diagnostics.TraceLevel.Info);
@@ -45,12 +53,22 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             }
         }
 
+        /// <summary>
+        /// Registra el cierre del formulario de roles.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento de cierre.</param>
         private void CrearRolForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             // Registrar el cierre del formulario
             LoggerService.WriteLog($"Formulario '{this.Text}' cerrado.", System.Diagnostics.TraceLevel.Info);
         }
 
+        /// <summary>
+        /// Valida la selección de patentes y crea una nueva familia de permisos.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonCreateRole_Click(object sender, EventArgs e)
         {
             // Recopilar el nombre de la familia desde la UI
@@ -108,11 +126,21 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             }
         }
 
+        /// <summary>
+        /// Traduce la clave indicada utilizando el servicio de idiomas.
+        /// </summary>
+        /// <param name="messageKey">Clave a traducir.</param>
+        /// <returns>Mensaje localizado.</returns>
         private string TranslateMessageKey(string messageKey)
         {
             return IdiomaService.Translate(messageKey);
         }
 
+        /// <summary>
+        /// Muestra la ayuda contextual del formulario al presionar F1.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void CrearRolForm_KeyDown(object sender, KeyEventArgs e)
         {
             try

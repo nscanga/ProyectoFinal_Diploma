@@ -15,6 +15,9 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
 {
     public partial class CrearPatenteForm : Form
     {
+        /// <summary>
+        /// Inicializa el formulario de creación de patentes configurando eventos básicos.
+        /// </summary>
         public CrearPatenteForm()
         {
             InitializeComponent();
@@ -23,6 +26,11 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             this.KeyDown += CrearPatenteForm_KeyDown;
         }
 
+        /// <summary>
+        /// Traduce la interfaz y llena el combo con los tipos de acceso disponibles.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void CrearPatenteForm_Load(object sender, EventArgs e)
         {
             try
@@ -41,6 +49,11 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             }
         }
 
+        /// <summary>
+        /// Valida los datos ingresados y crea una nueva patente mediante el servicio de usuarios.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonSave_Click(object sender, EventArgs e)
         {
             // Validar los campos
@@ -85,11 +98,21 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             }
         }
 
+        /// <summary>
+        /// Traduce la clave recibida utilizando el servicio de idiomas.
+        /// </summary>
+        /// <param name="messageKey">Clave a traducir.</param>
+        /// <returns>Mensaje traducido.</returns>
         private string TranslateMessageKey(string messageKey)
         {
             return IdiomaService.Translate(messageKey);
         }
 
+        /// <summary>
+        /// Habilita la ayuda contextual del formulario al presionar F1.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void CrearPatenteForm_KeyDown(object sender, KeyEventArgs e)
         {
             try

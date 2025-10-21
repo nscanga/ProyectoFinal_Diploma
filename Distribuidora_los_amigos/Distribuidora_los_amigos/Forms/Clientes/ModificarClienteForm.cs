@@ -17,6 +17,10 @@ namespace Distribuidora_los_amigos.Forms.Clientes
         private readonly ClienteService _clienteService;
         private Cliente _cliente;
 
+        /// <summary>
+        /// Inicializa el formulario de edición cargando el cliente a modificar.
+        /// </summary>
+        /// <param name="cliente">Cliente que se editará.</param>
         public ModificarClienteForm(Cliente cliente)
         {
             InitializeComponent();
@@ -36,6 +40,11 @@ namespace Distribuidora_los_amigos.Forms.Clientes
 
         
 
+        /// <summary>
+        /// Guarda los cambios realizados sobre el cliente en edición.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonGuardarCliente_Click(object sender, EventArgs e)
         {
             try

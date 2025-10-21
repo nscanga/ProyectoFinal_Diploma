@@ -15,6 +15,9 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
 {
     public partial class AsignarRolForm : Form
     {
+        /// <summary>
+        /// Inicializa el formulario de asignación de roles configurando eventos y posición.
+        /// </summary>
         public AsignarRolForm()
         {
             InitializeComponent();
@@ -24,6 +27,11 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             this.KeyDown += AsignarRolForm_KeyDown;
         }
 
+        /// <summary>
+        /// Traduce el formulario y carga usuarios y familias para su selección.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void AsignarRolForm_Load(object sender, EventArgs e)
         {
             try
@@ -57,12 +65,22 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             }
         }
 
+        /// <summary>
+        /// Registra el cierre del formulario de asignación de roles.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento de cierre.</param>
         private void AsignarRolForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             // Registrar el cierre del formulario
             LoggerService.WriteLog($"Formulario '{this.Text}' cerrado.", System.Diagnostics.TraceLevel.Info);
         }
 
+        /// <summary>
+        /// Valida las selecciones y asigna la familia elegida al usuario seleccionado.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonAssignRole_Click(object sender, EventArgs e)
         {
             Usuario usuarioSeleccionado = (Usuario)comboBoxUsers.SelectedItem;
@@ -110,11 +128,21 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
 
         }
 
+        /// <summary>
+        /// Traduce claves de mensaje usando el servicio de idiomas.
+        /// </summary>
+        /// <param name="messageKey">Clave a traducir.</param>
+        /// <returns>Mensaje traducido.</returns>
         private string TranslateMessageKey(string messageKey)
         {
             return IdiomaService.Translate(messageKey);
         }
 
+        /// <summary>
+        /// Muestra la ayuda del formulario cuando se presiona F1.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void AsignarRolForm_KeyDown(object sender, KeyEventArgs e)
         {
             try

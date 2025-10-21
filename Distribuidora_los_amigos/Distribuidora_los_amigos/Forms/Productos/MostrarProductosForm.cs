@@ -18,6 +18,9 @@ namespace Distribuidora_los_amigos.Forms.Productos
         private Producto    
             _producto;
 
+        /// <summary>
+        /// Inicializa el listado de productos y registra el evento de carga.
+        /// </summary>
         public MostrarProductosForm()
         {
             InitializeComponent();
@@ -25,15 +28,27 @@ namespace Distribuidora_los_amigos.Forms.Productos
             this.Load += MostrarProductosForm_Load;
         }
 
+        /// <summary>
+        /// Constructor auxiliar para mostrar productos desde una selección de stock.
+        /// </summary>
+        /// <param name="stockSeleccionado">Stock desde el que se abrió el listado.</param>
         public MostrarProductosForm(Stock stockSeleccionado)
         {
         }
 
+        /// <summary>
+        /// Carga los productos al inicializarse el formulario.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void MostrarProductosForm_Load(object sender, EventArgs e)
         {
             CargarProductos();
         }
 
+        /// <summary>
+        /// Obtiene los productos desde el servicio y los muestra en la grilla.
+        /// </summary>
         private void CargarProductos()
         {
             try
@@ -47,6 +62,11 @@ namespace Distribuidora_los_amigos.Forms.Productos
             }
         }
 
+        /// <summary>
+        /// Abre el formulario de creación de producto y recarga la lista al finalizar.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonCrearProducto2_Click(object sender, EventArgs e)
         {
             CrearProductoForm formCrear = new CrearProductoForm();
@@ -54,6 +74,11 @@ namespace Distribuidora_los_amigos.Forms.Productos
             CargarProductos(); // Refresca la lista después de crear
         }
 
+        /// <summary>
+        /// Abre el formulario de modificación para el producto seleccionado.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonModificarProducto2_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count > 0)
@@ -69,6 +94,11 @@ namespace Distribuidora_los_amigos.Forms.Productos
             }
         }
 
+        /// <summary>
+        /// Elimina el producto seleccionado previa confirmación del usuario.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void button1_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count > 0)
@@ -97,6 +127,11 @@ namespace Distribuidora_los_amigos.Forms.Productos
             }
         }
 
+        /// <summary>
+        /// Recarga manualmente el listado de productos.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonActualizarProducto_Click(object sender, EventArgs e)
         {
             CargarProductos();

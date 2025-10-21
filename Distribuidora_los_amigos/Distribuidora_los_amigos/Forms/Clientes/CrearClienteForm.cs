@@ -18,6 +18,9 @@ namespace Distribuidora_los_amigos.Forms.Clientes
         private readonly ClienteService _clienteService;
 
 
+        /// <summary>
+        /// Inicializa el formulario de creación de clientes y prepara el servicio asociado.
+        /// </summary>
         public CrearClienteForm()
         {
             InitializeComponent();
@@ -25,6 +28,11 @@ namespace Distribuidora_los_amigos.Forms.Clientes
             _clienteService = new ClienteService();
         }
 
+        /// <summary>
+        /// Valida los datos ingresados y registra un nuevo cliente en el sistema.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonGuardarCliente_Click(object sender, EventArgs e)
         {
             try

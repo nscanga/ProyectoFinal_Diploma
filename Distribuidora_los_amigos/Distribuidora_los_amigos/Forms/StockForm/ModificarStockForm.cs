@@ -18,6 +18,10 @@ namespace Distribuidora_los_amigos.Forms.StockForm
         private readonly StockService _stockService;
         private Stock _stock;
 
+        /// <summary>
+        /// Inicializa el formulario para editar un registro de stock existente.
+        /// </summary>
+        /// <param name="stock">Stock que se modificará.</param>
         public ModificarStockForm(Stock stock)
         {
             InitializeComponent();
@@ -29,6 +33,11 @@ namespace Distribuidora_los_amigos.Forms.StockForm
             comboBoxTipoStock.Text = _stock.Tipo;
         }
 
+        /// <summary>
+        /// Valida y guarda la nueva cantidad de stock para el producto.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void btnGuardarProducto_Click(object sender, EventArgs e)
         {
             try

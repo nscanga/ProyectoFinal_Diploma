@@ -17,10 +17,17 @@ namespace Distribuidora_los_amigos.Forms.Productos
         private readonly ProductoService _productoService;
         private Producto _producto;
 
+        /// <summary>
+        /// Constructor por defecto requerido por el diseñador.
+        /// </summary>
         public ModificarProductoForm()
         {
         }
 
+        /// <summary>
+        /// Inicializa el formulario cargando los datos del producto a modificar.
+        /// </summary>
+        /// <param name="producto">Producto seleccionado para edición.</param>
         public ModificarProductoForm(Producto producto)
         {
             InitializeComponent();
@@ -46,6 +53,11 @@ namespace Distribuidora_los_amigos.Forms.Productos
             }
         }
 
+        /// <summary>
+        /// Valida la información ingresada y actualiza el producto en la base de datos.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void btnGuardarProducto_Click(object sender, EventArgs e)
         {
             try
@@ -93,6 +105,11 @@ namespace Distribuidora_los_amigos.Forms.Productos
             }
         }
 
+        /// <summary>
+        /// Placeholder del evento Load para futuras inicializaciones.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void ModificarProductoForm_Load(object sender, EventArgs e)
         {
 

@@ -17,6 +17,9 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
 {
     public partial class ModificarUsuarioForm : Form
     {
+        /// <summary>
+        /// Inicializa el formulario de administración de usuarios estableciendo eventos y título.
+        /// </summary>
         public ModificarUsuarioForm()
         {
             InitializeComponent();
@@ -27,6 +30,11 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             this.KeyDown += ModificarUsuarioForm_KeyDown;
         }
 
+        /// <summary>
+        /// Traduce el formulario y carga los usuarios disponibles al momento de abrir la vista.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void ModificarUsuarioForm_Load(object sender, EventArgs e)
         {
             LoggerService.WriteLog($"Formulario '{this.Text}' abierto.", System.Diagnostics.TraceLevel.Info);
@@ -49,12 +57,22 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             }
         }
 
+        /// <summary>
+        /// Registra el cierre del formulario de modificación de usuarios.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento de cierre.</param>
         private void ModificarUsuarioForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             // Registrar el cierre del formulario
             LoggerService.WriteLog($"Formulario '{this.Text}' cerrado.", System.Diagnostics.TraceLevel.Info);
         }
 
+        /// <summary>
+        /// Confirma con el usuario y habilita la cuenta seleccionada.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonEnable_Click(object sender, EventArgs e)
         {
             try
@@ -107,6 +125,11 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             }
         }
 
+        /// <summary>
+        /// Solicita confirmación y deshabilita el usuario elegido.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonDisable_Click(object sender, EventArgs e)
         {
             try
@@ -153,11 +176,21 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             }
 
         }
+        /// <summary>
+        /// Traduce una clave textual utilizando el servicio de idiomas.
+        /// </summary>
+        /// <param name="messageKey">Clave a traducir.</param>
+        /// <returns>Mensaje traducido.</returns>
         private string TranslateMessageKey(string messageKey)
         {
             return IdiomaService.Translate(messageKey);
         }
 
+        /// <summary>
+        /// Abre la ayuda del formulario cuando el usuario presiona F1.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void ModificarUsuarioForm_KeyDown(object sender, KeyEventArgs e)
         {
             try

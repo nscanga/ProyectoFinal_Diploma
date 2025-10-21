@@ -18,6 +18,9 @@ namespace Distribuidora_los_amigos.Forms.StockForm
     {
         private readonly StockService _stockService;
         
+        /// <summary>
+        /// Inicializa el formulario de stock configurando servicios y eventos de carga.
+        /// </summary>
         public MostrarStockForm()
         {
             InitializeComponent();
@@ -26,12 +29,20 @@ namespace Distribuidora_los_amigos.Forms.StockForm
             this.Load += MostrarStockForm_Load;
         }
 
+        /// <summary>
+        /// Carga el listado de stock y ajusta la grilla al iniciar el formulario.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void MostrarStockForm_Load(object sender, EventArgs e)
         {
             CargarStock();
             ConfigurarDataGridView();
         }
 
+        /// <summary>
+        /// Configura visibilidad, encabezados y formato de columnas para el grid de stock.
+        /// </summary>
         private void ConfigurarDataGridView()
         {
             // Ocultar las columnas de IDs que no son amigables para el usuario
@@ -87,6 +98,9 @@ namespace Distribuidora_los_amigos.Forms.StockForm
             dataGridViewStock.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
+        /// <summary>
+        /// Obtiene el stock con detalles de producto y lo vincula a la grilla.
+        /// </summary>
         private void CargarStock()
         {
             try
@@ -104,6 +118,11 @@ namespace Distribuidora_los_amigos.Forms.StockForm
             }
         }
 
+        /// <summary>
+        /// Abre el formulario de modificación para el stock seleccionado.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonModificarStock_Click(object sender, EventArgs e)
         {
             if (dataGridViewStock.SelectedRows.Count > 0)
@@ -131,6 +150,11 @@ namespace Distribuidora_los_amigos.Forms.StockForm
             }
         }
 
+        /// <summary>
+        /// Elimina el registro de stock seleccionado tras confirmación del usuario.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void Eliminar_Click(object sender, EventArgs e)
         {
             if (dataGridViewStock.SelectedRows.Count > 0)
@@ -174,6 +198,11 @@ namespace Distribuidora_los_amigos.Forms.StockForm
             }
         }
 
+        /// <summary>
+        /// Refresca la lista de stock obteniendo la información nuevamente del servicio.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonActualizarProducto_Click(object sender, EventArgs e)
         {
             CargarStock();

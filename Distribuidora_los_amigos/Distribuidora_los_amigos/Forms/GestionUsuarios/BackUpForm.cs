@@ -9,12 +9,20 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
 {
     public partial class BackUpForm : Form
     {
+        /// <summary>
+        /// Inicializa el formulario de backups y registra el evento de carga.
+        /// </summary>
         public BackUpForm()
         {
             InitializeComponent();
             this.Load += BackUpForm_Load;
         }
 
+        /// <summary>
+        /// Conecta el botón principal a la lógica de creación de backups.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void BackUpForm_Load(object sender, EventArgs e)
         {
             try
@@ -29,6 +37,11 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             }
         }
 
+        /// <summary>
+        /// Ejecuta el flujo de selección de carpeta y generación de backup mostrando retroalimentación al usuario.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void Button1_Click(object sender, EventArgs e)
         {
             try

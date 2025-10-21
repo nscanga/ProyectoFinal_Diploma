@@ -17,6 +17,9 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
 {
     public partial class CrearUsuarioForm : Form
     {
+        /// <summary>
+        /// Inicializa el formulario de creación de usuarios y configura eventos auxiliares.
+        /// </summary>
         public CrearUsuarioForm()
         {
             InitializeComponent();
@@ -26,6 +29,11 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             this.KeyDown += CrearUsuarioForm_KeyDown;
         }
 
+        /// <summary>
+        /// Valida los campos obligatorios y registra un nuevo usuario mediante el servicio correspondiente.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonCreateUser_Click(object sender, EventArgs e)
         {
             string username = textBoxUserName.Text;
@@ -78,17 +86,32 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             textBoxEmail.Clear();
         }
 
+        /// <summary>
+        /// Traduce la clave de mensaje utilizando el servicio de idiomas.
+        /// </summary>
+        /// <param name="messageKey">Clave a traducir.</param>
+        /// <returns>Mensaje traducido.</returns>
         private string TranslateMessageKey(string messageKey)
         {
             return IdiomaService.Translate(messageKey);
         }
 
+        /// <summary>
+        /// Registra el cierre del formulario para auditoría.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento de cierre.</param>
         private void CrearUsuarioForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             // Registrar el cierre del formulario
             LoggerService.WriteLog($"Formulario '{this.Text}' cerrado.", System.Diagnostics.TraceLevel.Info);
         }
 
+        /// <summary>
+        /// Muestra la ayuda del formulario cuando se presiona F1.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void CrearUsuarioForm_KeyDown(object sender, KeyEventArgs e)
         {
             try

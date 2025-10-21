@@ -20,6 +20,9 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
         private ComboBox comboBoxCambiarEstado;
         private Button buttonCambiarEstado;
 
+        /// <summary>
+        /// Inicializa el formulario de listado de pedidos configurando servicios y controles auxiliares.
+        /// </summary>
         public MostrarPedidosForm()
         {
             InitializeComponent();
@@ -38,6 +41,9 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
         }
 
         // 🆕 Método para inicializar los controles personalizados
+        /// <summary>
+        /// Crea los controles dinámicos para cambiar el estado desde la grilla.
+        /// </summary>
         private void InitializeCustomControls()
         {
             // Crear ComboBox para cambiar estado
@@ -65,6 +71,11 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             this.Controls.Add(buttonCambiarEstado);
         }
 
+        /// <summary>
+        /// Configura el formulario como MDI child y carga pedidos y estados disponibles.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void MostrarPedidosForm_Load_1(object sender, EventArgs e)
         {
             if (this.MdiParent != null)
@@ -72,12 +83,15 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
                 this.WindowState = FormWindowState.Maximized;
                 this.Dock = DockStyle.Fill;
             }
-            
+
             ConfigurarDataGridView(); // 🆕 Configurar el grid antes de cargar datos
             CargarPedidos();
             CargarEstadosEnCombo(); // 🆕 Cargar estados al iniciar
         }
 
+        /// <summary>
+        /// Recupera los pedidos y los enriquece con información adicional para mostrarlos en la grilla.
+        /// </summary>
         private void CargarPedidos()
         {
             try
@@ -123,6 +137,10 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
         }
 
         // 🆕 Método para mostrar información adicional
+        /// <summary>
+        /// Actualiza el indicador visual con la cantidad total de pedidos cargados.
+        /// </summary>
+        /// <param name="total">Número de pedidos encontrados.</param>
         private void ActualizarContadorPedidos(int total)
         {
             // Asumiendo que tienes un Label llamado lblContadorPedidos en el formulario
@@ -133,6 +151,11 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             }
         }
 
+        /// <summary>
+        /// Abre el formulario de creación de pedidos y recarga la lista al finalizar.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonCrearPedido_Click_1(object sender, EventArgs e)
         {
             CrearPedidoForm crearPedidoForm = new CrearPedidoForm();
@@ -155,6 +178,11 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
         //    }
         //}
 
+        /// <summary>
+        /// Elimina el pedido seleccionado tras solicitar confirmación.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonEliminarPedido_Click_1(object sender, EventArgs e)
         {
             if (dataGridViewPedidos.SelectedRows.Count > 0)
@@ -177,6 +205,11 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             }
         }
 
+        /// <summary>
+        /// Abre el detalle del pedido seleccionado en un diálogo modal.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonVerDetalle_Click(object sender, EventArgs e)
         {
             if (dataGridViewPedidos.SelectedRows.Count > 0)
@@ -206,6 +239,11 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             }
         }
 
+        /// <summary>
+        /// Abre el formulario de modificación para el pedido seleccionado.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonModificarPedido_Click(object sender, EventArgs e)
         {
             if (dataGridViewPedidos.SelectedRows.Count > 0)
@@ -234,12 +272,20 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             }
         }
 
+        /// <summary>
+        /// Placeholder para actualizar manualmente el listado de pedidos.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonActualizarPedido_Click(object sender, EventArgs e)
         {
 
         }
 
         // 🆕 Método para configurar las columnas del DataGridView
+        /// <summary>
+        /// Define las columnas y estilos del grid principal de pedidos.
+        /// </summary>
         private void ConfigurarDataGridView()
         {
             dataGridViewPedidos.AutoGenerateColumns = false;
@@ -312,6 +358,11 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
         }
 
         // 🆕 Método para cambiar estado directamente
+        /// <summary>
+        /// Cambia el estado del pedido seleccionado validando la elección en el combo.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonCambiarEstado_Click(object sender, EventArgs e)
         {
             if (dataGridViewPedidos.SelectedRows.Count == 0)
@@ -378,6 +429,9 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
         }
 
         // 🆕 Cargar estados en el ComboBox
+        /// <summary>
+        /// Pobla el combo auxiliar con los estados disponibles para el cambio rápido.
+        /// </summary>
         private void CargarEstadosEnCombo()
         {
             comboBoxCambiarEstado.DataSource = _pedidoService.ObtenerEstadosPedido();

@@ -18,6 +18,10 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
         private readonly ProductoService _productoService;
         private readonly PdfService _pdfService; // 🆕 Agregar PdfService
 
+        /// <summary>
+        /// Inicializa la vista de detalle de pedido configurando servicios y controles.
+        /// </summary>
+        /// <param name="pedido">Pedido seleccionado cuyos detalles se mostrarán.</param>
         public MostrarDetallePedidoForm(Pedido pedido)
         {
             InitializeComponent();
@@ -26,13 +30,16 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             _productoService = new ProductoService();
             _pdfService = new PdfService(); // 🆕 Inicializar PdfService
             _pedidoSeleccionado = pedido;
-            
+
             ConfigurarDataGridView();
             CargarDetallesPedido();
             ConfigurarBotonPdf(); // 🆕 Configurar botón PDF
         }
 
         // 🆕 Configurar visibilidad del botón PDF según el estado
+        /// <summary>
+        /// Crea y muestra el botón para generar PDF cuando el pedido está entregado.
+        /// </summary>
         private void ConfigurarBotonPdf()
         {
             // Obtener el estado del pedido
@@ -76,6 +83,11 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
         }
 
         // 🆕 Evento del botón Generar PDF
+        /// <summary>
+        /// Genera el comprobante en PDF del pedido y ofrece abrirlo al finalizar.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void ButtonGenerarPdf_Click(object sender, EventArgs e)
         {
             try
@@ -116,6 +128,9 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
         }
 
         // 🆕 Configurar las columnas del DataGridView para mejor UX
+        /// <summary>
+        /// Configura las columnas visibles y estilos del grid de detalles de pedido.
+        /// </summary>
         private void ConfigurarDataGridView()
         {
             dataGridViewDetallePedido.AutoGenerateColumns = false;
@@ -203,6 +218,9 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             dataGridViewDetallePedido.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240);
         }
 
+        /// <summary>
+        /// Obtiene los detalles del pedido, los enriquece con datos de producto y los muestra en la grilla.
+        /// </summary>
         private void CargarDetallesPedido()
         {
             if (_pedidoSeleccionado == null)
@@ -242,11 +260,21 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             dataGridViewDetallePedido.DataSource = detallesEnriquecidos;
         }
 
+        /// <summary>
+        /// Cierra el formulario cuando se presiona el botón cerrar del encabezado.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void btnCerrar_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// Maneja el botón secundario de cierre del formulario.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonCerrar_Click(object sender, EventArgs e)
         {
             this.Close();

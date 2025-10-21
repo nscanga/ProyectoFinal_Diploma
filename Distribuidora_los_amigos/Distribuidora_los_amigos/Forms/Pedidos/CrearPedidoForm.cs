@@ -21,6 +21,9 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
         private List<DetallePedido> _detallePedidoList;
         private List<DetallePedidoDTO> _detallePedidoDTOList;
 
+        /// <summary>
+        /// Inicializa el formulario de creación de pedidos cargando servicios, catálogos y eventos.
+        /// </summary>
         public CrearPedidoForm()
         {
             InitializeComponent();
@@ -40,6 +43,9 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             ConfigurarDataGridViews();
         }
 
+        /// <summary>
+        /// Configura el comportamiento de los DataGridView utilizados en la selección y detalle de productos.
+        /// </summary>
         private void ConfigurarDataGridViews()
         {
             // 🆕 CONFIGURAR SCROLL Y AJUSTE AUTOMÁTICO para DataGridView de productos
@@ -85,6 +91,11 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
         }
 
         // 🆕 NUEVO MÉTODO: Manejar redimensionamiento del formulario
+        /// <summary>
+        /// Ajusta dinámicamente los tamaños de los grids al modificar el tamaño de la ventana.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void CrearPedidoForm_Resize(object sender, EventArgs e)
         {
             // Calcular nuevo ancho para los DataGridViews cuando se redimensiona la ventana
@@ -106,6 +117,9 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             }
         }
 
+        /// <summary>
+        /// Obtiene los clientes y los asigna al combo de selección.
+        /// </summary>
         private void CargarClientes()
         {
             comboBoxSeleccionCliente.DataSource = _clienteService.ObtenerTodosClientes();
@@ -113,6 +127,9 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             comboBoxSeleccionCliente.ValueMember = "IdCliente";
         }
 
+        /// <summary>
+        /// Carga la lista de productos disponibles desde el servicio y la muestra en la grilla.
+        /// </summary>
         private void CargarProductos()
         {
             try
@@ -127,6 +144,9 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             }
         }
 
+        /// <summary>
+        /// Rellena el combo de estados con los valores disponibles en el servicio.
+        /// </summary>
         private void CargarEstadosPedido()
         {
             comboBoxEstadoPedido.DataSource = _pedidoService.ObtenerEstadosPedido();
@@ -134,6 +154,11 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             comboBoxEstadoPedido.ValueMember = "IdEstadoPedido";
         }
 
+        /// <summary>
+        /// Agrega el producto seleccionado al detalle del pedido validando stock y cantidades.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonAgregarProducto_Click_1(object sender, EventArgs e)
         {
             if (dataGridViewProductos.SelectedRows.Count > 0)
@@ -214,15 +239,21 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             }
         }
 
+        /// <summary>
+        /// Refresca la grilla de detalles y recalcula el total del pedido.
+        /// </summary>
         private void ActualizarListaProductosPedido()
         {
             dataGridViewDetallePedido.DataSource = null;
             dataGridViewDetallePedido.DataSource = _detallePedidoDTOList;
-            
+
             ConfigurarDataGridViewDetalles();
             ActualizarTotalPedido();
         }
 
+        /// <summary>
+        /// Ajusta la visibilidad y formato de las columnas en el detalle del pedido.
+        /// </summary>
         private void ConfigurarDataGridViewDetalles()
         {
             if (dataGridViewDetallePedido.Columns.Count > 0)
@@ -277,12 +308,20 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             }
         }
 
+        /// <summary>
+        /// Calcula el total acumulado del pedido para depuración y totales.
+        /// </summary>
         private void ActualizarTotalPedido()
         {
             decimal total = _detallePedidoList.Sum(d => d.Subtotal);
             Console.WriteLine($"Total del pedido: {total:C2}");
         }
 
+        /// <summary>
+        /// Valida la información ingresada y persiste el nuevo pedido con sus detalles.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonGuardarPedido_Click_1(object sender, EventArgs e)
         {
             try
@@ -325,6 +364,11 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             }
         }
 
+        /// <summary>
+        /// Placeholder para reaccionar a cambios del estado seleccionado del pedido.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void comboBoxEstadoPedido_SelectedIndexChanged(object sender, EventArgs e)
         {
 
