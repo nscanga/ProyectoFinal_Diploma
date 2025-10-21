@@ -17,6 +17,9 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
 {
     public partial class MostrarUsuariosForm : Form
     {
+        /// <summary>
+        /// Inicializa el formulario de usuarios configurando la grilla y eventos principales.
+        /// </summary>
         public MostrarUsuariosForm()
         {
             InitializeComponent();
@@ -27,6 +30,9 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             this.KeyDown += MostrarUsuariosForm_KeyDown;
         }
 
+        /// <summary>
+        /// Configura las columnas del grid con los encabezados traducidos y las propiedades necesarias.
+        /// </summary>
         private void ConfigureGridColumns()
         {
             // Crear y configurar las columnas
@@ -68,6 +74,11 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             sfDataGrid.Columns.Add(gridTextColumn4);
         }
 
+        /// <summary>
+        /// Traduce la interfaz y carga los usuarios con sus familias y patentes.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void MostrarUsuariosForm_Load(object sender, EventArgs e)
         {
             LoggerService.WriteLog($"Formulario '{this.Text}' abierto.", System.Diagnostics.TraceLevel.Info);
@@ -105,16 +116,31 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             }
         }
 
+        /// <summary>
+        /// Registra el cierre del formulario para auditoría.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento de cierre.</param>
         private void MostrarUsuariosForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             // Registrar cuando el formulario se cierra
             LoggerService.WriteLog($"Formulario '{this.Text}' cerrado.", System.Diagnostics.TraceLevel.Info);
         }
 
+        /// <summary>
+        /// Traduce una clave textual usando el servicio de idiomas.
+        /// </summary>
+        /// <param name="messageKey">Clave a traducir.</param>
+        /// <returns>Cadena traducida.</returns>
         private string TranslateMessageKey(string messageKey)
         {
             return IdiomaService.Translate(messageKey);
         }
+        /// <summary>
+        /// Abre la ayuda del formulario cuando se presiona F1.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void MostrarUsuariosForm_KeyDown(object sender, KeyEventArgs e)
         {
             try

@@ -12,6 +12,9 @@ namespace Distribuidora_los_amigos.Forms.Productos
 {
     public partial class EliminarProductoForm : Form
     {
+        /// <summary>
+        /// Constructor por defecto del formulario de eliminación de productos.
+        /// </summary>
         public EliminarProductoForm()
         {
             InitializeComponent();

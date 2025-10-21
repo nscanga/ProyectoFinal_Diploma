@@ -21,6 +21,9 @@ namespace Distribuidora_los_amigos
 
     public partial class LoginForm : Form , IIdiomaObserver // Implemento la interface del observer
     {
+        /// <summary>
+        /// Inicializa el formulario de inicio de sesión configurando eventos y posición inicial.
+        /// </summary>
         public LoginForm()
         {
             InitializeComponent();
@@ -30,6 +33,11 @@ namespace Distribuidora_los_amigos
             this.StartPosition = FormStartPosition.CenterScreen;
         }
 
+        /// <summary>
+        /// Configura la suscripción a idiomas, crea un usuario administrador por defecto y traduce la interfaz al cargar.
+        /// </summary>
+        /// <param name="sender">Origen del evento de carga.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void LoginForm_Load(object sender, EventArgs e)
         {
             try
@@ -80,14 +88,22 @@ namespace Distribuidora_los_amigos
                 LoggerService.WriteException(ex);
             }
         }
+        /// <summary>
+        /// Libera la suscripción al servicio de idioma y registra el cierre del formulario.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento de cierre.</param>
         private void LoginForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            
+
             IdiomaService.Unsubscribe(this);
             // Registrar el cierre del formulario
             LoggerService.WriteLog($"Formulario '{this.Text}' cerrado.", System.Diagnostics.TraceLevel.Info);
         }
 
+        /// <summary>
+        /// Actualiza los textos del formulario cuando se detecta un cambio de idioma.
+        /// </summary>
         public void UpdateIdioma()
         {
             // Actualizar la interfaz cuando cambie el idioma
@@ -96,6 +112,11 @@ namespace Distribuidora_los_amigos
         }
 
 
+        /// <summary>
+        /// Maneja el cambio manual de idioma guardando la selección y retraduciendo la interfaz.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void listBox1_SelectedIndexChanged_1(object sender, EventArgs e)
         {
 
@@ -121,6 +142,9 @@ namespace Distribuidora_los_amigos
             this.Refresh();
         }
 
+        /// <summary>
+        /// Inicializa la lista de idiomas disponibles y selecciona el idioma persistido.
+        /// </summary>
         private void InicializadorDeIdioma()
         {
             listBox1.Items.AddRange(new string[] { "Español", "Inglés", "Portugués" });
@@ -138,10 +162,20 @@ namespace Distribuidora_los_amigos
             listBox1.SelectedItem = reverseLanguageMap.ContainsKey(currentLanguage) ? reverseLanguageMap[currentLanguage] : "Inglés"; // Predeterminado a Inglés
         }
 
+        /// <summary>
+        /// Traduce una clave textual utilizando el servicio de idiomas.
+        /// </summary>
+        /// <param name="messageKey">Clave a traducir.</param>
+        /// <returns>Cadena traducida correspondiente.</returns>
         private string TranslateMessageKey(string messageKey)
         {
             return IdiomaService.Translate(messageKey);
         }
+        /// <summary>
+        /// Abre la ayuda contextual del formulario cuando el usuario presiona F1.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento de teclado.</param>
         private void LoginForm_KeyDown(object sender, KeyEventArgs e)
         {
             try
@@ -161,22 +195,42 @@ namespace Distribuidora_los_amigos
             }
         }
 
+        /// <summary>
+        /// Placeholder del botón OK (sin implementación adicional).
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void okButton_Click(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Limpia los campos de usuario y contraseña.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void lblClear_Click(object sender, EventArgs e)
         {
-            textBoxUser.Clear();    
+            textBoxUser.Clear();
             textBoxPass.Clear();
         }
 
+        /// <summary>
+        /// Cierra el formulario de login al hacer clic en el ícono de cierre.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void pictureBox3_Click(object sender, EventArgs e)
         {
             Close();
         }
 
+        /// <summary>
+        /// Alterna la visibilidad de la contraseña según el estado del checkbox.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void checkBoxPass_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBoxPass.Checked)
@@ -191,6 +245,11 @@ namespace Distribuidora_los_amigos
             }
         }
 
+        /// <summary>
+        /// Valida credenciales, inicia sesión y abre el formulario principal si la autenticación es exitosa.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void btnLogin_Click(object sender, EventArgs e)
         {
             try
@@ -256,6 +315,11 @@ namespace Distribuidora_los_amigos
             }
         }
 
+        /// <summary>
+        /// Inicia el flujo de recuperación de contraseña mostrando el formulario correspondiente.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void label5_Click(object sender, EventArgs e)
         {
             try

@@ -19,31 +19,44 @@ namespace Distribuidora_los_amigos.Forms.Clientes
     {
         private readonly ClienteService _clienteService;
 
+        /// <summary>
+        /// Inicializa el listado de clientes, carga datos y suscribe el formulario al cambio de idioma.
+        /// </summary>
         public MostrarClientesForm()
         {
             InitializeComponent();
             _clienteService = new ClienteService();
             CargarClientes();
-            
+
             // ✅ Suscribirse a cambios de idioma
             IdiomaService.Subscribe(this);
-            
+
             // ✅ Traducir al cargar
             IdiomaService.TranslateForm(this);
         }
 
+        /// <summary>
+        /// Reaplica la traducción del formulario cuando se modifica el idioma activo.
+        /// </summary>
         public void UpdateIdioma()
         {
             IdiomaService.TranslateForm(this);
             this.Refresh();
         }
 
+        /// <summary>
+        /// Cancela la suscripción al servicio de idioma al cerrar el formulario.
+        /// </summary>
+        /// <param name="e">Argumentos del evento de cierre.</param>
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
             IdiomaService.Unsubscribe(this);
             base.OnFormClosed(e);
         }
 
+        /// <summary>
+        /// Obtiene los clientes desde el servicio y los muestra en la grilla.
+        /// </summary>
         private void CargarClientes()
         {
             try
@@ -56,6 +69,11 @@ namespace Distribuidora_los_amigos.Forms.Clientes
             }
         }
 
+        /// <summary>
+        /// Abre el formulario para crear un cliente y recarga la grilla al finalizar.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void button1_Click(object sender, EventArgs e)
         {
             var formCrear = new CrearClienteForm();
@@ -67,6 +85,11 @@ namespace Distribuidora_los_amigos.Forms.Clientes
             formCrear.Show();
         }
 
+        /// <summary>
+        /// Abre el formulario de modificación para el cliente seleccionado, validando la selección.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void button2_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count > 0)
@@ -87,6 +110,11 @@ namespace Distribuidora_los_amigos.Forms.Clientes
             }
         }
 
+        /// <summary>
+        /// Elimina el cliente seleccionado previa confirmación y actualiza la grilla.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void button3_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count > 0)

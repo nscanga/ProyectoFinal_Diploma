@@ -19,6 +19,9 @@ namespace Distribuidora_los_amigos.Forms.Productos
     {
         private readonly ProductoService _productoService;
         
+        /// <summary>
+        /// Inicializa el formulario de creación de productos cargando catálogos auxiliares.
+        /// </summary>
         public CrearProductoForm()
         {
             InitializeComponent();
@@ -31,6 +34,9 @@ namespace Distribuidora_los_amigos.Forms.Productos
             CargarTiposStock();
         }
 
+        /// <summary>
+        /// Rellena el combo de categorías disponibles para los productos.
+        /// </summary>
         private void CargarCategorias()
         {
             comboBoxCrearProducto.Items.Clear();
@@ -46,6 +52,9 @@ namespace Distribuidora_los_amigos.Forms.Productos
             comboBoxCrearProducto.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
+        /// <summary>
+        /// Inicializa las opciones de unidad de medida para el stock.
+        /// </summary>
         private void CargarTiposStock()
         {
             comboBoxTipoStock.Items.Clear();
@@ -61,6 +70,11 @@ namespace Distribuidora_los_amigos.Forms.Productos
             comboBoxTipoStock.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
+        /// <summary>
+        /// Valida los datos ingresados y crea un nuevo producto con su stock inicial.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void btnGuardarProducto_Click(object sender, EventArgs e)
         {
             try
@@ -140,11 +154,21 @@ namespace Distribuidora_los_amigos.Forms.Productos
             }
         }
 
+        /// <summary>
+        /// Traduce la clave textual usando el servicio de idiomas.
+        /// </summary>
+        /// <param name="messageKey">Clave a traducir.</param>
+        /// <returns>Mensaje localizado.</returns>
         private string TranslateMessageKey(string messageKey)
         {
             return IdiomaService.Translate(messageKey);
         }
 
+        /// <summary>
+        /// Placeholder para reaccionar a cambios de categoría seleccionada.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 

@@ -16,6 +16,9 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
     {
         private readonly ProveedorService _proveedorService;
 
+        /// <summary>
+        /// Inicializa el formulario de alta de proveedores y prepara el servicio asociado.
+        /// </summary>
         public CrearProveedorForm()
         {
             InitializeComponent();
@@ -24,6 +27,11 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
             this.KeyPreview = true;
         }
 
+        /// <summary>
+        /// Construye un proveedor a partir de la entrada del usuario y lo registra en la base de datos.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonCrearProveedor_Click(object sender, EventArgs e)
         {
             try

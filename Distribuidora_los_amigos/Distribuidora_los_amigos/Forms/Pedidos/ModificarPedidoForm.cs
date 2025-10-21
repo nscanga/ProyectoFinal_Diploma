@@ -15,6 +15,10 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
         private Pedido _pedidoSeleccionado;
         private ProductoService _productoService;
 
+        /// <summary>
+        /// Inicializa el formulario de modificación cargando el pedido y sus dependencias.
+        /// </summary>
+        /// <param name="pedido">Pedido que se desea modificar.</param>
         public ModificarPedidoForm(Pedido pedido)
         {
             InitializeComponent();
@@ -36,6 +40,9 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             CargarPedido();
         }
 
+        /// <summary>
+        /// Completa los controles del formulario con los datos del pedido seleccionado.
+        /// </summary>
         private void CargarPedido()
         {
             textBoxIdPedido.Text = _pedidoSeleccionado.IdPedido.ToString();
@@ -54,6 +61,9 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             numericUpDown1.Value = _pedidoSeleccionado.Detalles.Sum(d => d.Cantidad);
         }
 
+        /// <summary>
+        /// Carga el catálogo de estados disponibles para asignar al pedido.
+        /// </summary>
         private void CargarEstadosPedido()
         {
             comboBoxEstadoPedido.DataSource = _pedidoService.ObtenerEstadosPedido();
@@ -62,6 +72,11 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
         }
 
         // 🆕 NUEVO MÉTODO: Solo cambiar estado (este va en el botón "Modificar Pedido")
+        /// <summary>
+        /// Cambia el estado del pedido notificando al cliente cuando corresponde.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonModificarPedido_Click(object sender, EventArgs e)
         {
             try
@@ -117,6 +132,11 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
         }
 
         // 🔄 RENOMBRADO: Modificar productos (mantener lógica actual para modificar cantidades)
+        /// <summary>
+        /// Reutiliza la lógica de cambio de estado para el botón de modificar productos.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonModificarProducto_Click(object sender, EventArgs e)
         {
             try
@@ -171,6 +191,11 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             }
         }
 
+        /// <summary>
+        /// Elimina el pedido y restituye el stock de los productos asociados.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonEliminarProducto_Click(object sender, EventArgs e)
         {
             try
@@ -193,6 +218,11 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             }
         }
 
+        /// <summary>
+        /// Placeholder para persistir cambios adicionales al pedido.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonGuardarPedido_Click(object sender, EventArgs e)
         {
             // Implementar si es necesario

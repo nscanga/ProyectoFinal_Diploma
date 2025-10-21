@@ -18,11 +18,18 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
 
         private readonly ProveedorService _proveedorService;
         private Proveedor _proveedor;
+        /// <summary>
+        /// Inicializa el formulario de modificación sin datos precargados.
+        /// </summary>
         public ModificarProveedorForm()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Inicializa el formulario cargando la información del proveedor a editar.
+        /// </summary>
+        /// <param name="proveedor">Proveedor seleccionado para modificar.</param>
         public ModificarProveedorForm(Proveedor proveedor)
         {
             InitializeComponent();
@@ -39,6 +46,11 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
             checkBox1.Checked = _proveedor.Activo;
         }
 
+        /// <summary>
+        /// Guarda las modificaciones realizadas sobre el proveedor actual.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void buttonGuardarProveedor_Click(object sender, EventArgs e)
         {
             try

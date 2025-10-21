@@ -10,11 +10,19 @@ namespace Distribuidora_los_amigos.Forms.RecuperarPassword
     {
         private string _currentUsername = "";
 
+        /// <summary>
+        /// Inicializa el formulario de recuperacin de contrasea.
+        /// </summary>
         public RecuperarPasswordForm()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Suscribe el formulario al servicio de idioma y traduce los controles al cargar.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void RecuperarPasswordForm_Load(object sender, EventArgs e)
         {
             try
@@ -25,7 +33,24 @@ namespace Distribuidora_los_amigos.Forms.RecuperarPassword
                 // Traducir los controles del formulario
                 IdiomaService.TranslateForm(this);
                 
-                LoggerService.WriteLog($"Formulario de recuperaci髇 de contrase馻 abierto.", System.Diagnostics.TraceLevel.Info);
+        /// <summary>
+        /// Reaplica la traduccin del formulario cuando cambia el idioma activo.
+        /// </summary>
+        /// <summary>
+        /// Cancela la suscripcion al servicio de idioma al cerrar el formulario.
+        /// </summary>
+        /// <param name="e">Argumentos del evento de cierre.</param>
+        /// <summary>
+        /// Traduce la clave indicada utilizando el servicio de idiomas.
+        /// </summary>
+        /// <param name="messageKey">Clave de mensaje a traducir.</param>
+        /// <returns>Texto traducido.</returns>
+        /// <summary>
+        /// Solicita y enva el token de recuperacin, habilitando el panel de cambio de contrasea.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
+                LoggerService.WriteLog($"Formulario de recuperaci贸n de contrase帽a abierto.", System.Diagnostics.TraceLevel.Info);
             }
             catch (Exception ex)
             {
@@ -44,7 +69,7 @@ namespace Distribuidora_los_amigos.Forms.RecuperarPassword
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
             IdiomaService.Unsubscribe(this);
-            LoggerService.WriteLog($"Formulario de recuperaci髇 de contrase馻 cerrado.", System.Diagnostics.TraceLevel.Info);
+            LoggerService.WriteLog($"Formulario de recuperaci贸n de contrase帽a cerrado.", System.Diagnostics.TraceLevel.Info);
             base.OnFormClosed(e);
         }
 
@@ -67,7 +92,7 @@ namespace Distribuidora_los_amigos.Forms.RecuperarPassword
                     return;
                 }
 
-                // Deshabilitar el bot髇 mientras se procesa
+                // Deshabilitar el bot贸n mientras se procesa
                 btnEnviarToken.Enabled = false;
                 btnEnviarToken.Text = TranslateMessageKey("Enviando...");
 
@@ -76,34 +101,39 @@ namespace Distribuidora_los_amigos.Forms.RecuperarPassword
 
                 _currentUsername = username;
 
-                // Mostrar mensaje de 閤ito
-                string successMessage = TranslateMessageKey("Se ha enviado un c骴igo de recuperaci髇 a su correo electr髇ico. El c骴igo expira en 10 minutos.");
+                // Mostrar mensaje de 茅xito
+                string successMessage = TranslateMessageKey("Se ha enviado un c贸digo de recuperaci贸n a su correo electr贸nico. El c贸digo expira en 10 minutos.");
                 lblMensaje.Text = successMessage;
                 lblMensaje.ForeColor = System.Drawing.Color.Green;
                 lblMensaje.Visible = true;
 
-                // Mostrar panel para ingresar token y nueva contrase馻
+        /// <summary>
+        /// Valida la informacin ingresada y solicita el cambio de contrasea con el token recibido.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
+                // Mostrar panel para ingresar token y nueva contrase帽a
                 panelToken.Visible = true;
 
-                // Deshabilitar campos de usuario y bot髇
+                // Deshabilitar campos de usuario y bot贸n
                 textBoxUsuario.Enabled = false;
 
-                LoggerService.WriteLog($"Token de recuperaci髇 enviado para usuario: {username}", System.Diagnostics.TraceLevel.Info);
+                LoggerService.WriteLog($"Token de recuperaci贸n enviado para usuario: {username}", System.Diagnostics.TraceLevel.Info);
             }
             catch (Exception ex)
             {
-                string errorMessage = TranslateMessageKey("Error al enviar el c骴igo de recuperaci髇: ") + ex.Message;
+                string errorMessage = TranslateMessageKey("Error al enviar el c贸digo de recuperaci贸n: ") + ex.Message;
                 lblMensaje.Text = errorMessage;
                 lblMensaje.ForeColor = System.Drawing.Color.Red;
                 lblMensaje.Visible = true;
 
-                LoggerService.WriteLog($"Error al enviar token de recuperaci髇: {ex.Message}", System.Diagnostics.TraceLevel.Error);
+                LoggerService.WriteLog($"Error al enviar token de recuperaci贸n: {ex.Message}", System.Diagnostics.TraceLevel.Error);
                 LoggerService.WriteException(ex);
             }
             finally
             {
                 btnEnviarToken.Enabled = true;
-                btnEnviarToken.Text = TranslateMessageKey("Enviar c骴igo de recuperaci髇");
+                btnEnviarToken.Text = TranslateMessageKey("Enviar c贸digo de recuperaci贸n");
             }
         }
 
@@ -117,7 +147,7 @@ namespace Distribuidora_los_amigos.Forms.RecuperarPassword
 
                 if (string.IsNullOrEmpty(token))
                 {
-                    string messageKey = "Por favor, ingrese el c骴igo de recuperaci髇.";
+                    string messageKey = "Por favor, ingrese el c贸digo de recuperaci贸n.";
                     string translatedMessage = TranslateMessageKey(messageKey);
                     MessageBox.Show(translatedMessage, "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -125,7 +155,7 @@ namespace Distribuidora_los_amigos.Forms.RecuperarPassword
 
                 if (string.IsNullOrEmpty(nuevaPassword) || string.IsNullOrEmpty(confirmarPassword))
                 {
-                    string messageKey = "Por favor, complete todos los campos de contrase馻.";
+                    string messageKey = "Por favor, complete todos los campos de contrase帽a.";
                     string translatedMessage = TranslateMessageKey(messageKey);
                     MessageBox.Show(translatedMessage, "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -133,7 +163,7 @@ namespace Distribuidora_los_amigos.Forms.RecuperarPassword
 
                 if (nuevaPassword != confirmarPassword)
                 {
-                    string messageKey = "Las contrase馻s no coinciden.";
+                    string messageKey = "Las contrase帽as no coinciden.";
                     string translatedMessage = TranslateMessageKey(messageKey);
                     MessageBox.Show(translatedMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -141,25 +171,30 @@ namespace Distribuidora_los_amigos.Forms.RecuperarPassword
 
                 if (nuevaPassword.Length < 6)
                 {
-                    string messageKey = "La contrase馻 debe tener al menos 6 caracteres.";
+                    string messageKey = "La contrase帽a debe tener al menos 6 caracteres.";
                     string translatedMessage = TranslateMessageKey(messageKey);
                     MessageBox.Show(translatedMessage, "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                // Deshabilitar bot髇 mientras se procesa
+                // Deshabilitar bot贸n mientras se procesa
                 btnCambiarPassword.Enabled = false;
                 btnCambiarPassword.Text = TranslateMessageKey("Cambiando...");
 
-                // Cambiar contrase馻
+                // Cambiar contrase帽a
                 bool success = Service.Facade.RecuperoPassService.ChangePassword(_currentUsername, nuevaPassword, token, confirmarPassword);
 
                 if (success)
                 {
-                    string successMessage = TranslateMessageKey("Contrase馻 cambiada exitosamente. Puede cerrar esta ventana e iniciar sesi髇 con su nueva contrase馻.");
-                    MessageBox.Show(successMessage, "蓌ito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        /// <summary>
+        /// Cierra el formulario cancelando el proceso de recuperacin.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
+                    string successMessage = TranslateMessageKey("Contrase帽a cambiada exitosamente. Puede cerrar esta ventana e iniciar sesi贸n con su nueva contrase帽a.");
+                    MessageBox.Show(successMessage, "脡xito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    LoggerService.WriteLog($"Contrase馻 cambiada exitosamente para usuario: {_currentUsername}", System.Diagnostics.TraceLevel.Info);
+                    LoggerService.WriteLog($"Contrase帽a cambiada exitosamente para usuario: {_currentUsername}", System.Diagnostics.TraceLevel.Info);
 
                     // Cerrar formulario
                     this.DialogResult = DialogResult.OK;
@@ -168,16 +203,16 @@ namespace Distribuidora_los_amigos.Forms.RecuperarPassword
             }
             catch (Exception ex)
             {
-                string errorMessage = TranslateMessageKey("Error al cambiar la contrase馻: ") + ex.Message;
+                string errorMessage = TranslateMessageKey("Error al cambiar la contrase帽a: ") + ex.Message;
                 MessageBox.Show(errorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                LoggerService.WriteLog($"Error al cambiar contrase馻: {ex.Message}", System.Diagnostics.TraceLevel.Error);
+                LoggerService.WriteLog($"Error al cambiar contrase帽a: {ex.Message}", System.Diagnostics.TraceLevel.Error);
                 LoggerService.WriteException(ex);
             }
             finally
             {
                 btnCambiarPassword.Enabled = true;
-                btnCambiarPassword.Text = TranslateMessageKey("Cambiar contrase馻");
+                btnCambiarPassword.Text = TranslateMessageKey("Cambiar contrase帽a");
             }
         }
 
