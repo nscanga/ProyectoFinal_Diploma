@@ -15,6 +15,9 @@ namespace Service.Logic
 {
 
 
+    /// <summary>
+    /// Contiene la lógica de negocio asociada a usuarios y sus configuraciones.
+    /// </summary>
     public class UserLogic
     {
         private static DVHLogic _dvhLogic = new DVHLogic();
@@ -23,12 +26,21 @@ namespace Service.Logic
 
 
         // Constructor que inicializa el repositorio de usuarios mediante la fábrica
+        /// <summary>
+        /// Inicializa la lógica de usuarios con el repositorio configurado por la fábrica DAL.
+        /// </summary>
         public UserLogic()
         {
             _usuarioRepository = FactoryDAL.UsuarioRepository;
         }
 
         // Método para validar un usuario basándose en su nombre de usuario y contraseña
+        /// <summary>
+        /// Valida las credenciales del usuario comprobando estado y contraseña encriptada.
+        /// </summary>
+        /// <param name="username">Nombre de usuario ingresado.</param>
+        /// <param name="password">Contraseña en texto plano a verificar.</param>
+        /// <returns><c>true</c> si las credenciales son correctas.</returns>
         public bool ValidateUser(string username, string password)
         {
             // Obtener el usuario por su nombre de usuario
@@ -50,6 +62,12 @@ namespace Service.Logic
         }
 
         // Método para crear un nuevo usuario con una contraseña en texto plano
+        /// <summary>
+        /// Crea un nuevo usuario aplicando hashing a la contraseña recibida.
+        /// </summary>
+        /// <param name="usuario">Entidad usuario a persistir.</param>
+        /// <param name="plainPassword">Contraseña sin encriptar.</param>
+        /// <param name="emial">Correo electrónico asociado.</param>
         public void CreateUser(Usuario usuario, string plainPassword, string emial)
         {
             // Hashear la contraseña en texto plano
@@ -63,10 +81,14 @@ namespace Service.Logic
         }
 
         // Método para deshabilitar un usuario por su ID
+        /// <summary>
+        /// Deshabilita al usuario especificado.
+        /// </summary>
+        /// <param name="idUsuario">Identificador del usuario.</param>
         public void DisableUser(Guid idUsuario)
         {
             _usuarioRepository.DisableUsuario(idUsuario);
-            
+
             // COMENTADO: Sistema de DVH deshabilitado temporalmente
             // var usuario = _usuarioRepository.ObetenerUsuarioById(idUsuario);
             // if (usuario != null)
@@ -87,6 +109,11 @@ namespace Service.Logic
         //}
 
         // Método para actualizar los accesos (permisos) de un usuario
+        /// <summary>
+        /// Actualiza las patentes y familias asignadas a un usuario.
+        /// </summary>
+        /// <param name="idUsuario">Identificador del usuario.</param>
+        /// <param name="accesos">Colección de accesos a establecer.</param>
         public void UpdateUserAccesos(Guid idUsuario, List<Acceso> accesos)
         {
             // Tu lógica de actualización de accesos aquí...
@@ -100,32 +127,52 @@ namespace Service.Logic
         }
 
         // Método para obtener todos los usuarios
+        /// <summary>
+        /// Devuelve todos los usuarios registrados.
+        /// </summary>
         public List<Usuario> GetAllUsuarios()
         {
             return _usuarioRepository.GetAll();
         }
 
         // Método para obtener un usuario específico por su nombre de usuario
+        /// <summary>
+        /// Obtiene un usuario a partir de su nombre.
+        /// </summary>
         public Usuario GetUsuarioByUsername(string username)
         {
             return _usuarioRepository.GetUsuarioByUsername(username);
         }
+        /// <summary>
+        /// Recupera un usuario con información ampliada.
+        /// </summary>
         public Usuario GetUsuarioDatos(string username)
         {
             return _usuarioRepository.GetUsuarioCompletos(username);
         }
 
+        /// <summary>
+        /// Lista usuarios con el detalle de roles y patentes.
+        /// </summary>
         public List<UsuarioRolDto> GetUsuariosConFamilasYPatentes()
         {
             return _usuarioRepository.GetUsuariosConFamilasYPatentes();
         }
 
         // Método para crear una nueva patente (permiso o acceso)
+        /// <summary>
+        /// Registra una nueva patente en el sistema.
+        /// </summary>
         public void CreatePatente(Patente patente)
         {
             _usuarioRepository.CreatePatente(patente);
         }
 
+        /// <summary>
+        /// Guarda el idioma seleccionado para el usuario y actualiza su DVH.
+        /// </summary>
+        /// <param name="idUsuario">Identificador del usuario.</param>
+        /// <param name="lenguaje">Código de idioma a asignar.</param>
         public void SaveLenguaje(Guid idUsuario, string lenguaje)
         {
             _usuarioRepository.UpdateLenguaje(idUsuario, lenguaje);
@@ -137,6 +184,11 @@ namespace Service.Logic
             }
         }
 
+        /// <summary>
+        /// Obtiene el idioma configurado para el usuario o retorna el valor por defecto en caso de error.
+        /// </summary>
+        /// <param name="idUsuario">Identificador del usuario.</param>
+        /// <returns>Código de idioma.</returns>
         public string GetUserLenguaje(Guid idUsuario)
         {
             try

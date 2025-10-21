@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Service.DOMAIN
 {
+    /// <summary>
+    /// Representa un usuario del sistema con sus credenciales y accesos asignados.
+    /// </summary>
     public class Usuario
     {
         public Guid IdUsuario { get; set; }
@@ -25,15 +28,25 @@ namespace Service.DOMAIN
         public List<Acceso> Accesos = new List<Acceso>();
 
 
+        /// <summary>
+        /// Crea un usuario generando automáticamente un nuevo identificador.
+        /// </summary>
         public Usuario()
         {
             IdUsuario = Guid.NewGuid();  // Esto genera un nuevo Id cada vez
         }
 
+        /// <summary>
+        /// Crea un usuario reutilizando el identificador proporcionado.
+        /// </summary>
+        /// <param name="idUsuario">Identificador existente.</param>
         public Usuario(Guid idUsuario)
         {
             this.IdUsuario = idUsuario;
         }
+        /// <summary>
+        /// Obtiene todas las patentes asociadas al usuario, recorriendo familias anidadas.
+        /// </summary>
         public List<Patente> GetPatentes()
         {
             List<Patente> patentes = new List<Patente>();
@@ -43,6 +56,9 @@ namespace Service.DOMAIN
             return patentes;
         }
 
+        /// <summary>
+        /// Recorre recursivamente la jerarquía de accesos para recopilar patentes únicas.
+        /// </summary>
         private void GetAllPatentes(List<Acceso> accesos, List<Patente> patentesReturn)
         {
             foreach (var acceso in accesos)
@@ -63,6 +79,9 @@ namespace Service.DOMAIN
             }
         }
 
+        /// <summary>
+        /// Obtiene todas las familias asociadas al usuario.
+        /// </summary>
         public List<Familia> GetFamilias()
         {
 
@@ -74,6 +93,9 @@ namespace Service.DOMAIN
 
         }
 
+        /// <summary>
+        /// Recorre la jerarquía de accesos agregando familias sin duplicados.
+        /// </summary>
         private void GetAllFamilias(List<Acceso> accesos, List<Familia> famililaReturn)
         {
             foreach (var acceso in accesos)

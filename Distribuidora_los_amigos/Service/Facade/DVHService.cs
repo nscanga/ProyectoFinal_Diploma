@@ -11,6 +11,9 @@ using System.Windows.Forms;
 
 namespace Service.Facade
 {
+    /// <summary>
+    /// Punto de extensión para exponer funcionalidades de DVH hacia la presentación.
+    /// </summary>
     public class DVHService
     {
         private static readonly UsuarioRepository _UsuarioDAL = new UsuarioRepository();

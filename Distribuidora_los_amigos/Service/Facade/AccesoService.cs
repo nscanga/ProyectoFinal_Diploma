@@ -10,8 +10,16 @@ using static Service.Logic.AccesoLogic;
 
 namespace Service.Facade
 {
+    /// <summary>
+    /// Expone utilidades para configurar la visibilidad de elementos según patentes del usuario.
+    /// </summary>
     public static class AccesoService
-    {   
+    {
+    /// <summary>
+    /// Configura la visibilidad del menú de administración según las patentes del usuario.
+    /// </summary>
+    /// <param name="administradorToolStripMenuItem">Elemento de menú a proteger.</param>
+    /// <param name="patentesUsuario">Patentes asociadas al usuario.</param>
     public static void ConfigureMenuItems(ToolStripMenuItem administradorToolStripMenuItem, List<Patente> patentesUsuario)
     {
     // Crear un decorador que solo permita el acceso si es tipo Control
@@ -19,7 +27,7 @@ namespace Service.Facade
     menuItemDecorator.SetAccess(patentesUsuario);
     }
 
-       
+
     }
 }
 

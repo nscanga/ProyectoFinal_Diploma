@@ -5,8 +5,16 @@ using System.IO;
 
 namespace Service.DAL.Implementations
 {
+    /// <summary>
+    /// Gestiona la creación de copias de seguridad de la base de datos y su almacenamiento local.
+    /// </summary>
     public class BackupRepository : IBackupRepository
     {
+        /// <summary>
+        /// Ejecuta un backup completo de la base de datos y coloca el archivo resultante en la carpeta indicada.
+        /// </summary>
+        /// <param name="connectionString">Cadena de conexión hacia la instancia de SQL Server.</param>
+        /// <param name="backupPath">Ruta destino solicitada por el usuario.</param>
         public void BackupDatabase(string connectionString, string backupPath)
         {
             SqlConnection connection = null;
@@ -121,6 +129,11 @@ namespace Service.DAL.Implementations
             }
         }
 
+        /// <summary>
+        /// Obtiene la carpeta de backups configurada en la instancia de SQL Server o una ruta por defecto.
+        /// </summary>
+        /// <param name="connectionString">Cadena de conexión utilizada para consultar la instancia.</param>
+        /// <returns>Ruta del directorio de backups del servidor.</returns>
         private string GetSqlServerBackupFolder(string connectionString)
         {
             try

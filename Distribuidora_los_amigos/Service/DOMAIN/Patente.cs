@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Service.DOMAIN
 {
+    /// <summary>
+    /// Representa un permiso indivisible dentro del sistema.
+    /// </summary>
     public class Patente : Acceso
     {
 
@@ -13,13 +16,19 @@ namespace Service.DOMAIN
 
         public string DataKey { get; set; }
 
+        /// <summary>
+        /// Inicializa la patente indicando el tipo de acceso que representa.
+        /// </summary>
         public Patente(TipoAcceso tipoAcceso = TipoAcceso.UI)
         {
             this.TipoAcceso = tipoAcceso;
         }
 
-        /// 
+        ///
         /// <param name="component"></param>
+        /// <summary>
+        /// Operación no permitida en hojas del patrón Composite.
+        /// </summary>
         public override void Add(Acceso component)
         {
 
@@ -27,8 +36,11 @@ namespace Service.DOMAIN
 
         }
 
-        /// 
+        ///
         /// <param name="component"></param>
+        /// <summary>
+        /// Operación no permitida en hojas del patrón Composite.
+        /// </summary>
         public override void Remove(Acceso component)
         {
 
@@ -36,6 +48,9 @@ namespace Service.DOMAIN
 
         }
 
+        /// <summary>
+        /// Indica que la patente no contiene elementos hijos.
+        /// </summary>
         public override int GetCount()
         {
             return 0;

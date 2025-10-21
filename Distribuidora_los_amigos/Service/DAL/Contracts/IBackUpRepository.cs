@@ -7,8 +7,16 @@ using System.Threading.Tasks;
 
 namespace Service.DAL.Contracts
 {
+    /// <summary>
+    /// Define la funcionalidad necesaria para generar copias de seguridad.
+    /// </summary>
     public interface IBackupRepository
     {
+     /// <summary>
+     /// Realiza una copia de respaldo de la base indicada hacia la ubicación solicitada.
+     /// </summary>
+     /// <param name="connectionString">Cadena de conexión de origen.</param>
+     /// <param name="backupPath">Ruta destino para el archivo generado.</param>
      void BackupDatabase(string connectionString, string backupPath);
     }
 }

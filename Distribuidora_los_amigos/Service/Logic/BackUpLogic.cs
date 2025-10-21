@@ -6,15 +6,26 @@ using System.IO;
 
 namespace Service.Logic
 {
+    /// <summary>
+    /// Orquesta la generación de respaldos para las distintas bases de datos del sistema.
+    /// </summary>
     public class BackUpLogic
     {
         private readonly IBackupRepository _backupRepository;
 
+        /// <summary>
+        /// Inicializa la lógica de backup con el repositorio a utilizar.
+        /// </summary>
+        /// <param name="backupRepository">Repositorio encargado de ejecutar el respaldo.</param>
         public BackUpLogic(IBackupRepository backupRepository)
         {
             _backupRepository = backupRepository ?? throw new ArgumentNullException(nameof(backupRepository));
         }
 
+        /// <summary>
+        /// Ejecuta la copia de seguridad de todas las bases configuradas hacia la ruta indicada.
+        /// </summary>
+        /// <param name="selectedPath">Directorio destino para almacenar los archivos .bak.</param>
         public void PerformBackup(string selectedPath)
         {
             try
@@ -65,6 +76,10 @@ namespace Service.Logic
             }
         }
 
+        /// <summary>
+        /// Obtiene las rutas de respaldo sugeridas desde la configuración.
+        /// </summary>
+        /// <returns>Lista de directorios configurados.</returns>
         public List<string> GetAvailableBackupPaths()
         {
             List<string> paths = new List<string>();

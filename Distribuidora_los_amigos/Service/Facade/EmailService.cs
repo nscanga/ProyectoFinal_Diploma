@@ -10,6 +10,9 @@ using DOMAIN;
 
 namespace Service.Facade
 {
+    /// <summary>
+    /// Gestiona el envío de correos electrónicos para distintos eventos del sistema.
+    /// </summary>
     public static class EmailService
     {
         private static string smtpServer = "smtp.gmail.com"; // Servidor SMTP de Gmail
@@ -17,6 +20,11 @@ namespace Service.Facade
         private static string smtpPass = "jrneoedsbnyrdrej"; // Cambia por tu contraseña de Gmail //clinica7676
         private static int smtpPort = 587; // Puerto para TLS/STARTTLS
 
+        /// <summary>
+        /// Envía un correo con el token de recuperación de contraseña al usuario.
+        /// </summary>
+        /// <param name="toEmail">Dirección de correo destino.</param>
+        /// <param name="recoveryToken">Token generado para la recuperación.</param>
         public static void SendRecoveryEmail(string toEmail, string recoveryToken)
         {
             string messageKey = "Recuperación de Contraseña";
@@ -42,6 +50,11 @@ namespace Service.Facade
         }
 
         // 🆕 NUEVA FUNCIONALIDAD: Enviar notificación de pedido en camino
+        /// <summary>
+        /// Envía una notificación al cliente indicando que su pedido fue despachado.
+        /// </summary>
+        /// <param name="pedido">Pedido despachado.</param>
+        /// <param name="cliente">Cliente destinatario.</param>
         public static void EnviarNotificacionPedidoEnCamino(Pedido pedido, Cliente cliente)
         {
             try
@@ -109,6 +122,9 @@ namespace Service.Facade
         }
 
         // 🆕 Método para limpiar el email
+        /// <summary>
+        /// Normaliza una dirección de correo eliminando caracteres inválidos.
+        /// </summary>
         private static string LimpiarEmail(string email)
         {
             if (string.IsNullOrEmpty(email))
@@ -127,6 +143,9 @@ namespace Service.Facade
         }
 
         // 🆕 Método para validar formato de email
+        /// <summary>
+        /// Verifica si un correo tiene un formato válido.
+        /// </summary>
         private static bool EsEmailValido(string email)
         {
             if (string.IsNullOrEmpty(email))
@@ -148,10 +167,13 @@ namespace Service.Facade
         }
 
         // 🆕 Generar el contenido HTML del email para pedido en camino
+        /// <summary>
+        /// Construye el cuerpo HTML de la notificación de pedido en camino.
+        /// </summary>
         private static string GenerarCuerpoEmailPedidoEnCamino(Pedido pedido, Cliente cliente)
         {
             string idPedidoCorto = pedido.IdPedido.ToString().Substring(0, 8).ToUpper();
-            
+
             return $@"
                 <html>
                 <head>
@@ -367,6 +389,9 @@ namespace Service.Facade
                 </html>";
         }
 
+        /// <summary>
+        /// Traduce una clave de mensaje con el servicio de idiomas.
+        /// </summary>
         private static string TranslateMessageKey(string messageKey)
         {
             return IdiomaService.Translate(messageKey);

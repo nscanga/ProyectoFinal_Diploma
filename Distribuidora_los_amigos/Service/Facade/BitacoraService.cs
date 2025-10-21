@@ -10,19 +10,28 @@ using System.Threading.Tasks;
 
 namespace Service.Facade
 {
+    /// <summary>
+    /// Fachada para consultar registros de bitácora mediante la lógica correspondiente.
+    /// </summary>
     public class BitacoraService
     {
 
         private static BitacoraLogic _bitacoraLogic;
 
-        
+
+        /// <summary>
+        /// Inicializa la lógica de bitácora con su repositorio concreto.
+        /// </summary>
         static BitacoraService()
         {
-            
+
             IBitacoraRepository repository = new BitacoraRepository();
             _bitacoraLogic = new BitacoraLogic(repository);
         }
 
+        /// <summary>
+        /// Devuelve todas las entradas de la bitácora.
+        /// </summary>
         public static List<Bitacora> GetAllBitacora()
         {
             return _bitacoraLogic.GetAllBitacora();

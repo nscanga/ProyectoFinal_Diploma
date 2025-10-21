@@ -9,8 +9,14 @@ using System.Windows.Forms;
 
 namespace Service.ManegerEx
 {
+    /// <summary>
+    /// Centraliza el manejo de excepciones mostrando mensajes localizados al usuario.
+    /// </summary>
     public static class ErrorHandler
     {
+        /// <summary>
+        /// Gestiona errores SQL mostrando un mensaje amigable según el código recibido.
+        /// </summary>
         public static void HandleSqlException(SqlException ex, string username)
         {
             string messageKey = "";
@@ -45,6 +51,9 @@ namespace Service.ManegerEx
             MessageBox.Show(translatedMessage + ex.Message, "Error SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
+        /// <summary>
+        /// Devuelve una descripción localizada para un error SQL concreto.
+        /// </summary>
         public static string FormatSqlException(SqlException ex, string username)
         {
             string messageKey = "";
@@ -73,12 +82,18 @@ namespace Service.ManegerEx
             return TranslateMessageKey(messageKey);
         }
 
+        /// <summary>
+        /// Muestra un mensaje general para excepciones no controladas.
+        /// </summary>
         public static void HandleGeneralException(Exception ex)
         {
             string messageKey = "Error inesperado:";
             string translatedMessage = TranslateMessageKey(messageKey);
             MessageBox.Show(translatedMessage + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+        /// <summary>
+        /// Traduce una clave de mensaje utilizando el servicio de idiomas.
+        /// </summary>
         private  static string TranslateMessageKey(string messageKey)
         {
             return IdiomaService.Translate(messageKey);

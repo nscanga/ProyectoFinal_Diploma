@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 
 namespace Service.DAL.Implementations.SqlServer
 {
+    /// <summary>
+    /// Proporciona utilidades para persistir registros de log en archivos y en la base de datos.
+    /// </summary>
     internal class LoggerRepository
     {
         private static string PathLogError => ConfigurationManager.AppSettings["PathLogError"];
@@ -22,6 +25,11 @@ namespace Service.DAL.Implementations.SqlServer
 
 
 
+        /// <summary>
+        /// Redirige el log recibido al destino configurado según el nivel de severidad.
+        /// </summary>
+        /// <param name="log">Entrada de bitácora a procesar.</param>
+        /// <param name="ex">Excepción que amplía el contexto del evento.</param>
         public static void WriteLog(Log log, Exception ex = null)
         {
             switch (log.TraceLevel)
@@ -43,11 +51,21 @@ namespace Service.DAL.Implementations.SqlServer
             }
         }
 
+        /// <summary>
+        /// Formatea un mensaje simple para su escritura en archivos planos.
+        /// </summary>
+        /// <param name="log">Log a formatear.</param>
+        /// <returns>Mensaje estructurado con fecha y severidad.</returns>
         private static string FormatMessage(Log log)
         {
             return $"{log.Date.ToString("dd/MM/yyyy HH:mm:ss")} [{log.TraceLevel}] : {log.Message}";
         }
 
+        /// <summary>
+        /// Escribe un mensaje directamente en el archivo indicado creando la ruta si es necesario.
+        /// </summary>
+        /// <param name="path">Ruta base configurada.</param>
+        /// <param name="message">Texto que se agregará al archivo.</param>
         private static void WriteToFile(string path, string message)
         {
             if (string.IsNullOrEmpty(path))
@@ -64,6 +82,11 @@ namespace Service.DAL.Implementations.SqlServer
         }
 
 
+        /// <summary>
+        /// Inserta el log y su pila de llamadas en la tabla de bitácora.
+        /// </summary>
+        /// <param name="log">Evento a registrar.</param>
+        /// <param name="ex">Excepción opcional asociada.</param>
         public static void WriteLogToDatabase(Log log, Exception ex = null)
         {
             string query = @"INSERT INTO Log (Id_log, Date, TraceLevel, Message, StackTrace) VALUES (@Id_log, @Date, @TraceLevel, @Message, @StackTrace)";
@@ -84,6 +107,11 @@ namespace Service.DAL.Implementations.SqlServer
             }
         }
 
+        /// <summary>
+        /// Crea o actualiza el archivo de log correspondiente a la severidad del evento.
+        /// </summary>
+        /// <param name="log">Datos del evento.</param>
+        /// <param name="ex">Excepción adicional a detallar.</param>
         public static void WriteLogToFile(Log log, Exception ex = null)
         {
             // Selecciona la ruta dependiendo del nivel de log (Error o Info)
@@ -119,6 +147,12 @@ namespace Service.DAL.Implementations.SqlServer
             }
         }
 
+        /// <summary>
+        /// Construye un mensaje enriquecido con la información de la excepción.
+        /// </summary>
+        /// <param name="log">Evento de log.</param>
+        /// <param name="ex">Excepción asociada.</param>
+        /// <returns>Cadena lista para ser persistida.</returns>
         private static string FormatLogMessage(Log log, Exception ex)
         {
             // Formatear el mensaje del log
@@ -126,6 +160,11 @@ namespace Service.DAL.Implementations.SqlServer
         }
 
 
+        /// <summary>
+        /// Escribe el log tanto en base de datos como en archivo para asegurar redundancia.
+        /// </summary>
+        /// <param name="log">Evento a registrar.</param>
+        /// <param name="ex">Excepción opcional.</param>
         public static void WriteLogPath(Log log, Exception ex = null)
         {
             // Podemos decidir si escribir el log en la base de datos, archivo o ambos
