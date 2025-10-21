@@ -14,12 +14,20 @@ namespace BLL
         private readonly PedidoService _pedidoService;
         private readonly ProductoService _productoService;
 
+        /// <summary>
+        /// Construye el servicio y prepara las dependencias para consultar pedidos y productos.
+        /// </summary>
         public PdfService()
         {
             _pedidoService = new PedidoService();
             _productoService = new ProductoService();
         }
 
+        /// <summary>
+        /// Genera un archivo PDF con toda la información relevante del pedido entregado.
+        /// </summary>
+        /// <param name="pedido">Pedido del cual se generará el comprobante.</param>
+        /// <param name="rutaArchivo">Ruta destino donde se almacenará el PDF.</param>
         public void GenerarPdfPedido(Pedido pedido, string rutaArchivo)
         {
             try
@@ -67,6 +75,13 @@ namespace BLL
             }
         }
 
+        /// <summary>
+        /// Inserta en el documento la sección con los datos generales del pedido.
+        /// </summary>
+        /// <param name="document">Documento PDF en construcción.</param>
+        /// <param name="pedido">Pedido que se está imprimiendo.</param>
+        /// <param name="headerFont">Fuente utilizada para títulos.</param>
+        /// <param name="normalFont">Fuente utilizada para el contenido.</param>
         private void AddPedidoInfo(Document document, Pedido pedido, Font headerFont, Font normalFont)
         {
             // Información del pedido
@@ -98,6 +113,13 @@ namespace BLL
             document.Add(infoTable);
         }
 
+        /// <summary>
+        /// Agrega al PDF los datos del cliente asociado al pedido.
+        /// </summary>
+        /// <param name="document">Documento PDF que se está generando.</param>
+        /// <param name="pedido">Pedido a documentar.</param>
+        /// <param name="headerFont">Fuente para los encabezados.</param>
+        /// <param name="normalFont">Fuente para el contenido.</param>
         private void AddClienteInfo(Document document, Pedido pedido, Font headerFont, Font normalFont)
         {
             // Información del cliente
@@ -119,6 +141,14 @@ namespace BLL
             document.Add(clienteTable);
         }
 
+        /// <summary>
+        /// Construye la tabla con el detalle de productos, cantidades y subtotales.
+        /// </summary>
+        /// <param name="document">Documento al que se añadirá la tabla.</param>
+        /// <param name="pedido">Pedido del cual se extraen los detalles.</param>
+        /// <param name="headerFont">Fuente usada para títulos.</param>
+        /// <param name="normalFont">Fuente para las celdas de contenido.</param>
+        /// <param name="boldFont">Fuente destacada para encabezados y totales.</param>
         private void AddProductosTable(Document document, Pedido pedido, Font headerFont, Font normalFont, Font boldFont)
         {
             // Título de productos
@@ -182,6 +212,13 @@ namespace BLL
             document.Add(productosTable);
         }
 
+        /// <summary>
+        /// Inserta la sección con el total final del pedido.
+        /// </summary>
+        /// <param name="document">Documento en el que se escribe.</param>
+        /// <param name="pedido">Pedido que aporta los datos de total.</param>
+        /// <param name="headerFont">Fuente de referencia (no utilizada actualmente).</param>
+        /// <param name="boldFont">Fuente resaltada para mostrar importes.</param>
         private void AddTotalFinal(Document document, Pedido pedido, Font headerFont, Font boldFont)
         {
             // Total final
@@ -204,6 +241,11 @@ namespace BLL
             document.Add(totalTable);
         }
 
+        /// <summary>
+        /// Agrega un pie de página con la leyenda y nombre de la empresa.
+        /// </summary>
+        /// <param name="document">Documento PDF en edición.</param>
+        /// <param name="normalFont">Fuente utilizada para el texto.</param>
         private void AddFooter(Document document, Font normalFont)
         {
             // Pie de página
@@ -217,6 +259,11 @@ namespace BLL
             document.Add(empresa);
         }
 
+        /// <summary>
+        /// Construye un nombre de archivo único y seguro para almacenar el PDF del pedido.
+        /// </summary>
+        /// <param name="pedido">Pedido cuyos datos se utilizarán.</param>
+        /// <returns>Nombre de archivo sugerido.</returns>
         public string GenerarNombreArchivoPdf(Pedido pedido)
         {
             // Generar nombre de archivo único

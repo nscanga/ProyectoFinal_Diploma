@@ -3,41 +3,76 @@ using System;
 namespace BLL.Commands
 {
     /// <summary>
-    /// Interfaz base para el patr髇 Command
+    /// Interfaz base para el patr贸n Command.
     /// </summary>
     public interface ICommand
     {
+        /// <summary>
+        /// Ejecuta la acci贸n encapsulada por el comando.
+        /// </summary>
         void Execute();
+
+        /// <summary>
+        /// Revierte los efectos producidos por la ejecuci贸n del comando.
+        /// </summary>
         void Undo();
+
+        /// <summary>
+        /// Indica si el comando puede ejecutarse en el estado actual.
+        /// </summary>
         bool CanExecute();
     }
 
     /// <summary>
-    /// Interfaz para comandos que devuelven un resultado
+    /// Interfaz para comandos que devuelven un resultado.
     /// </summary>
-    /// <typeparam name="TResult">Tipo del resultado</typeparam>
+    /// <typeparam name="TResult">Tipo del resultado retornado por el comando.</typeparam>
     public interface ICommand<out TResult>
     {
+        /// <summary>
+        /// Ejecuta el comando y devuelve su resultado.
+        /// </summary>
+        /// <returns>Valor producido por la ejecuci贸n.</returns>
         TResult Execute();
+
+        /// <summary>
+        /// Indica si el comando est谩 en condiciones de ejecutarse.
+        /// </summary>
+        /// <returns>True si puede ejecutarse; de lo contrario false.</returns>
         bool CanExecute();
     }
 
     /// <summary>
-    /// Comando base abstracto
+    /// Comando base abstracto que provee hooks para reaccionar a la ejecuci贸n.
     /// </summary>
     public abstract class BaseCommand : ICommand
     {
         protected Exception _lastException;
 
+        /// <inheritdoc />
         public abstract void Execute();
+
+        /// <inheritdoc />
         public abstract void Undo();
+
+        /// <summary>
+        /// Verifica si el comando puede ejecutarse; por defecto siempre es posible.
+        /// </summary>
+        /// <returns>True cuando se permite la ejecuci贸n.</returns>
         public virtual bool CanExecute() => true;
 
+        /// <summary>
+        /// Hook invocado luego de ejecutar el comando exitosamente.
+        /// </summary>
         protected virtual void OnCommandExecuted()
         {
-            // Hook para l骻ica post-ejecuci髇
+            // Hook para l贸gica post-ejecuci贸n
         }
 
+        /// <summary>
+        /// Hook invocado cuando la ejecuci贸n del comando produce un error.
+        /// </summary>
+        /// <param name="ex">Excepci贸n capturada durante la ejecuci贸n.</param>
         protected virtual void OnCommandFailed(Exception ex)
         {
             _lastException = ex;

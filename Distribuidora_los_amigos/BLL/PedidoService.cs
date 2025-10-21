@@ -19,6 +19,9 @@ namespace BLL
         private readonly IEstadoPedidoRepository _estadoPedidoRepository;
         private readonly StockService _stockService; // 🆕 Agregar StockService
 
+        /// <summary>
+        /// Inicializa el servicio configurando los repositorios y servicios necesarios para gestionar pedidos.
+        /// </summary>
         public PedidoService()
         {
             _pedidoRepository = FactoryDAL.SqlPedidoRepository;
@@ -202,12 +205,22 @@ namespace BLL
             return pedido;
         }
 
+        /// <summary>
+        /// Recupera el nombre descriptivo del estado de pedido indicado.
+        /// </summary>
+        /// <param name="idEstadoPedido">Identificador del estado.</param>
+        /// <returns>Nombre del estado o mensaje por defecto si no existe.</returns>
         public string ObtenerNombreEstadoPorId(Guid idEstadoPedido)
         {
             EstadoPedido estado = _estadoPedidoRepository.GetById(idEstadoPedido);
             return estado != null ? estado.NombreEstado : "Estado no encontrado";
         }
 
+        /// <summary>
+        /// Obtiene y registra en consola los detalles asociados al pedido.
+        /// </summary>
+        /// <param name="idPedido">Identificador del pedido solicitado.</param>
+        /// <returns>Listado de detalles recuperados.</returns>
         public List<DetallePedido> ObtenerDetallesPorPedido(Guid idPedido)
         {
             var detalles = _detallePedidoRepository.GetByPedido(idPedido);
@@ -233,12 +246,21 @@ namespace BLL
             return _pedidoRepository.GetPedidosPendientes();
         }
 
+        /// <summary>
+        /// Devuelve el nombre del cliente solicitado o un mensaje de error si no existe.
+        /// </summary>
+        /// <param name="idCliente">Identificador del cliente buscado.</param>
+        /// <returns>Nombre del cliente o mensaje alternativo.</returns>
         public string ObtenerNombreClientePorId(Guid idCliente)
         {
             Cliente cliente = _clienteRepository.GetById(idCliente);
             return cliente != null ? cliente.Nombre : "Cliente no encontrado";
         }
 
+        /// <summary>
+        /// Recupera el catálogo de estados disponibles para los pedidos.
+        /// </summary>
+        /// <returns>Listado de estados.</returns>
         public List<EstadoPedido> ObtenerEstadosPedido()
         {
             return _pedidoRepository.ObtenerEstadosPedido();

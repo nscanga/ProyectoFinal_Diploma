@@ -17,12 +17,19 @@ namespace BLL
         private const int STOCK_MINIMO = 10; // Umbral para notificación
         private const string EMAIL_ADMINISTRADOR = "distribuidoralosamigos@gmail.com"; // Configurar email del admin
 
+        /// <summary>
+        /// Inicializa el servicio resolviendo los repositorios de stock y productos necesarios.
+        /// </summary>
         public StockService()
         {
             _stockRepository = FactoryDAL.SqlStockRepository;
             _productoRepository = FactoryDAL.SqlProductoRepository;
         }
 
+        /// <summary>
+        /// Agrega un nuevo registro de stock al repositorio.
+        /// </summary>
+        /// <param name="stock">Entidad de stock que se almacenará.</param>
         public void AgregarStock(Stock stock)
         {
             _stockRepository.Add(stock);
@@ -44,6 +51,10 @@ namespace BLL
             }
         }
 
+        /// <summary>
+        /// Elimina un registro de stock específico.
+        /// </summary>
+        /// <param name="idStock">Identificador del stock a remover.</param>
         public void EliminarStock(Guid idStock)
         {
             _stockRepository.Remove(idStock);
@@ -81,6 +92,10 @@ namespace BLL
             }
         }
 
+        /// <summary>
+        /// Recupera todos los registros de stock disponibles.
+        /// </summary>
+        /// <returns>Listado completo de stock.</returns>
         public List<Stock> ObtenerStock()
         {
             return _stockRepository.GetAll();
