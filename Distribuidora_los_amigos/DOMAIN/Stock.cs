@@ -14,7 +14,9 @@ namespace DOMAIN
         public string Tipo { get; set; }
         public bool Activo { get; set; }
 
-
+        /// <summary>
+        /// Inicializa un registro de stock generando un identificador para el producto y marcándolo como activo.
+        /// </summary>
         public Stock()
         {
             IdProducto = Guid.NewGuid();

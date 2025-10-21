@@ -16,6 +16,9 @@ namespace DOMAIN
         public string Categoria { get; set; }
         public bool Activo { get; set; }
 
+        /// <summary>
+        /// Crea un proveedor asignando un identificador único y habilitándolo por defecto.
+        /// </summary>
         public Proveedor()
         {
             IdProveedor = Guid.NewGuid();

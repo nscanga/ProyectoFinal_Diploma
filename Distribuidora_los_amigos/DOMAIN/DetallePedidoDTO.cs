@@ -3,7 +3,7 @@ using System;
 namespace DOMAIN
 {
     /// <summary>
-    /// DTO para mostrar informaci�n combinada de DetallePedido y Producto
+    /// DTO para mostrar información combinada de DetallePedido y Producto
     /// </summary>
     public class DetallePedidoDTO
     {
@@ -16,6 +16,9 @@ namespace DOMAIN
         public decimal PrecioUnitario { get; set; }
         public decimal Subtotal { get; set; }
 
+        /// <summary>
+        /// Crea un contenedor vacío para mapear datos combinados del detalle y su producto asociado.
+        /// </summary>
         public DetallePedidoDTO()
         {
         }
