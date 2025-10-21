@@ -6,8 +6,15 @@ using System;
 
 namespace Service.Facade
 {
+    /// <summary>
+    /// Fachada que ejecuta respaldos y expone rutas configuradas para su almacenamiento.
+    /// </summary>
     public class BackupService
     {
+        /// <summary>
+        /// Ejecuta el proceso de backup en la ruta especificada registrando el resultado.
+        /// </summary>
+        /// <param name="selectedPath">Directorio donde se guardará el respaldo.</param>
         public static void ExecuteBackup(string selectedPath)
         {
             try
@@ -38,6 +45,10 @@ namespace Service.Facade
             }
         }
 
+        /// <summary>
+        /// Obtiene las rutas disponibles para almacenar respaldos desde la configuración.
+        /// </summary>
+        /// <returns>Listado de rutas configuradas.</returns>
         public static System.Collections.Generic.List<string> GetAvailableBackupPaths()
         {
             try

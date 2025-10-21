@@ -8,8 +8,16 @@ using System.Threading.Tasks;
 
 namespace Service.Facade
 {
+    /// <summary>
+    /// Ofrece utilidades de hashing y cifrado simétrico para proteger la información.
+    /// </summary>
     public static class CryptographyService
     {
+        /// <summary>
+        /// Calcula el hash MD5 en formato hexadecimal para el texto proporcionado.
+        /// </summary>
+        /// <param name="textPlain">Texto en claro a transformar.</param>
+        /// <returns>Cadena con el hash resultante.</returns>
         public static string HashMd5(string textPlain)
         {
             StringBuilder sb = new StringBuilder();
@@ -29,6 +37,11 @@ namespace Service.Facade
 
 
         private static string encryptionKey = "cdinv-2024";
+        /// <summary>
+        /// Cifra el texto recibido utilizando AES y retorna el resultado en Base64.
+        /// </summary>
+        /// <param name="clearText">Texto plano a cifrar.</param>
+        /// <returns>Cadena cifrada en Base64.</returns>
         public static string Encrypt(string clearText)
         {
             byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
@@ -50,6 +63,11 @@ namespace Service.Facade
             return clearText;
         }
 
+        /// <summary>
+        /// Descifra un texto producido por <see cref="Encrypt"/> devolviendo el contenido original.
+        /// </summary>
+        /// <param name="cipherText">Texto cifrado en Base64.</param>
+        /// <returns>Texto plano resultante.</returns>
         public static string Decrypt(string cipherText)
         {
             cipherText = cipherText.Replace(" ", "+");

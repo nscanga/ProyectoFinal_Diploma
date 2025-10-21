@@ -13,23 +13,37 @@ using System.Threading.Tasks;
 
 namespace Service.Logic
 {
+    /// <summary>
+    /// Encapsula la lógica de cálculo y persistencia de dígitos verificadores horizontales.
+    /// </summary>
     public class DVHLogic
     {
         private readonly IDVHRepository _dvhRepository;
 
         private readonly IUsuarioRepository _usuarioRepository;
 
-        // Constructor sin parámetros que inicializa la dependencia
+        /// <summary>
+        /// Crea la lógica empleando las implementaciones concretas configuradas.
+        /// </summary>
         public DVHLogic()
         {
             _usuarioRepository = FactoryDAL.UsuarioRepository;
             _dvhRepository = new DVHRepository(); // Asume que DVHRepository es la implementación concreta
         }
 
+        /// <summary>
+        /// Permite inyectar un repositorio personalizado para pruebas o alternativas de persistencia.
+        /// </summary>
+        /// <param name="dvhRepository">Repositorio responsable de guardar los DVH.</param>
         public DVHLogic(IDVHRepository dvhRepository)
         {
             _dvhRepository = dvhRepository;
         }
+        /// <summary>
+        /// Calcula el DVH del usuario y lo almacena retornando el valor generado.
+        /// </summary>
+        /// <param name="usuario">Usuario sobre el cual se calcula el DVH.</param>
+        /// <returns>Cadena resultante del cálculo del DVH.</returns>
         public string GenerarYGuardarCodigoVerificador(Usuario usuario)
         {
             // Concatenar las propiedades relevantes del usuario para el cálculo del DVH
@@ -54,6 +68,10 @@ namespace Service.Logic
             }
         }
 
+        /// <summary>
+        /// Recalcula y actualiza el DVH almacenado para el usuario.
+        /// </summary>
+        /// <param name="usuario">Usuario cuyos datos se verifican.</param>
         public void ActualizarCodigoVerificador(Usuario usuario)
         {
             // Concatenar las propiedades relevantes del usuario para el cálculo del DVH
@@ -75,6 +93,11 @@ namespace Service.Logic
                 _dvhRepository.ActualizarDVH(usuario.IdUsuario, "Usuario", codigoVerificador);
             }
         }
+        /// <summary>
+        /// Genera el DVH correspondiente a los datos del usuario sin persistirlo.
+        /// </summary>
+        /// <param name="usuario">Usuario base del cálculo.</param>
+        /// <returns>Código verificador en formato hexadecimal.</returns>
         private string GenerarCodigoVerificador(Usuario usuario)
         {
             // Concatenar las propiedades relevantes del usuario para el cálculo del DVH
@@ -96,6 +119,11 @@ namespace Service.Logic
                 return builder.ToString();
             }
         }
+        /// <summary>
+        /// Compara el DVH generado con el almacenado para detectar inconsistencias.
+        /// </summary>
+        /// <param name="usuario">Usuario a validar.</param>
+        /// <returns><c>true</c> cuando ambos DVH coinciden.</returns>
         public bool VerificarDVH(Usuario usuario)
         {
 

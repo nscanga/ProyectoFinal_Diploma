@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace Service.DAL.Implementations
 {
+    /// <summary>
+    /// Proporciona traducciones básicas y persistencia de idioma seleccionado para el usuario.
+    /// </summary>
     public static class LenguajeRepository // ✅ Nombre correcto
     {
         private static readonly string ConfigFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "language.config");
@@ -83,6 +86,11 @@ namespace Service.DAL.Implementations
             }
         };
 
+        /// <summary>
+        /// Devuelve la traducción correspondiente a la clave indicada según el idioma activo.
+        /// </summary>
+        /// <param name="key">Identificador del texto a traducir.</param>
+        /// <returns>Cadena traducida o la clave original si no existe traducción.</returns>
         public static string Translate(string key)
         {
             string currentLanguage = LoadUserLanguage();
@@ -95,6 +103,10 @@ namespace Service.DAL.Implementations
             return key; // Retornar la clave original si no se encuentra traducción
         }
 
+        /// <summary>
+        /// Persiste el código de idioma seleccionado por el usuario en el archivo de configuración.
+        /// </summary>
+        /// <param name="languageCode">Código de cultura a guardar.</param>
         public static void SaveUserLanguage(string languageCode)
         {
             try
@@ -107,6 +119,10 @@ namespace Service.DAL.Implementations
             }
         }
 
+        /// <summary>
+        /// Recupera el idioma almacenado en disco o retorna el español por defecto.
+        /// </summary>
+        /// <returns>Código de cultura a utilizar.</returns>
         public static string LoadUserLanguage()
         {
             try

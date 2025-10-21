@@ -12,8 +12,16 @@ using System.Windows.Forms;
 
 namespace Service.Logic
 {
+    /// <summary>
+    /// Agrupa utilidades para traducir controles e interactuar con la configuración de idiomas.
+    /// </summary>
     internal static class IdiomaLogic
     {
+        /// <summary>
+        /// Traduce una clave textual usando el repositorio de idiomas configurado.
+        /// </summary>
+        /// <param name="key">Clave de traducción.</param>
+        /// <returns>Texto traducido o la clave original en caso de error.</returns>
         public static string Translate(string key)
         {
             try
@@ -28,6 +36,10 @@ namespace Service.Logic
             }
         }
 
+        /// <summary>
+        /// Recorre recursivamente los controles traduciendo sus textos según la etiqueta configurada.
+        /// </summary>
+        /// <param name="control">Control raíz del formulario a traducir.</param>
         public static void TranslateForm(Control control)
         {
             try
@@ -67,6 +79,10 @@ namespace Service.Logic
             }
         }
 
+        /// <summary>
+        /// Aplica la traducción a un ítem de menú y a todos sus descendientes.
+        /// </summary>
+        /// <param name="menuItem">Elemento de menú a traducir.</param>
         private static void TranslateMenuItem(ToolStripMenuItem menuItem)
         {
             try
@@ -90,6 +106,10 @@ namespace Service.Logic
             }
         }
 
+        /// <summary>
+        /// Guarda el idioma seleccionado por el usuario.
+        /// </summary>
+        /// <param name="languageCode">Código de cultura a persistir.</param>
         public static void SaveUserLanguage(string languageCode)
         {
             try
@@ -103,6 +123,10 @@ namespace Service.Logic
             }
         }
 
+        /// <summary>
+        /// Recupera el idioma previamente almacenado o retorna el valor por defecto.
+        /// </summary>
+        /// <returns>Código de idioma a utilizar.</returns>
         public static string LoadUserLanguage()
         {
             try

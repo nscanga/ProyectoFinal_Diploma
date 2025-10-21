@@ -12,14 +12,24 @@ using Service.DOMAIN.DTO;
 
 namespace Service.DAL.Implementations.SqlServer.Helpers
 {
+    /// <summary>
+    /// Repositorio responsable de gestionar la persistencia de usuarios y sus accesos en SQL Server.
+    /// </summary>
     public class UsuarioRepository : IUsuarioRepository
-    {  
+    {
         private readonly FamiliaRepository _familiaRepository;
 
+        /// <summary>
+        /// Inicializa el repositorio de usuarios con el repositorio de familias asociado.
+        /// </summary>
         public UsuarioRepository()
         {
             _familiaRepository = new FamiliaRepository();
         }
+        /// <summary>
+        /// Inserta un nuevo usuario con estado habilitado y datos principales.
+        /// </summary>
+        /// <param name="usuario">Entidad con la información a persistir.</param>
         public void CreateUsuario(Usuario usuario)
         {
             SqlHelper.ExecuteNonQuery(
@@ -33,6 +43,10 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
             );
         }
 
+        /// <summary>
+        /// Deshabilita un usuario marcando su estado en la base de datos.
+        /// </summary>
+        /// <param name="idUsuario">Identificador del usuario a desactivar.</param>
         public void DisableUsuario(Guid idUsuario)
         {
             SqlHelper.ExecuteNonQuery(
@@ -42,6 +56,10 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
             );
         }
 
+        /// <summary>
+        /// Habilita nuevamente a un usuario cambiando su estado en la base de datos.
+        /// </summary>
+        /// <param name="idUsuario">Identificador del usuario a habilitar.</param>
         public void EnabledUsuario(Guid idUsuario)
         {
             SqlHelper.ExecuteNonQuery(
@@ -51,6 +69,11 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
             );
         }
 
+        /// <summary>
+        /// Reemplaza las patentes asignadas a un usuario por un nuevo conjunto de accesos.
+        /// </summary>
+        /// <param name="idUsuario">Usuario al que se aplicarán los cambios.</param>
+        /// <param name="accesos">Colección de accesos a vincular.</param>
         public void UpdateAccesos(Guid idUsuario, List<Acceso> accesos)
         {
             // Primero eliminamos los accesos existentes
@@ -71,6 +94,11 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
                 );
             }
         }
+        /// <summary>
+        /// Recupera un usuario por su nombre, incluyendo las familias asociadas.
+        /// </summary>
+        /// <param name="username">Nombre de usuario sensible a mayúsculas.</param>
+        /// <returns>Entidad usuario completa o <c>null</c> si no existe.</returns>
          public Usuario GetUsuarioByUsername(string username)
         {
             Usuario usuario = null;
@@ -105,6 +133,11 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
             return usuario;
         }
 
+        /// <summary>
+        /// Obtiene un usuario mediante su identificador, incorporando las familias relacionadas.
+        /// </summary>
+        /// <param name="idUsuario">Identificador del usuario buscado.</param>
+        /// <returns>Entidad usuario o <c>null</c> si no se encuentra.</returns>
         public Usuario GetUsuarioById(Guid idUsuario)
         {
             Usuario usuario = null;
@@ -138,6 +171,11 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
 
             return usuario;
         }
+        /// <summary>
+        /// Construye la lista de familias asociadas a un usuario incluyendo sus patentes.
+        /// </summary>
+        /// <param name="usuarioId">Identificador del usuario.</param>
+        /// <returns>Colección de familias con sus accesos.</returns>
         private List<Familia> GetFamiliasByUsuarioId(Guid usuarioId)
         {
             List<Familia> familias = new List<Familia>();
@@ -167,6 +205,10 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
 
             return familias;
         }
+        /// <summary>
+        /// Agrega una nueva patente al catálogo disponible.
+        /// </summary>
+        /// <param name="patente">Patente a registrar.</param>
         public void CreatePatente(Patente patente)
         {
             SqlHelper.ExecuteNonQuery(
@@ -179,6 +221,11 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
             );
         }
 
+        /// <summary>
+        /// Verifica si una patente ya está registrada por nombre.
+        /// </summary>
+        /// <param name="nombrePatente">Nombre a validar.</param>
+        /// <returns><c>true</c> si existe al menos una coincidencia.</returns>
         public bool ExistePatente(string nombrePatente)
         {
             var query = "SELECT COUNT(*) FROM Patente WHERE Nombre = @Nombre";
@@ -188,26 +235,47 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
        
 
 
+        /// <summary>
+        /// Implementación pendiente para agregar un usuario genérico del contrato base.
+        /// </summary>
+        /// <param name="obj">Entidad de usuario a agregar.</param>
         public void Add(Usuario obj)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Implementación pendiente para actualizar un usuario mediante el contrato genérico.
+        /// </summary>
+        /// <param name="obj">Entidad con los datos modificados.</param>
         public void Update(Usuario obj)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Implementación pendiente para eliminar un usuario según el contrato genérico.
+        /// </summary>
+        /// <param name="id">Identificador del usuario a eliminar.</param>
         public void Remove(Guid id)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Implementación pendiente para obtener un usuario genérico por identificador.
+        /// </summary>
+        /// <param name="id">Identificador buscado.</param>
+        /// <returns>Usuario correspondiente cuando se implemente.</returns>
         public Usuario GetById(Guid id)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Obtiene todos los usuarios registrando únicamente sus datos básicos.
+        /// </summary>
+        /// <returns>Listado de usuarios.</returns>
         public List<Usuario> GetAll()
         {
             var usuarios = new List<Usuario>();
@@ -237,6 +305,12 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
             // Devolver la lista de usuarios
             return usuarios;
         }
+        /// <summary>
+        /// Determina si un usuario posee alguna patente del tipo requerido.
+        /// </summary>
+        /// <param name="idUsuario">Identificador del usuario.</param>
+        /// <param name="tipoAcceso">Tipo de acceso a validar.</param>
+        /// <returns><c>true</c> cuando el usuario tiene la patente solicitada.</returns>
         public bool HasAccess(Guid idUsuario, TipoAcceso tipoAcceso)
         {
             // Obtener el usuario con sus accesos (patentes)
@@ -253,6 +327,10 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
                 .Any(patente => patente.TipoAcceso == tipoAcceso);
         }
 
+        /// <summary>
+        /// Obtiene la relación de usuarios junto con sus familias y patentes asignadas.
+        /// </summary>
+        /// <returns>Listado plano de usuarios con detalle de roles.</returns>
         public List<UsuarioRolDto> GetUsuariosConFamilasYPatentes()
         {
         var usuariosRoles = new List<UsuarioRolDto>();
@@ -287,6 +365,11 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
             return usuariosRoles;
         }
 
+        /// <summary>
+        /// Recupera un usuario incluyendo datos de contacto y tokens de recuperación.
+        /// </summary>
+        /// <param name="username">Nombre de usuario a buscar.</param>
+        /// <returns>Usuario con información ampliada o <c>null</c>.</returns>
         public Usuario GetUsuarioCompletos(string username)
         {
             Usuario usuario = null;
@@ -316,6 +399,10 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
             return usuario;
         }
 
+        /// <summary>
+        /// Actualiza el token y su vencimiento para la recuperación de contraseña de un usuario.
+        /// </summary>
+        /// <param name="usuario">Usuario con los nuevos valores de token.</param>
         public void UpdateUsuarioToken(Usuario usuario)
         {
             // Comando SQL para actualizar el usuario
@@ -335,10 +422,14 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
             );
         }
 
+        /// <summary>
+        /// Cambia la contraseña almacenada para el usuario indicado.
+        /// </summary>
+        /// <param name="usuario">Usuario con la nueva contraseña encriptada.</param>
         public void UpdatePassword(Usuario usuario)
         {
             string query = @"
-        UPDATE Usuario 
+        UPDATE Usuario
         SET Password = @Password 
         WHERE IdUsuario = @IdUsuario";
 
@@ -349,6 +440,11 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
                 new SqlParameter("@IdUsuario", usuario.IdUsuario)
             );
         }
+        /// <summary>
+        /// Actualiza el idioma preferido del usuario si la columna existe.
+        /// </summary>
+        /// <param name="idUsuario">Identificador del usuario.</param>
+        /// <param name="lenguaje">Código de idioma a asignar.</param>
         public void UpdateLenguaje(Guid idUsuario, string lenguaje)
         {
             try
@@ -367,6 +463,11 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
             }
         }
         
+        /// <summary>
+        /// Obtiene el código de idioma configurado para un usuario o devuelve el valor por defecto.
+        /// </summary>
+        /// <param name="idUsuario">Identificador del usuario.</param>
+        /// <returns>Código de cultura almacenado.</returns>
         public string GetUserLenguaje(Guid idUsuario)
         {
             try
@@ -393,6 +494,11 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
             }
         }
 
+        /// <summary>
+        /// Recupera un usuario con sus datos extendidos tolerando la falta de columnas opcionales.
+        /// </summary>
+        /// <param name="idUsuario">Identificador del usuario buscado.</param>
+        /// <returns>Usuario encontrado o <c>null</c> si no existe.</returns>
         public Usuario ObetenerUsuarioById(Guid idUsuario)
         {
             Usuario usuario = null;
@@ -448,6 +554,10 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
 
             return usuario;
         }
+        /// <summary>
+        /// Lista todos los usuarios disponibles incluyendo datos de recuperación cuando están presentes.
+        /// </summary>
+        /// <returns>Colección de usuarios.</returns>
         public List<Usuario> GetAllUsuarios()
         {
             List<Usuario> usuarios = new List<Usuario>();

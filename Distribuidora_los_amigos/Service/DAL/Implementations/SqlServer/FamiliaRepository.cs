@@ -10,8 +10,16 @@ using System.Threading.Tasks;
 
 namespace Service.DAL.Implementations.SqlServer.Helpers
 {
+    /// <summary>
+    /// Repositorio encargado de administrar familias y sus patentes relacionadas en la base de datos.
+    /// </summary>
     public class FamiliaRepository : IFamiliaRepository
     {
+        /// <summary>
+        /// Obtiene todas las patentes asociadas a una familia específica.
+        /// </summary>
+        /// <param name="familiaId">Identificador de la familia.</param>
+        /// <returns>Lista de patentes vinculadas.</returns>
         public List<Patente> GetPatentesByFamiliaId(Guid familiaId)
         {
             List<Patente> patentes = new List<Patente>();
@@ -37,6 +45,10 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
 
             return patentes;
         }
+        /// <summary>
+        /// Crea una nueva familia y vincula sus patentes.
+        /// </summary>
+        /// <param name="familia">Familia a persistir.</param>
         public void CreateFamilia(Familia familia)
         {
             SqlHelper.ExecuteNonQuery(
@@ -57,6 +69,10 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
             }
         }
 
+        /// <summary>
+        /// Actualiza el nombre de la familia y redefine sus patentes asociadas.
+        /// </summary>
+        /// <param name="familia">Familia con los datos actualizados.</param>
         public void UpdateFamilia(Familia familia)
         {
             // Actualizar el nombre de la familia
@@ -86,6 +102,11 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
             }
         }
 
+        /// <summary>
+        /// Asocia una familia a un usuario determinado.
+        /// </summary>
+        /// <param name="IdUsuario">Identificador del usuario.</param>
+        /// <param name="IdFamilia">Identificador de la familia.</param>
         public void SaveUsuarioFamilia(Guid IdUsuario, Guid IdFamilia)
         {
             SqlHelper.ExecuteNonQuery(
@@ -95,12 +116,22 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
                 new SqlParameter("@IdFamilia", IdFamilia)
             );
         }
+        /// <summary>
+        /// Indica si un usuario tiene al menos una familia asignada.
+        /// </summary>
+        /// <param name="idUsuario">Usuario a evaluar.</param>
+        /// <returns><c>true</c> cuando existen asociaciones.</returns>
         public bool ExisteFamiliaParaUsuario(Guid idUsuario)
         {
             var query = "SELECT COUNT(*) FROM Usuario_Familia WHERE IdUsuario = @IdUsuario";
             var count = (int)SqlHelper.ExecuteScalar(query, CommandType.Text, new SqlParameter("@IdUsuario", idUsuario));
             return count > 0;
         }
+        /// <summary>
+        /// Reemplaza todas las familias asignadas a un usuario por un nuevo conjunto.
+        /// </summary>
+        /// <param name="usuarioId">Usuario a actualizar.</param>
+        /// <param name="familias">Familias que quedarán vinculadas.</param>
         public void UpdateUsuarioFamilia(Guid usuarioId, List<Familia> familias)
         {
             // Eliminar relaciones actuales
@@ -116,6 +147,10 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
                 SaveUsuarioFamilia(usuarioId, familia.Id);
             }
         }
+        /// <summary>
+        /// Obtiene todas las familias disponibles.
+        /// </summary>
+        /// <returns>Lista de familias.</returns>
         public List<Familia> GetAll()
         {
             List<Familia> familias = new List<Familia>();
@@ -136,6 +171,10 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
 
             return familias;
         }
+        /// <summary>
+        /// Devuelve todas las patentes registradas en el sistema.
+        /// </summary>
+        /// <returns>Listado de patentes.</returns>
         public List<Patente> GetAllPatentes()
         {
             List<Patente> patentes = new List<Patente>();
@@ -158,6 +197,11 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
 
             return patentes;
         }
+        /// <summary>
+        /// Verifica si una familia existe buscando por nombre.
+        /// </summary>
+        /// <param name="nombreFamilia">Nombre a comprobar.</param>
+        /// <returns><c>true</c> si se encuentra la familia.</returns>
         public bool ExisteFamilia(string nombreFamilia)
         {
             var query = "SELECT COUNT(*) FROM Familia WHERE Nombre = @Nombre";

@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace Service.DAL.Implementations
 {
+    /// <summary>
+    /// Maneja la lectura y escritura de archivos de idioma configurables por usuario.
+    /// </summary>
     internal static class LanguageRepository
     {
         // Obtener las rutas desde el App.config
@@ -17,7 +20,11 @@ namespace Service.DAL.Implementations
 
 
 
-        // Método para traducir una clave basada en el idioma actual
+        /// <summary>
+        /// Traduce una clave textual utilizando el archivo correspondiente al idioma actual.
+        /// </summary>
+        /// <param name="key">Clave de la traducción buscada.</param>
+        /// <returns>Cadena traducida encontrada.</returns>
         public static string Translate(string key)
         {
             // Obtener el código de idioma actual (es-ES, en-US, etc.)
@@ -52,12 +59,20 @@ namespace Service.DAL.Implementations
             throw new Exception($"No se encontró la palabra {key} en el archivo de idioma {fileName}");
         }
 
+        /// <summary>
+        /// Punto de extensión para registrar nuevas claves de idioma (sin implementación actual).
+        /// </summary>
+        /// <param name="key">Clave que se podría persistir.</param>
         public static void WriteKey(string key)
         {
             string language = Thread.CurrentThread.CurrentUICulture.Name;
 
         }
 
+        /// <summary>
+        /// Obtiene la lista de idiomas disponibles (pendiente de implementación).
+        /// </summary>
+        /// <returns>Lista vacía hasta completar la lógica.</returns>
         public static List<string> GetLanguages()
         {
             return new List<string>();
@@ -65,7 +80,10 @@ namespace Service.DAL.Implementations
 
 
 
-        // Método para guardar el idioma seleccionado en un archivo de configuración
+        /// <summary>
+        /// Guarda el idioma preferido por el usuario en el archivo de configuración correspondiente.
+        /// </summary>
+        /// <param name="languageCode">Código de idioma a almacenar.</param>
         public static void SaveUserLanguage(string languageCode)
         {
             using (StreamWriter writer = new StreamWriter(UserIdiomaConfigPath, false))  // Sobrescribe el archivo
@@ -74,7 +92,10 @@ namespace Service.DAL.Implementations
             }
         }
 
-        // Método para cargar el idioma desde el archivo de configuración
+        /// <summary>
+        /// Carga el idioma almacenado para el usuario o retorna español como valor predeterminado.
+        /// </summary>
+        /// <returns>Código de idioma configurado.</returns>
         public static string LoadUserLanguage()
         {
             if (File.Exists(UserIdiomaConfigPath))

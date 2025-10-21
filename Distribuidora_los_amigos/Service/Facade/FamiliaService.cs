@@ -10,12 +10,18 @@ using System.Windows.Forms;
 
 namespace Service.Facade
 {
+    /// <summary>
+    /// Fachada que coordina la gestión de familias y sus patentes con validaciones adicionales.
+    /// </summary>
     public static class FamiliaService
     {
         private static readonly FamiliaLogic _familiaLogic = new FamiliaLogic();
         private static readonly FamiliaRepository _familiaDAL = new FamiliaRepository();
-    
 
+
+        /// <summary>
+        /// Crea una familia validando su nombre y que tenga patentes asociadas.
+        /// </summary>
         public static void CrearFamiliaConPatentes(string nombreFamilia, List<Patente> patentes)
         {
             if (string.IsNullOrWhiteSpace(nombreFamilia))
@@ -47,8 +53,11 @@ namespace Service.Facade
             _familiaLogic.CrearFamiliaConPatentes(familia);
         }
 
-        
 
+
+        /// <summary>
+        /// Asocia una familia a un usuario siempre que no tenga otra previamente asignada.
+        /// </summary>
         public static void AsignarFamiliaAUsuario(Guid usuarioId, Familia familia)
         {
             if(_familiaDAL.ExisteFamiliaParaUsuario(usuarioId))
@@ -62,23 +71,38 @@ namespace Service.Facade
 
         }
 
+        /// <summary>
+        /// Actualiza los datos y patentes de una familia.
+        /// </summary>
         public static void ActualizarFamilia(Familia familia)
         {
             _familiaLogic.ActualizarFamilia(familia);
         }
 
+        /// <summary>
+        /// Sustituye las familias asociadas a un usuario.
+        /// </summary>
         public static void ActualizarFamiliasDeUsuario(Guid usuarioId, List<Familia> familias)
         {
             _familiaLogic.ActualizarFamiliasDeUsuario(usuarioId, familias);
         }
+        /// <summary>
+        /// Obtiene todas las familias disponibles.
+        /// </summary>
         public static List<Familia> GetAllFamilias()
         {
             return _familiaLogic.GetAllFamilias();
         }
+        /// <summary>
+        /// Lista todas las patentes registradas.
+        /// </summary>
         public static List<Patente> GetAllPatentes()
         {
             return _familiaLogic.GetAllPatentes();
         }
+        /// <summary>
+        /// Traduce una clave de mensaje usando el servicio de idioma.
+        /// </summary>
         private static string TranslateMessageKey(string messageKey)
         {
             return IdiomaService.Translate(messageKey);

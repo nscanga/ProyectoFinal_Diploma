@@ -10,10 +10,17 @@ using System.Threading.Tasks;
 
 namespace Service.DAL.Implementations.SqlServer
 {
+    /// <summary>
+    /// Repositorio encargado de consultar los registros de la bitácora almacenada en la base de datos.
+    /// </summary>
     public class BitacoraRepository : IBitacoraRepository
     {
         private static string ConnectionString => ConfigurationManager.ConnectionStrings["LogDatabase"].ConnectionString;
 
+        /// <summary>
+        /// Recupera todos los registros de la bitácora con su detalle asociado.
+        /// </summary>
+        /// <returns>Listado completo de entradas de bitácora.</returns>
         public List<Bitacora> GetAll()
         {
             List<Bitacora> bitacoras = new List<Bitacora>();
