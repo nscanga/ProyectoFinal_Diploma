@@ -3,7 +3,7 @@ using System;
 namespace DOMAIN
 {
     /// <summary>
-    /// DTO para mostrar información combinada de Stock y Producto
+    /// DTO para mostrar informaciÃ³n combinada de Stock y Producto
     /// </summary>
     public class StockDTO
     {
@@ -16,6 +16,9 @@ namespace DOMAIN
         public decimal PrecioUnitario { get; set; }
         public bool Activo { get; set; }
 
+        /// <summary>
+        /// Permite instanciar el DTO antes de completar los datos combinados de stock y producto.
+        /// </summary>
         public StockDTO()
         {
         }

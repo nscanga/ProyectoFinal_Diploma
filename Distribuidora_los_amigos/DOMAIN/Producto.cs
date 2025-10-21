@@ -16,8 +16,10 @@ namespace DOMAIN
         public string Categoria { get; set; }
         public bool Activo { get; set; }
 
-
-        public Producto() 
+        /// <summary>
+        /// Inicializa un producto con un identificador único y lo deja activo para su uso inmediato.
+        /// </summary>
+        public Producto()
         {
             IdProducto = Guid.NewGuid();
             Activo = true;

@@ -16,6 +16,9 @@ namespace DOMAIN
         public string CUIT { get; set; } 
         public bool Activo { get; set; }
 
+        /// <summary>
+        /// Inicializa un cliente con un identificador único y lo marca como activo por defecto.
+        /// </summary>
         public Cliente()
         {
             IdCliente = Guid.NewGuid();

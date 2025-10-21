@@ -15,7 +15,10 @@ namespace DOMAIN
         public decimal PrecioUnitario { get; set; }
         public decimal Subtotal { get; set; } // Cantidad × Precio del producto
 
-        public DetallePedido() 
+        /// <summary>
+        /// Genera un detalle de pedido asignándole un identificador único para su seguimiento.
+        /// </summary>
+        public DetallePedido()
         {
             IdDetallePedido = Guid.NewGuid();
         }

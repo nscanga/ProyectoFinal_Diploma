@@ -16,7 +16,10 @@ namespace DOMAIN
         public string NombreEstado { get; set; } 
         public List<DetallePedido> Detalles { get; set; } = new List<DetallePedido>();
 
-        public Pedido() 
+        /// <summary>
+        /// Crea un pedido generando un identificador único y preparando la colección de detalles.
+        /// </summary>
+        public Pedido()
         {
             IdPedido = Guid.NewGuid();
         }
