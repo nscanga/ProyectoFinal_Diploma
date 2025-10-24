@@ -17,7 +17,7 @@ namespace Service.Facade
     {
         private static string smtpServer = "smtp.gmail.com"; // Servidor SMTP de Gmail
         private static string smtpUser = "nico.sc294@gmail.com"; // Cambia por tu email de Gmail
-        private static string smtpPass = "jrneoedsbnyrdrej"; // Cambia por tu contraseña de Gmail //clinica7676
+        private static string smtpPass = "jrneoedsbnyrdrej"; // Cambia por tu contraseña de Gmail
         private static int smtpPort = 587; // Puerto para TLS/STARTTLS
 
         /// <summary>

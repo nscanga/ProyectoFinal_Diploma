@@ -25,133 +25,7 @@ namespace Service.Facade
             string languageCode = IdiomaLogic.LoadUserLanguage();
             manualRepository = new ManualRepository(languageCode);
         }
-        /// <summary>
-        /// Abre la sección de ayuda para el alta de pacientes.
-        /// </summary>
-        public void AbrirAyudaAltaPaciente()
-        {
-            manualRepository.AbrirAyudaAltaPaciente();
-        }
 
-        /// <summary>
-        /// Muestra la ayuda para modificar pacientes.
-        /// </summary>
-        public void AbrirAyudaModPaciente()
-        {
-            manualRepository.AbrirAyudaModPaciente();
-        }
-
-        /// <summary>
-        /// Abre la ayuda para deshabilitar pacientes.
-        /// </summary>
-        public void AbrirAyudaDeshPaciente()
-        {
-            manualRepository.AbrirAyudaDeshPaciente();
-        }
-        /// <summary>
-        /// Muestra la ayuda sobre visualización de pacientes.
-        /// </summary>
-        public void AbrirAyudaVerPaciente()
-        {
-            manualRepository.AbrirAyudaVerPaciente();
-        }
-
-
-        /// <summary>
-        /// Abre la guía del alta de profesionales.
-        /// </summary>
-        public void AbrirAyudaAltaProfesional()
-        {
-            manualRepository.AbrirAyudaAltaProfesional();
-        }
-
-        /// <summary>
-        /// Presenta la ayuda para modificar profesionales.
-        /// </summary>
-        public void AbrirAyudaModProfesional()
-        {
-            manualRepository.AbrirAyudaModProfesional();
-        }
-
-        /// <summary>
-        /// Muestra la ayuda para deshabilitar profesionales.
-        /// </summary>
-        public void AbrirAyudaDeshProfesional()
-        {
-            manualRepository.AbrirAyudaDeshProfesional();
-        }
-
-        /// <summary>
-        /// Abre la sección de ayuda para ver profesionales.
-        /// </summary>
-        public void AbrirAyudaVerProfesional()
-        {
-            manualRepository.AbrirAyudaVerProfesional();
-        }
-
-
-
-        /// <summary>
-        /// Abre la ayuda para crear tratamientos.
-        /// </summary>
-        public void AbrirAyudaAltaTratamiento()
-        {
-            manualRepository.AbrirAyudaAltaTratamiento();
-        }
-
-        /// <summary>
-        /// Muestra la guía para crear etapas de tratamiento.
-        /// </summary>
-        public void AbrirAyudaAltaEtapa()
-        {
-            manualRepository.AbrirAyudaAltaEtapa();
-        }
-
-
-
-
-
-
-        /// <summary>
-        /// Abre la ayuda del alta de citas.
-        /// </summary>
-        public void AbrirAyudaAltaCita()
-        {
-            manualRepository.AbrirAyudaAltaCita();
-        }
-
-        /// <summary>
-        /// Muestra la ayuda del registro de citas.
-        /// </summary>
-        public void AbrirAyudaRegistroCita()
-        {
-            manualRepository.AbrirAyudaRegistroCita();
-        }
-
-        /// <summary>
-        /// Despliega la ayuda para listar citas.
-        /// </summary>
-        public void AbrirAyudaListarCitas()
-        {
-            manualRepository.AbrirAyudaListarCitas();
-        }
-
-
-
-        /// <summary>
-        /// Abre la ayuda del historial de atenciones.
-        /// </summary>
-        public void AbrirAyudaHistorial()
-        {
-            manualRepository.AbrirAyudaHistorial();
-        }
-        /// <summary>
-        /// Muestra la ayuda para gestionar horarios.
-        /// </summary>
-        public void AbrirAyudaHorarios()
-        {
-            manualRepository.AbrirAyudaHorarios();
-        }
         /// <summary>
         /// Despliega la ayuda de la pantalla principal.
         /// </summary>
@@ -159,12 +33,6 @@ namespace Service.Facade
         {
             manualRepository.AbrirAyudaMain();
         }
-
-
-
-
-
-
 
         /// <summary>
         /// Abre la ayuda para el inicio de sesión.

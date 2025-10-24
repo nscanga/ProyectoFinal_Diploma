@@ -42,13 +42,29 @@ namespace Service.ManegerEx
                     messageKey = "Error: El usuario no tiene permisos suficientes para realizar esta operación.";
                     break;
 
+                case 4060: // No se puede abrir la base de datos
+                    messageKey = "Error: No se puede abrir la base de datos. Verifique que la base de datos exista y esté accesible.";
+                    break;
+
+                case 18456: // Error de autenticación
+                    messageKey = "Error: Fallo en la autenticación con el servidor de base de datos. Verifique las credenciales de conexión.";
+                    break;
+
+                case -1: // Tiempo de espera agotado
+                    messageKey = "Error: Se agotó el tiempo de espera al conectar con la base de datos. Verifique la conexión de red.";
+                    break;
+
+                case 2: // Error de red
+                    messageKey = "Error: No se puede establecer conexión con el servidor de base de datos. Verifique que el servidor esté disponible.";
+                    break;
+
                 default:
-                    messageKey = "Error al realizar la operación}";
+                    messageKey = "Error al realizar la operación";
                     break;
             }
 
             string translatedMessage = TranslateMessageKey(messageKey);
-            MessageBox.Show(translatedMessage + ex.Message, "Error SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(translatedMessage + "\n\nDetalles técnicos: " + ex.Message, "Error SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         /// <summary>
@@ -74,6 +90,18 @@ namespace Service.ManegerEx
                 case 229: // Error de Permisos Insuficientes
                     messageKey = "Error: El usuario no tiene permisos suficientes para realizar esta operación.";
                     break;
+                case 4060: // No se puede abrir la base de datos
+                    messageKey = "Error: No se puede abrir la base de datos. Verifique que la base de datos exista y esté accesible.";
+                    break;
+                case 18456: // Error de autenticación
+                    messageKey = "Error: Fallo en la autenticación con el servidor de base de datos. Verifique las credenciales de conexión.";
+                    break;
+                case -1: // Tiempo de espera agotado
+                    messageKey = "Error: Se agotó el tiempo de espera al conectar con la base de datos. Verifique la conexión de red.";
+                    break;
+                case 2: // Error de red
+                    messageKey = "Error: No se puede establecer conexión con el servidor de base de datos. Verifique que el servidor esté disponible.";
+                    break;
                 default:
                     messageKey = "Error al realizar la operación.";
                     break;
@@ -89,8 +117,19 @@ namespace Service.ManegerEx
         {
             string messageKey = "Error inesperado:";
             string translatedMessage = TranslateMessageKey(messageKey);
-            MessageBox.Show(translatedMessage + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(translatedMessage + " " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+
+        /// <summary>
+        /// Maneja el caso específico cuando no hay usuarios en el sistema.
+        /// </summary>
+        public static void HandleNoUsersFound()
+        {
+            string messageKey = "No se encontraron usuarios en el sistema. Se debe crear un usuario administrador antes de continuar.";
+            string translatedMessage = TranslateMessageKey(messageKey);
+            MessageBox.Show(translatedMessage, "Sistema sin usuarios", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
         /// <summary>
         /// Traduce una clave de mensaje utilizando el servicio de idiomas.
         /// </summary>

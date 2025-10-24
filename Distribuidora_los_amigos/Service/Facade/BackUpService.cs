@@ -46,6 +46,40 @@ namespace Service.Facade
         }
 
         /// <summary>
+        /// Ejecuta el proceso de restauración desde la carpeta especificada.
+        /// </summary>
+        /// <param name="backupFolderPath">Carpeta que contiene los archivos .bak a restaurar.</param>
+        public static void ExecuteRestore(string backupFolderPath)
+        {
+            try
+            {
+                // ✅ Validar entrada
+                if (string.IsNullOrWhiteSpace(backupFolderPath))
+                {
+                    throw new ArgumentException("Debe seleccionar una carpeta válida con los archivos de backup.");
+                }
+
+                // ✅ Crear una instancia del repositorio de backup
+                IBackupRepository backupRepository = new BackupRepository();
+
+                // ✅ Crear una instancia de BackupLogic con el repositorio
+                BackUpLogic backupLogic = new BackUpLogic(backupRepository);
+
+                // ✅ Ejecutar la restauración
+                backupLogic.PerformRestore(backupFolderPath);
+
+                // ✅ Registrar éxito en el log
+                LoggerService.WriteLog($"Restauración completada exitosamente desde: {backupFolderPath}", System.Diagnostics.TraceLevel.Info);
+            }
+            catch (Exception ex)
+            {
+                // ✅ Registrar error
+                LoggerService.WriteException(ex);
+                throw new Exception($"Error al ejecutar la restauración: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
         /// Obtiene las rutas disponibles para almacenar respaldos desde la configuración.
         /// </summary>
         /// <returns>Listado de rutas configuradas.</returns>

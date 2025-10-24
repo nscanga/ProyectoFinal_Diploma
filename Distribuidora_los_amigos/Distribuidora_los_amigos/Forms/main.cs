@@ -16,6 +16,7 @@ using Distribuidora_los_amigos.Forms.GestionUsuarios;
 using Distribuidora_los_amigos.Forms.Pedidos;
 using Distribuidora_los_amigos.Forms.Productos;
 using Distribuidora_los_amigos.Forms.Proveedores;
+using Distribuidora_los_amigos.Forms.Reportes;
 using Distribuidora_los_amigos.Forms.StockForm;
 using DOMAIN;
 using Service.DAL.Contracts;
@@ -545,6 +546,97 @@ namespace Distribuidora_los_amigos
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al abrir el formulario de backup: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LoggerService.WriteException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Abre el formulario de restauración de backups manejando errores de inicialización.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
+        private void restaurarBackupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var form = new RestoreForm();
+                form.MdiParent = this;
+                form.FormBorderStyle = FormBorderStyle.None;
+                form.Dock = DockStyle.Fill;
+                form.WindowState = FormWindowState.Maximized;
+                form.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir el formulario de restauración: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LoggerService.WriteException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Abre el reporte de productos con stock bajo o crítico.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
+        private void reporteStockBajoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Verificar si ya existe una instancia abierta
+                foreach (Form form in this.MdiChildren)
+                {
+                    if (form is ReporteStockBajoForm)
+                    {
+                        form.BringToFront();
+                        form.WindowState = FormWindowState.Maximized;
+                        return;
+                    }
+                }
+
+                var reporteForm = new ReporteStockBajoForm();
+                reporteForm.MdiParent = this;
+                reporteForm.FormBorderStyle = FormBorderStyle.None;
+                reporteForm.Dock = DockStyle.Fill;
+                reporteForm.WindowState = FormWindowState.Maximized;
+                reporteForm.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir el reporte: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LoggerService.WriteException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Abre el reporte de productos más vendidos con filtros por período.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
+        private void reporteProductosMasVendidosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Verificar si ya existe una instancia abierta
+                foreach (Form form in this.MdiChildren)
+                {
+                    if (form is ReporteProductosMasVendidosForm)
+                    {
+                        form.BringToFront();
+                        form.WindowState = FormWindowState.Maximized;
+                        return;
+                    }
+                }
+
+                var reporteForm = new ReporteProductosMasVendidosForm();
+                reporteForm.MdiParent = this;
+                reporteForm.FormBorderStyle = FormBorderStyle.None;
+                reporteForm.Dock = DockStyle.Fill;
+                reporteForm.WindowState = FormWindowState.Maximized;
+                reporteForm.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir el reporte: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 LoggerService.WriteException(ex);
             }
         }

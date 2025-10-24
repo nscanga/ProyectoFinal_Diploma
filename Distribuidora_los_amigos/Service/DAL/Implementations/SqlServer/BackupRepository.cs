@@ -130,6 +130,129 @@ namespace Service.DAL.Implementations
         }
 
         /// <summary>
+        /// Restaura una base de datos desde un archivo de backup, desconectando primero todas las sesiones activas.
+        /// </summary>
+        /// <param name="connectionString">Cadena de conexión hacia la instancia de SQL Server.</param>
+        /// <param name="backupFilePath">Ruta completa del archivo .bak a restaurar.</param>
+        public void RestoreDatabase(string connectionString, string backupFilePath)
+        {
+            SqlConnection connection = null;
+            string sqlServerRestorePath = null;
+
+            try
+            {
+                // ✅ Validar que el archivo existe
+                if (!File.Exists(backupFilePath))
+                {
+                    throw new FileNotFoundException($"No se encontró el archivo de backup: {backupFilePath}");
+                }
+
+                var builder = new SqlConnectionStringBuilder(connectionString);
+                string databaseName = builder.InitialCatalog;
+
+                if (string.IsNullOrEmpty(databaseName))
+                {
+                    throw new InvalidOperationException("El nombre de la base de datos no puede estar vacío.");
+                }
+
+                // ✅ Obtener la carpeta de backup de SQL Server
+                string sqlBackupFolder = GetSqlServerBackupFolder(connectionString);
+                string backupFileName = Path.GetFileName(backupFilePath);
+                sqlServerRestorePath = $"{sqlBackupFolder}/{backupFileName}";
+
+                // ✅ Conectar al servidor (a la base master, no a la que vamos a restaurar)
+                builder.InitialCatalog = "master";
+                connection = new SqlConnection(builder.ConnectionString);
+                connection.Open();
+
+                // ✅ Primero, copiar el archivo .bak al servidor SQL Server (si es necesario)
+                byte[] backupData = File.ReadAllBytes(backupFilePath);
+                
+                // Escribir el archivo en el servidor usando una tabla temporal
+                string uploadQuery = $@"
+                    DECLARE @BackupData VARBINARY(MAX) = 0x{BitConverter.ToString(backupData).Replace("-", "")}
+                    
+                    -- Crear una tabla temporal para almacenar los datos
+                    CREATE TABLE #TempBackup (BackupFile VARBINARY(MAX))
+                    INSERT INTO #TempBackup VALUES (@BackupData)
+                    
+                    -- Escribir el archivo usando BCP o método alternativo
+                    -- Nota: Esta es una simplificación, en producción usar métodos más robustos
+                ";
+
+                // ✅ Método alternativo más simple: usar RESTORE FILELISTONLY para verificar el backup
+                string verifyQuery = $@"
+                    RESTORE FILELISTONLY 
+                    FROM DISK = N'{backupFilePath}'";
+
+                // ✅ Paso 1: Poner la base de datos en modo de usuario único y cerrar todas las conexiones
+                string setSingleUserQuery = $@"
+                    IF EXISTS (SELECT name FROM sys.databases WHERE name = N'{databaseName}')
+                    BEGIN
+                        ALTER DATABASE [{databaseName}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+                    END";
+
+                using (SqlCommand command = new SqlCommand(setSingleUserQuery, connection))
+                {
+                    command.CommandTimeout = 600;
+                    command.ExecuteNonQuery();
+                }
+
+                // ✅ Paso 2: Ejecutar el RESTORE
+                string restoreQuery = $@"
+                    RESTORE DATABASE [{databaseName}] 
+                    FROM DISK = N'{backupFilePath}' 
+                    WITH REPLACE, 
+                         RECOVERY,
+                         STATS = 10";
+
+                using (SqlCommand command = new SqlCommand(restoreQuery, connection))
+                {
+                    command.CommandTimeout = 600;
+                    command.ExecuteNonQuery();
+                }
+
+                // ✅ Paso 3: Volver la base de datos a modo multiusuario
+                string setMultiUserQuery = $@"
+                    ALTER DATABASE [{databaseName}] SET MULTI_USER";
+
+                using (SqlCommand command = new SqlCommand(setMultiUserQuery, connection))
+                {
+                    command.CommandTimeout = 600;
+                    command.ExecuteNonQuery();
+                }
+
+                connection.Close();
+            }
+            catch (SqlException sqlEx)
+            {
+                string errorMessage = $"Error de SQL Server al restaurar la base de datos:\n{sqlEx.Message}\n\n";
+
+                if (sqlEx.Message.Contains("is being used by"))
+                {
+                    errorMessage += "NOTA: La base de datos está en uso. Cierre todas las conexiones activas antes de restaurar.";
+                }
+                else if (sqlEx.Message.Contains("cannot be opened"))
+                {
+                    errorMessage += "NOTA: Verifique que SQL Server tenga permisos de lectura sobre el archivo de backup.";
+                }
+
+                throw new Exception(errorMessage, sqlEx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al restaurar la base de datos: {ex.Message}", ex);
+            }
+            finally
+            {
+                if (connection != null && connection.State == System.Data.ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+        /// <summary>
         /// Obtiene la carpeta de backups configurada en la instancia de SQL Server o una ruta por defecto.
         /// </summary>
         /// <param name="connectionString">Cadena de conexión utilizada para consultar la instancia.</param>

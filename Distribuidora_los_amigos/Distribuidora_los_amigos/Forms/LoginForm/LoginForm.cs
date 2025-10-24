@@ -42,8 +42,6 @@ namespace Distribuidora_los_amigos
         {
             try
             {
-                //string hash = CryptographyService.HashMd5("admin123");
-                //MessageBox.Show("Hash generado: " + hash);
                 InicializadorDeIdioma();
                 // Suscribirse a los cambios de idioma
                 IdiomaService.Subscribe(this);
@@ -51,34 +49,50 @@ namespace Distribuidora_los_amigos
                 // Cargar el idioma guardado y aplicarlo
                 string currentLanguage = IdiomaService.LoadUserLanguage();
 
+                // ✅ Verificar si existen usuarios en el sistema
+                List<Usuario> usuarios = UserService.GetAllUsuarios();
 
-                IUsuarioRepository usuarioRepo = new UsuarioRepository();
-
-                if (usuarioRepo.GetAll().Count == 0)
+                if (usuarios.Count == 0)
                 {
-                    MessageBox.Show("No hay usuarios creados. Se creará un usuario administrador por defecto.", "Sistema", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    string messageKey = "No hay usuarios en el sistema. Se creará un usuario administrador por defecto.\n\nUsuario: admin\nContraseña: Admin123!";
+                    string translatedMessage = TranslateMessageKey(messageKey);
+                    MessageBox.Show(translatedMessage, "Inicialización del Sistema", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    var usuarioAdmin = new Usuario
+                    try
                     {
-                        IdUsuario = Guid.NewGuid(),
-                        UserName = "admin",
-                        Password = "admin123",
-                        Email = "admin@admin.com",
-                        Estado = "Habilitado",
-                        Lenguaje = "es-ES"
-                    };
+                        // ✅ Crear usuario administrador usando el servicio (esto aplicará el hash MD5 correctamente)
+                        var usuarioAdmin = new Usuario
+                        {
+                            UserName = "admin"
+                        };
 
-                    usuarioRepo.CreateUsuario(usuarioAdmin);
+                        UserService.Register("admin", "Admin123!", "admin@sistema.com");
+
+                        LoggerService.WriteLog("Usuario administrador por defecto creado exitosamente.", System.Diagnostics.TraceLevel.Info);
+                        
+                        string successKey = "Usuario administrador creado exitosamente.\n\nUsuario: admin\nContraseña: Admin123!\n\n⚠️ Por favor, cambie esta contraseña después del primer inicio de sesión.";
+                        string successMessage = TranslateMessageKey(successKey);
+                        MessageBox.Show(successMessage, "Sistema Inicializado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    catch (Exception ex)
+                    {
+                        LoggerService.WriteLog($"Error al crear usuario administrador por defecto: {ex.Message}", System.Diagnostics.TraceLevel.Error);
+                        LoggerService.WriteException(ex);
+                        
+                        string errorKey = "Error crítico: No se pudo crear el usuario administrador por defecto. La aplicación no puede continuar.";
+                        string errorMessage = TranslateMessageKey(errorKey);
+                        MessageBox.Show(errorMessage + "\n\n" + ex.Message, "Error Fatal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        
+                        Application.Exit();
+                        return;
+                    }
                 }
-
 
                 // Establecer la cultura del hilo principal al idioma guardado
                 Thread.CurrentThread.CurrentUICulture = new CultureInfo(currentLanguage);
 
                 // Traducir los controles del formulario
                 IdiomaService.TranslateForm(this);
-
-                // Inicializar el ComboBox con las opciones de idioma
 
                 LoggerService.WriteLog($"Formulario '{this.Text}' abierto.", System.Diagnostics.TraceLevel.Info);
             }

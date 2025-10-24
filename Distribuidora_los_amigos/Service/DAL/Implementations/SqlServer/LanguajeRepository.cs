@@ -36,7 +36,30 @@ namespace Service.DAL.Implementations
                 ["AGREGAR"] = "AGREGAR",
                 ["MODIFICAR"] = "MODIFICAR",
                 ["ELIMINAR"] = "ELIMINAR",
-                ["VER_PRODUCTOS"] = "VER PRODUCTOS"
+                ["VER_PRODUCTOS"] = "VER PRODUCTOS",
+                // 🆕 Traducciones para Reportes
+                ["ReporteStockBajo"] = "Reporte de Stock Bajo",
+                ["ReporteProductosMasVendidos"] = "Productos Más Vendidos",
+                ["Producto"] = "Producto",
+                ["Categoría"] = "Categoría",
+                ["Cantidad Actual"] = "Cantidad Actual",
+                ["Tipo"] = "Tipo",
+                ["Estado"] = "Estado",
+                ["Total productos"] = "Total productos",
+                ["Críticos"] = "Críticos",
+                ["Muy Bajos"] = "Muy Bajos",
+                ["Bajos"] = "Bajos",
+                ["Ingrese un valor válido mayor a 0"] = "Ingrese un valor válido mayor a 0",
+                ["Reporte exportado exitosamente"] = "Reporte exportado exitosamente",
+                ["Cantidad Vendida"] = "Cantidad Vendida",
+                ["Monto Total"] = "Monto Total",
+                ["Precio Promedio"] = "Precio Promedio",
+                ["Veces Vendido"] = "Veces Vendido",
+                ["Total Ventas"] = "Total Ventas",
+                ["Total Unidades"] = "Total Unidades",
+                ["Productos Únicos"] = "Productos Únicos",
+                ["Período"] = "Período",
+                ["La fecha desde debe ser menor a la fecha hasta"] = "La fecha desde debe ser menor a la fecha hasta"
             },
             ["en-US"] = new Dictionary<string, string>
             {
@@ -59,7 +82,30 @@ namespace Service.DAL.Implementations
                 ["AGREGAR"] = "ADD",
                 ["MODIFICAR"] = "MODIFY",
                 ["ELIMINAR"] = "DELETE",
-                ["VER_PRODUCTOS"] = "VIEW PRODUCTS"
+                ["VER_PRODUCTOS"] = "VIEW PRODUCTS",
+                // 🆕 Traducciones para Reportes
+                ["ReporteStockBajo"] = "Low Stock Report",
+                ["ReporteProductosMasVendidos"] = "Best Selling Products",
+                ["Producto"] = "Product",
+                ["Categoría"] = "Category",
+                ["Cantidad Actual"] = "Current Quantity",
+                ["Tipo"] = "Type",
+                ["Estado"] = "Status",
+                ["Total productos"] = "Total products",
+                ["Críticos"] = "Critical",
+                ["Muy Bajos"] = "Very Low",
+                ["Bajos"] = "Low",
+                ["Ingrese un valor válido mayor a 0"] = "Enter a valid value greater than 0",
+                ["Reporte exportado exitosamente"] = "Report exported successfully",
+                ["Cantidad Vendida"] = "Quantity Sold",
+                ["Monto Total"] = "Total Amount",
+                ["Precio Promedio"] = "Average Price",
+                ["Veces Vendido"] = "Times Sold",
+                ["Total Ventas"] = "Total Sales",
+                ["Total Unidades"] = "Total Units",
+                ["Productos Únicos"] = "Unique Products",
+                ["Período"] = "Period",
+                ["La fecha desde debe ser menor a la fecha hasta"] = "Start date must be before end date"
             },
             ["pt-PT"] = new Dictionary<string, string>
             {
@@ -82,7 +128,30 @@ namespace Service.DAL.Implementations
                 ["AGREGAR"] = "ADICIONAR",
                 ["MODIFICAR"] = "MODIFICAR",
                 ["ELIMINAR"] = "EXCLUIR",
-                ["VER_PRODUCTOS"] = "VER PRODUTOS"
+                ["VER_PRODUCTOS"] = "VER PRODUTOS",
+                // 🆕 Traducciones para Reportes
+                ["ReporteStockBajo"] = "Relatório de Estoque Baixo",
+                ["ReporteProductosMasVendidos"] = "Produtos Mais Vendidos",
+                ["Producto"] = "Produto",
+                ["Categoría"] = "Categoria",
+                ["Cantidad Actual"] = "Quantidade Atual",
+                ["Tipo"] = "Tipo",
+                ["Estado"] = "Status",
+                ["Total productos"] = "Total de produtos",
+                ["Críticos"] = "Críticos",
+                ["Muy Bajos"] = "Muito Baixos",
+                ["Bajos"] = "Baixos",
+                ["Ingrese un valor válido mayor a 0"] = "Digite um valor válido maior que 0",
+                ["Reporte exportado exitosamente"] = "Relatório exportado com sucesso",
+                ["Cantidad Vendida"] = "Quantidade Vendida",
+                ["Monto Total"] = "Montante Total",
+                ["Precio Promedio"] = "Preço Médio",
+                ["Veces Vendido"] = "Vezes Vendido",
+                ["Total Ventas"] = "Total de Vendas",
+                ["Total Unidades"] = "Total de Unidades",
+                ["Productos Únicos"] = "Produtos Únicos",
+                ["Período"] = "Período",
+                ["La fecha desde debe ser menor a la fecha hasta"] = "A data inicial deve ser anterior à data final"
             }
         };
 

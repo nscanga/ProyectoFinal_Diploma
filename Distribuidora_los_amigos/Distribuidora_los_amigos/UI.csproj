@@ -145,6 +145,10 @@
     <Compile Include="Forms\GestionUsuarios\MostrarUsuariosForm.Designer.cs">
       <DependentUpon>MostrarUsuariosForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\GestionUsuarios\RestoreForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GestionUsuarios\RestoreForm.Designer.cs" />
     <Compile Include="Forms\LoginForm\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -227,6 +231,18 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\RecuperarPassword\RecuperarPasswordForm.Designer.cs" />
+    <Compile Include="Forms\Reportes\ReporteProductosMasVendidosForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Reportes\ReporteProductosMasVendidosForm.Designer.cs">
+      <DependentUpon>ReporteProductosMasVendidosForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Reportes\ReporteStockBajoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Reportes\ReporteStockBajoForm.Designer.cs">
+      <DependentUpon>ReporteStockBajoForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\StockForm\ModificarStockForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -328,6 +344,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="Docs\BACKUP_Y_RESTORE.md" />
+    <None Include="Docs\CONFIGURACION_INICIAL.md" />
+    <None Include="Docs\CONFIGURACION_REPORTES.md" />
+    <None Include="Docs\RESUMEN_IMPLEMENTACION_REPORTES.md" />
+    <None Include="Docs\USUARIO_ADMINISTRADOR_DEFAULT.md" />
     <None Include="l18n\2vbwypcf.qlm~" />
     <None Include="l18n\d0j2zvho.vgb~" />
     <None Include="l18n\fuumdsp0.odh~" />
@@ -373,6 +394,10 @@
       <Project>{52931b7d-6058-4afd-93b1-2b937c4b98a1}</Project>
       <Name>Service</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Docs\SQL_Scripts\00_Crear_Usuario_Admin_Default.sql" />
+    <Content Include="Docs\SQL_Scripts\01_Restore_Manual_Emergency.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
