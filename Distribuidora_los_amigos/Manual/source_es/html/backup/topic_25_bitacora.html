@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitácora del Sistema - Distribuidora Los Amigos</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+    <div class="breadcrumb">
+        <a href="../general/topic_20_main.html">Inicio</a>
+        <span>›</span>
+        <a href="#">Backup y Restore</a>
+        <span>›</span>
+        <span>Bitácora del Sistema</span>
+    </div>
+
+    <h1>Bitácora del sistema</h1>
+
+    <section id="introduccion">
+        <h2>¿Qué es la bitácora?</h2>
+        <p>
+            La bitácora registra todas las acciones relevantes del sistema: inicios de sesión, errores,
+            operaciones de mantenimiento (backup/restore) y mensajes técnicos generados por <code>LoggerService</code>.
+            Esta pantalla permite consultar dichos registros para realizar auditorías o resolver incidentes.
+        </p>
+        <p>
+            Los datos se almacenan en la base <strong>Bitacora</strong>, tabla <code>Log</code>, y se consultan mediante
+            <code>BitacoraService.GetAllBitacora()</code> que obtiene información a través del repositorio SQL Server.
+        </p>
+    </section>
+
+    <section id="acceso">
+        <h2>Cómo acceder</h2>
+        <ol>
+            <li>Desde la pantalla principal abrí el menú asignado al módulo de auditoría (por ejemplo <strong>Backup y Restore</strong>).</li>
+            <li>Elegí la opción <strong>Bitácora del sistema</strong>.</li>
+            <li>Se abrirá el formulario correspondiente con el listado de eventos registrados.</li>
+        </ol>
+        <div class="info">
+            Si no ves la opción en el menú, solicitá al administrador que asigne los permisos necesarios
+            o que habilite la pantalla en tu perfil.</div>
+    </section>
+
+    <section id="estructura">
+        <h2>Estructura del listado</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Columna</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Id_Log</strong></td>
+                    <td>Identificador único del evento (GUID). Útil para referencias cruzadas o soporte técnico.</td>
+                </tr>
+                <tr>
+                    <td><strong>Fecha</strong></td>
+                    <td>Fecha y hora exacta en la que ocurrió la acción registrada.</td>
+                </tr>
+                <tr>
+                    <td><strong>Nivel</strong></td>
+                    <td>Severidad del evento (<code>Info</code>, <code>Warning</code>, <code>Error</code>, etc.).</td>
+                </tr>
+                <tr>
+                    <td><strong>Mensaje</strong></td>
+                    <td>Descripción corta de lo sucedido. Ejemplos: “Backup creado exitosamente”, “Error al restaurar base…”.</td>
+                </tr>
+                <tr>
+                    <td><strong>Detalle técnico</strong></td>
+                    <td>Campo opcional con el <em>stack trace</em> cuando se captura una excepción.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="uso">
+        <h2>Cómo utilizar la bitácora</h2>
+        <ol>
+            <li>Usá el ordenamiento de la grilla (clic en los encabezados) para ver primero los eventos más recientes.</li>
+            <li>Si la pantalla ofrece filtros por fecha o nivel, aplicalos para concentrarte en el período o severidad que necesitás analizar.</li>
+            <li>Seleccioná una fila para revisar el mensaje completo y, si existe, el detalle técnico asociado.</li>
+            <li>Copiá los registros relevantes (Ctrl+C) y adjuntalos a la documentación del incidente o al ticket de soporte.</li>
+        </ol>
+        <div class="tip">El atajo <strong>Ctrl+C</strong> copia el contenido de las celdas seleccionadas para pegarlo en correos o planillas.</div>
+    </section>
+
+    <section id="analisis">
+        <h2>Interpretar los niveles de severidad</h2>
+        <ul>
+            <li><strong>Info:</strong> eventos exitosos o acciones esperadas (altas de usuarios, backups completados).</li>
+            <li><strong>Warning:</strong> situaciones inusuales que no detuvieron el proceso pero requieren seguimiento.</li>
+            <li><strong>Error:</strong> fallas que impidieron completar la operación. Revisar el detalle técnico asociado.</li>
+            <li><strong>Critical/Fatal:</strong> errores graves de infraestructura. Escalar inmediatamente al equipo técnico.</li>
+        </ul>
+    </section>
+
+    <section id="buenas-practicas">
+        <h2>Buenas prácticas</h2>
+        <ul>
+            <li>Revisar la bitácora después de cada proceso de <strong>backup</strong> o <strong>restore</strong>.</li>
+            <li>Guardar evidencia (capturas o exportes) cuando se detecten errores recurrentes.</li>
+            <li>Limitar el acceso a usuarios con rol de auditoría o administradores del sistema.</li>
+            <li>Implementar un procedimiento periódico de revisión (diario/semanal) para detectar anomalías tempranas.</li>
+        </ul>
+    </section>
+
+    <section id="resolucion">
+        <h2>Resolver problemas a partir de la bitácora</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Situación</th>
+                    <th>Qué buscar</th>
+                    <th>Acción recomendada</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Falló un backup reciente</td>
+                    <td>Entradas con nivel <strong>Error</strong> relacionadas con <em>Backup</em> y el detalle de excepción.</td>
+                    <td>Validar permisos de carpeta/SQL y reintentar el proceso tras corregir la causa.</td>
+                </tr>
+                <tr>
+                    <td>Usuarios reportan cierres inesperados</td>
+                    <td>Errores de tipo <em>Unhandled Exception</em> con información de stack trace.</td>
+                    <td>Derivar al equipo de desarrollo adjuntando el <code>Id_Log</code> y el detalle técnico.</td>
+                </tr>
+                <tr>
+                    <td>Auditoría de accesos</td>
+                    <td>Registros <strong>Info</strong> con mensajes de inicio/cierre de sesión.</td>
+                    <td>Exportar la lista filtrada por usuario y rango de fechas para documentar el hallazgo.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="relacionados">
+        <h2>Ver también</h2>
+        <ul class="no-bullets">
+            <li>📄 <a href="topic_22_backup.html">Crear backup de las bases de datos</a></li>
+            <li>📄 <a href="topic_30_restore.html">Restaurar bases de datos desde backup</a></li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
+        <p>Documentación de ayuda contextual (F1)</p>
+    </footer>
+
+</body>
+</html>

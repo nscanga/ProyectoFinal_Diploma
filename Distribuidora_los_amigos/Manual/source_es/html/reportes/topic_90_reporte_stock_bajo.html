@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
         <a href="../general/topic_20_main.html">Inicio</a>
         <span>›</span>
@@ -17,35 +17,39 @@
     </div>
 
     <h1>Reporte Stock Bajo</h1>
-    
+
     <section id="introduccion">
         <h2>Introducción</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
+            El reporte de stock bajo muestra todos los productos activos cuyo inventario se
+            encuentra por debajo del umbral definido. Permite identificar artículos críticos
+            y priorizar reposiciones antes de que impacten en la operación diaria.
         </p>
         <p>
-            [EXPLICAR PARA QUÉ SIRVE Y CUÁNDO USARLA].
+            Utilice esta vista como parte del control operativo de depósitos o para justificar
+            compras urgentes. La información se calcula en tiempo real tomando los datos del
+            módulo de stock y clasifica cada producto según su nivel de criticidad.
         </p>
     </section>
-    
+
     <section id="acceso">
         <h2>Cómo Acceder</h2>
         <p>Para acceder a esta funcionalidad:</p>
         <ol>
-            <li>Desde el menú principal, ir a <strong>Reportes</strong></li>
-            <li>Seleccionar <strong>Stock Bajo</strong></li>
-            <li>Se abrirá la ventana de <strong>Reporte Stock Bajo</strong></li>
+            <li>Desde el menú principal, ir a <strong>Reportes</strong>.</li>
+            <li>Seleccionar <strong>Stock Bajo</strong>.</li>
+            <li>Se abrirá la ventana de <strong>Reporte de Stock Bajo</strong> con los datos actualizados.</li>
         </ol>
     </section>
-    
+
     <section id="campos">
-        <h2>Descripción de Campos</h2>
-        <p>A continuación se describe cada campo del formulario:</p>
-        
+        <h2>Descripción de Controles</h2>
+        <p>A continuación se describe cada control disponible en la pantalla:</p>
+
         <table>
             <thead>
                 <tr>
-                    <th>Campo</th>
+                    <th>Control</th>
                     <th>Descripción</th>
                     <th>Tipo</th>
                     <th>Obligatorio</th>
@@ -53,88 +57,139 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[Descripción del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>Sí / No</td>
+                    <td><strong>Umbral Stock Bajo</strong> (txtUmbral)</td>
+                    <td>Cantidad mínima aceptable. Los productos con stock igual o inferior se muestran en el reporte.</td>
+                    <td>Campo numérico</td>
+                    <td>Sí</td>
                 </tr>
-                <!-- AGREGAR MÁS CAMPOS AQUÍ -->
+                <tr>
+                    <td><strong>Actualizar</strong> (btnActualizarUmbral)</td>
+                    <td>Aplica el nuevo umbral ingresado y recalcula el listado.</td>
+                    <td>Botón</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Refrescar</strong> (btnRefrescar)</td>
+                    <td>Vuelve a consultar el stock respetando el umbral vigente.</td>
+                    <td>Botón</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Exportar a Excel</strong> (btnExportarExcel)</td>
+                    <td>Genera un archivo CSV con los datos visibles para análisis externo.</td>
+                    <td>Botón</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Indicadores</strong> (panelEstadisticas)</td>
+                    <td>Resumen de cantidad total de productos listados y su distribución en críticos, muy bajos y bajos.</td>
+                    <td>Etiquetas</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Grilla de resultados</strong> (sfDataGrid1)</td>
+                    <td>Muestra producto, categoría, stock actual, tipo y estado de criticidad calculado.</td>
+                    <td>Tabla</td>
+                    <td>Sí</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
+
     <section id="procedimiento">
         <h2>Procedimiento</h2>
-        
+
         <div class="step">
             <span class="step-number">1</span>
-            <strong>[Título del Paso 1]</strong>
-            <p>[Descripción del paso 1]</p>
+            <strong>Definir umbral</strong>
+            <p>Ingrese el valor mínimo deseado en <strong>Umbral Stock Bajo</strong> y pulse <strong>Actualizar</strong> para recalcular el reporte.</p>
         </div>
-        
+
         <div class="step">
             <span class="step-number">2</span>
-            <strong>[Título del Paso 2]</strong>
-            <p>[Descripción del paso 2]</p>
+            <strong>Analizar indicadores</strong>
+            <p>Revise los totales y la cantidad de productos críticos, muy bajos y bajos para dimensionar la situación.</p>
         </div>
-        
-        <!-- AGREGAR MÁS PASOS SEGÚN NECESIDAD -->
+
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Priorizar acciones</strong>
+            <p>Ordene o filtre la grilla por <strong>Estado</strong> o <strong>Cantidad</strong> para decidir qué artículos reponer primero.</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Exportar información</strong>
+            <p>Si necesita compartir el análisis, presione <strong>Exportar a Excel</strong> y guarde el archivo CSV generado.</p>
+        </div>
     </section>
-    
+
     <section id="validaciones">
         <h2>Validaciones del Sistema</h2>
         <p>El sistema realiza las siguientes validaciones:</p>
         <ul>
-            <li>[Validación 1]</li>
-            <li>[Validación 2]</li>
-            <li>[Validación 3]</li>
+            <li>El umbral debe ser un número entero mayor a cero; de lo contrario se solicita corregir el valor.</li>
+            <li>Solo se muestran productos activos cuyo stock actual es menor o igual al umbral configurado.</li>
+            <li>La exportación se bloquea si no hay datos visibles para evitar archivos vacíos.</li>
         </ul>
     </section>
-    
+
     <section id="consejos">
         <h2>Consejos y Recomendaciones</h2>
-        
+
         <div class="tip">
-            [Consejo útil para el usuario]
+            Ajuste el umbral según la rotación del negocio. Para productos de alta rotación use valores más altos y anticipe rupturas.
         </div>
-        
+
+        <div class="tip">
+            Combine este reporte con el historial de compras para planificar pedidos de reposición basados en datos reales.
+        </div>
+
         <div class="warning">
-            <strong>⚠️ Advertencia:</strong> [Información importante]
+            <strong>⚠️ Advertencia:</strong> Si detecta productos en estado crítico, verifique inmediatamente los compromisos con clientes antes de confirmar nuevas ventas.
         </div>
     </section>
-    
+
     <section id="errores">
         <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
+
+        <h3>Error: "Ingrese un valor válido mayor a 0"</h3>
         <div class="error">
-            <strong>Causa:</strong> [Explicación del error]
+            <strong>Causa:</strong> Se ingresó un umbral en blanco, con letras o menor o igual a cero.
         </div>
         <div class="success">
-            <strong>✅ Solución:</strong> [Pasos para resolverlo]
+            <strong>✅ Solución:</strong> Escriba un número entero positivo (ejemplo: 15) y vuelva a presionar <strong>Actualizar</strong>.
+        </div>
+
+        <h3>Error: "No hay datos para exportar"</h3>
+        <div class="error">
+            <strong>Causa:</strong> Ningún producto cumple las condiciones actuales, por lo que la grilla está vacía.
+        </div>
+        <div class="success">
+            <strong>✅ Solución:</strong> Revise el umbral configurado o presione <strong>Refrescar</strong> para obtener datos actualizados antes de exportar.
         </div>
     </section>
-    
+
     <section id="permisos">
         <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
+        <p>Para utilizar esta funcionalidad, el usuario debe tener el siguiente permiso:</p>
         <ul>
-            <li><code>[NombrePatente]</code> - [Descripción del permiso]</li>
+            <li><code>ReporteStockBajo</code> - Autoriza la visualización y exportación del reporte de stock bajo.</li>
         </ul>
-        
+
         <div class="warning">
-            <strong>⚠️ Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
+            <strong>⚠️ Importante:</strong> Si no cuenta con el permiso requerido, contacte al administrador del sistema para solicitarlo.
         </div>
     </section>
-    
+
     <section id="relacionados">
         <h2>Ver También</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>📄 <a href="../stock/topic_70_mostrar_stock.html">Gestión de stock</a></li>
+            <li>📄 <a href="../productos/topic_52_mostrar_productos.html">Listado de productos</a></li>
         </ul>
     </section>
-    
+
     <footer>
         <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
         <p>Todos los derechos reservados</p>

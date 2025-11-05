@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurar Backup - Distribuidora Los Amigos</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+    <div class="breadcrumb">
+        <a href="../general/topic_20_main.html">Inicio</a>
+        <span>›</span>
+        <a href="#">Backup y Restore</a>
+        <span>›</span>
+        <span>Restaurar Base de Datos</span>
+    </div>
+
+    <h1>Restaurar bases de datos desde backup</h1>
+
+    <section id="introduccion">
+        <h2>¿Qué hace esta pantalla?</h2>
+        <p>
+            Permite reemplazar por completo las bases de datos del sistema utilizando archivos de respaldo previamente generados.
+            El formulario ejecuta <code>BackupService.ExecuteRestore</code>, que a su vez invoca
+            <code>BackUpLogic.PerformRestore</code> y aplica la restauración sobre las bases <strong>DistribuidoraLosAmigos</strong>,
+            <strong>Login</strong> y <strong>Bitacora</strong>.
+        </p>
+        <div class="warning">
+            <strong>⚠️ Advertencia:</strong> la restauración elimina toda la información existente y la reemplaza por la contenida
+            en los archivos <code>.bak</code>. No es posible deshacer la operación.
+        </div>
+    </section>
+
+    <section id="requisitos">
+        <h2>Antes de comenzar</h2>
+        <ul>
+            <li>Generá un backup reciente del entorno actual por si necesitás volver atrás.</li>
+            <li>Cerrá todas las sesiones que estén usando la base de datos (aplicaciones, reportes, etc.).</li>
+            <li>Verificá que contás con los tres archivos <code>.bak</code> correspondientes y que son compatibles con la versión de SQL Server.</li>
+            <li>Ejecutá la aplicación con permisos suficientes para leer la carpeta de origen.</li>
+        </ul>
+    </section>
+
+    <section id="acceso">
+        <h2>Cómo acceder</h2>
+        <ol>
+            <li>Desde la pantalla principal abrí el menú <strong>Backup y Restore</strong>.</li>
+            <li>Seleccioná <strong>Restaurar Backup</strong>.</li>
+            <li>El sistema mostrará el formulario <strong>RestoreForm</strong>.</li>
+        </ol>
+    </section>
+
+    <section id="flujo">
+        <h2>Procedimiento paso a paso</h2>
+        <ol>
+            <li>Presioná el botón <strong>Restaurar Base de Datos</strong>.</li>
+            <li>Leé las advertencias y confirmá que comprendés el alcance de la operación.</li>
+            <li>Elegí la carpeta que contiene los archivos <code>.bak</code>. El diálogo sugerirá las rutas configuradas
+                en <code>App.config</code> (<strong>BackupPath1</strong>, <strong>BackupPath2</strong>, <strong>BackupPath3</strong>).</li>
+            <li>El sistema listará los archivos encontrados. Revisá que se muestren los tres respaldos esperados.</li>
+            <li>Confirmá la restauración cuando se solicite (se piden varias confirmaciones consecutivas).</li>
+            <li>Esperá a que termine el proceso; el botón queda deshabilitado y se muestra <em>“Restaurando...”</em>.</li>
+            <li>Al finalizar se informará el éxito de la operación y se registrará en la bitácora.</li>
+            <li>Reiniciá la aplicación para garantizar que todas las conexiones se restablezcan correctamente.</li>
+        </ol>
+    </section>
+
+    <section id="validaciones">
+        <h2>Validaciones automáticas</h2>
+        <ul>
+            <li>Verificación de ruta: si la carpeta no existe, se aborta la operación con un mensaje descriptivo.</li>
+            <li>Existencia de archivos: se buscan coincidencias exactas (<code>NombreBD.bak</code>) y variantes con timestamp.</li>
+            <li>Permisos de lectura: ante excepciones <code>UnauthorizedAccessException</code> se informa al usuario.</li>
+            <li>Registro en logs: todos los errores se guardan mediante <code>LoggerService.WriteException</code>.</li>
+        </ul>
+    </section>
+
+    <section id="archivos">
+        <h2>Archivos requeridos</h2>
+        <pre><code>[Carpeta de backup]/
+├─ DistribuidoraLosAmigos*.bak
+├─ Login*.bak
+└─ Bitacora*.bak</code></pre>
+        <p>
+            El proceso utiliza las claves <code>Database1Name</code>, <code>Database2Name</code> y <code>Database3Name</code>
+            para validar cada archivo. Si alguno falta se cancela la restauración con un mensaje específico.
+        </p>
+    </section>
+
+    <section id="problemas">
+        <h2>Errores frecuentes y soluciones</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mensaje</th>
+                    <th>Motivo</th>
+                    <th>Acción sugerida</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>“La carpeta seleccionada no contiene archivos de backup (.bak).”</td>
+                    <td>No se encontraron archivos con la extensión indicada.</td>
+                    <td>Verificá la ruta o copiá los archivos correctos antes de continuar.</td>
+                </tr>
+                <tr>
+                    <td>“No se encontró el archivo de backup para la base de datos …”</td>
+                    <td>Falta alguno de los archivos necesarios o el nombre no coincide.</td>
+                    <td>Asegurate de incluir los tres respaldos y que conserven el prefijo de la base.</td>
+                </tr>
+                <tr>
+                    <td>“No tiene permisos para acceder a la carpeta seleccionada.”</td>
+                    <td>El usuario actual no puede leer los archivos.</td>
+                    <td>Ejecutá la aplicación como administrador o mové los archivos a una carpeta accesible.</td>
+                </tr>
+                <tr>
+                    <td>Errores SQL relacionados con <code>RESTORE DATABASE</code>.</td>
+                    <td>La instancia de SQL Server denegó la restauración.</td>
+                    <td>Verificá que no existan conexiones abiertas y que el usuario tenga permisos de <code>RESTORE</code> y <code>ALTER</code>.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="recomendaciones">
+        <h2>Buenas prácticas después de restaurar</h2>
+        <ul>
+            <li>Validá que los datos se hayan actualizado correctamente (usuarios, pedidos, inventario).</li>
+            <li>Revisá la bitácora para confirmar que no quedaron errores pendientes.</li>
+            <li>Generá un nuevo backup apenas termines la restauración para contar con un punto de recuperación limpio.</li>
+            <li>Documentá quién realizó el proceso y desde qué archivos para futuras auditorías.</li>
+        </ul>
+    </section>
+
+    <section id="relacionados">
+        <h2>Ver también</h2>
+        <ul class="no-bullets">
+            <li>📄 <a href="topic_22_backup.html">Crear backup de las bases de datos</a></li>
+            <li>📄 <a href="topic_25_bitacora.html">Bitácora del sistema</a></li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
+        <p>Documentación de ayuda contextual (F1)</p>
+    </footer>
+
+</body>
+</html>
