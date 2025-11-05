@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restore Backup - Distribuidora Los Amigos</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+    <div class="breadcrumb">
+        <a href="../general/topic_20_main.html">Home</a>
+        <span>›</span>
+        <a href="#">Backup &amp; Restore</a>
+        <span>›</span>
+        <span>Restore Database</span>
+    </div>
+
+    <h1>Restore databases from a backup</h1>
+
+    <section id="introduccion">
+        <h2>What does this screen do?</h2>
+        <p>
+            It fully replaces the system databases using previously generated backup files.
+            The form executes <code>BackupService.ExecuteRestore</code>, which calls
+            <code>BackUpLogic.PerformRestore</code> to restore <strong>DistribuidoraLosAmigos</strong>,
+            <strong>Login</strong>, and <strong>Bitacora</strong>.
+        </p>
+        <div class="warning">
+            <strong>⚠️ Warning:</strong> restoring deletes all current information and replaces it with the data contained
+            in the <code>.bak</code> files. The operation cannot be undone.
+        </div>
+    </section>
+
+    <section id="requisitos">
+        <h2>Before you start</h2>
+        <ul>
+            <li>Create a recent backup of the current environment in case you need to roll back.</li>
+            <li>Close every session that is using the database (applications, reports, and so on).</li>
+            <li>Verify that you have the three <code>.bak</code> files and that they are compatible with the SQL Server version.</li>
+            <li>Run the application with enough permissions to read the source folder.</li>
+        </ul>
+    </section>
+
+    <section id="acceso">
+        <h2>How to open it</h2>
+        <ol>
+            <li>From the main screen open the <strong>Backup &amp; Restore</strong> menu.</li>
+            <li>Select <strong>Restore Backup</strong>.</li>
+            <li>The system displays the <strong>RestoreForm</strong>.</li>
+        </ol>
+    </section>
+
+    <section id="flujo">
+        <h2>Step-by-step procedure</h2>
+        <ol>
+            <li>Press the <strong>Restore Database</strong> button.</li>
+            <li>Read the warnings and confirm that you understand the scope of the operation.</li>
+            <li>Select the folder that contains the <code>.bak</code> files. The dialog suggests the paths defined in
+                <code>App.config</code> (<strong>BackupPath1</strong>, <strong>BackupPath2</strong>, <strong>BackupPath3</strong>).</li>
+            <li>The system lists the files found. Verify that the three expected backups are displayed.</li>
+            <li>Confirm the restore when requested (several consecutive confirmations are required).</li>
+            <li>Wait until the process ends; the button stays disabled and the status text shows <em>“Restoring...”</em>.</li>
+            <li>When it finishes, a success message is shown and the action is recorded in the log.</li>
+            <li>Restart the application to make sure every connection is re-established correctly.</li>
+        </ol>
+    </section>
+
+    <section id="validaciones">
+        <h2>Automatic checks</h2>
+        <ul>
+            <li>Path validation: if the folder does not exist, the operation stops with a descriptive message.</li>
+            <li>File presence: it looks for exact matches (<code>DatabaseName.bak</code>) and timestamp variants.</li>
+            <li>Read permissions: <code>UnauthorizedAccessException</code> errors are reported to the user.</li>
+            <li>Logging: every error is captured through <code>LoggerService.WriteException</code>.</li>
+        </ul>
+    </section>
+
+    <section id="archivos">
+        <h2>Required files</h2>
+        <pre><code>[Backup folder]/
+├─ DistribuidoraLosAmigos*.bak
+├─ Login*.bak
+└─ Bitacora*.bak</code></pre>
+        <p>
+            The process reads the <code>Database1Name</code>, <code>Database2Name</code>, and <code>Database3Name</code>
+            keys to validate each file. If one is missing the restore is cancelled with a specific message.
+        </p>
+    </section>
+
+    <section id="problemas">
+        <h2>Common errors and fixes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Message</th>
+                    <th>Reason</th>
+                    <th>Suggested action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>“The selected folder does not contain backup (.bak) files.”</td>
+                    <td>No files with the required extension were found.</td>
+                    <td>Verify the path or copy the correct files before retrying.</td>
+                </tr>
+                <tr>
+                    <td>“The backup file for database … was not found.”</td>
+                    <td>One of the required files is missing or the name does not match.</td>
+                    <td>Make sure all three backups are present and keep the original database prefix.</td>
+                </tr>
+                <tr>
+                    <td>“You do not have permission to access the selected folder.”</td>
+                    <td>The current user cannot read the files.</td>
+                    <td>Run the application as administrator or move the files to an accessible folder.</td>
+                </tr>
+                <tr>
+                    <td>SQL errors related to <code>RESTORE DATABASE</code>.</td>
+                    <td>The SQL Server instance denied the restore.</td>
+                    <td>Check that no open connections remain and that the login has <code>RESTORE</code> and <code>ALTER</code> permissions.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="recomendaciones">
+        <h2>Good practices after restoring</h2>
+        <ul>
+            <li>Verify that the data was updated correctly (users, orders, inventory).</li>
+            <li>Review the log to confirm there are no pending errors.</li>
+            <li>Create a new backup right after the restore to have a clean recovery point.</li>
+            <li>Document who executed the process and which files were used for future audits.</li>
+        </ul>
+    </section>
+
+    <section id="relacionados">
+        <h2>See also</h2>
+        <ul class="no-bullets">
+            <li>📄 <a href="topic_22_backup.html">Create database backups</a></li>
+            <li>📄 <a href="topic_25_bitacora.html">System log</a></li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>© 2024 Distribuidora Los Amigos - Management System</p>
+        <p>Contextual help (F1)</p>
+    </footer>
+
+</body>
+</html>

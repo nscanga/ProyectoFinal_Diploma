@@ -1,143 +1,190 @@
-﻿<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reporte Stock Bajo - Distribuidora Los Amigos</title>
+    <title>Low Stock Report - Distribuidora Los Amigos</title>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
-        <a href="../general/topic_20_main.html">Inicio</a>
+        <a href="../general/topic_20_main.html">Home</a>
         <span>›</span>
-        <a href="#">Reportes</a>
+        <a href="#">Reports</a>
         <span>›</span>
-        <span>Reporte Stock Bajo</span>
+        <span>Low Stock Report</span>
     </div>
 
-    <h1>Reporte Stock Bajo</h1>
-    
+    <h1>Low Stock Report</h1>
+
     <section id="introduccion">
-        <h2>Introducción</h2>
+        <h2>Introduction</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
+            The low stock report lists every active product whose inventory is below the configured threshold.
+            It highlights critical items so you can prioritize replenishment before daily operations are affected.
         </p>
         <p>
-            [EXPLICAR PARA QUÉ SIRVE Y CUÁNDO USARLA].
+            Use this view during warehouse control routines or to justify urgent purchasing decisions. The information
+            is calculated in real time from the stock module and classifies each product by its severity level.
         </p>
     </section>
-    
+
     <section id="acceso">
-        <h2>Cómo Acceder</h2>
-        <p>Para acceder a esta funcionalidad:</p>
+        <h2>How to Access</h2>
+        <p>To open this report:</p>
         <ol>
-            <li>Desde el menú principal, ir a <strong>Reportes</strong></li>
-            <li>Seleccionar <strong>Stock Bajo</strong></li>
-            <li>Se abrirá la ventana de <strong>Reporte Stock Bajo</strong></li>
+            <li>From the main menu, go to <strong>Reports</strong>.</li>
+            <li>Select <strong>Low Stock</strong>.</li>
+            <li>The <strong>Low Stock Report</strong> window opens with the latest data.</li>
         </ol>
     </section>
-    
+
     <section id="campos">
-        <h2>Descripción de Campos</h2>
-        <p>A continuación se describe cada campo del formulario:</p>
-        
+        <h2>Control Description</h2>
+        <p>Each control available on the screen is described below:</p>
+
         <table>
             <thead>
                 <tr>
-                    <th>Campo</th>
-                    <th>Descripción</th>
-                    <th>Tipo</th>
-                    <th>Obligatorio</th>
+                    <th>Control</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Required</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[Descripción del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>Sí / No</td>
+                    <td><strong>Low Stock Threshold</strong> (txtUmbral)</td>
+                    <td>Minimum acceptable quantity. Products with stock equal to or below this value are included in the report.</td>
+                    <td>Numeric field</td>
+                    <td>Yes</td>
                 </tr>
-                <!-- AGREGAR MÁS CAMPOS AQUÍ -->
+                <tr>
+                    <td><strong>Update</strong> (btnActualizarUmbral)</td>
+                    <td>Applies the entered threshold and recalculates the list.</td>
+                    <td>Button</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Refresh</strong> (btnRefrescar)</td>
+                    <td>Queries stock again while keeping the current threshold.</td>
+                    <td>Button</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Indicators</strong> (panelEstadisticas)</td>
+                    <td>Summary of the total number of products listed and how many are critical, very low, or low.</td>
+                    <td>Labels</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Results grid</strong> (sfDataGrid1)</td>
+                    <td>Displays product, category, current stock, type, and the calculated severity state.</td>
+                    <td>Table</td>
+                    <td>Yes</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
+
     <section id="procedimiento">
-        <h2>Procedimiento</h2>
-        
+        <h2>Procedure</h2>
+
         <div class="step">
             <span class="step-number">1</span>
-            <strong>[Título del Paso 1]</strong>
-            <p>[Descripción del paso 1]</p>
+            <strong>Define the threshold</strong>
+            <p>Enter the desired minimum value in <strong>Low Stock Threshold</strong> and click <strong>Update</strong> to recalculate the report.</p>
         </div>
-        
+
         <div class="step">
             <span class="step-number">2</span>
-            <strong>[Título del Paso 2]</strong>
-            <p>[Descripción del paso 2]</p>
+            <strong>Review the indicators</strong>
+            <p>Check totals and the number of critical, very low, and low products to understand the situation.</p>
         </div>
-        
-        <!-- AGREGAR MÁS PASOS SEGÚN NECESIDAD -->
+
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Prioritize actions</strong>
+            <p>Sort or filter the grid by <strong>Status</strong> or <strong>Quantity</strong> to decide which items to restock first.</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Export information</strong>
+            <p>If you need to share the analysis, click <strong>Export to Excel</strong> and save the generated CSV file.</p>
+        </div>
     </section>
-    
+
     <section id="validaciones">
-        <h2>Validaciones del Sistema</h2>
-        <p>El sistema realiza las siguientes validaciones:</p>
+        <h2>System validations</h2>
+        <p>The system enforces the following rules:</p>
         <ul>
-            <li>[Validación 1]</li>
-            <li>[Validación 2]</li>
-            <li>[Validación 3]</li>
+            <li>The threshold must be an integer greater than zero; otherwise you are asked to adjust the value.</li>
+            <li>Only active products with current stock less than or equal to the configured threshold are displayed.</li>
+            <li>Export is blocked when the grid is empty to avoid creating blank files.</li>
         </ul>
     </section>
-    
+
     <section id="consejos">
-        <h2>Consejos y Recomendaciones</h2>
-        
+        <h2>Tips and recommendations</h2>
+
         <div class="tip">
-            [Consejo útil para el usuario]
+            Adjust the threshold according to product turnover. For fast-moving items, use higher values to anticipate stock-outs.
         </div>
-        
+
+        <div class="tip">
+            Combine this report with the purchasing history to plan replenishment orders based on real data.
+        </div>
+
         <div class="warning">
-            <strong>⚠️ Advertencia:</strong> [Información importante]
+            <strong>⚠️ Warning:</strong> If you detect products marked as critical, review existing commitments with customers before approving new sales.
         </div>
     </section>
-    
+
     <section id="errores">
-        <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
+        <h2>Common errors and solutions</h2>
+
+        <h3>Error: “Enter a valid value greater than 0”</h3>
         <div class="error">
-            <strong>Causa:</strong> [Explicación del error]
+            <strong>Cause:</strong> The threshold was left blank, contains letters, or is zero or negative.
         </div>
         <div class="success">
-            <strong>✅ Solución:</strong> [Pasos para resolverlo]
+            <strong>✅ Solution:</strong> Enter a positive integer (for example 15) and click <strong>Update</strong> again.
+        </div>
+
+        <h3>Error: “There is no data to export”</h3>
+        <div class="error">
+            <strong>Cause:</strong> No product matches the current conditions, so the grid is empty.
+        </div>
+        <div class="success">
+            <strong>✅ Solution:</strong> Review the configured threshold or click <strong>Refresh</strong> to retrieve updated data before exporting.
         </div>
     </section>
-    
+
     <section id="permisos">
-        <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
+        <h2>Required permissions</h2>
+        <p>To use this feature, the user must have the following permission:</p>
         <ul>
-            <li><code>[NombrePatente]</code> - [Descripción del permiso]</li>
+            <li><code>ReporteStockBajo</code> – Allows viewing and exporting the low stock report.</li>
         </ul>
-        
+
         <div class="warning">
-            <strong>⚠️ Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
+            <strong>⚠️ Important:</strong> If you do not have the required permission, contact the system administrator.
         </div>
     </section>
-    
+
     <section id="relacionados">
-        <h2>Ver También</h2>
+        <h2>See also</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>📄 <a href="../stock/topic_70_mostrar_stock.html">Stock management</a></li>
+            <li>📄 <a href="../productos/topic_52_mostrar_productos.html">Product list</a></li>
         </ul>
     </section>
-    
+
     <footer>
-        <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
-        <p>Todos los derechos reservados</p>
+        <p>© 2024 Distribuidora Los Amigos - Management System</p>
+        <p>All rights reserved</p>
     </footer>
 
 </body>
