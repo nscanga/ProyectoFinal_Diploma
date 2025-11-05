@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
         <a href="../general/topic_20_main.html">Inicio</a>
         <span>›</span>
@@ -17,35 +17,37 @@
     </div>
 
     <h1>Productos Más Vendidos</h1>
-    
+
     <section id="introduccion">
         <h2>Introducción</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
+            Este reporte muestra los productos con mayor cantidad de ventas en el período seleccionado.
+            Consolida la información de pedidos confirmados para ayudar a identificar tendencias de consumo.
         </p>
         <p>
-            [EXPLICAR PARA QUÉ SIRVE Y CUÁNDO USARLA].
+            Es ideal para planificar compras, definir campañas comerciales o analizar la rentabilidad
+            de cada referencia. Permite ajustar fácilmente el rango temporal y la cantidad de ítems a visualizar.
         </p>
     </section>
-    
+
     <section id="acceso">
         <h2>Cómo Acceder</h2>
         <p>Para acceder a esta funcionalidad:</p>
         <ol>
-            <li>Desde el menú principal, ir a <strong>Reportes</strong></li>
-            <li>Seleccionar <strong>Más Vendidos</strong></li>
-            <li>Se abrirá la ventana de <strong>Productos Más Vendidos</strong></li>
+            <li>Desde el menú principal, ir a <strong>Reportes</strong>.</li>
+            <li>Seleccionar <strong>Más Vendidos</strong>.</li>
+            <li>Se abrirá la ventana de <strong>Productos Más Vendidos</strong> con los filtros por defecto.</li>
         </ol>
     </section>
-    
+
     <section id="campos">
-        <h2>Descripción de Campos</h2>
-        <p>A continuación se describe cada campo del formulario:</p>
-        
+        <h2>Descripción de Controles</h2>
+        <p>A continuación se describe cada control disponible en la pantalla:</p>
+
         <table>
             <thead>
                 <tr>
-                    <th>Campo</th>
+                    <th>Control</th>
                     <th>Descripción</th>
                     <th>Tipo</th>
                     <th>Obligatorio</th>
@@ -53,88 +55,143 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[Descripción del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>Sí / No</td>
+                    <td><strong>Desde</strong> (dtpDesde)</td>
+                    <td>Fecha inicial del rango a analizar. Se propone el último mes por defecto.</td>
+                    <td>Selector de fecha</td>
+                    <td>Sí</td>
                 </tr>
-                <!-- AGREGAR MÁS CAMPOS AQUÍ -->
+                <tr>
+                    <td><strong>Hasta</strong> (dtpHasta)</td>
+                    <td>Fecha final inclusive. Debe ser igual o posterior a la fecha inicial.</td>
+                    <td>Selector de fecha</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Filtrar</strong> (btnFiltrar)</td>
+                    <td>Aplica el rango de fechas seleccionado y actualiza las métricas y la grilla.</td>
+                    <td>Botón</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Top Productos</strong> (txtTopProductos)</td>
+                    <td>Cantidad de posiciones a mostrar en el ranking (por ejemplo, 10, 20, 50).</td>
+                    <td>Campo numérico</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Actualizar</strong> (btnActualizarTop)</td>
+                    <td>Confirma el valor ingresado en <strong>Top Productos</strong> y recalcula el ranking.</td>
+                    <td>Botón</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Exportar a Excel</strong> (btnExportarExcel)</td>
+                    <td>Genera un archivo CSV con el ranking actual para compartir o analizar en otra herramienta.</td>
+                    <td>Botón</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Indicadores</strong> (panelEstadisticas)</td>
+                    <td>Muestra total vendido en pesos, unidades totales, cantidad de productos únicos y período seleccionado.</td>
+                    <td>Etiquetas</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Grilla de resultados</strong> (sfDataGrid1)</td>
+                    <td>Lista ordenada por cantidad vendida con posición, producto, categoría, unidades, monto, precio promedio y veces vendido.</td>
+                    <td>Tabla</td>
+                    <td>Sí</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
+
     <section id="procedimiento">
         <h2>Procedimiento</h2>
-        
+
         <div class="step">
             <span class="step-number">1</span>
-            <strong>[Título del Paso 1]</strong>
-            <p>[Descripción del paso 1]</p>
+            <strong>Elegir período</strong>
+            <p>Seleccione fechas en <strong>Desde</strong> y <strong>Hasta</strong> y presione <strong>Filtrar</strong> para actualizar los datos.</p>
         </div>
-        
+
         <div class="step">
             <span class="step-number">2</span>
-            <strong>[Título del Paso 2]</strong>
-            <p>[Descripción del paso 2]</p>
+            <strong>Ajustar el ranking</strong>
+            <p>Defina cuántos productos quiere ver escribiendo el valor en <strong>Top Productos</strong> y haga clic en <strong>Actualizar</strong>.</p>
         </div>
-        
-        <!-- AGREGAR MÁS PASOS SEGÚN NECESIDAD -->
+
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Analizar resultados</strong>
+            <p>Ordene o filtre la grilla por categoría o monto para identificar oportunidades comerciales y patrones de demanda.</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Exportar ranking</strong>
+            <p>Pulse <strong>Exportar a Excel</strong> para generar un CSV y compartirlo con compras, marketing o dirección.</p>
+        </div>
     </section>
-    
+
     <section id="validaciones">
         <h2>Validaciones del Sistema</h2>
         <p>El sistema realiza las siguientes validaciones:</p>
         <ul>
-            <li>[Validación 1]</li>
-            <li>[Validación 2]</li>
-            <li>[Validación 3]</li>
+            <li>La fecha <strong>Desde</strong> debe ser menor o igual a la fecha <strong>Hasta</strong>; si no, se muestra un aviso.</li>
+            <li>El valor de <strong>Top Productos</strong> debe ser un entero positivo mayor a cero.</li>
+            <li>La exportación a CSV se deshabilita cuando no hay información en la grilla.</li>
         </ul>
     </section>
-    
+
     <section id="consejos">
         <h2>Consejos y Recomendaciones</h2>
-        
+
         <div class="tip">
-            [Consejo útil para el usuario]
-        </div>
-        
+            Combine este reporte con el análisis de stock para asegurar disponibilidad de los productos más demandados.</div>
+
+        <div class="tip">
+            Guarde distintos períodos (mensual, trimestral) para comparar tendencias y ajustar precios o promociones.</div>
+
         <div class="warning">
-            <strong>⚠️ Advertencia:</strong> [Información importante]
-        </div>
+            <strong>⚠️ Advertencia:</strong> Si el período seleccionado incluye fechas futuras sin ventas registradas, los totales pueden resultar en cero.</div>
     </section>
-    
+
     <section id="errores">
         <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
+
+        <h3>Error: "La fecha desde debe ser menor a la fecha hasta"</h3>
         <div class="error">
-            <strong>Causa:</strong> [Explicación del error]
-        </div>
+            <strong>Causa:</strong> Se eligió un rango de fechas invertido.</div>
         <div class="success">
-            <strong>✅ Solución:</strong> [Pasos para resolverlo]
-        </div>
+            <strong>✅ Solución:</strong> Ajuste las fechas asegurando que <strong>Desde</strong> sea anterior o igual a <strong>Hasta</strong> y vuelva a filtrar.</div>
+
+        <h3>Error: "No hay datos para exportar"</h3>
+        <div class="error">
+            <strong>Causa:</strong> No existen pedidos confirmados en el período actual o el top configurado es muy restrictivo.</div>
+        <div class="success">
+            <strong>✅ Solución:</strong> Amplíe el rango de fechas o incremente el número de productos y actualice el reporte antes de exportar.</div>
     </section>
-    
+
     <section id="permisos">
         <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
+        <p>Para utilizar esta funcionalidad, el usuario debe tener el siguiente permiso:</p>
         <ul>
-            <li><code>[NombrePatente]</code> - [Descripción del permiso]</li>
+            <li><code>ReporteProductosMasVendidos</code> - Autoriza la consulta y exportación del ranking de ventas.</li>
         </ul>
-        
+
         <div class="warning">
-            <strong>⚠️ Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
-        </div>
+            <strong>⚠️ Importante:</strong> Si no cuenta con el permiso requerido, contacte al administrador del sistema para solicitarlo.</div>
     </section>
-    
+
     <section id="relacionados">
         <h2>Ver También</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>📄 <a href="../pedidos/topic_82_mostrar_pedidos.html">Listado de pedidos</a></li>
+            <li>📄 <a href="../productos/topic_52_mostrar_productos.html">Listado de productos</a></li>
         </ul>
     </section>
-    
+
     <footer>
         <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
         <p>Todos los derechos reservados</p>
