@@ -7,136 +7,110 @@
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
         <a href="../general/topic_20_main.html">Inicio</a>
-        <span>õ</span>
-        <a href="#">GestiÛn de Clientes</a>
-        <span>õ</span>
+        <span>‚Ä∫</span>
+        <a href="#">Gesti√≥n de Clientes</a>
+        <span>‚Ä∫</span>
         <span>Modificar Cliente</span>
     </div>
 
-    <h1>Modificar Cliente</h1>
-    
+    <h1>Actualizar datos de un cliente</h1>
+
     <section id="introduccion">
-        <h2>IntroducciÛn</h2>
+        <h2>Descripci√≥n</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
-        </p>
-        <p>
-            [EXPLICAR PARA QU… SIRVE Y CU¡NDO USARLA].
+            Permite editar los datos de clientes existentes. Se utiliza para corregir informaci√≥n de contacto, actualizar CUIT o cambiar el estado activo.
         </p>
     </section>
-    
+
     <section id="acceso">
-        <h2>CÛmo Acceder</h2>
-        <p>Para acceder a esta funcionalidad:</p>
+        <h2>C√≥mo acceder</h2>
         <ol>
-            <li>Desde el men˙ principal, ir a <strong>Clientes</strong></li>
-            <li>Seleccionar <strong>Modificar Cliente</strong></li>
-            <li>Se abrir· la ventana de <strong>Modificar Cliente</strong></li>
+            <li>Desde la pantalla principal seleccione <strong>Clientes ‚Üí Mostrar clientes</strong>.</li>
+            <li>Elija el cliente a modificar y presione <strong>Modificar</strong>. Se abrir√° este formulario con los datos precargados.</li>
         </ol>
     </section>
-    
+
     <section id="campos">
-        <h2>DescripciÛn de Campos</h2>
-        <p>A continuaciÛn se describe cada campo del formulario:</p>
-        
+        <h2>Campos editables</h2>
         <table>
             <thead>
                 <tr>
                     <th>Campo</th>
-                    <th>DescripciÛn</th>
-                    <th>Tipo</th>
+                    <th>Descripci√≥n</th>
                     <th>Obligatorio</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[DescripciÛn del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>SÌ / No</td>
+                    <td><strong>Nombre</strong></td>
+                    <td>Nombre o raz√≥n social del cliente.</td>
+                    <td>S√≠</td>
                 </tr>
-                <!-- AGREGAR M¡S CAMPOS AQUÕ -->
+                <tr>
+                    <td><strong>Direcci√≥n</strong></td>
+                    <td>Domicilio actualizado.</td>
+                    <td>S√≠</td>
+                </tr>
+                <tr>
+                    <td><strong>Email</strong></td>
+                    <td>Debe mantener formato v√°lido con ‚Äú@‚Äù.</td>
+                    <td>S√≠</td>
+                </tr>
+                <tr>
+                    <td><strong>Tel√©fono</strong></td>
+                    <td>Contacto principal. No admite ‚Äú@‚Äù.</td>
+                    <td>S√≠</td>
+                </tr>
+                <tr>
+                    <td><strong>CUIT</strong></td>
+                    <td>Identificador fiscal. Debe ser √∫nico.</td>
+                    <td>S√≠</td>
+                </tr>
+                <tr>
+                    <td><strong>Activo</strong></td>
+                    <td>Permite habilitar o deshabilitar al cliente.</td>
+                    <td>S√≠</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
+
     <section id="procedimiento">
         <h2>Procedimiento</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>[TÌtulo del Paso 1]</strong>
-            <p>[DescripciÛn del paso 1]</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">2</span>
-            <strong>[TÌtulo del Paso 2]</strong>
-            <p>[DescripciÛn del paso 2]</p>
-        </div>
-        
-        <!-- AGREGAR M¡S PASOS SEG⁄N NECESIDAD -->
+        <ol>
+            <li>Revise los datos precargados y realice las modificaciones necesarias.</li>
+            <li>Presione <strong>Guardar</strong>. El sistema validar√° los campos y actualizar√° al cliente mediante <code>ClienteService.ModificarCliente</code>.</li>
+            <li>Se mostrar√° el mensaje ‚ÄúCliente modificado correctamente‚Äù y el formulario se cerrar√°.</li>
+        </ol>
     </section>
-    
+
     <section id="validaciones">
-        <h2>Validaciones del Sistema</h2>
-        <p>El sistema realiza las siguientes validaciones:</p>
+        <h2>Validaciones</h2>
         <ul>
-            <li>[ValidaciÛn 1]</li>
-            <li>[ValidaciÛn 2]</li>
-            <li>[ValidaciÛn 3]</li>
+            <li>Los mismos controles que en la creaci√≥n: email v√°lido, tel√©fono sin ‚Äú@‚Äù, campos obligatorios.</li>
+            <li>Los cambios se guardan s√≥lo si el servicio de clientes valida la entidad.</li>
         </ul>
     </section>
-    
+
     <section id="consejos">
-        <h2>Consejos y Recomendaciones</h2>
-        
-        <div class="tip">
-            [Consejo ˙til para el usuario]
-        </div>
-        
-        <div class="warning">
-            <strong>?? Advertencia:</strong> [InformaciÛn importante]
-        </div>
+        <h2>Recomendaciones</h2>
+        <div class="tip">Utilice esta opci√≥n para reactivar clientes inactivos marcando la casilla <strong>Activo</strong>.</div>
+        <div class="tip">Despu√©s de modificar, refresque el listado de clientes para verificar que los datos se hayan actualizado.</div>
     </section>
-    
-    <section id="errores">
-        <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
-        <div class="error">
-            <strong>Causa:</strong> [ExplicaciÛn del error]
-        </div>
-        <div class="success">
-            <strong>? SoluciÛn:</strong> [Pasos para resolverlo]
-        </div>
-    </section>
-    
-    <section id="permisos">
-        <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
-        <ul>
-            <li><code>[NombrePatente]</code> - [DescripciÛn del permiso]</li>
-        </ul>
-        
-        <div class="warning">
-            <strong>?? Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
-        </div>
-    </section>
-    
+
     <section id="relacionados">
-        <h2>Ver TambiÈn</h2>
+        <h2>Ver tambi√©n</h2>
         <ul class="no-bullets">
-            <li>?? <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>üìÑ <a href="topic_40_crear_cliente.html">Crear cliente</a></li>
+            <li>üìÑ <a href="topic_42_mostrar_clientes.html">Ver clientes</a></li>
         </ul>
     </section>
-    
+
     <footer>
-        <p>© 2024 Distribuidora Los Amigos - Sistema de GestiÛn</p>
+        <p>¬© 2024 Distribuidora Los Amigos - Sistema de Gesti√≥n</p>
         <p>Todos los derechos reservados</p>
     </footer>
 

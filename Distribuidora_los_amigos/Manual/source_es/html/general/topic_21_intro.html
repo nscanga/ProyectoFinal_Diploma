@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
         <a href="../general/topic_20_main.html">Inicio</a>
         <span>›</span>
@@ -17,124 +17,99 @@
     </div>
 
     <h1>Introducción al Sistema</h1>
-    
-    <section id="introduccion">
-        <h2>Introducción</h2>
+
+    <section id="proposito">
+        <h2>Propósito del sistema</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
+            Distribuidora Los Amigos es una plataforma de gestión integral diseñada para administrar
+            clientes, proveedores, productos, stock, pedidos y reportes de una distribuidora avícola.
+            Permite centralizar la información y operar con permisos diferenciados por rol.
         </p>
         <p>
-            [EXPLICAR PARA QUÉ SIRVE Y CUÁNDO USARLA].
+            El sistema se organiza en módulos independientes que comparten servicios comunes de seguridad,
+            bitácora, auditoría de integridad (DVH/DVV) e internacionalización.
         </p>
     </section>
-    
-    <section id="acceso">
-        <h2>Cómo Acceder</h2>
-        <p>Para acceder a esta funcionalidad:</p>
+
+    <section id="flujo-trabajo">
+        <h2>Flujo de trabajo sugerido</h2>
         <ol>
-            <li>Desde el menú principal, ir a <strong>Inicio</strong></li>
-            <li>Seleccionar <strong>Introducción</strong></li>
-            <li>Se abrirá la ventana de <strong>Introducción al Sistema</strong></li>
+            <li><strong>Seguridad:</strong> Crear usuarios, patentes y familias desde el módulo de Gestión.</li>
+            <li><strong>Maestros:</strong> Cargar proveedores, productos y stock inicial.</li>
+            <li><strong>Clientes:</strong> Registrar clientes y mantener sus datos actualizados.</li>
+            <li><strong>Pedidos:</strong> Generar pedidos, asignarles productos y controlar su estado.</li>
+            <li><strong>Reportes:</strong> Consultar alertas de stock y análisis de ventas.</li>
+            <li><strong>Respaldo:</strong> Generar y restaurar backups periódicamente.</li>
         </ol>
     </section>
-    
-    <section id="campos">
-        <h2>Descripción de Campos</h2>
-        <p>A continuación se describe cada campo del formulario:</p>
-        
+
+    <section id="roles">
+        <h2>Roles y permisos</h2>
+        <p>
+            El sistema implementa un modelo de seguridad basado en patentes (permisos) y familias (roles).
+            Las familias agrupan patentes y se asignan a los usuarios desde el módulo <strong>Gestión → Asignar rol</strong>.
+        </p>
         <table>
             <thead>
                 <tr>
-                    <th>Campo</th>
-                    <th>Descripción</th>
-                    <th>Tipo</th>
-                    <th>Obligatorio</th>
+                    <th>Rol sugerido</th>
+                    <th>Patentes típicas</th>
+                    <th>Responsabilidades</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[Descripción del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>Sí / No</td>
+                    <td>Administrador</td>
+                    <td>Gestión completa de usuarios, seguridad y backups.</td>
+                    <td>Configurar permisos, crear familias y mantener auditorías.</td>
                 </tr>
-                <!-- AGREGAR MÁS CAMPOS AQUÍ -->
+                <tr>
+                    <td>Ventas</td>
+                    <td>Clientes, pedidos y reportes comerciales.</td>
+                    <td>Registrar nuevos clientes y gestionar pedidos diarios.</td>
+                </tr>
+                <tr>
+                    <td>Depósito</td>
+                    <td>Stock y productos.</td>
+                    <td>Actualizar existencias, controlar vencimientos y disponibilidad.</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
-    <section id="procedimiento">
-        <h2>Procedimiento</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>[Título del Paso 1]</strong>
-            <p>[Descripción del paso 1]</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">2</span>
-            <strong>[Título del Paso 2]</strong>
-            <p>[Descripción del paso 2]</p>
-        </div>
-        
-        <!-- AGREGAR MÁS PASOS SEGÚN NECESIDAD -->
-    </section>
-    
+
     <section id="validaciones">
-        <h2>Validaciones del Sistema</h2>
-        <p>El sistema realiza las siguientes validaciones:</p>
+        <h2>Buenas prácticas y validaciones</h2>
         <ul>
-            <li>[Validación 1]</li>
-            <li>[Validación 2]</li>
-            <li>[Validación 3]</li>
+            <li>Los formularios validan campos obligatorios, formatos de correo y duplicados.</li>
+            <li>Los listados muestran información en grillas con filtros y ordenamiento.</li>
+            <li>Las operaciones críticas solicitan confirmación antes de ejecutarse.</li>
+            <li>Se registran todas las acciones relevantes en la bitácora.</li>
         </ul>
     </section>
-    
+
     <section id="consejos">
-        <h2>Consejos y Recomendaciones</h2>
-        
+        <h2>Consejos para nuevos usuarios</h2>
         <div class="tip">
-            [Consejo útil para el usuario]
+            Configure primero los usuarios y roles para garantizar que cada colaborador vea sólo los módulos necesarios.
         </div>
-        
+        <div class="tip">
+            Utilice la ayuda contextual con <strong>F1</strong> en cada pantalla para consultar procedimientos específicos.
+        </div>
         <div class="warning">
-            <strong>⚠️ Advertencia:</strong> [Información importante]
+            <strong>⚠️ Advertencia:</strong> No modifique directamente la base de datos. Utilice siempre las pantallas del sistema
+            para preservar la integridad de los dígitos verificadores.
         </div>
     </section>
-    
-    <section id="errores">
-        <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
-        <div class="error">
-            <strong>Causa:</strong> [Explicación del error]
-        </div>
-        <div class="success">
-            <strong>✅ Solución:</strong> [Pasos para resolverlo]
-        </div>
-    </section>
-    
-    <section id="permisos">
-        <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
-        <ul>
-            <li><code>[NombrePatente]</code> - [Descripción del permiso]</li>
-        </ul>
-        
-        <div class="warning">
-            <strong>⚠️ Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
-        </div>
-    </section>
-    
+
     <section id="relacionados">
-        <h2>Ver También</h2>
+        <h2>Ver también</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>📄 <a href="../login/topic_31_login.html">Inicio de sesión</a></li>
+            <li>📄 <a href="../roles/topic_26_crear_rol.html">Crear rol (familia)</a></li>
+            <li>📄 <a href="../reportes/topic_91_reporte_mas_vendidos.html">Reportes de ventas</a></li>
         </ul>
     </section>
-    
+
     <footer>
         <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
         <p>Todos los derechos reservados</p>

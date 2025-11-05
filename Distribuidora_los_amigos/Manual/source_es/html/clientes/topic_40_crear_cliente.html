@@ -7,136 +7,133 @@
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
         <a href="../general/topic_20_main.html">Inicio</a>
-        <span>�</span>
-        <a href="#">Gesti�n de Clientes</a>
-        <span>�</span>
+        <span>›</span>
+        <a href="#">Gestión de Clientes</a>
+        <span>›</span>
         <span>Crear Cliente</span>
     </div>
 
-    <h1>Crear Cliente</h1>
-    
+    <h1>Registrar un nuevo cliente</h1>
+
     <section id="introduccion">
-        <h2>Introducci�n</h2>
+        <h2>Descripción</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
-        </p>
-        <p>
-            [EXPLICAR PARA QU� SIRVE Y CU�NDO USARLA].
+            Permite dar de alta clientes que podrán realizar pedidos. Se registran datos de contacto, CUIT y estado activo.
+            Un cliente correctamente cargado habilita la emisión de pedidos y su seguimiento desde los reportes.
         </p>
     </section>
-    
+
     <section id="acceso">
-        <h2>C�mo Acceder</h2>
-        <p>Para acceder a esta funcionalidad:</p>
+        <h2>Cómo acceder</h2>
         <ol>
-            <li>Desde el men� principal, ir a <strong>Clientes</strong></li>
-            <li>Seleccionar <strong>Crear Cliente</strong></li>
-            <li>Se abrir� la ventana de <strong>Crear Cliente</strong></li>
+            <li>Desde el menú principal seleccione <strong>Clientes → Crear cliente</strong>.</li>
+            <li>Se abrirá el formulario <strong>CrearClienteForm</strong>.</li>
         </ol>
     </section>
-    
+
     <section id="campos">
-        <h2>Descripci�n de Campos</h2>
-        <p>A continuaci�n se describe cada campo del formulario:</p>
-        
+        <h2>Campos del formulario</h2>
         <table>
             <thead>
                 <tr>
                     <th>Campo</th>
-                    <th>Descripci�n</th>
+                    <th>Descripción</th>
                     <th>Tipo</th>
                     <th>Obligatorio</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[Descripci�n del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>S� / No</td>
+                    <td><strong>Nombre</strong></td>
+                    <td>Nombre o razón social del cliente.</td>
+                    <td>Texto (max. 100 caracteres)</td>
+                    <td>Sí</td>
                 </tr>
-                <!-- AGREGAR M�S CAMPOS AQU� -->
+                <tr>
+                    <td><strong>Dirección</strong></td>
+                    <td>Domicilio principal del cliente.</td>
+                    <td>Texto</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Email</strong></td>
+                    <td>Correo electrónico para notificaciones. Debe contener “@”.</td>
+                    <td>Texto</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Teléfono</strong></td>
+                    <td>Número de contacto. No puede contener “@”.</td>
+                    <td>Texto</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>CUIT</strong></td>
+                    <td>Identificador fiscal. Único por cliente.</td>
+                    <td>Texto</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Activo</strong></td>
+                    <td>Define si el cliente puede utilizarse en pedidos.</td>
+                    <td>CheckBox</td>
+                    <td>Sí (valor por defecto: activo)</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
+
     <section id="procedimiento">
-        <h2>Procedimiento</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>[T�tulo del Paso 1]</strong>
-            <p>[Descripci�n del paso 1]</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">2</span>
-            <strong>[T�tulo del Paso 2]</strong>
-            <p>[Descripci�n del paso 2]</p>
-        </div>
-        
-        <!-- AGREGAR M�S PASOS SEG�N NECESIDAD -->
+        <h2>Paso a paso</h2>
+        <ol>
+            <li>Complete los datos de identificación (Nombre, Dirección, CUIT).</li>
+            <li>Ingrese correo y teléfono válidos. El sistema valida que no estén intercambiados.</li>
+            <li>Marque el estado activo si el cliente podrá generar pedidos inmediatamente.</li>
+            <li>Presione <strong>Guardar</strong>. Se mostrará el mensaje “Cliente creado correctamente”.</li>
+            <li>El formulario limpia los campos para permitir cargar otro cliente.</li>
+        </ol>
     </section>
-    
+
     <section id="validaciones">
-        <h2>Validaciones del Sistema</h2>
-        <p>El sistema realiza las siguientes validaciones:</p>
+        <h2>Validaciones realizadas</h2>
         <ul>
-            <li>[Validaci�n 1]</li>
-            <li>[Validaci�n 2]</li>
-            <li>[Validaci�n 3]</li>
+            <li>Nombre, Dirección, Email, Teléfono y CUIT son obligatorios.</li>
+            <li>El email no puede tener sólo números y debe contener “@”.</li>
+            <li>El teléfono no puede contener “@”.</li>
+            <li>Se verifica que el CUIT no esté repetido en la base (mediante reglas de negocio en <code>ClienteService</code>).</li>
         </ul>
     </section>
-    
-    <section id="consejos">
-        <h2>Consejos y Recomendaciones</h2>
-        
-        <div class="tip">
-            [Consejo �til para el usuario]
-        </div>
-        
-        <div class="warning">
-            <strong>?? Advertencia:</strong> [Informaci�n importante]
-        </div>
-    </section>
-    
+
     <section id="errores">
-        <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
-        <div class="error">
-            <strong>Causa:</strong> [Explicaci�n del error]
-        </div>
-        <div class="success">
-            <strong>? Soluci�n:</strong> [Pasos para resolverlo]
-        </div>
+        <h2>Errores comunes</h2>
+        <h3>Error: “El email es obligatorio”</h3>
+        <div class="error"><strong>Causa:</strong> El campo quedó vacío.</div>
+        <div class="success"><strong>✅ Solución:</strong> Ingrese un correo válido (ej.: cliente@empresa.com).</div>
+
+        <h3>Error: “Ha ingresado un número de teléfono en el campo Email”</h3>
+        <div class="error"><strong>Causa:</strong> Se ingresó un número sin “@”.</div>
+        <div class="success"><strong>✅ Solución:</strong> Verifique que el email tenga formato correcto.</div>
     </section>
-    
+
     <section id="permisos">
-        <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
-        <ul>
-            <li><code>[NombrePatente]</code> - [Descripci�n del permiso]</li>
-        </ul>
-        
-        <div class="warning">
-            <strong>?? Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
-        </div>
+        <h2>Permisos requeridos</h2>
+        <p>Se requiere la patente <code>Crear_cliente</code>. Si el usuario no la posee, la opción de menú aparecerá deshabilitada.</p>
     </section>
-    
+
     <section id="relacionados">
-        <h2>Ver Tambi�n</h2>
+        <h2>Ver también</h2>
         <ul class="no-bullets">
-            <li>?? <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>📄 <a href="topic_41_modificar_cliente.html">Modificar cliente</a></li>
+            <li>📄 <a href="topic_42_mostrar_clientes.html">Ver clientes</a></li>
+            <li>📄 <a href="../pedidos/topic_80_crear_pedido.html">Crear pedido</a></li>
         </ul>
     </section>
-    
+
     <footer>
-        <p>� 2024 Distribuidora Los Amigos - Sistema de Gesti�n</p>
+        <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
         <p>Todos los derechos reservados</p>
     </footer>
 

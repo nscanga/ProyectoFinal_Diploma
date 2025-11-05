@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -7,134 +7,195 @@
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
         <a href="../general/topic_20_main.html">Inicio</a>
-        <span>›</span>
-        <a href="#">General</a>
         <span>›</span>
         <span>Pantalla Principal</span>
     </div>
 
-    <h1>Pantalla Principal</h1>
-    
+    <h1>Pantalla Principal del Sistema</h1>
+
     <section id="introduccion">
         <h2>Introducción</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
+            La pantalla principal es el punto de partida del Sistema de Gestión de Distribuidora Los Amigos.
+            Desde aquí se accede a todos los módulos operativos según los permisos que tenga asignados el usuario autenticado.
         </p>
         <p>
-            [EXPLICAR PARA QUÉ SIRVE Y CUÁNDO USARLA].
+            La aplicación utiliza un esquema MDI (Multiple Document Interface), por lo que cada funcionalidad se abre en una
+            ventana hija que puede maximizarse, acoplarse o cerrarse sin perder el contexto de trabajo.
         </p>
     </section>
-    
-    <section id="acceso">
-        <h2>Cómo Acceder</h2>
-        <p>Para acceder a esta funcionalidad:</p>
-        <ol>
-            <li>Desde el menú principal, ir a <strong>Inicio</strong></li>
-            <li>Seleccionar <strong>Pantalla Principal</strong></li>
-            <li>Se abrirá la ventana de <strong>Pantalla Principal</strong></li>
-        </ol>
+
+    <section id="componentes">
+        <h2>Componentes principales</h2>
+
+        <h3>1. Barra de menús</h3>
+        <p>Organiza las funcionalidades por módulo:</p>
+        <ul>
+            <li><strong>Clientes:</strong> creación, modificación y consulta de clientes.</li>
+            <li><strong>Pedidos:</strong> carga, edición y seguimiento de pedidos.</li>
+            <li><strong>Productos:</strong> alta, actualización, baja lógica y consulta de productos.</li>
+            <li><strong>Stock:</strong> visualización y ajustes de inventario.</li>
+            <li><strong>Proveedores:</strong> mantenimiento de proveedores.</li>
+            <li><strong>Reportes:</strong> reportes de stock mínimo y productos más vendidos.</li>
+            <li><strong>Gestión:</strong> administración de usuarios, roles (familias) y patentes.</li>
+            <li><strong>Backup y Restore:</strong> generación y restauración de copias de seguridad.</li>
+            <li><strong>Idioma:</strong> cambio dinámico del idioma de la interfaz.</li>
+        </ul>
+
+        <h3>2. Panel de usuario</h3>
+        <p>
+            En la zona superior derecha se muestran el nombre del usuario conectado, sus roles y el selector de idioma.
+            También se encuentra el botón <strong>“Cerrar sesión”</strong>, que registra la auditoría y reinicia la aplicación.
+        </p>
+
+        <h3>3. Área de trabajo MDI</h3>
+        <p>
+            Espacio central donde se abren los formularios de cada módulo. Es posible trabajar con varias ventanas abiertas
+            y alternar entre ellas desde el menú <strong>Ventanas</strong> del sistema operativo.
+        </p>
     </section>
-    
-    <section id="campos">
-        <h2>Descripción de Campos</h2>
-        <p>A continuación se describe cada campo del formulario:</p>
-        
+
+    <section id="primeros-pasos">
+        <h2>Primer ingreso al sistema</h2>
+
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Inicio de sesión</strong>
+            <p>El sistema solicita usuario y contraseña. Si es la primera ejecución se crea automáticamente el usuario <code>admin</code>.</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>Carga de permisos</strong>
+            <p>
+                Al autenticarse, se evalúan las patentes y familias asignadas para habilitar únicamente las opciones de menú permitidas.
+            </p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Selección de idioma</strong>
+            <p>
+                El sistema recuerda el idioma utilizado en el último ingreso. Puede modificarse en cualquier momento desde la lista de idiomas.
+            </p>
+        </div>
+    </section>
+
+    <section id="navegacion">
+        <h2>Navegación por los módulos</h2>
+
+        <h3>Abrir una funcionalidad</h3>
+        <ol>
+            <li>Seleccione el módulo en la barra de menús (por ejemplo, <strong>Clientes</strong>).</li>
+            <li>Haga clic en la opción deseada (por ejemplo, <strong>Crear cliente</strong>).</li>
+            <li>El formulario se abrirá dentro del área MDI listo para operar.</li>
+        </ol>
+
+        <h3>Trabajar con múltiples ventanas</h3>
+        <ul>
+            <li>Puede tener varios formularios abiertos simultáneamente.</li>
+            <li>Utilice la barra de tareas de Windows o el menú <strong>Ventana</strong> para cambiar entre ellos.</li>
+            <li>Los formularios recuerdan su idioma y permisos mientras dure la sesión.</li>
+        </ul>
+
+        <div class="tip">
+            Use las combinaciones <code>Alt + Letra subrayada</code> para acceder rápidamente a las opciones del menú principal.
+        </div>
+    </section>
+
+    <section id="ayuda">
+        <h2>Ayuda contextual</h2>
+        <p>
+            En cualquier formulario presione <strong>F1</strong> para abrir la ayuda específica de la pantalla en el idioma actual.
+            El archivo CHM cargará automáticamente el tema asociado a la funcionalidad.
+        </p>
+    </section>
+
+    <section id="cierre">
+        <h2>Cierre de sesión y salida</h2>
+        <ol>
+            <li>Presione el botón <strong>Cerrar sesión</strong> o utilice la opción de menú correspondiente.</li>
+            <li>Confirme la acción. El sistema limpia la sesión y vuelve a mostrar la pantalla de login.</li>
+            <li>Para salir por completo utilice <code>Alt + F4</code> o cierre la ventana principal.</li>
+        </ol>
+
+        <div class="warning">
+            <strong>⚠️ Importante:</strong> cierre siempre la sesión para asegurar que nadie más utilice sus permisos.
+        </div>
+    </section>
+
+    <section id="seguridad">
+        <h2>Aspectos de seguridad</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Campo</th>
+                    <th>Elemento</th>
                     <th>Descripción</th>
-                    <th>Tipo</th>
-                    <th>Obligatorio</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[Descripción del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>Sí / No</td>
+                    <td><strong>Control de permisos</strong></td>
+                    <td>Cada opción del menú exige una patente específica asignada al usuario.</td>
                 </tr>
-                <!-- AGREGAR MÁS CAMPOS AQUÍ -->
+                <tr>
+                    <td><strong>Auditoría</strong></td>
+                    <td>Las acciones relevantes se registran mediante <code>LoggerService</code>.</td>
+                </tr>
+                <tr>
+                    <td><strong>Integridad de datos</strong></td>
+                    <td>La base de datos utiliza DVH/DVV para detectar alteraciones.</td>
+                </tr>
+                <tr>
+                    <td><strong>Sesión única</strong></td>
+                    <td>Al cerrar sesión se limpia la información de usuario y se reinicia la aplicación.</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
-    <section id="procedimiento">
-        <h2>Procedimiento</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>[Título del Paso 1]</strong>
-            <p>[Descripción del paso 1]</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">2</span>
-            <strong>[Título del Paso 2]</strong>
-            <p>[Descripción del paso 2]</p>
-        </div>
-        
-        <!-- AGREGAR MÁS PASOS SEGÚN NECESIDAD -->
+
+    <section id="atajos">
+        <h2>Atajos de teclado</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Combinación</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>F1</code></td>
+                    <td>Abrir la ayuda contextual de la ventana activa.</td>
+                </tr>
+                <tr>
+                    <td><code>Ctrl + S</code></td>
+                    <td>Guardar cambios en formularios de edición (por ejemplo, pedidos o clientes).</td>
+                </tr>
+                <tr>
+                    <td><code>Esc</code></td>
+                    <td>Cerrar el cuadro de diálogo actual o cancelar la operación en curso.</td>
+                </tr>
+                <tr>
+                    <td><code>Alt + F4</code></td>
+                    <td>Cerrar la ventana activa.</td>
+                </tr>
+            </tbody>
+        </table>
     </section>
-    
-    <section id="validaciones">
-        <h2>Validaciones del Sistema</h2>
-        <p>El sistema realiza las siguientes validaciones:</p>
-        <ul>
-            <li>[Validación 1]</li>
-            <li>[Validación 2]</li>
-            <li>[Validación 3]</li>
-        </ul>
-    </section>
-    
-    <section id="consejos">
-        <h2>Consejos y Recomendaciones</h2>
-        
-        <div class="tip">
-            [Consejo útil para el usuario]
-        </div>
-        
-        <div class="warning">
-            <strong>⚠️ Advertencia:</strong> [Información importante]
-        </div>
-    </section>
-    
-    <section id="errores">
-        <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
-        <div class="error">
-            <strong>Causa:</strong> [Explicación del error]
-        </div>
-        <div class="success">
-            <strong>✅ Solución:</strong> [Pasos para resolverlo]
-        </div>
-    </section>
-    
-    <section id="permisos">
-        <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
-        <ul>
-            <li><code>[NombrePatente]</code> - [Descripción del permiso]</li>
-        </ul>
-        
-        <div class="warning">
-            <strong>⚠️ Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
-        </div>
-    </section>
-    
+
     <section id="relacionados">
-        <h2>Ver También</h2>
+        <h2>Ver también</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>📄 <a href="../login/topic_31_login.html">Inicio de sesión</a></li>
+            <li>📄 <a href="../usuarios/topic_23_crear_usuario.html">Gestión de usuarios</a></li>
+            <li>📄 <a href="../reportes/topic_90_reporte_stock_bajo.html">Reportes</a></li>
         </ul>
     </section>
-    
+
     <footer>
         <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
         <p>Todos los derechos reservados</p>

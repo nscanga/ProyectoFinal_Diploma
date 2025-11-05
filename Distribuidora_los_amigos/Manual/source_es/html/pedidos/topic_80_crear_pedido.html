@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -7,134 +7,125 @@
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
         <a href="../general/topic_20_main.html">Inicio</a>
         <span>›</span>
-        <a href="#">Gestión de Pedidos</a>
+        <a href="#">Pedidos</a>
         <span>›</span>
         <span>Crear Pedido</span>
     </div>
 
-    <h1>Crear Pedido</h1>
-    
+    <h1>Registrar un nuevo pedido</h1>
+
     <section id="introduccion">
-        <h2>Introducción</h2>
+        <h2>Descripción</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
-        </p>
-        <p>
-            [EXPLICAR PARA QUÉ SIRVE Y CUÁNDO USARLA].
+            Permite generar pedidos de venta para los clientes registrados. Desde esta pantalla se selecciona el cliente, el estado inicial y los productos que formarán parte del pedido.
         </p>
     </section>
-    
+
     <section id="acceso">
-        <h2>Cómo Acceder</h2>
-        <p>Para acceder a esta funcionalidad:</p>
+        <h2>Cómo acceder</h2>
         <ol>
-            <li>Desde el menú principal, ir a <strong>Pedidos</strong></li>
-            <li>Seleccionar <strong>Crear Pedido</strong></li>
-            <li>Se abrirá la ventana de <strong>Crear Pedido</strong></li>
+            <li>Desde la pantalla principal seleccione <strong>Pedidos → Crear pedido</strong>.</li>
+            <li>Se abrirá el formulario <strong>CrearPedidoForm</strong> con las listas de clientes y productos cargadas.</li>
         </ol>
     </section>
-    
+
     <section id="campos">
-        <h2>Descripción de Campos</h2>
-        <p>A continuación se describe cada campo del formulario:</p>
-        
+        <h2>Controles principales</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Campo</th>
+                    <th>Control</th>
                     <th>Descripción</th>
-                    <th>Tipo</th>
                     <th>Obligatorio</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[Descripción del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>Sí / No</td>
+                    <td><strong>Cliente</strong> (comboBoxSeleccionCliente)</td>
+                    <td>Cliente que solicita el pedido.</td>
+                    <td>Sí</td>
                 </tr>
-                <!-- AGREGAR MÁS CAMPOS AQUÍ -->
+                <tr>
+                    <td><strong>Estado</strong> (comboBoxEstadoPedido)</td>
+                    <td>Estado inicial del pedido (Pendiente, En preparación, etc.).</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Fecha</strong> (dateTimePickerCrearPedido)</td>
+                    <td>Fecha de creación del pedido. Se completa automáticamente con la fecha actual.</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Lista de productos</strong> (dataGridViewProductos)</td>
+                    <td>Catálogo de productos disponibles con precio, categoría y fechas.</td>
+                    <td>Sí (para agregar items)</td>
+                </tr>
+                <tr>
+                    <td><strong>Cantidad</strong> (numericUpDown1)</td>
+                    <td>Cantidad a agregar del producto seleccionado.</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Detalle del pedido</strong> (dataGridViewDetallePedido)</td>
+                    <td>Resumen de productos agregados con cantidades y subtotales.</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Guardar pedido</strong></td>
+                    <td>Botón que registra el pedido y descuenta stock.</td>
+                    <td>—</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
+
     <section id="procedimiento">
-        <h2>Procedimiento</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>[Título del Paso 1]</strong>
-            <p>[Descripción del paso 1]</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">2</span>
-            <strong>[Título del Paso 2]</strong>
-            <p>[Descripción del paso 2]</p>
-        </div>
-        
-        <!-- AGREGAR MÁS PASOS SEGÚN NECESIDAD -->
+        <h2>Paso a paso</h2>
+        <ol>
+            <li>Seleccione el cliente y el estado inicial.</li>
+            <li>Elija un producto en la grilla de productos disponibles.</li>
+            <li>Indique la cantidad y presione <strong>Agregar producto</strong>. El sistema valida el stock disponible.</li>
+            <li>Repita el proceso para cada producto que deba incluirse en el pedido.</li>
+            <li>Verifique el detalle del pedido y el total calculado automáticamente.</li>
+            <li>Presione <strong>Guardar pedido</strong>. Se creará el pedido con sus detalles y se descontará el stock involucrado.</li>
+        </ol>
     </section>
-    
+
     <section id="validaciones">
-        <h2>Validaciones del Sistema</h2>
-        <p>El sistema realiza las siguientes validaciones:</p>
+        <h2>Validaciones</h2>
         <ul>
-            <li>[Validación 1]</li>
-            <li>[Validación 2]</li>
-            <li>[Validación 3]</li>
+            <li>Debe seleccionarse un cliente y agregarse al menos un producto.</li>
+            <li>No se permite agregar cantidades mayores al stock disponible.</li>
+            <li>Si se intenta agregar el mismo producto, la cantidad se acumula siempre que el stock lo permita.</li>
+            <li>El estado del pedido debe seleccionarse correctamente (no puede quedar vacío).</li>
         </ul>
     </section>
-    
+
     <section id="consejos">
-        <h2>Consejos y Recomendaciones</h2>
-        
-        <div class="tip">
-            [Consejo útil para el usuario]
-        </div>
-        
-        <div class="warning">
-            <strong>⚠️ Advertencia:</strong> [Información importante]
-        </div>
+        <h2>Consejos</h2>
+        <div class="tip">Utilice el buscador del DataGridView (Ctrl+F) para localizar productos rápidamente.</div>
+        <div class="tip">Mantenga actualizadas las cantidades de stock para evitar rechazos por falta de inventario.</div>
+        <div class="warning"><strong>⚠️ Atención:</strong> Una vez guardado, el pedido genera movimientos de stock. Para revertirlo deberá modificarlo o cancelarlo desde el módulo correspondiente.</div>
     </section>
-    
-    <section id="errores">
-        <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
-        <div class="error">
-            <strong>Causa:</strong> [Explicación del error]
-        </div>
-        <div class="success">
-            <strong>✅ Solución:</strong> [Pasos para resolverlo]
-        </div>
-    </section>
-    
+
     <section id="permisos">
-        <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
-        <ul>
-            <li><code>[NombrePatente]</code> - [Descripción del permiso]</li>
-        </ul>
-        
-        <div class="warning">
-            <strong>⚠️ Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
-        </div>
+        <h2>Permisos requeridos</h2>
+        <p>Se requiere la patente <code>CREAR_PEDIDO</code>.</p>
     </section>
-    
+
     <section id="relacionados">
-        <h2>Ver También</h2>
+        <h2>Ver también</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>📄 <a href="topic_81_modificar_pedido.html">Modificar pedido</a></li>
+            <li>📄 <a href="topic_82_mostrar_pedidos.html">Ver pedidos</a></li>
+            <li>📄 <a href="topic_83_detalle_pedido.html">Detalle del pedido</a></li>
         </ul>
     </section>
-    
+
     <footer>
         <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
         <p>Todos los derechos reservados</p>

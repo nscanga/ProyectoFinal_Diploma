@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
         <a href="../general/topic_20_main.html">Inicio</a>
         <span>›</span>
@@ -16,36 +16,68 @@
         <span>Iniciar Sesión</span>
     </div>
 
-    <h1>Iniciar Sesión</h1>
-    
+    <h1>Inicio de sesión del sistema</h1>
+
     <section id="introduccion">
         <h2>Introducción</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
+            El inicio de sesión es el primer paso para utilizar el Sistema de Gestión de Distribuidora Los Amigos.
+            En esta etapa el sistema valida su identidad, aplica las políticas de seguridad y carga los permisos
+            asociados al usuario.
         </p>
-        <p>
-            [EXPLICAR PARA QUÉ SIRVE Y CUÁNDO USARLA].
-        </p>
+        <div class="info-box">
+            <strong>ℹ Importante:</strong> Cada usuario posee credenciales únicas que no deben compartirse.
+            Las acciones quedan registradas en la bitácora con el usuario autenticado.
+        </div>
     </section>
-    
+
     <section id="acceso">
-        <h2>Cómo Acceder</h2>
-        <p>Para acceder a esta funcionalidad:</p>
-        <ol>
-            <li>Desde el menú principal, ir a <strong>Login</strong></li>
-            <li>Seleccionar <strong>Iniciar Sesión</strong></li>
-            <li>Se abrirá la ventana de <strong>Iniciar Sesión</strong></li>
-        </ol>
+        <h2>Cómo iniciar sesión</h2>
+
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Abrir la aplicación</strong>
+            <p>Ejecute el acceso directo “Distribuidora Los Amigos” desde el escritorio o el menú Inicio.</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>Pantalla de login</strong>
+            <p>Al iniciar la aplicación se muestra automáticamente la ventana de autenticación.</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Completar credenciales</strong>
+            <p>Ingrese los siguientes campos:</p>
+            <ul>
+                <li><strong>Usuario:</strong> nombre de usuario sin espacios.</li>
+                <li><strong>Contraseña:</strong> contraseña personal (se oculta por seguridad).</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Seleccionar idioma (opcional)</strong>
+            <p>
+                Puede elegir el idioma de la interfaz antes de ingresar. Opciones disponibles:
+                Español, Inglés o Portugués. La elección se guarda para próximos ingresos.
+            </p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">5</span>
+            <strong>Acceder al sistema</strong>
+            <p>Presione <strong>Ingresar</strong> o la tecla <code>Enter</code>. Si las credenciales son correctas se abrirá la pantalla principal.</p>
+        </div>
     </section>
-    
+
     <section id="campos">
-        <h2>Descripción de Campos</h2>
-        <p>A continuación se describe cada campo del formulario:</p>
-        
+        <h2>Descripción de controles</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Campo</th>
+                    <th>Control</th>
                     <th>Descripción</th>
                     <th>Tipo</th>
                     <th>Obligatorio</th>
@@ -53,88 +85,89 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[Descripción del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>Sí / No</td>
+                    <td><strong>textBoxUser</strong></td>
+                    <td>Nombre de usuario registrado. Debe existir en la base de datos.</td>
+                    <td>Texto (max. 50 caracteres)</td>
+                    <td>Sí</td>
                 </tr>
-                <!-- AGREGAR MÁS CAMPOS AQUÍ -->
+                <tr>
+                    <td><strong>textBoxPass</strong></td>
+                    <td>Contraseña asociada al usuario. Se enmascara usando <code>UseSystemPasswordChar</code>.</td>
+                    <td>Texto seguro</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>checkBoxPass</strong></td>
+                    <td>Permite mostrar u ocultar la contraseña ingresada.</td>
+                    <td>CheckBox</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><strong>listBox1</strong></td>
+                    <td>Selector de idioma. Al cambiarlo se persiste la preferencia del usuario.</td>
+                    <td>Lista</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><strong>labelRecuperar</strong></td>
+                    <td>Abre el formulario de recuperación de contraseña.</td>
+                    <td>Etiqueta interactiva</td>
+                    <td>No</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
-    <section id="procedimiento">
-        <h2>Procedimiento</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>[Título del Paso 1]</strong>
-            <p>[Descripción del paso 1]</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">2</span>
-            <strong>[Título del Paso 2]</strong>
-            <p>[Descripción del paso 2]</p>
-        </div>
-        
-        <!-- AGREGAR MÁS PASOS SEGÚN NECESIDAD -->
-    </section>
-    
+
     <section id="validaciones">
-        <h2>Validaciones del Sistema</h2>
-        <p>El sistema realiza las siguientes validaciones:</p>
+        <h2>Validaciones del sistema</h2>
         <ul>
-            <li>[Validación 1]</li>
-            <li>[Validación 2]</li>
-            <li>[Validación 3]</li>
+            <li>Usuario y contraseña no pueden estar vacíos.</li>
+            <li>Se verifica la existencia del usuario mediante <code>UserService.Login</code>.</li>
+            <li>Las credenciales incorrectas generan un mensaje de advertencia y se registran en la bitácora.</li>
+            <li>Si es el primer inicio y no existen usuarios, el sistema crea automáticamente <code>admin/Admin123!</code>.</li>
         </ul>
     </section>
-    
+
     <section id="consejos">
-        <h2>Consejos y Recomendaciones</h2>
-        
+        <h2>Consejos y recomendaciones</h2>
         <div class="tip">
-            [Consejo útil para el usuario]
+            Cambie la contraseña del usuario administrador la primera vez que ingrese al sistema.
         </div>
-        
+        <div class="tip">
+            Si trabaja en un ambiente compartido cierre sesión antes de abandonar el puesto.
+        </div>
         <div class="warning">
-            <strong>⚠️ Advertencia:</strong> [Información importante]
+            <strong>⚠️ Advertencia:</strong> Después de varios intentos fallidos se registrará una alerta para auditoría.
         </div>
     </section>
-    
+
     <section id="errores">
-        <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
-        <div class="error">
-            <strong>Causa:</strong> [Explicación del error]
-        </div>
-        <div class="success">
-            <strong>✅ Solución:</strong> [Pasos para resolverlo]
-        </div>
+        <h2>Errores comunes</h2>
+
+        <h3>Error: "Por favor, ingrese su nombre de usuario y contraseña"</h3>
+        <div class="error"><strong>Causa:</strong> Alguno de los campos está vacío.</div>
+        <div class="success"><strong>✅ Solución:</strong> Complete ambos campos antes de presionar Ingresar.</div>
+
+        <h3>Error: "Inicio de sesión fallido"</h3>
+        <div class="error"><strong>Causa:</strong> Las credenciales no coinciden con un usuario válido.</div>
+        <div class="success"><strong>✅ Solución:</strong> Verifique mayúsculas/minúsculas o solicite el restablecimiento de contraseña.</div>
     </section>
-    
+
     <section id="permisos">
-        <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
-        <ul>
-            <li><code>[NombrePatente]</code> - [Descripción del permiso]</li>
-        </ul>
-        
-        <div class="warning">
-            <strong>⚠️ Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
-        </div>
+        <h2>Permisos necesarios</h2>
+        <p>
+            Todos los usuarios necesitan la patente <code>LOGIN</code> para acceder al sistema. Esta patente se asigna automáticamente al crear un usuario mediante <strong>Gestión → Crear usuario</strong>.
+        </p>
     </section>
-    
+
     <section id="relacionados">
-        <h2>Ver También</h2>
+        <h2>Ver también</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>📄 <a href="topic_32_recuperar.html">Recuperar contraseña</a></li>
+            <li>📄 <a href="topic_33_cambiar_pass.html">Cambiar contraseña con token</a></li>
         </ul>
     </section>
-    
+
     <footer>
         <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
         <p>Todos los derechos reservados</p>

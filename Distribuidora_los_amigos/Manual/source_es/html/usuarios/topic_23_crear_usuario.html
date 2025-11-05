@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
         <a href="../general/topic_20_main.html">Inicio</a>
         <span>›</span>
@@ -16,32 +16,26 @@
         <span>Crear Usuario</span>
     </div>
 
-    <h1>Crear Usuario</h1>
-    
+    <h1>Crear usuario</h1>
+
     <section id="introduccion">
-        <h2>Introducción</h2>
+        <h2>¿Para qué sirve?</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
-        </p>
-        <p>
-            [EXPLICAR PARA QUÉ SIRVE Y CUÁNDO USARLA].
+            Permite registrar nuevos usuarios en el sistema. Cada usuario obtiene credenciales de acceso y la patente básica de login.
+            Posteriormente puede asociarse a familias (roles) y patentes específicas desde otras pantallas.
         </p>
     </section>
-    
+
     <section id="acceso">
-        <h2>Cómo Acceder</h2>
-        <p>Para acceder a esta funcionalidad:</p>
+        <h2>Cómo acceder</h2>
         <ol>
-            <li>Desde el menú principal, ir a <strong>Gestión → Usuarios</strong></li>
-            <li>Seleccionar <strong>Crear Usuario</strong></li>
-            <li>Se abrirá la ventana de <strong>Crear Usuario</strong></li>
+            <li>En la pantalla principal navegue a <strong>Gestión → Crear usuario</strong>.</li>
+            <li>Se abrirá el formulario modal <strong>CrearUsuarioForm</strong>.</li>
         </ol>
     </section>
-    
+
     <section id="campos">
-        <h2>Descripción de Campos</h2>
-        <p>A continuación se describe cada campo del formulario:</p>
-        
+        <h2>Descripción de campos</h2>
         <table>
             <thead>
                 <tr>
@@ -53,88 +47,69 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[Descripción del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>Sí / No</td>
+                    <td><strong>Usuario</strong></td>
+                    <td>Nombre único que identificará al usuario.</td>
+                    <td>Texto (max. 50 caracteres)</td>
+                    <td>Sí</td>
                 </tr>
-                <!-- AGREGAR MÁS CAMPOS AQUÍ -->
+                <tr>
+                    <td><strong>Contraseña</strong></td>
+                    <td>Clave inicial del usuario. Se almacena encriptada.</td>
+                    <td>Texto seguro</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Email</strong></td>
+                    <td>Correo electrónico utilizado para notificaciones y recuperación de contraseña.</td>
+                    <td>Texto</td>
+                    <td>No (recomendado)</td>
+                </tr>
+                <tr>
+                    <td><strong>Crear</strong></td>
+                    <td>Botón que ejecuta <code>UserService.Register</code> y registra la operación en la bitácora.</td>
+                    <td>Botón</td>
+                    <td>—</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
+
     <section id="procedimiento">
         <h2>Procedimiento</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>[Título del Paso 1]</strong>
-            <p>[Descripción del paso 1]</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">2</span>
-            <strong>[Título del Paso 2]</strong>
-            <p>[Descripción del paso 2]</p>
-        </div>
-        
-        <!-- AGREGAR MÁS PASOS SEGÚN NECESIDAD -->
+        <ol>
+            <li>Complete el nombre de usuario (sin espacios ni caracteres especiales inusuales).</li>
+            <li>Ingrese una contraseña temporal siguiendo las políticas de seguridad internas.</li>
+            <li>Registre un email válido para habilitar la recuperación por token.</li>
+            <li>Presione <strong>Crear</strong>. El sistema mostrará un mensaje de confirmación.</li>
+            <li>Asigne roles al nuevo usuario desde la pantalla <strong>Asignar rol</strong>.</li>
+        </ol>
     </section>
-    
+
     <section id="validaciones">
-        <h2>Validaciones del Sistema</h2>
-        <p>El sistema realiza las siguientes validaciones:</p>
+        <h2>Validaciones del sistema</h2>
         <ul>
-            <li>[Validación 1]</li>
-            <li>[Validación 2]</li>
-            <li>[Validación 3]</li>
+            <li>Usuario y contraseña son obligatorios. Si faltan se muestra un mensaje traducido.</li>
+            <li>El servicio valida que no exista otro usuario con el mismo nombre. Ante duplicados se muestra el error SQL correspondiente.</li>
+            <li>Las excepciones se registran en la bitácora mediante <code>LoggerService</code>.</li>
         </ul>
     </section>
-    
+
     <section id="consejos">
-        <h2>Consejos y Recomendaciones</h2>
-        
-        <div class="tip">
-            [Consejo útil para el usuario]
-        </div>
-        
-        <div class="warning">
-            <strong>⚠️ Advertencia:</strong> [Información importante]
-        </div>
+        <h2>Consejos</h2>
+        <div class="tip">Siga una convención para los nombres de usuario (por ejemplo, inicial + apellido).</div>
+        <div class="tip">Informe al usuario la contraseña temporal y solicite que la cambie en el primer ingreso.</div>
+        <div class="warning"><strong>⚠️ Importante:</strong> El formulario no asigna roles automáticamente. Recuerde completar ese paso para que el usuario vea los menús correspondientes.</div>
     </section>
-    
-    <section id="errores">
-        <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
-        <div class="error">
-            <strong>Causa:</strong> [Explicación del error]
-        </div>
-        <div class="success">
-            <strong>✅ Solución:</strong> [Pasos para resolverlo]
-        </div>
-    </section>
-    
-    <section id="permisos">
-        <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
-        <ul>
-            <li><code>[NombrePatente]</code> - [Descripción del permiso]</li>
-        </ul>
-        
-        <div class="warning">
-            <strong>⚠️ Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
-        </div>
-    </section>
-    
+
     <section id="relacionados">
-        <h2>Ver También</h2>
+        <h2>Ver también</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>📄 <a href="topic_24_asignar_rol.html">Asignar rol</a></li>
+            <li>📄 <a href="topic_28_modificar_usuario.html">Modificar usuario</a></li>
+            <li>📄 <a href="topic_29_mostrar_usuarios.html">Ver usuarios</a></li>
         </ul>
     </section>
-    
+
     <footer>
         <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
         <p>Todos los derechos reservados</p>

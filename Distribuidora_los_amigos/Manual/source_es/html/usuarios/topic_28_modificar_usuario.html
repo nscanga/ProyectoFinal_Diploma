@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
         <a href="../general/topic_20_main.html">Inicio</a>
         <span>›</span>
@@ -16,36 +16,30 @@
         <span>Modificar Usuario</span>
     </div>
 
-    <h1>Modificar Usuario</h1>
-    
+    <h1>Administrar usuarios existentes</h1>
+
     <section id="introduccion">
-        <h2>Introducción</h2>
+        <h2>Objetivo</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
-        </p>
-        <p>
-            [EXPLICAR PARA QUÉ SIRVE Y CUÁNDO USARLA].
+            Esta pantalla permite habilitar o deshabilitar usuarios existentes y consultar su estado actual.
+            Es útil para gestionar accesos temporales o bloquear cuentas que no deban utilizarse.
         </p>
     </section>
-    
+
     <section id="acceso">
-        <h2>Cómo Acceder</h2>
-        <p>Para acceder a esta funcionalidad:</p>
+        <h2>Cómo acceder</h2>
         <ol>
-            <li>Desde el menú principal, ir a <strong>Gestión → Usuarios</strong></li>
-            <li>Seleccionar <strong>Modificar Usuario</strong></li>
-            <li>Se abrirá la ventana de <strong>Modificar Usuario</strong></li>
+            <li>Seleccione <strong>Gestión → Modificar usuario</strong> en la pantalla principal.</li>
+            <li>El formulario cargará automáticamente la lista de usuarios disponibles.</li>
         </ol>
     </section>
-    
+
     <section id="campos">
-        <h2>Descripción de Campos</h2>
-        <p>A continuación se describe cada campo del formulario:</p>
-        
+        <h2>Controles principales</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Campo</th>
+                    <th>Control</th>
                     <th>Descripción</th>
                     <th>Tipo</th>
                     <th>Obligatorio</th>
@@ -53,88 +47,62 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[Descripción del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>Sí / No</td>
+                    <td><strong>cbUsuarios</strong></td>
+                    <td>Lista de usuarios cargada con <code>UserService.GetAllUsuarios()</code>.</td>
+                    <td>ComboBox</td>
+                    <td>Sí</td>
                 </tr>
-                <!-- AGREGAR MÁS CAMPOS AQUÍ -->
+                <tr>
+                    <td><strong>Habilitar</strong></td>
+                    <td>Botón para habilitar un usuario previamente deshabilitado.</td>
+                    <td>Botón</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Deshabilitar</strong></td>
+                    <td>Botón que invoca <code>UserService.DisableUser</code> para bloquear el acceso.</td>
+                    <td>Botón</td>
+                    <td>—</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
+
     <section id="procedimiento">
         <h2>Procedimiento</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>[Título del Paso 1]</strong>
-            <p>[Descripción del paso 1]</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">2</span>
-            <strong>[Título del Paso 2]</strong>
-            <p>[Descripción del paso 2]</p>
-        </div>
-        
-        <!-- AGREGAR MÁS PASOS SEGÚN NECESIDAD -->
+        <ol>
+            <li>Seleccione el usuario en el combo.</li>
+            <li>Para bloquearlo, presione <strong>Deshabilitar</strong> y confirme la operación.</li>
+            <li>Para volver a habilitarlo, presione <strong>Habilitar</strong>. (La operación se registra aunque la habilitación esté pendiente de implementación).</li>
+            <li>Verifique los mensajes informativos y cierre el formulario cuando finalice.</li>
+        </ol>
     </section>
-    
+
     <section id="validaciones">
-        <h2>Validaciones del Sistema</h2>
-        <p>El sistema realiza las siguientes validaciones:</p>
+        <h2>Validaciones</h2>
         <ul>
-            <li>[Validación 1]</li>
-            <li>[Validación 2]</li>
-            <li>[Validación 3]</li>
+            <li>Es necesario seleccionar un usuario antes de ejecutar cualquier acción.</li>
+            <li>Las operaciones muestran un cuadro de confirmación para evitar cambios accidentales.</li>
+            <li>Los errores SQL se procesan mediante <code>ErrorHandler</code> y se muestran mensajes descriptivos.</li>
+            <li>Todas las acciones se registran en la bitácora con el usuario que las realiza.</li>
         </ul>
     </section>
-    
+
     <section id="consejos">
-        <h2>Consejos y Recomendaciones</h2>
-        
-        <div class="tip">
-            [Consejo útil para el usuario]
-        </div>
-        
-        <div class="warning">
-            <strong>⚠️ Advertencia:</strong> [Información importante]
-        </div>
+        <h2>Recomendaciones</h2>
+        <div class="tip">Utilice esta pantalla junto con <strong>Ver usuarios</strong> para tener visibilidad del estado general.</div>
+        <div class="tip">Antes de deshabilitar un usuario confirme que no tenga pedidos o tareas críticas pendientes.</div>
+        <div class="warning"><strong>⚠️ Atención:</strong> Deshabilitar un usuario impide que vuelva a iniciar sesión hasta ser habilitado nuevamente.</div>
     </section>
-    
-    <section id="errores">
-        <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
-        <div class="error">
-            <strong>Causa:</strong> [Explicación del error]
-        </div>
-        <div class="success">
-            <strong>✅ Solución:</strong> [Pasos para resolverlo]
-        </div>
-    </section>
-    
-    <section id="permisos">
-        <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
-        <ul>
-            <li><code>[NombrePatente]</code> - [Descripción del permiso]</li>
-        </ul>
-        
-        <div class="warning">
-            <strong>⚠️ Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
-        </div>
-    </section>
-    
+
     <section id="relacionados">
-        <h2>Ver También</h2>
+        <h2>Ver también</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>📄 <a href="topic_23_crear_usuario.html">Crear usuario</a></li>
+            <li>📄 <a href="topic_29_mostrar_usuarios.html">Ver usuarios</a></li>
         </ul>
     </section>
-    
+
     <footer>
         <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
         <p>Todos los derechos reservados</p>

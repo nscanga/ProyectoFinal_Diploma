@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -7,41 +7,35 @@
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
         <a href="../general/topic_20_main.html">Inicio</a>
         <span>›</span>
-        <a href="#">Gestión de Productos</a>
+        <a href="#">Productos</a>
         <span>›</span>
         <span>Crear Producto</span>
     </div>
 
-    <h1>Crear Producto</h1>
-    
+    <h1>Registrar un nuevo producto</h1>
+
     <section id="introduccion">
-        <h2>Introducción</h2>
+        <h2>Descripción</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
-        </p>
-        <p>
-            [EXPLICAR PARA QUÉ SIRVE Y CUÁNDO USARLA].
+            Permite dar de alta productos en el catálogo. Cada producto se registra con categoría, precio, fechas relevantes y stock inicial.
+            Al crear el producto se genera automáticamente un registro de stock asociado.
         </p>
     </section>
-    
+
     <section id="acceso">
-        <h2>Cómo Acceder</h2>
-        <p>Para acceder a esta funcionalidad:</p>
+        <h2>Cómo acceder</h2>
         <ol>
-            <li>Desde el menú principal, ir a <strong>Productos</strong></li>
-            <li>Seleccionar <strong>Crear Producto</strong></li>
-            <li>Se abrirá la ventana de <strong>Crear Producto</strong></li>
+            <li>En la pantalla principal seleccione <strong>Productos → Agregar</strong>.</li>
+            <li>Se abrirá el formulario <strong>CrearProductoForm</strong> centrado en pantalla.</li>
         </ol>
     </section>
-    
+
     <section id="campos">
-        <h2>Descripción de Campos</h2>
-        <p>A continuación se describe cada campo del formulario:</p>
-        
+        <h2>Campos del formulario</h2>
         <table>
             <thead>
                 <tr>
@@ -53,88 +47,89 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[Descripción del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>Sí / No</td>
+                    <td><strong>Nombre</strong></td>
+                    <td>Nombre comercial del producto.</td>
+                    <td>Texto</td>
+                    <td>Sí</td>
                 </tr>
-                <!-- AGREGAR MÁS CAMPOS AQUÍ -->
+                <tr>
+                    <td><strong>Categoría</strong></td>
+                    <td>Seleccionar entre categorías predefinidas (Pollo fresco, Huevos, etc.).</td>
+                    <td>ComboBox</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Precio</strong></td>
+                    <td>Precio de venta unitario. Debe ser mayor a cero.</td>
+                    <td>Numérico</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Fecha de ingreso</strong></td>
+                    <td>Fecha en la que el producto ingresa al stock.</td>
+                    <td>DatePicker</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Fecha de vencimiento</strong></td>
+                    <td>Opcional. Activar el check del <strong>DateTimePicker</strong> para registrar.</td>
+                    <td>DatePicker</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><strong>Cantidad inicial</strong></td>
+                    <td>Stock inicial que se generará en el depósito.</td>
+                    <td>Numérico</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Tipo de stock</strong></td>
+                    <td>Unidad, kilogramo, caja, bandeja, etc. Define la unidad de medida.</td>
+                    <td>ComboBox</td>
+                    <td>Sí</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
+
     <section id="procedimiento">
-        <h2>Procedimiento</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>[Título del Paso 1]</strong>
-            <p>[Descripción del paso 1]</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">2</span>
-            <strong>[Título del Paso 2]</strong>
-            <p>[Descripción del paso 2]</p>
-        </div>
-        
-        <!-- AGREGAR MÁS PASOS SEGÚN NECESIDAD -->
+        <h2>Paso a paso</h2>
+        <ol>
+            <li>Complete el nombre y seleccione la categoría correspondiente.</li>
+            <li>Ingrese el precio unitario (ej.: 1200,50). El sistema valida que sea positivo.</li>
+            <li>Defina la fecha de ingreso y, de ser necesario, habilite y configure la fecha de vencimiento.</li>
+            <li>Indique la cantidad inicial y el tipo de stock que se creará.</li>
+            <li>Presione <strong>Guardar</strong>. Se registrará el producto y su stock inicial.</li>
+            <li>Se mostrará el mensaje “Producto creado correctamente” y el formulario quedará listo para cargar otro artículo.</li>
+        </ol>
     </section>
-    
+
     <section id="validaciones">
-        <h2>Validaciones del Sistema</h2>
-        <p>El sistema realiza las siguientes validaciones:</p>
+        <h2>Validaciones</h2>
         <ul>
-            <li>[Validación 1]</li>
-            <li>[Validación 2]</li>
-            <li>[Validación 3]</li>
+            <li>Precio debe ser numérico y mayor que cero.</li>
+            <li>Debe seleccionarse una categoría y un tipo de stock.</li>
+            <li>La fecha de vencimiento, si se ingresa, no puede ser anterior a la fecha de ingreso.</li>
+            <li>El nombre y la categoría no pueden quedar vacíos.</li>
         </ul>
     </section>
-    
+
     <section id="consejos">
-        <h2>Consejos y Recomendaciones</h2>
-        
-        <div class="tip">
-            [Consejo útil para el usuario]
-        </div>
-        
-        <div class="warning">
-            <strong>⚠️ Advertencia:</strong> [Información importante]
-        </div>
+        <h2>Recomendaciones</h2>
+        <div class="tip">Utilice categorías consistentes para facilitar los reportes por tipo de producto.</div>
+        <div class="tip">Si el producto no posee vencimiento, desmarque el control para evitar fechas erróneas.</div>
+        <div class="warning"><strong>⚠️ Atención:</strong> Verifique la unidad de stock antes de guardar. Cambiarla más adelante requiere ajustar el inventario manualmente.</div>
     </section>
-    
-    <section id="errores">
-        <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
-        <div class="error">
-            <strong>Causa:</strong> [Explicación del error]
-        </div>
-        <div class="success">
-            <strong>✅ Solución:</strong> [Pasos para resolverlo]
-        </div>
-    </section>
-    
-    <section id="permisos">
-        <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
-        <ul>
-            <li><code>[NombrePatente]</code> - [Descripción del permiso]</li>
-        </ul>
-        
-        <div class="warning">
-            <strong>⚠️ Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
-        </div>
-    </section>
-    
+
     <section id="relacionados">
-        <h2>Ver También</h2>
+        <h2>Ver también</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>📄 <a href="topic_51_modificar_producto.html">Modificar producto</a></li>
+            <li>📄 <a href="topic_52_mostrar_productos.html">Ver productos</a></li>
+            <li>📄 <a href="../stock/topic_70_mostrar_stock.html">Ver stock</a></li>
         </ul>
     </section>
-    
+
     <footer>
         <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
         <p>Todos los derechos reservados</p>
