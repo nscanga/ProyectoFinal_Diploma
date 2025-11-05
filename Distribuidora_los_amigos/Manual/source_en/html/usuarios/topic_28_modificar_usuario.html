@@ -1,143 +1,111 @@
-﻿<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modificar Usuario - Distribuidora Los Amigos</title>
+    <title>Edit User - Distribuidora Los Amigos</title>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
-        <a href="../general/topic_20_main.html">Inicio</a>
+        <a href="../general/topic_20_main.html">Home</a>
         <span>›</span>
-        <a href="#">Gestión de Usuarios</a>
+        <a href="#">User Management</a>
         <span>›</span>
-        <span>Modificar Usuario</span>
+        <span>Edit User</span>
     </div>
 
-    <h1>Modificar Usuario</h1>
-    
+    <h1>Manage existing users</h1>
+
     <section id="introduccion">
-        <h2>Introducción</h2>
+        <h2>Objective</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
-        </p>
-        <p>
-            [EXPLICAR PARA QUÉ SIRVE Y CUÁNDO USARLA].
+            Use this screen to enable or disable existing users and review their current status.
+            It is useful for handling temporary access or blocking accounts that should not be used.
         </p>
     </section>
-    
+
     <section id="acceso">
-        <h2>Cómo Acceder</h2>
-        <p>Para acceder a esta funcionalidad:</p>
+        <h2>How to access</h2>
         <ol>
-            <li>Desde el menú principal, ir a <strong>Gestión → Usuarios</strong></li>
-            <li>Seleccionar <strong>Modificar Usuario</strong></li>
-            <li>Se abrirá la ventana de <strong>Modificar Usuario</strong></li>
+            <li>Select <strong>Management → Edit user</strong> on the main screen.</li>
+            <li>The form automatically loads the list of available users.</li>
         </ol>
     </section>
-    
+
     <section id="campos">
-        <h2>Descripción de Campos</h2>
-        <p>A continuación se describe cada campo del formulario:</p>
-        
+        <h2>Main controls</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Campo</th>
-                    <th>Descripción</th>
-                    <th>Tipo</th>
-                    <th>Obligatorio</th>
+                    <th>Control</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Required</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[Descripción del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>Sí / No</td>
+                    <td><strong>cbUsuarios</strong></td>
+                    <td>User list loaded with <code>UserService.GetAllUsuarios()</code>.</td>
+                    <td>ComboBox</td>
+                    <td>Yes</td>
                 </tr>
-                <!-- AGREGAR MÁS CAMPOS AQUÍ -->
+                <tr>
+                    <td><strong>Enable</strong></td>
+                    <td>Button to enable a previously disabled user.</td>
+                    <td>Button</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Disable</strong></td>
+                    <td>Button that calls <code>UserService.DisableUser</code> to block access.</td>
+                    <td>Button</td>
+                    <td>—</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
+
     <section id="procedimiento">
-        <h2>Procedimiento</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>[Título del Paso 1]</strong>
-            <p>[Descripción del paso 1]</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">2</span>
-            <strong>[Título del Paso 2]</strong>
-            <p>[Descripción del paso 2]</p>
-        </div>
-        
-        <!-- AGREGAR MÁS PASOS SEGÚN NECESIDAD -->
+        <h2>Procedure</h2>
+        <ol>
+            <li>Select the user from the combo box.</li>
+            <li>To block them, press <strong>Disable</strong> and confirm the operation.</li>
+            <li>To enable them again, press <strong>Enable</strong>. (The action is logged even if enabling is pending implementation.)</li>
+            <li>Check the informational messages and close the form when you are done.</li>
+        </ol>
     </section>
-    
+
     <section id="validaciones">
-        <h2>Validaciones del Sistema</h2>
-        <p>El sistema realiza las siguientes validaciones:</p>
+        <h2>Validations</h2>
         <ul>
-            <li>[Validación 1]</li>
-            <li>[Validación 2]</li>
-            <li>[Validación 3]</li>
+            <li>You must select a user before executing any action.</li>
+            <li>Operations show a confirmation dialog to avoid accidental changes.</li>
+            <li>SQL errors are processed through <code>ErrorHandler</code> and descriptive messages are displayed.</li>
+            <li>All actions are logged with the user who performs them.</li>
         </ul>
     </section>
-    
+
     <section id="consejos">
-        <h2>Consejos y Recomendaciones</h2>
-        
-        <div class="tip">
-            [Consejo útil para el usuario]
-        </div>
-        
-        <div class="warning">
-            <strong>⚠️ Advertencia:</strong> [Información importante]
-        </div>
+        <h2>Recommendations</h2>
+        <div class="tip">Use this screen together with <strong>View users</strong> to monitor the overall status.</div>
+        <div class="tip">Before disabling a user, confirm they do not have pending orders or critical tasks.</div>
+        <div class="warning"><strong>⚠️ Attention:</strong> Disabling a user prevents them from signing in until they are enabled again.</div>
     </section>
-    
-    <section id="errores">
-        <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
-        <div class="error">
-            <strong>Causa:</strong> [Explicación del error]
-        </div>
-        <div class="success">
-            <strong>✅ Solución:</strong> [Pasos para resolverlo]
-        </div>
-    </section>
-    
-    <section id="permisos">
-        <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
-        <ul>
-            <li><code>[NombrePatente]</code> - [Descripción del permiso]</li>
-        </ul>
-        
-        <div class="warning">
-            <strong>⚠️ Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
-        </div>
-    </section>
-    
+
     <section id="relacionados">
-        <h2>Ver También</h2>
+        <h2>See also</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>📄 <a href="topic_23_crear_usuario.html">Create user</a></li>
+            <li>📄 <a href="topic_29_mostrar_usuarios.html">View users</a></li>
         </ul>
     </section>
-    
+
     <footer>
-        <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
-        <p>Todos los derechos reservados</p>
+        <p>© 2024 Distribuidora Los Amigos - Management System</p>
+        <p>All rights reserved</p>
     </footer>
 
 </body>

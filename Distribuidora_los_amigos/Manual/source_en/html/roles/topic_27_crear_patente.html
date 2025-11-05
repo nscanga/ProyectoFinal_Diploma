@@ -1,143 +1,109 @@
-﻿<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Patente - Distribuidora Los Amigos</title>
+    <title>Create Patent - Distribuidora Los Amigos</title>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
-        <a href="../general/topic_20_main.html">Inicio</a>
+        <a href="../general/topic_20_main.html">Home</a>
         <span>›</span>
-        <a href="#">Roles y Permisos</a>
+        <a href="#">Security</a>
         <span>›</span>
-        <span>Crear Patente</span>
+        <span>Create Patent</span>
     </div>
 
-    <h1>Crear Patente</h1>
-    
+    <h1>Create patents (individual permissions)</h1>
+
     <section id="introduccion">
-        <h2>Introducción</h2>
+        <h2>Description</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
-        </p>
-        <p>
-            [EXPLICAR PARA QUÉ SIRVE Y CUÁNDO USARLA].
+            Patents represent atomic permissions within the system (for example, “Create_Customer” or “Generate_Backup”).
+            They are used to build families and control granular access to each feature.
         </p>
     </section>
-    
+
     <section id="acceso">
-        <h2>Cómo Acceder</h2>
-        <p>Para acceder a esta funcionalidad:</p>
+        <h2>How to access</h2>
         <ol>
-            <li>Desde el menú principal, ir a <strong>Gestión → Permisos</strong></li>
-            <li>Seleccionar <strong>Crear Patente</strong></li>
-            <li>Se abrirá la ventana de <strong>Crear Patente</strong></li>
+            <li>From the main screen select <strong>Management → Create patent</strong>.</li>
+            <li>The form displays the fields to enter the name and access type.</li>
         </ol>
     </section>
-    
+
     <section id="campos">
-        <h2>Descripción de Campos</h2>
-        <p>A continuación se describe cada campo del formulario:</p>
-        
+        <h2>Form fields</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Campo</th>
-                    <th>Descripción</th>
-                    <th>Tipo</th>
-                    <th>Obligatorio</th>
+                    <th>Field</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Required</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[Descripción del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>Sí / No</td>
+                    <td><strong>Name</strong></td>
+                    <td>Readable identifier for the permission. It is also used as the <code>DataKey</code>.</td>
+                    <td>Text</td>
+                    <td>Yes</td>
                 </tr>
-                <!-- AGREGAR MÁS CAMPOS AQUÍ -->
+                <tr>
+                    <td><strong>Access type</strong></td>
+                    <td><code>TipoAcceso</code> enum (Create, Delete, Update, View, etc.).</td>
+                    <td>ComboBox</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Save</strong></td>
+                    <td>Button that runs <code>UserService.CreatePatente</code>.</td>
+                    <td>Button</td>
+                    <td>—</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
+
     <section id="procedimiento">
-        <h2>Procedimiento</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>[Título del Paso 1]</strong>
-            <p>[Descripción del paso 1]</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">2</span>
-            <strong>[Título del Paso 2]</strong>
-            <p>[Descripción del paso 2]</p>
-        </div>
-        
-        <!-- AGREGAR MÁS PASOS SEGÚN NECESIDAD -->
+        <h2>Step by step</h2>
+        <ol>
+            <li>Enter the permission name following the system convention (e.g., <code>Show_Customers</code>).</li>
+            <li>Select the access type that best describes the operation.</li>
+            <li>Press <strong>Save</strong>.</li>
+            <li>The system displays a confirmation message and the patent becomes available to assign to families.</li>
+        </ol>
     </section>
-    
+
     <section id="validaciones">
-        <h2>Validaciones del Sistema</h2>
-        <p>El sistema realiza las siguientes validaciones:</p>
+        <h2>Validations and messages</h2>
         <ul>
-            <li>[Validación 1]</li>
-            <li>[Validación 2]</li>
-            <li>[Validación 3]</li>
+            <li>The name cannot be empty. The form shows a translated message if it is missing.</li>
+            <li>Errors are logged and the message “An error occurred while creating the patent” is displayed.</li>
+            <li>When saved, the log records the user who created the patent.</li>
         </ul>
     </section>
-    
+
     <section id="consejos">
-        <h2>Consejos y Recomendaciones</h2>
-        
-        <div class="tip">
-            [Consejo útil para el usuario]
-        </div>
-        
-        <div class="warning">
-            <strong>⚠️ Advertencia:</strong> [Información importante]
-        </div>
+        <h2>Recommendations</h2>
+        <div class="tip">Use names consistent with those used in the codebase to simplify maintenance.</div>
+        <div class="tip">Create patents only when there is a real feature associated with them; avoid redundant permissions.</div>
     </section>
-    
-    <section id="errores">
-        <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
-        <div class="error">
-            <strong>Causa:</strong> [Explicación del error]
-        </div>
-        <div class="success">
-            <strong>✅ Solución:</strong> [Pasos para resolverlo]
-        </div>
-    </section>
-    
-    <section id="permisos">
-        <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
-        <ul>
-            <li><code>[NombrePatente]</code> - [Descripción del permiso]</li>
-        </ul>
-        
-        <div class="warning">
-            <strong>⚠️ Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
-        </div>
-    </section>
-    
+
     <section id="relacionados">
-        <h2>Ver También</h2>
+        <h2>See also</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>📄 <a href="topic_26_crear_rol.html">Create role</a></li>
+            <li>📄 <a href="../usuarios/topic_24_asignar_rol.html">Assign role to user</a></li>
         </ul>
     </section>
-    
+
     <footer>
-        <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
-        <p>Todos los derechos reservados</p>
+        <p>© 2024 Distribuidora Los Amigos - Management System</p>
+        <p>All rights reserved</p>
     </footer>
 
 </body>

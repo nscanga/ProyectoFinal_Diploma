@@ -1,143 +1,118 @@
-﻿<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Usuario - Distribuidora Los Amigos</title>
+    <title>Create User - Distribuidora Los Amigos</title>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
-        <a href="../general/topic_20_main.html">Inicio</a>
+        <a href="../general/topic_20_main.html">Home</a>
         <span>›</span>
-        <a href="#">Gestión de Usuarios</a>
+        <a href="#">User Management</a>
         <span>›</span>
-        <span>Crear Usuario</span>
+        <span>Create User</span>
     </div>
 
-    <h1>Crear Usuario</h1>
-    
+    <h1>Create user</h1>
+
     <section id="introduccion">
-        <h2>Introducción</h2>
+        <h2>What is it for?</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
-        </p>
-        <p>
-            [EXPLICAR PARA QUÉ SIRVE Y CUÁNDO USARLA].
+            Registers new users in the system. Each user receives login credentials and the basic login patent.
+            Roles (families) and specific patents can be associated from other screens afterward.
         </p>
     </section>
-    
+
     <section id="acceso">
-        <h2>Cómo Acceder</h2>
-        <p>Para acceder a esta funcionalidad:</p>
+        <h2>How to access</h2>
         <ol>
-            <li>Desde el menú principal, ir a <strong>Gestión → Usuarios</strong></li>
-            <li>Seleccionar <strong>Crear Usuario</strong></li>
-            <li>Se abrirá la ventana de <strong>Crear Usuario</strong></li>
+            <li>On the main screen go to <strong>Management → Create user</strong>.</li>
+            <li>The modal <strong>CrearUsuarioForm</strong> opens.</li>
         </ol>
     </section>
-    
+
     <section id="campos">
-        <h2>Descripción de Campos</h2>
-        <p>A continuación se describe cada campo del formulario:</p>
-        
+        <h2>Field description</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Campo</th>
-                    <th>Descripción</th>
-                    <th>Tipo</th>
-                    <th>Obligatorio</th>
+                    <th>Field</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Required</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[Descripción del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>Sí / No</td>
+                    <td><strong>User</strong></td>
+                    <td>Unique name that identifies the user.</td>
+                    <td>Text (max. 50 characters)</td>
+                    <td>Yes</td>
                 </tr>
-                <!-- AGREGAR MÁS CAMPOS AQUÍ -->
+                <tr>
+                    <td><strong>Password</strong></td>
+                    <td>Initial password for the user. It is stored encrypted.</td>
+                    <td>Secure text</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Email</strong></td>
+                    <td>Email address used for notifications and password recovery.</td>
+                    <td>Text</td>
+                    <td>No (recommended)</td>
+                </tr>
+                <tr>
+                    <td><strong>Create</strong></td>
+                    <td>Button that executes <code>UserService.Register</code> and logs the operation.</td>
+                    <td>Button</td>
+                    <td>—</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
+
     <section id="procedimiento">
-        <h2>Procedimiento</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>[Título del Paso 1]</strong>
-            <p>[Descripción del paso 1]</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">2</span>
-            <strong>[Título del Paso 2]</strong>
-            <p>[Descripción del paso 2]</p>
-        </div>
-        
-        <!-- AGREGAR MÁS PASOS SEGÚN NECESIDAD -->
+        <h2>Procedure</h2>
+        <ol>
+            <li>Enter the username (without spaces or unusual special characters).</li>
+            <li>Provide a temporary password following the internal security policies.</li>
+            <li>Register a valid email to enable token-based recovery.</li>
+            <li>Press <strong>Create</strong>. The system displays a confirmation message.</li>
+            <li>Assign roles to the new user from the <strong>Assign role</strong> screen.</li>
+        </ol>
     </section>
-    
+
     <section id="validaciones">
-        <h2>Validaciones del Sistema</h2>
-        <p>El sistema realiza las siguientes validaciones:</p>
+        <h2>System validations</h2>
         <ul>
-            <li>[Validación 1]</li>
-            <li>[Validación 2]</li>
-            <li>[Validación 3]</li>
+            <li>Username and password are required. A translated message appears if they are missing.</li>
+            <li>The service checks that no other user exists with the same name. Duplicates show the corresponding SQL error.</li>
+            <li>Exceptions are logged through <code>LoggerService</code>.</li>
         </ul>
     </section>
-    
+
     <section id="consejos">
-        <h2>Consejos y Recomendaciones</h2>
-        
-        <div class="tip">
-            [Consejo útil para el usuario]
-        </div>
-        
-        <div class="warning">
-            <strong>⚠️ Advertencia:</strong> [Información importante]
-        </div>
+        <h2>Tips</h2>
+        <div class="tip">Follow a convention for usernames (for example, initial + last name).</div>
+        <div class="tip">Inform the user of the temporary password and ask them to change it on the first login.</div>
+        <div class="warning"><strong>⚠️ Important:</strong> The form does not assign roles automatically. Complete that step so the user can see the corresponding menus.</div>
     </section>
-    
-    <section id="errores">
-        <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
-        <div class="error">
-            <strong>Causa:</strong> [Explicación del error]
-        </div>
-        <div class="success">
-            <strong>✅ Solución:</strong> [Pasos para resolverlo]
-        </div>
-    </section>
-    
-    <section id="permisos">
-        <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
-        <ul>
-            <li><code>[NombrePatente]</code> - [Descripción del permiso]</li>
-        </ul>
-        
-        <div class="warning">
-            <strong>⚠️ Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
-        </div>
-    </section>
-    
+
     <section id="relacionados">
-        <h2>Ver También</h2>
+        <h2>See also</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>📄 <a href="topic_24_asignar_rol.html">Assign role</a></li>
+            <li>📄 <a href="topic_28_modificar_usuario.html">Edit user</a></li>
+            <li>📄 <a href="topic_29_mostrar_usuarios.html">View users</a></li>
         </ul>
     </section>
-    
+
     <footer>
-        <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
-        <p>Todos los derechos reservados</p>
+        <p>© 2024 Distribuidora Los Amigos - Management System</p>
+        <p>All rights reserved</p>
     </footer>
 
 </body>
