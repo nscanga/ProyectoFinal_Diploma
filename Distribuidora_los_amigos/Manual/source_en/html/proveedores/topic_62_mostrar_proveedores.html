@@ -1,143 +1,80 @@
-﻿<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consultar Proveedores - Distribuidora Los Amigos</title>
+    <title>View Suppliers - Distribuidora Los Amigos</title>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
-        <a href="../general/topic_20_main.html">Inicio</a>
+        <a href="../general/topic_20_main.html">Home</a>
         <span>›</span>
-        <a href="#">Gestión de Proveedores</a>
+        <a href="#">Suppliers</a>
         <span>›</span>
-        <span>Consultar Proveedores</span>
+        <span>View Suppliers</span>
     </div>
 
-    <h1>Consultar Proveedores</h1>
-    
+    <h1>Supplier list</h1>
+
     <section id="introduccion">
-        <h2>Introducción</h2>
+        <h2>Description</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
-        </p>
-        <p>
-            [EXPLICAR PARA QUÉ SIRVE Y CUÁNDO USARLA].
+            Displays all registered suppliers and allows you to create, edit, and delete records.
+            Ideal for keeping the list of business partners up to date.
         </p>
     </section>
-    
+
     <section id="acceso">
-        <h2>Cómo Acceder</h2>
-        <p>Para acceder a esta funcionalidad:</p>
+        <h2>How to access</h2>
         <ol>
-            <li>Desde el menú principal, ir a <strong>Proveedores</strong></li>
-            <li>Seleccionar <strong>Mostrar Proveedores</strong></li>
-            <li>Se abrirá la ventana de <strong>Consultar Proveedores</strong></li>
+            <li>From the main screen select <strong>Suppliers → View suppliers</strong>.</li>
+            <li>The grid loads automatically with the stored data.</li>
         </ol>
     </section>
-    
-    <section id="campos">
-        <h2>Descripción de Campos</h2>
-        <p>A continuación se describe cada campo del formulario:</p>
-        
-        <table>
-            <thead>
-                <tr>
-                    <th>Campo</th>
-                    <th>Descripción</th>
-                    <th>Tipo</th>
-                    <th>Obligatorio</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[Descripción del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>Sí / No</td>
-                </tr>
-                <!-- AGREGAR MÁS CAMPOS AQUÍ -->
-            </tbody>
-        </table>
+
+    <section id="acciones">
+        <h2>Available actions</h2>
+        <ul>
+            <li><strong>Create supplier:</strong> opens the creation form.</li>
+            <li><strong>Edit supplier:</strong> requires selecting a row and opens the edit form.</li>
+            <li><strong>Delete supplier:</strong> asks for confirmation and removes the record.</li>
+        </ul>
     </section>
-    
-    <section id="procedimiento">
-        <h2>Procedimiento</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>[Título del Paso 1]</strong>
-            <p>[Descripción del paso 1]</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">2</span>
-            <strong>[Título del Paso 2]</strong>
-            <p>[Descripción del paso 2]</p>
-        </div>
-        
-        <!-- AGREGAR MÁS PASOS SEGÚN NECESIDAD -->
-    </section>
-    
+
     <section id="validaciones">
-        <h2>Validaciones del Sistema</h2>
-        <p>El sistema realiza las siguientes validaciones:</p>
+        <h2>Validations</h2>
         <ul>
-            <li>[Validación 1]</li>
-            <li>[Validación 2]</li>
-            <li>[Validación 3]</li>
+            <li>Select a row in the grid before editing or deleting.</li>
+            <li>Deletion requires confirmation and displays localized messages.</li>
+            <li>Errors are captured, shown on screen, and logged.</li>
         </ul>
     </section>
-    
+
     <section id="consejos">
-        <h2>Consejos y Recomendaciones</h2>
-        
-        <div class="tip">
-            [Consejo útil para el usuario]
-        </div>
-        
-        <div class="warning">
-            <strong>⚠️ Advertencia:</strong> [Información importante]
-        </div>
+        <h2>Tips</h2>
+        <div class="tip">Use the grid filters (such as sorting by name) to quickly locate a supplier.</div>
+        <div class="tip">After making changes press the refresh button to update the view.</div>
+        <div class="warning"><strong>⚠️ Attention:</strong> Before deleting, confirm that there are no pending orders linked to the supplier.</div>
     </section>
-    
-    <section id="errores">
-        <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
-        <div class="error">
-            <strong>Causa:</strong> [Explicación del error]
-        </div>
-        <div class="success">
-            <strong>✅ Solución:</strong> [Pasos para resolverlo]
-        </div>
-    </section>
-    
+
     <section id="permisos">
-        <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
-        <ul>
-            <li><code>[NombrePatente]</code> - [Descripción del permiso]</li>
-        </ul>
-        
-        <div class="warning">
-            <strong>⚠️ Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
-        </div>
+        <h2>Required permissions</h2>
+        <p>The <code>Mostrar_Proveedores</code>, <code>Crear_Proveedor</code>, <code>Modificar_Proveedor</code>, and <code>Eliminar_Proveedor</code> patents are required depending on the action.</p>
     </section>
-    
+
     <section id="relacionados">
-        <h2>Ver También</h2>
+        <h2>See also</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>📄 <a href="topic_60_crear_proveedor.html">Create supplier</a></li>
+            <li>📄 <a href="topic_61_modificar_proveedor.html">Edit supplier</a></li>
         </ul>
     </section>
-    
+
     <footer>
-        <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
-        <p>Todos los derechos reservados</p>
+        <p>© 2024 Distribuidora Los Amigos - Management System</p>
+        <p>All rights reserved</p>
     </footer>
 
 </body>

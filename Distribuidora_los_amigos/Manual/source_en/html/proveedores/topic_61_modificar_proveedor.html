@@ -1,143 +1,117 @@
-﻿<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modificar Proveedor - Distribuidora Los Amigos</title>
+    <title>Edit Supplier - Distribuidora Los Amigos</title>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
-        <a href="../general/topic_20_main.html">Inicio</a>
+        <a href="../general/topic_20_main.html">Home</a>
         <span>›</span>
-        <a href="#">Gestión de Proveedores</a>
+        <a href="#">Suppliers</a>
         <span>›</span>
-        <span>Modificar Proveedor</span>
+        <span>Edit Supplier</span>
     </div>
 
-    <h1>Modificar Proveedor</h1>
-    
+    <h1>Update supplier information</h1>
+
     <section id="introduccion">
-        <h2>Introducción</h2>
+        <h2>Description</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
-        </p>
-        <p>
-            [EXPLICAR PARA QUÉ SIRVE Y CUÁNDO USARLA].
+            Allows you to modify existing supplier information such as contact details, category, and active status.
         </p>
     </section>
-    
+
     <section id="acceso">
-        <h2>Cómo Acceder</h2>
-        <p>Para acceder a esta funcionalidad:</p>
+        <h2>How to access</h2>
         <ol>
-            <li>Desde el menú principal, ir a <strong>Proveedores</strong></li>
-            <li>Seleccionar <strong>Modificar Proveedor</strong></li>
-            <li>Se abrirá la ventana de <strong>Modificar Proveedor</strong></li>
+            <li>Open <strong>Suppliers → View suppliers</strong>.</li>
+            <li>Select the supplier and press <strong>Edit</strong>.</li>
         </ol>
     </section>
-    
+
     <section id="campos">
-        <h2>Descripción de Campos</h2>
-        <p>A continuación se describe cada campo del formulario:</p>
-        
+        <h2>Editable fields</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Campo</th>
-                    <th>Descripción</th>
-                    <th>Tipo</th>
-                    <th>Obligatorio</th>
+                    <th>Field</th>
+                    <th>Description</th>
+                    <th>Required</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[Descripción del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>Sí / No</td>
+                    <td><strong>Name</strong></td>
+                    <td>Name or business name.</td>
+                    <td>Yes</td>
                 </tr>
-                <!-- AGREGAR MÁS CAMPOS AQUÍ -->
+                <tr>
+                    <td><strong>Address</strong></td>
+                    <td>Main address.</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Email</strong></td>
+                    <td>Valid contact email.</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Phone</strong></td>
+                    <td>Primary phone number.</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Category</strong></td>
+                    <td>Classification within the supply chain.</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Active</strong></td>
+                    <td>Lets you enable or disable the supplier.</td>
+                    <td>Yes</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
+
     <section id="procedimiento">
-        <h2>Procedimiento</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>[Título del Paso 1]</strong>
-            <p>[Descripción del paso 1]</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">2</span>
-            <strong>[Título del Paso 2]</strong>
-            <p>[Descripción del paso 2]</p>
-        </div>
-        
-        <!-- AGREGAR MÁS PASOS SEGÚN NECESIDAD -->
+        <h2>Step by step</h2>
+        <ol>
+            <li>Update the necessary fields.</li>
+            <li>Press <strong>Save</strong>. The system validates the data through <code>ProveedorService.ModificarProveedor</code>.</li>
+            <li>The message “Supplier updated successfully” appears and the form closes.</li>
+        </ol>
     </section>
-    
+
     <section id="validaciones">
-        <h2>Validaciones del Sistema</h2>
-        <p>El sistema realiza las siguientes validaciones:</p>
+        <h2>Validations</h2>
         <ul>
-            <li>[Validación 1]</li>
-            <li>[Validación 2]</li>
-            <li>[Validación 3]</li>
+            <li>Same checks as during creation: required fields and valid email address.</li>
+            <li>Messages are shown in the language currently selected.</li>
         </ul>
     </section>
-    
+
     <section id="consejos">
-        <h2>Consejos y Recomendaciones</h2>
-        
-        <div class="tip">
-            [Consejo útil para el usuario]
-        </div>
-        
-        <div class="warning">
-            <strong>⚠️ Advertencia:</strong> [Información importante]
-        </div>
+        <h2>Tips</h2>
+        <div class="tip">Use this screen to temporarily deactivate suppliers by toggling the <strong>Active</strong> checkbox.</div>
+        <div class="tip">After saving, refresh the list to confirm the changes.</div>
     </section>
-    
-    <section id="errores">
-        <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
-        <div class="error">
-            <strong>Causa:</strong> [Explicación del error]
-        </div>
-        <div class="success">
-            <strong>✅ Solución:</strong> [Pasos para resolverlo]
-        </div>
-    </section>
-    
-    <section id="permisos">
-        <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
-        <ul>
-            <li><code>[NombrePatente]</code> - [Descripción del permiso]</li>
-        </ul>
-        
-        <div class="warning">
-            <strong>⚠️ Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
-        </div>
-    </section>
-    
+
     <section id="relacionados">
-        <h2>Ver También</h2>
+        <h2>See also</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>📄 <a href="topic_60_crear_proveedor.html">Create supplier</a></li>
+            <li>📄 <a href="topic_62_mostrar_proveedores.html">View suppliers</a></li>
         </ul>
     </section>
-    
+
     <footer>
-        <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
-        <p>Todos los derechos reservados</p>
+        <p>© 2024 Distribuidora Los Amigos - Management System</p>
+        <p>All rights reserved</p>
     </footer>
 
 </body>

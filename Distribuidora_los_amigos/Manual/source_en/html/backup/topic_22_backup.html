@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Backup - Distribuidora Los Amigos</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+    <div class="breadcrumb">
+        <a href="../general/topic_20_main.html">Home</a>
+        <span>›</span>
+        <a href="#">Backup &amp; Restore</a>
+        <span>›</span>
+        <span>Create Backup</span>
+    </div>
+
+    <h1>Create database backups</h1>
+
+    <section id="introduccion">
+        <h2>Purpose</h2>
+        <p>
+            Use this screen to generate a full backup of the three system databases
+            (<strong>DistribuidoraLosAmigos</strong>, <strong>Login</strong>, and <strong>Bitacora</strong>).
+            The process creates one <code>.bak</code> file per database so you can immediately store the copies
+            on an external drive or a secure repository.
+        </p>
+        <p>
+            The form executes the <code>BackUpLogic.PerformBackup</code> routine through
+            <code>BackupService.ExecuteBackup</code>, so any error raised during the process is also written to the log.
+        </p>
+    </section>
+
+    <section id="requisitos">
+        <h2>Prerequisites</h2>
+        <ul>
+            <li>Permission for the menu path <strong>Backup &amp; Restore → Generate Backup</strong>.</li>
+            <li>Run the application with a Windows user that can write to the target folder.</li>
+            <li>Ensure there is enough free space to store the three <code>.bak</code> files.</li>
+            <li>Confirm that the SQL Server login has <code>BACKUP DATABASE</code> privileges.</li>
+        </ul>
+    </section>
+
+    <section id="acceso">
+        <h2>How to open it</h2>
+        <ol>
+            <li>From the main screen, open the <strong>Backup &amp; Restore</strong> menu.</li>
+            <li>Select <strong>Generate Backup</strong>.</li>
+            <li>The <strong>BackUpForm</strong> form opens inside the MDI workspace.</li>
+        </ol>
+    </section>
+
+    <section id="procedimiento">
+        <h2>Step-by-step procedure</h2>
+        <ol>
+            <li>Click the <strong>Create BackUp</strong> button.</li>
+            <li>Choose the folder where the files will be stored. If <code>App.config</code> defines paths
+                (<strong>BackupPath1</strong>, <strong>BackupPath2</strong>, <strong>BackupPath3</strong>),
+                the dialog automatically focuses on the first available option.</li>
+            <li>Confirm the selected location when prompted by the system.</li>
+            <li>Wait until the process finishes. While it runs, the button remains disabled and the status text shows
+                <em>“Creating backup...”</em>.</li>
+            <li>When it completes, a message displays the final path and the operation is recorded in the log.</li>
+        </ol>
+        <div class="info">
+            If the folder does not exist, the system creates it automatically before copying the resulting files.
+        </div>
+    </section>
+
+    <section id="archivos">
+        <h2>Generated files</h2>
+        <p>The chosen folder will contain three timestamped files:</p>
+        <pre><code>[Selected folder]/
+├─ DistribuidoraLosAmigos_YYYY-MM-DD_hh-mm-ss.bak
+├─ Login_YYYY-MM-DD_hh-mm-ss.bak
+└─ Bitacora_YYYY-MM-DD_hh-mm-ss.bak</code></pre>
+        <p>
+            The exact database names come from the <code>Database1Name</code>, <code>Database2Name</code>, and
+            <code>Database3Name</code> keys configured in the WinForms project <code>App.config</code> file.
+        </p>
+    </section>
+
+    <section id="mensajes">
+        <h2>User messages and logging</h2>
+        <ul>
+            <li>Success: “<em>Backup successfully created at …</em>”.</li>
+            <li>Permission error: “<em>You do not have permission to access the selected folder…</em>”.</li>
+            <li>Technical issues: displayed in a dialog and fully detailed in the log.</li>
+        </ul>
+    </section>
+
+    <section id="problemas">
+        <h2>Troubleshooting</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Message</th>
+                    <th>Probable cause</th>
+                    <th>How to fix it</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>“You must choose a valid path for the backup.”</td>
+                    <td>No folder was selected or the path is empty.</td>
+                    <td>Select an accessible local folder and run the process again.</td>
+                </tr>
+                <tr>
+                    <td>“You do not have permission to access the selected folder.”</td>
+                    <td>The Windows user cannot write to that directory.</td>
+                    <td>Pick another location or run the application with elevated privileges.</td>
+                </tr>
+                <tr>
+                    <td>SQL errors such as <code>BACKUP DATABASE permission denied</code>.</td>
+                    <td>The SQL Server login lacks sufficient privileges.</td>
+                    <td>Ask the DBA to grant <code>BACKUP DATABASE</code> and <code>ALTER</code> on the affected databases.</td>
+                </tr>
+                <tr>
+                    <td>“Error while executing the backup: …”</td>
+                    <td>General problems (missing configuration paths, insufficient disk space, etc.).</td>
+                    <td>Review the <strong>MiConexion</strong>, <strong>MiConexion2</strong>, and <strong>LogDatabase</strong>
+                        keys and inspect the log for more details.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="buenas-practicas">
+        <h2>Recommended practices</h2>
+        <ul>
+            <li>Store the generated files in at least two locations (local and external).</li>
+            <li>Keep a seven-day rolling history and one monthly backup for a full year.</li>
+            <li>Test the restore procedure regularly in a staging environment.</li>
+            <li>Label strategic backups (month-end, inventory counts, and similar milestones).</li>
+        </ul>
+    </section>
+
+    <section id="relacionados">
+        <h2>See also</h2>
+        <ul class="no-bullets">
+            <li>📄 <a href="topic_30_restore.html">Restore databases from a backup</a></li>
+            <li>📄 <a href="topic_25_bitacora.html">System log</a></li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>© 2024 Distribuidora Los Amigos - Management System</p>
+        <p>Contextual help (F1)</p>
+    </footer>
+
+</body>
+</html>

@@ -1,143 +1,118 @@
-﻿<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Introducción al Sistema - Distribuidora Los Amigos</title>
+    <title>System Introduction - Distribuidora Los Amigos</title>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
-        <a href="../general/topic_20_main.html">Inicio</a>
+        <a href="../general/topic_20_main.html">Home</a>
         <span>›</span>
         <a href="#">General</a>
         <span>›</span>
-        <span>Introducción al Sistema</span>
+        <span>System Introduction</span>
     </div>
 
-    <h1>Introducción al Sistema</h1>
-    
-    <section id="introduccion">
-        <h2>Introducción</h2>
+    <h1>System Introduction</h1>
+
+    <section id="proposito">
+        <h2>System purpose</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
+            Distribuidora Los Amigos is a comprehensive management platform designed to administer
+            customers, suppliers, products, inventory, orders, and reports for a poultry distribution company.
+            It centralizes information and allows operations with permissions differentiated by role.
         </p>
         <p>
-            [EXPLICAR PARA QUÉ SIRVE Y CUÁNDO USARLA].
+            The system is organized into independent modules that share common services for security,
+            logging, integrity auditing (DVH/DVV), and internationalization.
         </p>
     </section>
-    
-    <section id="acceso">
-        <h2>Cómo Acceder</h2>
-        <p>Para acceder a esta funcionalidad:</p>
+
+    <section id="flujo-trabajo">
+        <h2>Suggested workflow</h2>
         <ol>
-            <li>Desde el menú principal, ir a <strong>Inicio</strong></li>
-            <li>Seleccionar <strong>Introducción</strong></li>
-            <li>Se abrirá la ventana de <strong>Introducción al Sistema</strong></li>
+            <li><strong>Security:</strong> Create users, permissions, and families from the Management module.</li>
+            <li><strong>Masters:</strong> Load suppliers, products, and opening stock.</li>
+            <li><strong>Customers:</strong> Register customers and keep their information up to date.</li>
+            <li><strong>Orders:</strong> Generate orders, assign products, and monitor their status.</li>
+            <li><strong>Reports:</strong> Review stock alerts and sales analysis.</li>
+            <li><strong>Backup:</strong> Create and restore backups on a regular basis.</li>
         </ol>
     </section>
-    
-    <section id="campos">
-        <h2>Descripción de Campos</h2>
-        <p>A continuación se describe cada campo del formulario:</p>
-        
+
+    <section id="roles">
+        <h2>Roles and permissions</h2>
+        <p>
+            The system implements a security model based on permissions (patents) and families (roles).
+            Families group permissions together and are assigned to users from the <strong>Management → Assign role</strong> module.
+        </p>
         <table>
             <thead>
                 <tr>
-                    <th>Campo</th>
-                    <th>Descripción</th>
-                    <th>Tipo</th>
-                    <th>Obligatorio</th>
+                    <th>Suggested role</th>
+                    <th>Typical permissions</th>
+                    <th>Responsibilities</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[Descripción del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>Sí / No</td>
+                    <td>Administrator</td>
+                    <td>Full management of users, security, and backups.</td>
+                    <td>Configure permissions, create families, and keep audits updated.</td>
                 </tr>
-                <!-- AGREGAR MÁS CAMPOS AQUÍ -->
+                <tr>
+                    <td>Sales</td>
+                    <td>Customers, orders, and commercial reports.</td>
+                    <td>Register new customers and manage daily orders.</td>
+                </tr>
+                <tr>
+                    <td>Warehouse</td>
+                    <td>Inventory and products.</td>
+                    <td>Update stock levels and monitor expirations and availability.</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
-    <section id="procedimiento">
-        <h2>Procedimiento</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>[Título del Paso 1]</strong>
-            <p>[Descripción del paso 1]</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">2</span>
-            <strong>[Título del Paso 2]</strong>
-            <p>[Descripción del paso 2]</p>
-        </div>
-        
-        <!-- AGREGAR MÁS PASOS SEGÚN NECESIDAD -->
-    </section>
-    
+
     <section id="validaciones">
-        <h2>Validaciones del Sistema</h2>
-        <p>El sistema realiza las siguientes validaciones:</p>
+        <h2>Best practices and validations</h2>
         <ul>
-            <li>[Validación 1]</li>
-            <li>[Validación 2]</li>
-            <li>[Validación 3]</li>
+            <li>Forms validate required fields, email formats, and duplicates.</li>
+            <li>Listings display information in grids with filters and sorting.</li>
+            <li>Critical operations request confirmation before execution.</li>
+            <li>All relevant actions are recorded in the log.</li>
         </ul>
     </section>
-    
+
     <section id="consejos">
-        <h2>Consejos y Recomendaciones</h2>
-        
+        <h2>Tips for new users</h2>
         <div class="tip">
-            [Consejo útil para el usuario]
+            Configure users and roles first to ensure each collaborator only sees the required modules.
         </div>
-        
+        <div class="tip">
+            Use contextual help with <strong>F1</strong> on each screen to check specific procedures.
+        </div>
         <div class="warning">
-            <strong>⚠️ Advertencia:</strong> [Información importante]
+            <strong>⚠️ Warning:</strong> Do not modify the database directly. Always use the system screens
+            to preserve the integrity of the verification digits.
         </div>
     </section>
-    
-    <section id="errores">
-        <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
-        <div class="error">
-            <strong>Causa:</strong> [Explicación del error]
-        </div>
-        <div class="success">
-            <strong>✅ Solución:</strong> [Pasos para resolverlo]
-        </div>
-    </section>
-    
-    <section id="permisos">
-        <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
-        <ul>
-            <li><code>[NombrePatente]</code> - [Descripción del permiso]</li>
-        </ul>
-        
-        <div class="warning">
-            <strong>⚠️ Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
-        </div>
-    </section>
-    
+
     <section id="relacionados">
-        <h2>Ver También</h2>
+        <h2>See also</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>📄 <a href="../login/topic_31_login.html">Sign in</a></li>
+            <li>📄 <a href="../roles/topic_26_crear_rol.html">Create role (family)</a></li>
+            <li>📄 <a href="../reportes/topic_91_reporte_mas_vendidos.html">Sales reports</a></li>
         </ul>
     </section>
-    
+
     <footer>
-        <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
-        <p>Todos los derechos reservados</p>
+        <p>© 2024 Distribuidora Los Amigos - Management System</p>
+        <p>All rights reserved</p>
     </footer>
 
 </body>

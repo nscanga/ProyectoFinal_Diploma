@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Backup - Distribuidora Los Amigos</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+    <div class="breadcrumb">
+        <a href="../general/topic_20_main.html">Inicio</a>
+        <span>›</span>
+        <a href="#">Backup y Restore</a>
+        <span>›</span>
+        <span>Crear Backup</span>
+    </div>
+
+    <h1>Crear backup de las bases de datos</h1>
+
+    <section id="introduccion">
+        <h2>¿Para qué sirve?</h2>
+        <p>
+            Desde esta pantalla podés generar un respaldo completo de las tres bases de datos del sistema
+            (<strong>DistribuidoraLosAmigos</strong>, <strong>Login</strong> y <strong>Bitacora</strong>).
+            El proceso crea un archivo <code>.bak</code> por cada base y deja todo listo para guardarlo en un
+            disco externo o repositorio seguro.
+        </p>
+        <p>
+            El formulario ejecuta la lógica <code>BackUpLogic.PerformBackup</code> a través del servicio
+            <code>BackupService.ExecuteBackup</code>, por lo que cualquier error quedará registrado en la bitácora.
+        </p>
+    </section>
+
+    <section id="requisitos">
+        <h2>Requisitos previos</h2>
+        <ul>
+            <li>Contar con permisos sobre el menú <strong>Backup y Restore → Generar Backup</strong>.</li>
+            <li>Ejecutar la aplicación con un usuario de Windows que tenga escritura sobre la carpeta destino.</li>
+            <li>Disponer de espacio libre suficiente para almacenar tres archivos <code>.bak</code>.</li>
+            <li>Verificar que el usuario de SQL Server tenga permisos <code>BACKUP DATABASE</code>.</li>
+        </ul>
+    </section>
+
+    <section id="acceso">
+        <h2>Cómo acceder</h2>
+        <ol>
+            <li>En la pantalla principal, abrí el menú <strong>Backup y Restore</strong>.</li>
+            <li>Seleccioná la opción <strong>Generar Backup</strong>.</li>
+            <li>Se abrirá el formulario <strong>BackUpForm</strong> en una pestaña dentro del MDI.</li>
+        </ol>
+    </section>
+
+    <section id="procedimiento">
+        <h2>Procedimiento paso a paso</h2>
+        <ol>
+            <li>Hacé clic en el botón <strong>Crear BackUp</strong>.</li>
+            <li>Elegí la carpeta donde querés guardar los archivos. Si existen rutas sugeridas en <code>App.config</code>
+                (claves <strong>BackupPath1</strong>, <strong>BackupPath2</strong>, <strong>BackupPath3</strong>),
+                el selector se posicionará automáticamente en la primera disponible.</li>
+            <li>Confirmá la ubicación cuando el sistema te lo solicite.</li>
+            <li>Esperá a que finalice el proceso. Durante la ejecución el botón queda deshabilitado y se muestra
+                el estado <em>“Creando backup...”</em>.</li>
+            <li>Al completarse, se mostrará un mensaje informando la ruta final y se registrará la operación en la bitácora.</li>
+        </ol>
+        <div class="info">
+            Si la carpeta no existe, el sistema la crea automáticamente antes de comenzar a copiar los archivos resultantes.
+        </div>
+    </section>
+
+    <section id="archivos">
+        <h2>Archivos generados</h2>
+        <p>La carpeta seleccionada contendrá tres archivos con marca de tiempo:</p>
+        <pre><code>[Carpeta seleccionada]/
+├─ DistribuidoraLosAmigos_YYYY-MM-DD_hh-mm-ss.bak
+├─ Login_YYYY-MM-DD_hh-mm-ss.bak
+└─ Bitacora_YYYY-MM-DD_hh-mm-ss.bak</code></pre>
+        <p>
+            Los nombres exactos de las bases se leen de las claves <code>Database1Name</code>, <code>Database2Name</code>
+            y <code>Database3Name</code> configuradas en <code>App.config</code> del proyecto WinForms.
+        </p>
+    </section>
+
+    <section id="mensajes">
+        <h2>Mensajes y registros</h2>
+        <ul>
+            <li>Éxito: “<em>Backup creado exitosamente en …</em>”.</li>
+            <li>Error de permisos: “<em>No tiene permisos para acceder a la carpeta seleccionada…</em>”.</li>
+            <li>Errores técnicos: se muestran en un cuadro de diálogo y se registran con detalle en la bitácora.</li>
+        </ul>
+    </section>
+
+    <section id="problemas">
+        <h2>Solución de problemas</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mensaje</th>
+                    <th>Causa probable</th>
+                    <th>Cómo resolver</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>“Debe seleccionar una ruta válida para el backup.”</td>
+                    <td>No se eligió ninguna carpeta o la ruta quedó vacía.</td>
+                    <td>Seleccioná una carpeta local accesible y volvé a ejecutar.</td>
+                </tr>
+                <tr>
+                    <td>“No tiene permisos para acceder a la carpeta seleccionada.”</td>
+                    <td>El usuario de Windows no puede escribir en el directorio.</td>
+                    <td>Elegí otra ubicación o ejecutá la aplicación con privilegios elevados.</td>
+                </tr>
+                <tr>
+                    <td>Errores SQL (por ejemplo, <code>BACKUP DATABASE permission denied</code>).</td>
+                    <td>El usuario de SQL Server no tiene permisos suficientes.</td>
+                    <td>Solicitá al DBA que otorgue permisos <code>BACKUP DATABASE</code> y <code>ALTER</code> sobre las bases.</td>
+                </tr>
+                <tr>
+                    <td>“Error al ejecutar el backup: …”</td>
+                    <td>Problemas generales (rutas de configuración faltantes, espacio insuficiente, etc.).</td>
+                    <td>Revisá las claves <strong>MiConexion</strong>, <strong>MiConexion2</strong> y <strong>LogDatabase</strong> y
+                        verificá el log para más detalle.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="buenas-practicas">
+        <h2>Buenas prácticas recomendadas</h2>
+        <ul>
+            <li>Guardar los archivos generados en al menos dos ubicaciones (local y externa).</li>
+            <li>Mantener un histórico diario de 7 días y un backup mensual durante un año.</li>
+            <li>Probar periódicamente la restauración en un entorno de prueba.</li>
+            <li>Etiquetar los respaldos importantes (cierre mensual, inventarios, etc.).</li>
+        </ul>
+    </section>
+
+    <section id="relacionados">
+        <h2>Ver también</h2>
+        <ul class="no-bullets">
+            <li>📄 <a href="topic_30_restore.html">Restaurar bases de datos desde backup</a></li>
+            <li>📄 <a href="topic_25_bitacora.html">Bitácora del sistema</a></li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
+        <p>Documentación de ayuda contextual (F1)</p>
+    </footer>
+
+</body>
+</html>

@@ -1,143 +1,203 @@
-﻿<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos Más Vendidos - Distribuidora Los Amigos</title>
+    <title>Top Selling Products - Distribuidora Los Amigos</title>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
-        <a href="../general/topic_20_main.html">Inicio</a>
+        <a href="../general/topic_20_main.html">Home</a>
         <span>›</span>
-        <a href="#">Reportes</a>
+        <a href="#">Reports</a>
         <span>›</span>
-        <span>Productos Más Vendidos</span>
+        <span>Top Selling Products</span>
     </div>
 
-    <h1>Productos Más Vendidos</h1>
-    
+    <h1>Top Selling Products</h1>
+
     <section id="introduccion">
-        <h2>Introducción</h2>
+        <h2>Introduction</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
+            This report shows the products with the highest sales volume for the selected period.
+            It consolidates confirmed orders so you can quickly identify consumption trends.
         </p>
         <p>
-            [EXPLICAR PARA QUÉ SIRVE Y CUÁNDO USARLA].
+            It is ideal for planning purchases, defining commercial campaigns, or analyzing product profitability.
+            You can easily adjust the time range and the number of items displayed in the ranking.
         </p>
     </section>
-    
+
     <section id="acceso">
-        <h2>Cómo Acceder</h2>
-        <p>Para acceder a esta funcionalidad:</p>
+        <h2>How to Access</h2>
+        <p>To open this report:</p>
         <ol>
-            <li>Desde el menú principal, ir a <strong>Reportes</strong></li>
-            <li>Seleccionar <strong>Más Vendidos</strong></li>
-            <li>Se abrirá la ventana de <strong>Productos Más Vendidos</strong></li>
+            <li>From the main menu, go to <strong>Reports</strong>.</li>
+            <li>Select <strong>Top Sellers</strong>.</li>
+            <li>The <strong>Top Selling Products</strong> window opens with default filters.</li>
         </ol>
     </section>
-    
+
     <section id="campos">
-        <h2>Descripción de Campos</h2>
-        <p>A continuación se describe cada campo del formulario:</p>
-        
+        <h2>Control Description</h2>
+        <p>Each control available on the screen is described below:</p>
+
         <table>
             <thead>
                 <tr>
-                    <th>Campo</th>
-                    <th>Descripción</th>
-                    <th>Tipo</th>
-                    <th>Obligatorio</th>
+                    <th>Control</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Required</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[Descripción del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>Sí / No</td>
+                    <td><strong>From</strong> (dtpDesde)</td>
+                    <td>Start date of the analysis period. Defaults to the previous month.</td>
+                    <td>Date picker</td>
+                    <td>Yes</td>
                 </tr>
-                <!-- AGREGAR MÁS CAMPOS AQUÍ -->
+                <tr>
+                    <td><strong>To</strong> (dtpHasta)</td>
+                    <td>End date (inclusive). Must be equal to or later than the start date.</td>
+                    <td>Date picker</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Filter</strong> (btnFiltrar)</td>
+                    <td>Applies the selected date range and refreshes the metrics and grid.</td>
+                    <td>Button</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Top Products</strong> (txtTopProductos)</td>
+                    <td>Number of positions to display in the ranking (for example 10, 20, 50).</td>
+                    <td>Numeric field</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Update</strong> (btnActualizarTop)</td>
+                    <td>Confirms the value entered in <strong>Top Products</strong> and recalculates the ranking.</td>
+                    <td>Button</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Export to Excel</strong> (btnExportarExcel)</td>
+                    <td>Generates a CSV file with the current ranking to share or analyze elsewhere.</td>
+                    <td>Button</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Indicators</strong> (panelEstadisticas)</td>
+                    <td>Displays total sales amount, total units, number of unique products, and the selected period.</td>
+                    <td>Labels</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Results grid</strong> (sfDataGrid1)</td>
+                    <td>Ordered list with position, product, category, units sold, amount, average price, and times sold.</td>
+                    <td>Table</td>
+                    <td>Yes</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
+
     <section id="procedimiento">
-        <h2>Procedimiento</h2>
-        
+        <h2>Procedure</h2>
+
         <div class="step">
             <span class="step-number">1</span>
-            <strong>[Título del Paso 1]</strong>
-            <p>[Descripción del paso 1]</p>
+            <strong>Select the period</strong>
+            <p>Choose dates in <strong>From</strong> and <strong>To</strong> and click <strong>Filter</strong> to update the data.</p>
         </div>
-        
+
         <div class="step">
             <span class="step-number">2</span>
-            <strong>[Título del Paso 2]</strong>
-            <p>[Descripción del paso 2]</p>
+            <strong>Adjust the ranking</strong>
+            <p>Enter how many products you want to see in <strong>Top Products</strong> and click <strong>Update</strong>.</p>
         </div>
-        
-        <!-- AGREGAR MÁS PASOS SEGÚN NECESIDAD -->
+
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Analyze the results</strong>
+            <p>Sort or filter the grid by category or amount to identify commercial opportunities and demand patterns.</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Export the ranking</strong>
+            <p>Click <strong>Export to Excel</strong> to generate a CSV and share it with purchasing, marketing, or management.</p>
+        </div>
     </section>
-    
+
     <section id="validaciones">
-        <h2>Validaciones del Sistema</h2>
-        <p>El sistema realiza las siguientes validaciones:</p>
+        <h2>System validations</h2>
+        <p>The system enforces the following rules:</p>
         <ul>
-            <li>[Validación 1]</li>
-            <li>[Validación 2]</li>
-            <li>[Validación 3]</li>
+            <li>The <strong>From</strong> date must be earlier than or equal to the <strong>To</strong> date; otherwise a warning is displayed.</li>
+            <li>The value for <strong>Top Products</strong> must be a positive integer greater than zero.</li>
+            <li>CSV export is disabled when the grid has no data.</li>
         </ul>
     </section>
-    
+
     <section id="consejos">
-        <h2>Consejos y Recomendaciones</h2>
-        
+        <h2>Tips and recommendations</h2>
+
         <div class="tip">
-            [Consejo útil para el usuario]
+            Combine this report with stock analysis to guarantee availability for the most demanded products.
         </div>
-        
+
+        <div class="tip">
+            Save different periods (monthly, quarterly) to compare trends and adjust prices or promotions.
+        </div>
+
         <div class="warning">
-            <strong>⚠️ Advertencia:</strong> [Información importante]
+            <strong>⚠️ Warning:</strong> If the selected period includes future dates with no sales, totals may be zero.
         </div>
     </section>
-    
+
     <section id="errores">
-        <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
+        <h2>Common errors and solutions</h2>
+
+        <h3>Error: “The start date must be earlier than the end date”</h3>
         <div class="error">
-            <strong>Causa:</strong> [Explicación del error]
-        </div>
+            <strong>Cause:</strong> The date range is inverted.</div>
         <div class="success">
-            <strong>✅ Solución:</strong> [Pasos para resolverlo]
-        </div>
+            <strong>✅ Solution:</strong> Adjust the dates so <strong>From</strong> is earlier than or equal to <strong>To</strong> and filter again.</div>
+
+        <h3>Error: “There is no data to export”</h3>
+        <div class="error">
+            <strong>Cause:</strong> There are no confirmed orders in the current period or the ranking size is too restrictive.</div>
+        <div class="success">
+            <strong>✅ Solution:</strong> Extend the date range or increase the number of products and update the report before exporting.</div>
     </section>
-    
+
     <section id="permisos">
-        <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
+        <h2>Required permissions</h2>
+        <p>To use this feature, the user must have the following permission:</p>
         <ul>
-            <li><code>[NombrePatente]</code> - [Descripción del permiso]</li>
+            <li><code>ReporteProductosMasVendidos</code> – Allows querying and exporting the sales ranking.</li>
         </ul>
-        
+
         <div class="warning">
-            <strong>⚠️ Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
-        </div>
+            <strong>⚠️ Important:</strong> If you do not have the required permission, contact the system administrator.</div>
     </section>
-    
+
     <section id="relacionados">
-        <h2>Ver También</h2>
+        <h2>See also</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>📄 <a href="../pedidos/topic_82_mostrar_pedidos.html">Orders list</a></li>
+            <li>📄 <a href="../productos/topic_52_mostrar_productos.html">Product list</a></li>
         </ul>
     </section>
-    
+
     <footer>
-        <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
-        <p>Todos los derechos reservados</p>
+        <p>© 2024 Distribuidora Los Amigos - Management System</p>
+        <p>All rights reserved</p>
     </footer>
 
 </body>
