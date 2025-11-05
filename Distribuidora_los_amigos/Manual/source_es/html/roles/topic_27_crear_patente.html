@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -7,41 +7,35 @@
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
         <a href="../general/topic_20_main.html">Inicio</a>
         <span>›</span>
-        <a href="#">Roles y Permisos</a>
+        <a href="#">Seguridad</a>
         <span>›</span>
         <span>Crear Patente</span>
     </div>
 
-    <h1>Crear Patente</h1>
-    
+    <h1>Crear patentes (permisos individuales)</h1>
+
     <section id="introduccion">
-        <h2>Introducción</h2>
+        <h2>Descripción</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
-        </p>
-        <p>
-            [EXPLICAR PARA QUÉ SIRVE Y CUÁNDO USARLA].
+            Las patentes representan permisos atómicos dentro del sistema (por ejemplo, “Crear_cliente” o “Generar_Backup”).
+            Se utilizan para componer familias y controlar el acceso granular a cada funcionalidad.
         </p>
     </section>
-    
+
     <section id="acceso">
-        <h2>Cómo Acceder</h2>
-        <p>Para acceder a esta funcionalidad:</p>
+        <h2>Cómo acceder</h2>
         <ol>
-            <li>Desde el menú principal, ir a <strong>Gestión → Permisos</strong></li>
-            <li>Seleccionar <strong>Crear Patente</strong></li>
-            <li>Se abrirá la ventana de <strong>Crear Patente</strong></li>
+            <li>Desde la pantalla principal seleccione <strong>Gestión → Crear patente</strong>.</li>
+            <li>El formulario mostrará los campos para ingresar nombre y tipo de acceso.</li>
         </ol>
     </section>
-    
+
     <section id="campos">
-        <h2>Descripción de Campos</h2>
-        <p>A continuación se describe cada campo del formulario:</p>
-        
+        <h2>Campos del formulario</h2>
         <table>
             <thead>
                 <tr>
@@ -53,88 +47,60 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[Descripción del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>Sí / No</td>
+                    <td><strong>Nombre</strong></td>
+                    <td>Identificador legible del permiso. Se utiliza también como <code>DataKey</code>.</td>
+                    <td>Texto</td>
+                    <td>Sí</td>
                 </tr>
-                <!-- AGREGAR MÁS CAMPOS AQUÍ -->
+                <tr>
+                    <td><strong>Tipo de acceso</strong></td>
+                    <td>Enum <code>TipoAcceso</code> (Alta, Baja, Modificación, Consulta, etc.).</td>
+                    <td>ComboBox</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Guardar</strong></td>
+                    <td>Botón que ejecuta <code>UserService.CreatePatente</code>.</td>
+                    <td>Botón</td>
+                    <td>—</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
+
     <section id="procedimiento">
-        <h2>Procedimiento</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>[Título del Paso 1]</strong>
-            <p>[Descripción del paso 1]</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">2</span>
-            <strong>[Título del Paso 2]</strong>
-            <p>[Descripción del paso 2]</p>
-        </div>
-        
-        <!-- AGREGAR MÁS PASOS SEGÚN NECESIDAD -->
+        <h2>Paso a paso</h2>
+        <ol>
+            <li>Ingrese el nombre del permiso siguiendo la convención del sistema (ej.: <code>Mostrar_clientes</code>).</li>
+            <li>Seleccione el tipo de acceso que mejor describa la operación.</li>
+            <li>Presione <strong>Guardar</strong>.</li>
+            <li>El sistema mostrará un mensaje de confirmación y la patente quedará disponible para asignarse a familias.</li>
+        </ol>
     </section>
-    
+
     <section id="validaciones">
-        <h2>Validaciones del Sistema</h2>
-        <p>El sistema realiza las siguientes validaciones:</p>
+        <h2>Validaciones y mensajes</h2>
         <ul>
-            <li>[Validación 1]</li>
-            <li>[Validación 2]</li>
-            <li>[Validación 3]</li>
+            <li>El nombre no puede quedar vacío. El formulario muestra un mensaje traducido si falta.</li>
+            <li>Los errores se registran y se muestra un mensaje “Ocurrió un error al crear la patente”.</li>
+            <li>Al guardar se registra en la bitácora el usuario que creó la patente.</li>
         </ul>
     </section>
-    
+
     <section id="consejos">
-        <h2>Consejos y Recomendaciones</h2>
-        
-        <div class="tip">
-            [Consejo útil para el usuario]
-        </div>
-        
-        <div class="warning">
-            <strong>⚠️ Advertencia:</strong> [Información importante]
-        </div>
+        <h2>Recomendaciones</h2>
+        <div class="tip">Utilice nombres coherentes con los que se utilizan en el código para facilitar el mantenimiento.</div>
+        <div class="tip">Cree patentes sólo cuando exista una funcionalidad real asociada; evite permisos redundantes.</div>
     </section>
-    
-    <section id="errores">
-        <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
-        <div class="error">
-            <strong>Causa:</strong> [Explicación del error]
-        </div>
-        <div class="success">
-            <strong>✅ Solución:</strong> [Pasos para resolverlo]
-        </div>
-    </section>
-    
-    <section id="permisos">
-        <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
-        <ul>
-            <li><code>[NombrePatente]</code> - [Descripción del permiso]</li>
-        </ul>
-        
-        <div class="warning">
-            <strong>⚠️ Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
-        </div>
-    </section>
-    
+
     <section id="relacionados">
-        <h2>Ver También</h2>
+        <h2>Ver también</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>📄 <a href="topic_26_crear_rol.html">Crear rol</a></li>
+            <li>📄 <a href="../usuarios/topic_24_asignar_rol.html">Asignar rol a usuario</a></li>
         </ul>
     </section>
-    
+
     <footer>
         <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
         <p>Todos los derechos reservados</p>

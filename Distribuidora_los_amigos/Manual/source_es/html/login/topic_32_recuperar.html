@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -7,134 +7,128 @@
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
         <a href="../general/topic_20_main.html">Inicio</a>
         <span>›</span>
-        <a href="#">Seguridad</a>
+        <a href="topic_31_login.html">Seguridad</a>
         <span>›</span>
         <span>Recuperar Contraseña</span>
     </div>
 
-    <h1>Recuperar Contraseña</h1>
-    
+    <h1>Recuperación de contraseña</h1>
+
     <section id="introduccion">
-        <h2>Introducción</h2>
+        <h2>¿Cuándo utilizar esta pantalla?</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
-        </p>
-        <p>
-            [EXPLICAR PARA QUÉ SIRVE Y CUÁNDO USARLA].
+            Utilice esta funcionalidad cuando un usuario olvide su contraseña o necesite restablecerla por motivos de seguridad.
+            El sistema envía un código (token) al correo registrado y permite establecer una nueva contraseña de forma segura.
         </p>
     </section>
-    
+
     <section id="acceso">
-        <h2>Cómo Acceder</h2>
-        <p>Para acceder a esta funcionalidad:</p>
+        <h2>Cómo acceder</h2>
         <ol>
-            <li>Desde el menú principal, ir a <strong>Login</strong></li>
-            <li>Seleccionar <strong>Recuperar Contraseña</strong></li>
-            <li>Se abrirá la ventana de <strong>Recuperar Contraseña</strong></li>
+            <li>En la pantalla de inicio de sesión haga clic en <strong>¿Olvidaste tu contraseña?</strong>.</li>
+            <li>Se abrirá la ventana modal <strong>Recuperar contraseña</strong>.</li>
+            <li>Complete los pasos indicados y cierre la ventana al finalizar.</li>
         </ol>
     </section>
-    
-    <section id="campos">
-        <h2>Descripción de Campos</h2>
-        <p>A continuación se describe cada campo del formulario:</p>
-        
+
+    <section id="estructura">
+        <h2>Estructura del formulario</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Campo</th>
+                    <th>Sección</th>
                     <th>Descripción</th>
-                    <th>Tipo</th>
-                    <th>Obligatorio</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[Descripción del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>Sí / No</td>
+                    <td><strong>Solicitud de token</strong></td>
+                    <td>Permite ingresar el nombre de usuario y enviar el código de recuperación por correo electrónico.</td>
                 </tr>
-                <!-- AGREGAR MÁS CAMPOS AQUÍ -->
+                <tr>
+                    <td><strong>Ingreso de token</strong></td>
+                    <td>Panel que se habilita luego de enviar el correo. Solicita token, nueva contraseña y confirmación.</td>
+                </tr>
+                <tr>
+                    <td><strong>Mensajes del sistema</strong></td>
+                    <td>Etiqueta informativa que muestra el resultado de la operación (éxito o error).</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
+
     <section id="procedimiento">
-        <h2>Procedimiento</h2>
-        
+        <h2>Paso a paso</h2>
+
         <div class="step">
             <span class="step-number">1</span>
-            <strong>[Título del Paso 1]</strong>
-            <p>[Descripción del paso 1]</p>
+            <strong>Ingresar usuario</strong>
+            <p>Escriba el nombre de usuario exactamente como fue registrado y presione <strong>Enviar código de recuperación</strong>.</p>
         </div>
-        
+
         <div class="step">
             <span class="step-number">2</span>
-            <strong>[Título del Paso 2]</strong>
-            <p>[Descripción del paso 2]</p>
+            <strong>Recepción del token</strong>
+            <p>El sistema genera un token único y lo envía al correo asociado. El botón queda deshabilitado mientras se procesa.</p>
         </div>
-        
-        <!-- AGREGAR MÁS PASOS SEGÚN NECESIDAD -->
+
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Completar panel de cambio</strong>
+            <p>Ingrese el <strong>token recibido</strong>, la <strong>nueva contraseña</strong> y su <strong>confirmación</strong>. Luego presione <strong>Cambiar contraseña</strong>.</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Finalizar</strong>
+            <p>Si los datos son válidos se muestra un mensaje de éxito y se cierra el formulario. Podrá ingresar con la nueva contraseña.</p>
+        </div>
     </section>
-    
+
     <section id="validaciones">
-        <h2>Validaciones del Sistema</h2>
-        <p>El sistema realiza las siguientes validaciones:</p>
+        <h2>Validaciones y mensajes</h2>
         <ul>
-            <li>[Validación 1]</li>
-            <li>[Validación 2]</li>
-            <li>[Validación 3]</li>
+            <li>El nombre de usuario es obligatorio para enviar el token.</li>
+            <li>El token no puede estar vacío y debe coincidir con el enviado por correo.</li>
+            <li>La nueva contraseña debe tener al menos 6 caracteres y coincidir con su confirmación.</li>
+            <li>Todos los mensajes se traducen automáticamente según el idioma seleccionado.</li>
         </ul>
     </section>
-    
-    <section id="consejos">
-        <h2>Consejos y Recomendaciones</h2>
-        
-        <div class="tip">
-            [Consejo útil para el usuario]
-        </div>
-        
-        <div class="warning">
-            <strong>⚠️ Advertencia:</strong> [Información importante]
-        </div>
-    </section>
-    
+
     <section id="errores">
-        <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
-        <div class="error">
-            <strong>Causa:</strong> [Explicación del error]
-        </div>
-        <div class="success">
-            <strong>✅ Solución:</strong> [Pasos para resolverlo]
-        </div>
+        <h2>Errores frecuentes</h2>
+        <h3>Error: "Ingrese el código de recuperación"</h3>
+        <div class="error"><strong>Causa:</strong> Se intentó cambiar la contraseña sin completar el token.</div>
+        <div class="success"><strong>✅ Solución:</strong> Revise su correo e ingrese el código recibido.</div>
+
+        <h3>Error: "Las contraseñas no coinciden"</h3>
+        <div class="error"><strong>Causa:</strong> La confirmación no coincide con la nueva contraseña.</div>
+        <div class="success"><strong>✅ Solución:</strong> Reescriba ambos campos asegurando que sean idénticos.</div>
+
+        <h3>Error: "Error al enviar el token"</h3>
+        <div class="error"><strong>Causa:</strong> El usuario no existe o hubo un problema de conexión al enviar el correo.</div>
+        <div class="success"><strong>✅ Solución:</strong> Verifique el usuario o comuníquese con el administrador para revisar el correo registrado.</div>
     </section>
-    
+
     <section id="permisos">
-        <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
-        <ul>
-            <li><code>[NombrePatente]</code> - [Descripción del permiso]</li>
-        </ul>
-        
-        <div class="warning">
-            <strong>⚠️ Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
-        </div>
+        <h2>Permisos requeridos</h2>
+        <p>
+            No se requiere patente específica. Cualquier usuario con acceso al login puede solicitar un token si el correo electrónico está registrado en el sistema.
+        </p>
     </section>
-    
+
     <section id="relacionados">
-        <h2>Ver También</h2>
+        <h2>Ver también</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>📄 <a href="topic_31_login.html">Inicio de sesión</a></li>
+            <li>📄 <a href="topic_33_cambiar_pass.html">Cambiar contraseña</a></li>
         </ul>
     </section>
-    
+
     <footer>
         <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
         <p>Todos los derechos reservados</p>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -7,134 +7,109 @@
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
         <a href="../general/topic_20_main.html">Inicio</a>
         <span>›</span>
-        <a href="#">Gestión de Proveedores</a>
+        <a href="#">Proveedores</a>
         <span>›</span>
         <span>Crear Proveedor</span>
     </div>
 
-    <h1>Crear Proveedor</h1>
-    
+    <h1>Registrar un proveedor</h1>
+
     <section id="introduccion">
-        <h2>Introducción</h2>
+        <h2>Descripción</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
-        </p>
-        <p>
-            [EXPLICAR PARA QUÉ SIRVE Y CUÁNDO USARLA].
+            Permite dar de alta nuevos proveedores para asociarlos a compras y reposiciones de stock. Se registran datos de contacto, categoría y estado.
         </p>
     </section>
-    
+
     <section id="acceso">
-        <h2>Cómo Acceder</h2>
-        <p>Para acceder a esta funcionalidad:</p>
+        <h2>Cómo acceder</h2>
         <ol>
-            <li>Desde el menú principal, ir a <strong>Proveedores</strong></li>
-            <li>Seleccionar <strong>Crear Proveedor</strong></li>
-            <li>Se abrirá la ventana de <strong>Crear Proveedor</strong></li>
+            <li>Desde la pantalla principal seleccione <strong>Proveedores → Crear proveedor</strong>.</li>
+            <li>Se abrirá el formulario <strong>CrearProveedorForm</strong>.</li>
         </ol>
     </section>
-    
+
     <section id="campos">
-        <h2>Descripción de Campos</h2>
-        <p>A continuación se describe cada campo del formulario:</p>
-        
+        <h2>Campos del formulario</h2>
         <table>
             <thead>
                 <tr>
                     <th>Campo</th>
                     <th>Descripción</th>
-                    <th>Tipo</th>
                     <th>Obligatorio</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[Descripción del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>Sí / No</td>
+                    <td><strong>Nombre</strong></td>
+                    <td>Nombre o razón social del proveedor.</td>
+                    <td>Sí</td>
                 </tr>
-                <!-- AGREGAR MÁS CAMPOS AQUÍ -->
+                <tr>
+                    <td><strong>Dirección</strong></td>
+                    <td>Domicilio principal.</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Email</strong></td>
+                    <td>Correo de contacto. Debe contener “@”.</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Teléfono</strong></td>
+                    <td>Número de contacto.</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Categoría</strong></td>
+                    <td>Clasificación (por ejemplo: Pollos, Insumos, Embutidos).</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Activo</strong></td>
+                    <td>Define si el proveedor está habilitado para nuevas compras.</td>
+                    <td>Sí</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
+
     <section id="procedimiento">
-        <h2>Procedimiento</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>[Título del Paso 1]</strong>
-            <p>[Descripción del paso 1]</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">2</span>
-            <strong>[Título del Paso 2]</strong>
-            <p>[Descripción del paso 2]</p>
-        </div>
-        
-        <!-- AGREGAR MÁS PASOS SEGÚN NECESIDAD -->
+        <h2>Paso a paso</h2>
+        <ol>
+            <li>Complete todos los datos solicitados.</li>
+            <li>Presione <strong>Guardar</strong>. Se validará que los campos obligatorios tengan valores y que el email sea válido.</li>
+            <li>Si la operación es exitosa se mostrará el mensaje “Proveedor creado con éxito” y el formulario se cerrará.</li>
+        </ol>
     </section>
-    
+
     <section id="validaciones">
-        <h2>Validaciones del Sistema</h2>
-        <p>El sistema realiza las siguientes validaciones:</p>
+        <h2>Validaciones</h2>
         <ul>
-            <li>[Validación 1]</li>
-            <li>[Validación 2]</li>
-            <li>[Validación 3]</li>
+            <li>Todos los campos son obligatorios.</li>
+            <li>El correo debe contener “@”.</li>
+            <li>Los errores se muestran traducidos según el idioma seleccionado.</li>
         </ul>
     </section>
-    
+
     <section id="consejos">
-        <h2>Consejos y Recomendaciones</h2>
-        
-        <div class="tip">
-            [Consejo útil para el usuario]
-        </div>
-        
-        <div class="warning">
-            <strong>⚠️ Advertencia:</strong> [Información importante]
-        </div>
+        <h2>Recomendaciones</h2>
+        <div class="tip">Utilice categorías homogéneas para facilitar los reportes de compras.</div>
+        <div class="tip">Antes de guardar verifique la ortografía del email para evitar problemas en los envíos.</div>
     </section>
-    
-    <section id="errores">
-        <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
-        <div class="error">
-            <strong>Causa:</strong> [Explicación del error]
-        </div>
-        <div class="success">
-            <strong>✅ Solución:</strong> [Pasos para resolverlo]
-        </div>
-    </section>
-    
-    <section id="permisos">
-        <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
-        <ul>
-            <li><code>[NombrePatente]</code> - [Descripción del permiso]</li>
-        </ul>
-        
-        <div class="warning">
-            <strong>⚠️ Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
-        </div>
-    </section>
-    
+
     <section id="relacionados">
-        <h2>Ver También</h2>
+        <h2>Ver también</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>📄 <a href="topic_61_modificar_proveedor.html">Modificar proveedor</a></li>
+            <li>📄 <a href="topic_62_mostrar_proveedores.html">Ver proveedores</a></li>
         </ul>
     </section>
-    
+
     <footer>
         <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
         <p>Todos los derechos reservados</p>

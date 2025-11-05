@@ -1,140 +1,101 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consultar Usuarios - Distribuidora Los Amigos</title>
+    <title>Ver Usuarios - Distribuidora Los Amigos</title>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
         <a href="../general/topic_20_main.html">Inicio</a>
         <span>›</span>
         <a href="#">Gestión de Usuarios</a>
         <span>›</span>
-        <span>Consultar Usuarios</span>
+        <span>Ver Usuarios</span>
     </div>
 
-    <h1>Consultar Usuarios</h1>
-    
+    <h1>Listado de usuarios y roles</h1>
+
     <section id="introduccion">
-        <h2>Introducción</h2>
+        <h2>Descripción</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
-        </p>
-        <p>
-            [EXPLICAR PARA QUÉ SIRVE Y CUÁNDO USARLA].
+            Esta pantalla muestra el listado de usuarios del sistema junto con la familia asignada y su estado (activo o deshabilitado).
+            Utiliza la grilla <strong>Syncfusion SfDataGrid</strong>, lo que permite ordenar y filtrar información rápidamente.
         </p>
     </section>
-    
+
     <section id="acceso">
-        <h2>Cómo Acceder</h2>
-        <p>Para acceder a esta funcionalidad:</p>
+        <h2>Cómo acceder</h2>
         <ol>
-            <li>Desde el menú principal, ir a <strong>Gestión → Usuarios</strong></li>
-            <li>Seleccionar <strong>Mostrar Usuarios</strong></li>
-            <li>Se abrirá la ventana de <strong>Consultar Usuarios</strong></li>
+            <li>Desde la pantalla principal seleccione <strong>Gestión → Ver usuarios</strong>.</li>
+            <li>La grilla se completará automáticamente utilizando <code>UserService.GetUsuariosConFamilasYPatentes()</code>.</li>
         </ol>
     </section>
-    
+
     <section id="campos">
-        <h2>Descripción de Campos</h2>
-        <p>A continuación se describe cada campo del formulario:</p>
-        
+        <h2>Columnas de la grilla</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Campo</th>
+                    <th>Columna</th>
                     <th>Descripción</th>
-                    <th>Tipo</th>
-                    <th>Obligatorio</th>
+                    <th>Permite filtrar</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[Descripción del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>Sí / No</td>
+                    <td><strong>Usuario</strong></td>
+                    <td>Nombre de usuario.</td>
+                    <td>Sí</td>
                 </tr>
-                <!-- AGREGAR MÁS CAMPOS AQUÍ -->
+                <tr>
+                    <td><strong>Familia</strong></td>
+                    <td>Rol asignado al usuario (agrupa patentes).</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Estado</strong></td>
+                    <td>Activo / Deshabilitado.</td>
+                    <td>Sí</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
-    <section id="procedimiento">
-        <h2>Procedimiento</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>[Título del Paso 1]</strong>
-            <p>[Descripción del paso 1]</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">2</span>
-            <strong>[Título del Paso 2]</strong>
-            <p>[Descripción del paso 2]</p>
-        </div>
-        
-        <!-- AGREGAR MÁS PASOS SEGÚN NECESIDAD -->
+
+    <section id="acciones">
+        <h2>Acciones disponibles</h2>
+        <ul>
+            <li>Ordenar columnas haciendo clic en el encabezado.</li>
+            <li>Filtrar por texto utilizando la fila de filtros de la grilla.</li>
+            <li>Actualizar traducciones presionando <strong>F1</strong> para abrir la ayuda o cambiando el idioma del sistema.</li>
+        </ul>
     </section>
-    
+
     <section id="validaciones">
-        <h2>Validaciones del Sistema</h2>
-        <p>El sistema realiza las siguientes validaciones:</p>
+        <h2>Seguridad y auditoría</h2>
         <ul>
-            <li>[Validación 1]</li>
-            <li>[Validación 2]</li>
-            <li>[Validación 3]</li>
+            <li>La carga de datos se registra en la bitácora con la cantidad de usuarios mostrados.</li>
+            <li>Los errores de base de datos se manejan con <code>ErrorHandler</code> y se muestran mensajes localizados.</li>
+            <li>El formulario se desuscribe del servicio de idioma al cerrarse para liberar recursos.</li>
         </ul>
     </section>
-    
+
     <section id="consejos">
-        <h2>Consejos y Recomendaciones</h2>
-        
-        <div class="tip">
-            [Consejo útil para el usuario]
-        </div>
-        
-        <div class="warning">
-            <strong>⚠️ Advertencia:</strong> [Información importante]
-        </div>
+        <h2>Consejos</h2>
+        <div class="tip">Utilice el filtro por familia para validar rápidamente que cada rol tenga los usuarios esperados.</div>
+        <div class="tip">Combine esta vista con el reporte de auditoría para detectar modificaciones recientes.</div>
     </section>
-    
-    <section id="errores">
-        <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
-        <div class="error">
-            <strong>Causa:</strong> [Explicación del error]
-        </div>
-        <div class="success">
-            <strong>✅ Solución:</strong> [Pasos para resolverlo]
-        </div>
-    </section>
-    
-    <section id="permisos">
-        <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
-        <ul>
-            <li><code>[NombrePatente]</code> - [Descripción del permiso]</li>
-        </ul>
-        
-        <div class="warning">
-            <strong>⚠️ Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
-        </div>
-    </section>
-    
+
     <section id="relacionados">
-        <h2>Ver También</h2>
+        <h2>Ver también</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>📄 <a href="topic_24_asignar_rol.html">Asignar rol</a></li>
+            <li>📄 <a href="topic_28_modificar_usuario.html">Modificar usuario</a></li>
         </ul>
     </section>
-    
+
     <footer>
         <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
         <p>Todos los derechos reservados</p>
