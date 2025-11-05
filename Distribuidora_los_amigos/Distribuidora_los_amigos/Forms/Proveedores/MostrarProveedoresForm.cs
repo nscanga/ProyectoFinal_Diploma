@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BLL;
 using DOMAIN;
-using Service.DAL.Contracts;
 using Service.Facade;
+using Services.Facade;
+using Service.DAL.Contracts;
 
 namespace Distribuidora_los_amigos.Forms.Proveedores
 {
@@ -19,16 +20,24 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
         private readonly ProveedorService _proveedorService;
 
         /// <summary>
-        /// Inicializa el listado de proveedores, carga datos y suscribe el formulario a cambios de idioma.
+        /// Inicializa el listado de proveedores.
         /// </summary>
         public MostrarProveedoresForm()
         {
             InitializeComponent();
             _proveedorService = new ProveedorService();
-            CargarProveedores();
 
+            // Suscribirse al servicio de idiomas
             IdiomaService.Subscribe(this);
+
+            // Traducir el formulario al cargarlo
             IdiomaService.TranslateForm(this);
+
+            // Configurar ayuda F1
+            this.KeyPreview = true;
+            this.KeyDown += MostrarProveedoresForm_KeyDown;
+
+            CargarProveedores();
         }
 
         /// <summary>
@@ -43,7 +52,11 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar proveedores: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string errorKey = "ErrorCargarProveedores";
+                string translatedError = IdiomaService.Translate(errorKey) + ": " + ex.Message;
+                string errorTitleKey = "Error";
+                string translatedErrorTitle = IdiomaService.Translate(errorTitleKey);
+                MessageBox.Show(translatedError, translatedErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -76,7 +89,11 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
             }
             else
             {
-                MessageBox.Show("Seleccione un proveedor para modificar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                string messageKey = "SeleccioneProveedorModificar";
+                string translatedMessage = IdiomaService.Translate(messageKey);
+                string titleKey = "Advertencia";
+                string translatedTitle = IdiomaService.Translate(titleKey);
+                MessageBox.Show(translatedMessage, translatedTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -91,9 +108,14 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
             {
                 Proveedor proveedorSeleccionado = (Proveedor)dataGridViewProveedores.SelectedRows[0].DataBoundItem;
 
+                string messageKey = "ConfirmarEliminarProveedor";
+                string translatedMessage = string.Format(IdiomaService.Translate(messageKey), proveedorSeleccionado.Nombre);
+                string titleKey = "ConfirmarEliminacion";
+                string translatedTitle = IdiomaService.Translate(titleKey);
+                
                 DialogResult result = MessageBox.Show(
-                    $"¿Está seguro que desea eliminar al proveedor {proveedorSeleccionado.Nombre}?",
-                    "Confirmar eliminación",
+                    translatedMessage,
+                    translatedTitle,
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning
                 );
@@ -103,18 +125,31 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
                     try
                     {
                         _proveedorService.EliminarProveedor(proveedorSeleccionado.IdProveedor);
-                        MessageBox.Show("Proveedor eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        
+                        string successKey = "ProveedorEliminadoExito";
+                        string translatedSuccess = IdiomaService.Translate(successKey);
+                        string successTitleKey = "Éxito";
+                        string translatedSuccessTitle = IdiomaService.Translate(successTitleKey);
+                        MessageBox.Show(translatedSuccess, translatedSuccessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         CargarProveedores();
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error al eliminar el proveedor: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        string errorKey = "ErrorEliminarProveedor";
+                        string translatedError = IdiomaService.Translate(errorKey) + ": " + ex.Message;
+                        string errorTitleKey = "Error";
+                        string translatedErrorTitle = IdiomaService.Translate(errorTitleKey);
+                        MessageBox.Show(translatedError, translatedErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
             else
             {
-                MessageBox.Show("Seleccione un proveedor para eliminar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                string messageKey = "SeleccioneProveedorEliminar";
+                string translatedMessage = IdiomaService.Translate(messageKey);
+                string titleKey = "Advertencia";
+                string translatedTitle = IdiomaService.Translate(titleKey);
+                MessageBox.Show(translatedMessage, translatedTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -131,8 +166,12 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
                 Proveedor proveedorSeleccionado = (Proveedor)dataGridViewProveedores.SelectedRows[0].DataBoundItem;
 
                 // Confirmación antes de eliminar
-                DialogResult resultado = MessageBox.Show($"¿Está seguro de que desea eliminar al proveedor {proveedorSeleccionado.Nombre}?",
-                    "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                string messageKey = "ConfirmarEliminarProveedor";
+                string translatedMessage = string.Format(IdiomaService.Translate(messageKey), proveedorSeleccionado.Nombre);
+                string titleKey = "ConfirmarEliminacion";
+                string translatedTitle = IdiomaService.Translate(titleKey);
+                
+                DialogResult resultado = MessageBox.Show(translatedMessage, translatedTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (resultado == DialogResult.Yes)
                 {
@@ -144,22 +183,56 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
                         // Refrescar la lista de proveedores después de eliminar
                         CargarProveedores();
 
-                        MessageBox.Show("Proveedor eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        string successKey = "ProveedorEliminadoExito";
+                        string translatedSuccess = IdiomaService.Translate(successKey);
+                        string successTitleKey = "Éxito";
+                        string translatedSuccessTitle = IdiomaService.Translate(successTitleKey);
+                        MessageBox.Show(translatedSuccess, translatedSuccessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error al eliminar el proveedor: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        string errorKey = "ErrorEliminarProveedor";
+                        string translatedError = IdiomaService.Translate(errorKey) + ": " + ex.Message;
+                        string errorTitleKey = "Error";
+                        string translatedErrorTitle = IdiomaService.Translate(errorTitleKey);
+                        MessageBox.Show(translatedError, translatedErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
             else
             {
-                MessageBox.Show("Seleccione un proveedor para eliminar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                string messageKey = "SeleccioneProveedorEliminar";
+                string translatedMessage = IdiomaService.Translate(messageKey);
+                string titleKey = "Advertencia";
+                string translatedTitle = IdiomaService.Translate(titleKey);
+                MessageBox.Show(translatedMessage, translatedTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
         /// <summary>
-        /// Retraduce el formulario cuando se modifica el idioma.
+        /// Muestra la ayuda del formulario cuando se presiona F1.
+        /// </summary>
+        private void MostrarProveedoresForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.KeyCode == Keys.F1)
+                {
+                    ManualService manualService = new ManualService();
+                    manualService.AbrirAyudaMostrarProveedores();
+                    e.Handled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir la ayuda: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LoggerService.WriteException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Actualiza los textos del formulario cuando cambia el idioma.
         /// </summary>
         public void UpdateIdioma()
         {

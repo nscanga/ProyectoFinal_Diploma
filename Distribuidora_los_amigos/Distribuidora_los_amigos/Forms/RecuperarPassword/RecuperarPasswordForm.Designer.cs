@@ -265,6 +265,7 @@ namespace Distribuidora_los_amigos.Forms.RecuperarPassword
             this.MinimizeBox = false;
             this.Name = "RecuperarPasswordForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Tag = "RecuperarPassword";
             this.Text = "Recuperar Contraseña";
             this.Load += new System.EventHandler(this.RecuperarPasswordForm_Load);
             this.panel1.ResumeLayout(false);

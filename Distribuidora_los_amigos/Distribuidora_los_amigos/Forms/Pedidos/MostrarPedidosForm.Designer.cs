@@ -59,6 +59,7 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             this.lblContadorPedidos.Name = "lblContadorPedidos";
             this.lblContadorPedidos.Size = new System.Drawing.Size(150, 17);
             this.lblContadorPedidos.TabIndex = 6;
+            this.lblContadorPedidos.Tag = "Total de pedidos: 0";
             this.lblContadorPedidos.Text = "Total de pedidos: 0";
             // 
             // buttonActualizarPedido
@@ -68,6 +69,7 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             this.buttonActualizarPedido.Name = "buttonActualizarPedido";
             this.buttonActualizarPedido.Size = new System.Drawing.Size(90, 30);
             this.buttonActualizarPedido.TabIndex = 5;
+            this.buttonActualizarPedido.Tag = "Actualizar";
             this.buttonActualizarPedido.Text = "🔄 Actualizar";
             this.buttonActualizarPedido.UseVisualStyleBackColor = true;
             this.buttonActualizarPedido.Click += new System.EventHandler(this.buttonActualizarPedido_Click);
@@ -81,6 +83,7 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             this.buttonCrearPedido.Name = "buttonCrearPedido";
             this.buttonCrearPedido.Size = new System.Drawing.Size(90, 30);
             this.buttonCrearPedido.TabIndex = 1;
+            this.buttonCrearPedido.Tag = "Crear";
             this.buttonCrearPedido.Text = "➕ Crear";
             this.buttonCrearPedido.UseVisualStyleBackColor = false;
             this.buttonCrearPedido.Click += new System.EventHandler(this.buttonCrearPedido_Click_1);
@@ -94,6 +97,7 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             this.buttonModificarPedido.Name = "buttonModificarPedido";
             this.buttonModificarPedido.Size = new System.Drawing.Size(90, 30);
             this.buttonModificarPedido.TabIndex = 2;
+            this.buttonModificarPedido.Tag = "Modificar";
             this.buttonModificarPedido.Text = "✏️ Modificar";
             this.buttonModificarPedido.UseVisualStyleBackColor = false;
             this.buttonModificarPedido.Click += new System.EventHandler(this.buttonModificarPedido_Click);
@@ -107,6 +111,7 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             this.buttonEliminarPedido.Name = "buttonEliminarPedido";
             this.buttonEliminarPedido.Size = new System.Drawing.Size(90, 30);
             this.buttonEliminarPedido.TabIndex = 3;
+            this.buttonEliminarPedido.Tag = "Eliminar";
             this.buttonEliminarPedido.Text = "🗑️ Eliminar";
             this.buttonEliminarPedido.UseVisualStyleBackColor = false;
             this.buttonEliminarPedido.Click += new System.EventHandler(this.buttonEliminarPedido_Click_1);
@@ -120,6 +125,7 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             this.buttonVerDetalle.Name = "buttonVerDetalle";
             this.buttonVerDetalle.Size = new System.Drawing.Size(100, 30);
             this.buttonVerDetalle.TabIndex = 4;
+            this.buttonVerDetalle.Tag = "Ver Detalle";
             this.buttonVerDetalle.Text = "👁️ Ver Detalle";
             this.buttonVerDetalle.UseVisualStyleBackColor = false;
             this.buttonVerDetalle.Click += new System.EventHandler(this.buttonVerDetalle_Click);
@@ -140,6 +146,7 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MinimumSize = new System.Drawing.Size(800, 400);
             this.Name = "MostrarPedidosForm";
+            this.Tag = "MostrarPedidosForm";
             this.Text = "Gestión de Pedidos";
             this.Load += new System.EventHandler(this.MostrarPedidosForm_Load_1);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPedidos)).EndInit();

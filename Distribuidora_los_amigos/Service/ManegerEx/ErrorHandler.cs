@@ -59,12 +59,14 @@ namespace Service.ManegerEx
                     break;
 
                 default:
-                    messageKey = "Error al realizar la operación";
+                    messageKey = "Error al realizar la operación.";
                     break;
             }
 
             string translatedMessage = TranslateMessageKey(messageKey);
-            MessageBox.Show(translatedMessage + "\n\nDetalles técnicos: " + ex.Message, "Error SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            string titleKey = "Error SQL";
+            string translatedTitle = TranslateMessageKey(titleKey);
+            MessageBox.Show(translatedMessage + "\n\nDetalles técnicos: " + ex.Message, translatedTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         /// <summary>
@@ -117,7 +119,9 @@ namespace Service.ManegerEx
         {
             string messageKey = "Error inesperado:";
             string translatedMessage = TranslateMessageKey(messageKey);
-            MessageBox.Show(translatedMessage + " " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            string titleKey = "Error";
+            string translatedTitle = TranslateMessageKey(titleKey);
+            MessageBox.Show(translatedMessage + " " + ex.Message, translatedTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         /// <summary>
@@ -127,7 +131,9 @@ namespace Service.ManegerEx
         {
             string messageKey = "No se encontraron usuarios en el sistema. Se debe crear un usuario administrador antes de continuar.";
             string translatedMessage = TranslateMessageKey(messageKey);
-            MessageBox.Show(translatedMessage, "Sistema sin usuarios", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            string titleKey = "Sistema sin usuarios";
+            string translatedTitle = TranslateMessageKey(titleKey);
+            MessageBox.Show(translatedMessage, translatedTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         /// <summary>

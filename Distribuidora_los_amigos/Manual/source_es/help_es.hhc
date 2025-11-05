@@ -1,0 +1,196 @@
+﻿<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<OBJECT type="text/site properties">
+	<param name="Window Styles" value="0x800025">
+	<param name="ImageType" value="Folder">
+</OBJECT>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Backup y Restore">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Realizar Backup - Distribuidora Los Amigos">
+			<param name="Local" value="html\backup\topic_22_backup.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Bit�cora del Sistema - Distribuidora Los Amigos">
+			<param name="Local" value="html\backup\topic_25_bitacora.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Restaurar Base de Datos - Distribuidora Los Amigos">
+			<param name="Local" value="html\backup\topic_30_restore.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Gestion de Clientes">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Crear Cliente - Distribuidora Los Amigos">
+			<param name="Local" value="html\clientes\topic_40_crear_cliente.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Modificar Cliente - Distribuidora Los Amigos">
+			<param name="Local" value="html\clientes\topic_41_modificar_cliente.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Consultar Clientes - Distribuidora Los Amigos">
+			<param name="Local" value="html\clientes\topic_42_mostrar_clientes.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Informacion General">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Pantalla Principal - Distribuidora Los Amigos">
+			<param name="Local" value="html\general\topic_20_main.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Introducción al Sistema - Distribuidora Los Amigos">
+			<param name="Local" value="html\general\topic_21_intro.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Inicio de Sesion">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Iniciar Sesión - Distribuidora Los Amigos">
+			<param name="Local" value="html\login\topic_31_login.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Recuperar Contraseña - Distribuidora Los Amigos">
+			<param name="Local" value="html\login\topic_32_recuperar.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Cambiar Contraseña - Distribuidora Los Amigos">
+			<param name="Local" value="html\login\topic_33_cambiar_pass.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Gestion de Pedidos">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Crear Pedido - Distribuidora Los Amigos">
+			<param name="Local" value="html\pedidos\topic_80_crear_pedido.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Modificar Pedido - Distribuidora Los Amigos">
+			<param name="Local" value="html\pedidos\topic_81_modificar_pedido.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Consultar Pedidos - Distribuidora Los Amigos">
+			<param name="Local" value="html\pedidos\topic_82_mostrar_pedidos.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Detalle del Pedido - Distribuidora Los Amigos">
+			<param name="Local" value="html\pedidos\topic_83_detalle_pedido.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Gestion de Productos">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Crear Producto - Distribuidora Los Amigos">
+			<param name="Local" value="html\productos\topic_50_crear_producto.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Modificar Producto - Distribuidora Los Amigos">
+			<param name="Local" value="html\productos\topic_51_modificar_producto.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Consultar Productos - Distribuidora Los Amigos">
+			<param name="Local" value="html\productos\topic_52_mostrar_productos.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Eliminar Producto - Distribuidora Los Amigos">
+			<param name="Local" value="html\productos\topic_53_eliminar_producto.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Gestion de Proveedores">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Crear Proveedor - Distribuidora Los Amigos">
+			<param name="Local" value="html\proveedores\topic_60_crear_proveedor.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Modificar Proveedor - Distribuidora Los Amigos">
+			<param name="Local" value="html\proveedores\topic_61_modificar_proveedor.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Consultar Proveedores - Distribuidora Los Amigos">
+			<param name="Local" value="html\proveedores\topic_62_mostrar_proveedores.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Reportes">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Reporte Stock Bajo - Distribuidora Los Amigos">
+			<param name="Local" value="html\reportes\topic_90_reporte_stock_bajo.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Productos Más Vendidos - Distribuidora Los Amigos">
+			<param name="Local" value="html\reportes\topic_91_reporte_mas_vendidos.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Gestion de Roles">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Crear Rol (Familia) - Distribuidora Los Amigos">
+			<param name="Local" value="html\roles\topic_26_crear_rol.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Crear Patente - Distribuidora Los Amigos">
+			<param name="Local" value="html\roles\topic_27_crear_patente.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Control de Stock">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Consultar Stock - Distribuidora Los Amigos">
+			<param name="Local" value="html\stock\topic_70_mostrar_stock.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Modificar Stock - Distribuidora Los Amigos">
+			<param name="Local" value="html\stock\topic_71_modificar_stock.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Gestion de Usuarios">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Crear Usuario - Distribuidora Los Amigos">
+			<param name="Local" value="html\usuarios\topic_23_crear_usuario.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Asignar Rol a Usuario - Distribuidora Los Amigos">
+			<param name="Local" value="html\usuarios\topic_24_asignar_rol.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Modificar Usuario - Distribuidora Los Amigos">
+			<param name="Local" value="html\usuarios\topic_28_modificar_usuario.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Consultar Usuarios - Distribuidora Los Amigos">
+			<param name="Local" value="html\usuarios\topic_29_mostrar_usuarios.html">
+			</OBJECT>
+	</UL>
+</UL>
+</BODY></HTML>

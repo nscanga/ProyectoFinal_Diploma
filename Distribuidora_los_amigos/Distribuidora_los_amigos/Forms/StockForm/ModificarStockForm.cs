@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,27 +9,80 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BLL;
 using DOMAIN;
+using Service.Facade;
+using Services.Facade;
+using Service.DAL.Contracts;
 
 namespace Distribuidora_los_amigos.Forms.StockForm
 {
-    public partial class ModificarStockForm : Form
+    public partial class ModificarStockForm : Form, IIdiomaObserver
     {
         private readonly StockService _stockService;
         private Stock _stock;
 
         /// <summary>
-        /// Inicializa el formulario para editar un registro de stock existente.
+        /// Inicializa el formulario con los datos del stock a modificar.
         /// </summary>
-        /// <param name="stock">Stock que se modificará.</param>
+        /// <param name="stock">Stock seleccionado para edición.</param>
         public ModificarStockForm(Stock stock)
         {
             InitializeComponent();
             _stockService = new StockService();
             _stock = stock;
 
+            // Suscribirse al servicio de idiomas
+            IdiomaService.Subscribe(this);
+
+            // Traducir el formulario al cargarlo
+            IdiomaService.TranslateForm(this);
+
+            // Configurar ayuda F1
+            this.KeyPreview = true;
+            this.KeyDown += ModificarStockForm_KeyDown;
+
             // Cargar los datos en los campos
             numericUpDownStock.Value = _stock.Cantidad;
             comboBoxTipoStock.Text = _stock.Tipo;
+        }
+
+        /// <summary>
+        /// Muestra la ayuda del formulario cuando se presiona F1.
+        /// </summary>
+        private void ModificarStockForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.KeyCode == Keys.F1)
+                {
+                    ManualService manualService = new ManualService();
+                    manualService.AbrirAyudaModificarStock();
+                    e.Handled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir la ayuda: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LoggerService.WriteException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Actualiza los textos del formulario cuando cambia el idioma.
+        /// </summary>
+        public void UpdateIdioma()
+        {
+            IdiomaService.TranslateForm(this);
+            this.Refresh();
+        }
+
+        /// <summary>
+        /// Desuscribirse del servicio de idiomas al cerrar el formulario.
+        /// </summary>
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            IdiomaService.Unsubscribe(this);
+            base.OnFormClosing(e);
         }
 
         /// <summary>
@@ -46,7 +98,11 @@ namespace Distribuidora_los_amigos.Forms.StockForm
                 int nuevaCantidad = (int)numericUpDownStock.Value;
                 if (nuevaCantidad < 0)
                 {
-                    MessageBox.Show("La cantidad de stock no puede ser negativa.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    string messageKey = "CantidadStockNoNegativa";
+                    string translatedMessage = IdiomaService.Translate(messageKey);
+                    string titleKey = "Error";
+                    string translatedTitle = IdiomaService.Translate(titleKey);
+                    MessageBox.Show(translatedMessage, translatedTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -57,12 +113,20 @@ namespace Distribuidora_los_amigos.Forms.StockForm
                 // Actualizar en la base de datos
                 _stockService.ModificarStock(_stock.IdProducto, _stock.Cantidad);
 
-                MessageBox.Show("Stock modificado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                string successKey = "StockModificadoExito";
+                string translatedSuccess = IdiomaService.Translate(successKey);
+                string successTitleKey = "Éxito";
+                string translatedSuccessTitle = IdiomaService.Translate(successTitleKey);
+                MessageBox.Show(translatedSuccess, translatedSuccessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al modificar el stock: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string errorKey = "ErrorModificarStock";
+                string translatedError = IdiomaService.Translate(errorKey) + ": " + ex.Message;
+                string errorTitleKey = "Error";
+                string translatedErrorTitle = IdiomaService.Translate(errorTitleKey);
+                MessageBox.Show(translatedError, translatedErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

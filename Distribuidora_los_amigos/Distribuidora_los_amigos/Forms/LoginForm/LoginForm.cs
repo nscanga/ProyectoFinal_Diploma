@@ -56,7 +56,9 @@ namespace Distribuidora_los_amigos
                 {
                     string messageKey = "No hay usuarios en el sistema. Se creará un usuario administrador por defecto.\n\nUsuario: admin\nContraseña: Admin123!";
                     string translatedMessage = TranslateMessageKey(messageKey);
-                    MessageBox.Show(translatedMessage, "Inicialización del Sistema", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    string titleKey = "Inicialización del Sistema";
+                    string translatedTitle = TranslateMessageKey(titleKey);
+                    MessageBox.Show(translatedMessage, translatedTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     try
                     {
@@ -72,7 +74,9 @@ namespace Distribuidora_los_amigos
                         
                         string successKey = "Usuario administrador creado exitosamente.\n\nUsuario: admin\nContraseña: Admin123!\n\n⚠️ Por favor, cambie esta contraseña después del primer inicio de sesión.";
                         string successMessage = TranslateMessageKey(successKey);
-                        MessageBox.Show(successMessage, "Sistema Inicializado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        string successTitleKey = "Sistema Inicializado";
+                        string successTitle = TranslateMessageKey(successTitleKey);
+                        MessageBox.Show(successMessage, successTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                     catch (Exception ex)
                     {
@@ -81,7 +85,9 @@ namespace Distribuidora_los_amigos
                         
                         string errorKey = "Error crítico: No se pudo crear el usuario administrador por defecto. La aplicación no puede continuar.";
                         string errorMessage = TranslateMessageKey(errorKey);
-                        MessageBox.Show(errorMessage + "\n\n" + ex.Message, "Error Fatal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        string errorTitleKey = "Error Fatal";
+                        string errorTitle = TranslateMessageKey(errorTitleKey);
+                        MessageBox.Show(errorMessage + "\n\n" + ex.Message, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         
                         Application.Exit();
                         return;
@@ -98,7 +104,9 @@ namespace Distribuidora_los_amigos
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error " + ex.Message, "Error");
+                string errorKey = "Error";
+                string translatedError = TranslateMessageKey(errorKey);
+                MessageBox.Show(translatedError + " " + ex.Message, translatedError);
                 LoggerService.WriteException(ex);
             }
         }

@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using Service.DAL.Contracts;
 
 namespace Distribuidora_los_amigos.Forms.GestionUsuarios
 {
-    public partial class BackUpForm : Form
+    public partial class BackUpForm : Form, IIdiomaObserver
     {
         /// <summary>
         /// Inicializa el formulario de backups y registra el evento de carga.
@@ -16,6 +17,25 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
         {
             InitializeComponent();
             this.Load += BackUpForm_Load;
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormClosed += BackUpForm_FormClosed;
+            this.KeyPreview = true;
+            this.KeyDown += BackUpForm_KeyDown;
+
+            // Suscribirse al servicio de idiomas
+            IdiomaService.Subscribe(this);
+
+            // Traducir el formulario al cargarlo
+            IdiomaService.TranslateForm(this);
+        }
+
+        /// <summary>
+        /// Actualiza los textos del formulario cuando cambia el idioma.
+        /// </summary>
+        public void UpdateIdioma()
+        {
+            IdiomaService.TranslateForm(this);
+            this.Refresh();
         }
 
         /// <summary>
@@ -118,6 +138,44 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
 
+                LoggerService.WriteException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Registra el cierre del formulario.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento de cierre.</param>
+        private void BackUpForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            // Desuscribirse del servicio de idiomas
+            IdiomaService.Unsubscribe(this);
+
+            // Registrar cuando el formulario se cierra
+            LoggerService.WriteLog($"Formulario '{this.Text}' cerrado.", System.Diagnostics.TraceLevel.Info);
+        }
+
+        /// <summary>
+        /// Muestra la ayuda del formulario cuando se presiona F1.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
+        private void BackUpForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.KeyCode == Keys.F1)
+                {
+                    ManualService manualService = new ManualService();
+                    manualService.AbrirAyudaBackUp();
+                    e.Handled = true; // Prevenir propagación del evento
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir la ayuda: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 LoggerService.WriteException(ex);
             }
         }

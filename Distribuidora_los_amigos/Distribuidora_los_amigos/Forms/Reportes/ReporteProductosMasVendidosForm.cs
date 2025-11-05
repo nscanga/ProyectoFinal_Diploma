@@ -35,6 +35,8 @@ namespace Distribuidora_los_amigos.Forms.Reportes
             _pedidoService = new PedidoService();
             _productoService = new ProductoService();
             this.Load += ReporteProductosMasVendidosForm_Load;
+            this.KeyPreview = true; // Habilitar captura de teclas
+            this.KeyDown += ReporteProductosMasVendidosForm_KeyDown; // Agregar evento KeyDown
             IdiomaService.Subscribe(this);
         }
 
@@ -289,8 +291,16 @@ namespace Distribuidora_los_amigos.Forms.Reportes
 
             using (System.IO.StreamWriter writer = new System.IO.StreamWriter(filePath, false, System.Text.Encoding.UTF8))
             {
-                // Escribir encabezados
-                writer.WriteLine("#,Producto,Categoría,Cantidad Vendida,Monto Total,Precio Promedio,Veces Vendido");
+                // Escribir encabezados usando traducciones
+                string headerPosicion = "#";
+                string headerProducto = IdiomaService.Translate("Producto");
+                string headerCategoria = IdiomaService.Translate("Categoría");
+                string headerCantidad = IdiomaService.Translate("Cantidad Vendida");
+                string headerMonto = IdiomaService.Translate("Monto Total");
+                string headerPromedio = IdiomaService.Translate("Precio Promedio");
+                string headerVeces = IdiomaService.Translate("Veces Vendido");
+                
+                writer.WriteLine($"{headerPosicion},{headerProducto},{headerCategoria},{headerCantidad},{headerMonto},{headerPromedio},{headerVeces}");
 
                 // Escribir datos
                 foreach (var item in data)
@@ -325,6 +335,30 @@ namespace Distribuidora_los_amigos.Forms.Reportes
         {
             IdiomaService.Unsubscribe(this);
             base.OnFormClosing(e);
+        }
+
+        /// <summary>
+        /// Muestra la ayuda del formulario cuando se presiona F1.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
+        private void ReporteProductosMasVendidosForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.KeyCode == Keys.F1)
+                {
+                    ManualService manualService = new ManualService();
+                    manualService.AbrirAyudaReporteProductosMasVendidos();
+                    e.Handled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir la ayuda: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LoggerService.WriteException(ex);
+            }
         }
     }
 }

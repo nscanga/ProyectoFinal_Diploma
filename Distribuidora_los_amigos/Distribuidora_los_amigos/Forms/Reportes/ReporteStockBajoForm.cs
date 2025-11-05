@@ -31,6 +31,8 @@ namespace Distribuidora_los_amigos.Forms.Reportes
             InitializeComponent();
             _stockService = new StockService();
             this.Load += ReporteStockBajoForm_Load;
+            this.KeyPreview = true; // Habilitar captura de teclas
+            this.KeyDown += ReporteStockBajoForm_KeyDown; // Agregar evento KeyDown
             IdiomaService.Subscribe(this);
         }
 
@@ -123,8 +125,8 @@ namespace Distribuidora_los_amigos.Forms.Reportes
                         s.Categoria,
                         s.Cantidad,
                         s.Tipo,
-                        Estado = s.Cantidad == 0 ? "Crítico" : 
-                                 s.Cantidad <= 5 ? "Muy Bajo" : "Bajo"
+                        Estado = s.Cantidad == 0 ? IdiomaService.Translate("Crítico") : 
+                                 s.Cantidad <= 5 ? IdiomaService.Translate("Muy Bajo") : IdiomaService.Translate("Bajo")
                     })
                     .OrderBy(s => s.Cantidad)
                     .ToList();
@@ -203,8 +205,14 @@ namespace Distribuidora_los_amigos.Forms.Reportes
 
             using (System.IO.StreamWriter writer = new System.IO.StreamWriter(filePath, false, System.Text.Encoding.UTF8))
             {
-                // Escribir encabezados
-                writer.WriteLine("Producto,Categoría,Cantidad Actual,Tipo,Estado");
+                // Escribir encabezados usando traducciones
+                string headerProducto = IdiomaService.Translate("Producto");
+                string headerCategoria = IdiomaService.Translate("Categoría");
+                string headerCantidad = IdiomaService.Translate("Cantidad Actual");
+                string headerTipo = IdiomaService.Translate("Tipo");
+                string headerEstado = IdiomaService.Translate("Estado");
+                
+                writer.WriteLine($"{headerProducto},{headerCategoria},{headerCantidad},{headerTipo},{headerEstado}");
 
                 // Escribir datos
                 foreach (var item in data)
@@ -237,6 +245,30 @@ namespace Distribuidora_los_amigos.Forms.Reportes
         {
             IdiomaService.Unsubscribe(this);
             base.OnFormClosing(e);
+        }
+
+        /// <summary>
+        /// Muestra la ayuda del formulario cuando se presiona F1.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
+        private void ReporteStockBajoForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.KeyCode == Keys.F1)
+                {
+                    ManualService manualService = new ManualService();
+                    manualService.AbrirAyudaReporteStockBajo();
+                    e.Handled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir la ayuda: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LoggerService.WriteException(ex);
+            }
         }
     }
 }

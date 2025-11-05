@@ -54,9 +54,6 @@
     <Reference Include="Syncfusion.GridCommon.WinForms, Version=28.2462.5.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <HintPath>..\packages\Syncfusion.GridCommon.WinForms.28.2.5\lib\net462\Syncfusion.GridCommon.WinForms.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Licensing, Version=28.2462.5.0, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Syncfusion.Licensing.28.2.5\lib\net462\Syncfusion.Licensing.dll</HintPath>
-    </Reference>
     <Reference Include="Syncfusion.SfDataGrid.WinForms, Version=28.2462.5.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <HintPath>..\packages\Syncfusion.SfDataGrid.WinForms.28.2.5\lib\net462\Syncfusion.SfDataGrid.WinForms.dll</HintPath>
     </Reference>
@@ -347,7 +344,51 @@
     <None Include="Docs\BACKUP_Y_RESTORE.md" />
     <None Include="Docs\CONFIGURACION_INICIAL.md" />
     <None Include="Docs\CONFIGURACION_REPORTES.md" />
+    <None Include="Docs\CONTROL_ACCESO_GRANULAR.md" />
+    <None Include="Docs\CORRECCION_FORMULARIOS_MODALES.md" />
+    <None Include="Docs\CORRECCION_SCRIPTS_SQL.md" />
+    <None Include="Docs\GUIA_IMPLEMENTACION_AYUDA_F1.md" />
+    <None Include="Docs\GUIA_TRADUCCION_FORMULARIOS.md" />
+    <None Include="Docs\Manual_CHM\CHECKLIST_CONTENIDO.md" />
+    <None Include="Docs\Manual_CHM\compilar_chm.bat" />
+    <None Include="Docs\Manual_CHM\compilar_chm.ps1" />
+    <None Include="Docs\Manual_CHM\compilar_directo.bat" />
+    <None Include="Docs\Manual_CHM\compilar_simple.bat" />
+    <None Include="Docs\Manual_CHM\compilar_universal.bat" />
+    <None Include="Docs\Manual_CHM\copiar_archivos.bat" />
+    <None Include="Docs\Manual_CHM\copiar_universal.bat" />
+    <None Include="Docs\Manual_CHM\crear_estructura.ps1" />
+    <None Include="Docs\Manual_CHM\crear_manual_ingles.ps1" />
+    <None Include="Docs\Manual_CHM\diagnostico.bat" />
+    <None Include="Docs\Manual_CHM\ESTADO_IMPLEMENTACION_F1.md" />
+    <None Include="Docs\Manual_CHM\generar_paginas.ps1" />
+    <None Include="Docs\Manual_CHM\generar_proyecto.bat" />
+    <None Include="Docs\Manual_CHM\generar_proyecto_chm.ps1" />
+    <None Include="Docs\Manual_CHM\GUIA_CREACION_CHM.md" />
+    <None Include="Docs\Manual_CHM\GUIA_FINAL.md" />
+    <None Include="Docs\Manual_CHM\GUIA_RAPIDA_COMPILACION.md" />
+    <None Include="Docs\Manual_CHM\GUIA_RAPIDA_INGLES.md" />
+    <None Include="Docs\Manual_CHM\GUIA_VISUAL_HTML_HELP_WORKSHOP.md" />
+    <None Include="Docs\Manual_CHM\INDICE.md" />
+    <None Include="Docs\Manual_CHM\INDICE_MANUALES_CHM.md" />
+    <None Include="Docs\Manual_CHM\INICIO_AQUI.md" />
+    <None Include="Docs\Manual_CHM\INICIO_RAPIDO.md" />
+    <None Include="Docs\Manual_CHM\MANUAL_COMPILACION_CHM_COMPLETO.md" />
+    <None Include="Docs\Manual_CHM\README.md" />
+    <None Include="Docs\Manual_CHM\RESUMEN_EJECUTIVO.md" />
+    <None Include="Docs\Manual_CHM\RESUMEN_PROXIMO_CHAT.md" />
+    <None Include="Docs\Manual_CHM\SOLUCION_F1_MAP_SECTION.md" />
+    <None Include="Docs\Manual_CHM\SOLUCION_FINAL_F1_RECUPERAR_PASSWORD.md" />
+    <None Include="Docs\Manual_CHM\source_es\help_es.hhc" />
+    <None Include="Docs\Manual_CHM\source_es\help_es.hhk" />
+    <None Include="Docs\Manual_CHM\source_es\help_es.hhp" />
+    <None Include="Docs\README.md" />
+    <None Include="Docs\RESUMEN_CORRECCION_PERMISOS.md" />
+    <None Include="Docs\RESUMEN_IMPLEMENTACION_AYUDA.md" />
     <None Include="Docs\RESUMEN_IMPLEMENTACION_REPORTES.md" />
+    <None Include="Docs\SISTEMA_PERMISOS_COMPLETO.md" />
+    <None Include="Docs\SOLUCION_ADMINNICO_SOLO_VE_BUSQUEDA.md" />
+    <None Include="Docs\SOLUCION_UI_MULTIIDIOMA.md" />
     <None Include="Docs\USUARIO_ADMINISTRADOR_DEFAULT.md" />
     <None Include="l18n\2vbwypcf.qlm~" />
     <None Include="l18n\d0j2zvho.vgb~" />
@@ -396,8 +437,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Docs\Manual_CHM\source_es\css\styles.css" />
+    <Content Include="Docs\Manual_CHM\source_es\html\clientes\topic_40_crear_cliente.html" />
+    <Content Include="Docs\Manual_CHM\source_es\html\general\topic_20_main.html" />
+    <Content Include="Docs\Manual_CHM\source_es\html\login\topic_31_login.html" />
+    <Content Include="Docs\Manual_CHM\source_es\template.html" />
     <Content Include="Docs\SQL_Scripts\00_Crear_Usuario_Admin_Default.sql" />
     <Content Include="Docs\SQL_Scripts\01_Restore_Manual_Emergency.sql" />
+    <Content Include="Docs\SQL_Scripts\02_Fix_Patentes_TipoAcceso.sql" />
+    <Content Include="Docs\SQL_Scripts\03_Verificar_Usuarios_Familias.sql" />
+    <Content Include="Docs\SQL_Scripts\04_Guia_Completa_Configuracion_Permisos.sql" />
+    <Content Include="Docs\SQL_Scripts\05_Limpiar_Base_Datos_Fixed.sql" />
+    <Content Include="Docs\SQL_Scripts\06_Probar_Control_Acceso_Granular.sql" />
+    <Content Include="Docs\SQL_Scripts\07_Diagnosticar_Usuario_AdminNico.sql" />
+    <Content Include="Docs\SQL_Scripts\08_Asignar_Todas_Patentes_Administrador.sql" />
+    <Content Include="Docs\SQL_Scripts\09_Diagnosticar_Rol_Especifico.sql" />
+    <Content Include="Docs\SQL_Scripts\10_Configurar_Rol_Limitado.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

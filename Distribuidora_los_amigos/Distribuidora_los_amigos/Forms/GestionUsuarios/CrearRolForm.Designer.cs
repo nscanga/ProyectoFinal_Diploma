@@ -88,7 +88,8 @@
             this.Controls.Add(this.textBoxRoleName);
             this.Controls.Add(this.labelRoleName);
             this.Name = "CrearRolForm";
-            this.Text = "Agregar Nuevo Rol";
+            this.Tag = "CrearRol";
+            this.Text = "Crear Rol";
             this.Load += new System.EventHandler(this.CrearRolForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

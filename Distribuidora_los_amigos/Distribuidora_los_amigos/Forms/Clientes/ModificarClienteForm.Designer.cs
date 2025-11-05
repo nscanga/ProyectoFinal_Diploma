@@ -57,6 +57,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(56, 13);
             this.label6.TabIndex = 25;
+            this.label6.Tag = "Disponible";
             this.label6.Text = "Disponible";
             // 
             // label5
@@ -66,6 +67,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(32, 13);
             this.label5.TabIndex = 24;
+            this.label5.Tag = "CUIT";
             this.label5.Text = "CUIT";
             // 
             // label4
@@ -75,6 +77,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(49, 13);
             this.label4.TabIndex = 23;
+            this.label4.Tag = "Telefono";
             this.label4.Text = "Telefono";
             // 
             // label3
@@ -84,6 +87,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(32, 13);
             this.label3.TabIndex = 22;
+            this.label3.Tag = "Email";
             this.label3.Text = "Email";
             // 
             // label2
@@ -93,6 +97,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(52, 13);
             this.label2.TabIndex = 21;
+            this.label2.Tag = "Direccion";
             this.label2.Text = "Direccion";
             // 
             // label1
@@ -102,6 +107,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(44, 13);
             this.label1.TabIndex = 20;
+            this.label1.Tag = "Nombre";
             this.label1.Text = "Nombre";
             // 
             // buttonGuardarCliente
@@ -110,6 +116,7 @@
             this.buttonGuardarCliente.Name = "buttonGuardarCliente";
             this.buttonGuardarCliente.Size = new System.Drawing.Size(75, 23);
             this.buttonGuardarCliente.TabIndex = 19;
+            this.buttonGuardarCliente.Tag = "Guardar";
             this.buttonGuardarCliente.Text = "Guardar";
             this.buttonGuardarCliente.UseVisualStyleBackColor = true;
             this.buttonGuardarCliente.Click += new System.EventHandler(this.buttonGuardarCliente_Click);
@@ -171,6 +178,7 @@
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
             this.Name = "ModificarClienteForm";
+            this.Tag = "ModificarClienteForm";
             this.Text = "ModificarClienteForm";
             this.ResumeLayout(false);
             this.PerformLayout();

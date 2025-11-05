@@ -1,5 +1,4 @@
-﻿
-namespace Distribuidora_los_amigos.Forms.GestionUsuarios
+﻿namespace Distribuidora_los_amigos.Forms.GestionUsuarios
 {
     partial class MostrarUsuariosForm
     {
@@ -65,7 +64,8 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             this.Controls.Add(this.sfDataGrid);
             this.Controls.Add(this.labelTitle);
             this.Name = "MostrarUsuariosForm";
-            this.Text = "View Users";
+            this.Tag = "VerUsuarios";
+            this.Text = "Ver Usuarios";
             this.Load += new System.EventHandler(this.MostrarUsuariosForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.sfDataGrid)).EndInit();
             this.ResumeLayout(false);

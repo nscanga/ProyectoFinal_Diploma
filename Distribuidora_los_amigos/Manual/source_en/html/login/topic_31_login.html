@@ -1,0 +1,324 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Distribuidora Los Amigos</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body>
+    
+    <div class="breadcrumb">
+        <a href="../general/topic_20_main.html">Home</a>
+        <span>»</span>
+        <a href="#">Security</a>
+        <span>»</span>
+        <span>Login</span>
+    </div>
+
+    <h1>System Login</h1>
+    
+    <section id="introduccion">
+        <h2>Introduction</h2>
+        <p>
+            Login is the first step to access the Distribuidora Los Amigos Management System. 
+            This process verifies your identity and loads the permissions associated with your user.
+        </p>
+        
+        <div class="info-box">
+            <strong>ℹ Important:</strong> Each user has unique credentials that should not be shared 
+            with others. The system records all actions associated with your user.
+        </div>
+    </section>
+    
+    <section id="acceso">
+        <h2>How to Login</h2>
+        
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Launch the Application</strong>
+            <p>
+                Open the "Distribuidora Los Amigos" application from the desktop shortcut 
+                or from the Windows start menu.
+            </p>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>Login Screen</strong>
+            <p>
+                When launching the application, the login window will automatically appear.
+            </p>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Enter Credentials</strong>
+            <p>
+                Complete the following fields:
+            </p>
+            <ul>
+                <li><strong>Username:</strong> Your username (no spaces, case sensitive)</li>
+                <li><strong>Password:</strong> Your personal password (hidden for security)</li>
+            </ul>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Select Language (Optional)</strong>
+            <p>
+                You can select the interface language before logging in. 
+                Available options:
+            </p>
+            <ul>
+                <li>🇪🇸 Spanish</li>
+                <li>🇺🇸 English</li>
+                <li>🇵🇹 Portuguese</li>
+            </ul>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">5</span>
+            <strong>Login</strong>
+            <p>
+                Click the <strong>"Login"</strong> button or press <code>Enter</code>.
+            </p>
+        </div>
+    </section>
+    
+    <section id="campos">
+        <h2>Field Description</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Description</th>
+                    <th>Format</th>
+                    <th>Required</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Username</strong></td>
+                    <td>Username assigned by the administrator</td>
+                    <td>Alphanumeric text (case sensitive)</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Password</strong></td>
+                    <td>User's personal password</td>
+                    <td>Text (hidden characters for security)</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Language</strong></td>
+                    <td>System interface language</td>
+                    <td>Dropdown list</td>
+                    <td>No (default: last used)</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <section id="validaciones">
+        <h2>System Validations</h2>
+        <p>During login, the system verifies:</p>
+        <ul>
+            <li>✓ That the user exists in the system</li>
+            <li>✓ That the password is correct</li>
+            <li>✓ That the user is active (not blocked)</li>
+            <li>✓ That there is no other session open with the same user</li>
+            <li>✓ User data integrity (DVH)</li>
+        </ul>
+    </section>
+    
+    <section id="primer-acceso">
+        <h2>First System Access</h2>
+        
+        <div class="warning">
+            <strong>⚠ Mandatory Password Change:</strong> 
+            If it's your first access or the administrator reset your password, 
+            the system will require you to change it immediately for security reasons.
+        </div>
+        
+        <h3>New Password Requirements</h3>
+        <ul>
+            <li>Minimum 8 characters</li>
+            <li>At least one uppercase letter</li>
+            <li>At least one lowercase letter</li>
+            <li>At least one number</li>
+            <li>At least one special character (!@#$%^&*)</li>
+            <li>Cannot be the same as the last 3 passwords</li>
+        </ul>
+    </section>
+    
+    <section id="errores">
+        <h2>Common Errors and Solutions</h2>
+        
+        <h3>Error: "Incorrect username or password"</h3>
+        <div class="error">
+            <strong>Cause:</strong> The entered credentials are not valid.
+        </div>
+        <div class="success">
+            <strong>✓ Solutions:</strong>
+            <ol>
+                <li>Verify that the username is spelled correctly (case sensitive)</li>
+                <li>Make sure <code>Caps Lock</code> is off</li>
+                <li>Verify that the password is correct</li>
+                <li>If you forgot your password, use the <strong>"Forgot your password?"</strong> option</li>
+            </ol>
+        </div>
+        
+        <h3>Error: "User is blocked"</h3>
+        <div class="error">
+            <strong>Cause:</strong> The user was blocked due to multiple failed attempts or by the administrator.
+        </div>
+        <div class="success">
+            <strong>✓ Solution:</strong>
+            <p>Contact the system administrator to unlock your account.</p>
+        </div>
+        
+        <h3>Error: "There is already an active session for this user"</h3>
+        <div class="error">
+            <strong>Cause:</strong> The system detected an already open session with your credentials.
+        </div>
+        <div class="success">
+            <strong>✓ Solutions:</strong>
+            <ol>
+                <li>Check if you have the system open on another computer</li>
+                <li>If the application closed unexpectedly, wait 5 minutes and try again</li>
+                <li>Contact the administrator to close the previous session</li>
+            </ol>
+        </div>
+        
+        <h3>Error: "Database connection error"</h3>
+        <div class="error">
+            <strong>Cause:</strong> The system cannot connect to the database server.
+        </div>
+        <div class="success">
+            <strong>✓ Solutions:</strong>
+            <ol>
+                <li>Verify your network connection</li>
+                <li>Verify that the database server is online</li>
+                <li>Contact the system administrator</li>
+            </ol>
+        </div>
+        
+        <h3>Error: "Data tampering detected"</h3>
+        <div class="error">
+            <strong>Cause:</strong> The system detected data inconsistencies (DVH failure).
+        </div>
+        <div class="success">
+            <strong>✓ Solution:</strong>
+            <p>
+                <strong>URGENT:</strong> Contact the administrator immediately. 
+                This error indicates possible data corruption or tampering.
+            </p>
+        </div>
+    </section>
+    
+    <section id="seguridad">
+        <h2>Security Recommendations</h2>
+        
+        <div class="tip">
+            <strong>Tips to protect your account:</strong>
+        </div>
+        
+        <ul>
+            <li>🔒 <strong>Never share</strong> your password with anyone</li>
+            <li>🔄 <strong>Change your password</strong> periodically (every 90 days recommended)</li>
+            <li>🔑 <strong>Use unique passwords</strong> - do not reuse passwords from other systems</li>
+            <li>📝 <strong>Do not write down your password</strong> in visible places</li>
+            <li>🚪 <strong>Logout</strong> when not using the system</li>
+            <li>👀 <strong>Do not leave the system unattended</strong> with your session open</li>
+            <li>🖥️ <strong>Lock your computer</strong> if you step away from your desk</li>
+        </ul>
+        
+        <div class="warning">
+            <strong>⚠ Lockout Policy:</strong> After 5 failed login attempts, 
+            your account will be automatically locked for 30 minutes as a security measure.
+        </div>
+    </section>
+    
+    <section id="recuperacion">
+        <h2>Password Recovery</h2>
+        <p>If you forgot your password:</p>
+        <ol>
+            <li>Click the <strong>"Forgot your password?"</strong> link on the login screen</li>
+            <li>Enter your username and registered email</li>
+            <li>Answer the configured security questions</li>
+            <li>You will receive a recovery code by email</li>
+            <li>Enter the code and set a new password</li>
+        </ol>
+        
+        <div class="info-box">
+            <strong>ℹ Note:</strong> The recovery code is valid for 15 minutes. 
+            If it expires, you must request a new one.
+        </div>
+    </section>
+    
+    <section id="acceso-exitoso">
+        <h2>After Logging In</h2>
+        <p>Once you successfully login:</p>
+        <ul>
+            <li>The system <strong>Main Screen</strong> will open</li>
+            <li>The system will load your preferred language</li>
+            <li>Only the options you have permission for will be enabled</li>
+            <li>Your username will appear in the status bar</li>
+            <li>The login will be recorded in the system event log</li>
+        </ul>
+    </section>
+    
+    <section id="multiples-idiomas">
+        <h2>Multi-Language System</h2>
+        <p>The system supports the following languages:</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Language</th>
+                    <th>Code</th>
+                    <th>Flag</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Spanish</td>
+                    <td>es-ES</td>
+                    <td>🇪🇸</td>
+                </tr>
+                <tr>
+                    <td>English (United States)</td>
+                    <td>en-US</td>
+                    <td>🇺🇸</td>
+                </tr>
+                <tr>
+                    <td>Portuguese</td>
+                    <td>pt-PT</td>
+                    <td>🇵🇹</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <p>The language selected at login will apply to the entire system interface and will be remembered for future logins.</p>
+    </section>
+    
+    <section id="relacionados">
+        <h2>See Also</h2>
+        <ul class="no-bullets">
+            <li>📄 <a href="../general/topic_20_main.html">Main Screen</a></li>
+            <li>📄 <a href="topic_32_recuperar.html">Password Recovery</a></li>
+            <li>📄 <a href="topic_33_cambiar_pass.html">Change Password</a></li>
+            <li>📄 <a href="../usuarios/topic_23_crear_usuario.html">Create User</a></li>
+        </ul>
+    </section>
+    
+    <footer>
+        <p>© 2024 Distribuidora Los Amigos - Management System</p>
+        <p>All rights reserved</p>
+    </footer>
+
+</body>
+</html>
+

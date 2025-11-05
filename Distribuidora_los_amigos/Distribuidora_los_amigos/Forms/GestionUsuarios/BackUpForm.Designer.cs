@@ -61,7 +61,8 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Name = "BackUpForm";
-            this.Text = "BackUpForm";
+            this.Tag = "BackUp";
+            this.Text = "BackUp";
             this.ResumeLayout(false);
             this.PerformLayout();
 

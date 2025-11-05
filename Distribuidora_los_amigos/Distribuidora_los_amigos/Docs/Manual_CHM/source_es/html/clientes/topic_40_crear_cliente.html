@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Cliente - Distribuidora Los Amigos</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body>
+    
+    <div class="breadcrumb">
+        <a href="../general/topic_20_main.html">Inicio</a>
+        <span>�</span>
+        <a href="topic_42_mostrar_clientes.html">Clientes</a>
+        <span>�</span>
+        <span>Crear Cliente</span>
+    </div>
+
+    <h1>Crear Cliente</h1>
+    
+    <section id="introduccion">
+        <h2>Introducci�n</h2>
+        <p>
+            Esta funcionalidad permite registrar nuevos clientes en el sistema. Los clientes son las 
+            personas o empresas a las que se les realizar�n ventas de productos.
+        </p>
+        <p>
+            Un cliente correctamente registrado permitir� gestionar sus pedidos, consultar su historial 
+            de compras y generar reportes espec�ficos.
+        </p>
+    </section>
+    
+    <section id="acceso">
+        <h2>C�mo Acceder</h2>
+        <p>Para acceder a esta funcionalidad:</p>
+        <ol>
+            <li>Desde el men� principal, ir a <strong>Clientes</strong></li>
+            <li>Seleccionar <strong>Crear Cliente</strong></li>
+            <li>Se abrir� la ventana de <strong>Crear Cliente</strong></li>
+        </ol>
+    </section>
+    
+    <section id="campos">
+        <h2>Descripci�n de Campos</h2>
+        <p>A continuaci�n se describe cada campo del formulario:</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Campo</th>
+                    <th>Descripci�n</th>
+                    <th>Tipo</th>
+                    <th>Obligatorio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Nombre</strong></td>
+                    <td>Nombre completo del cliente o raz�n social de la empresa</td>
+                    <td>Texto (m�x. 100 caracteres)</td>
+                    <td>S�</td>
+                </tr>
+                <tr>
+                    <td><strong>Apellido</strong></td>
+                    <td>Apellido del cliente (si es persona f�sica)</td>
+                    <td>Texto (m�x. 100 caracteres)</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><strong>DNI/CUIT</strong></td>
+                    <td>Documento Nacional de Identidad o CUIT del cliente</td>
+                    <td>Num�rico (8-11 d�gitos)</td>
+                    <td>S�</td>
+                </tr>
+                <tr>
+                    <td><strong>Email</strong></td>
+                    <td>Correo electr�nico del cliente</td>
+                    <td>Email v�lido</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><strong>Tel�fono</strong></td>
+                    <td>N�mero de tel�fono de contacto</td>
+                    <td>Num�rico/Texto</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><strong>Direcci�n</strong></td>
+                    <td>Domicilio completo del cliente</td>
+                    <td>Texto (m�x. 200 caracteres)</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><strong>C�digo Postal</strong></td>
+                    <td>C�digo postal de la direcci�n</td>
+                    <td>Num�rico (4 d�gitos)</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><strong>Activo</strong></td>
+                    <td>Indica si el cliente est� activo en el sistema</td>
+                    <td>Checkbox (S�/No)</td>
+                    <td>S� (predeterminado: S�)</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <section id="procedimiento">
+        <h2>Procedimiento para Crear un Cliente</h2>
+        
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Ingresar Datos B�sicos</strong>
+            <p>
+                Complete los campos <strong>Nombre</strong> y <strong>DNI/CUIT</strong> que son obligatorios. 
+                Si es una persona f�sica, complete tambi�n el <strong>Apellido</strong>.
+            </p>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>Agregar Datos de Contacto</strong>
+            <p>
+                Ingrese el <strong>Email</strong> y <strong>Tel�fono</strong> del cliente. 
+                Aunque son opcionales, es recomendable completarlos para facilitar la comunicaci�n.
+            </p>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Completar Direcci�n</strong>
+            <p>
+                Ingrese la <strong>Direcci�n</strong> completa y el <strong>C�digo Postal</strong>. 
+                Esto es importante para la gesti�n de entregas.
+            </p>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Verificar Estado</strong>
+            <p>
+                Aseg�rese de que el checkbox <strong>Activo</strong> est� marcado si desea que el cliente 
+                est� disponible para realizar pedidos inmediatamente.
+            </p>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">5</span>
+            <strong>Guardar el Cliente</strong>
+            <p>
+                Click en el bot�n <strong>Guardar</strong> o presione <code>Ctrl + S</code>. 
+                Si todos los datos son v�lidos, el cliente se crear� exitosamente.
+            </p>
+        </div>
+    </section>
+    
+    <section id="validaciones">
+        <h2>Validaciones del Sistema</h2>
+        <p>El sistema realiza las siguientes validaciones:</p>
+        <ul>
+            <li>Los campos <strong>Nombre</strong> y <strong>DNI/CUIT</strong> no pueden quedar vac�os</li>
+            <li>El <strong>DNI/CUIT</strong> debe ser �nico - no puede haber dos clientes con el mismo documento</li>
+            <li>Si se ingresa un <strong>Email</strong>, debe tener un formato v�lido (ejemplo@dominio.com)</li>
+            <li>El <strong>Nombre</strong> no puede exceder los 100 caracteres</li>
+            <li>El <strong>DNI/CUIT</strong> debe contener solo n�meros</li>
+            <li>El <strong>C�digo Postal</strong> debe ser num�rico de 4 d�gitos</li>
+        </ul>
+    </section>
+    
+    <section id="consejos">
+        <h2>Consejos y Recomendaciones</h2>
+        
+        <div class="tip">
+            Complete todos los campos posibles, aunque no sean obligatorios. Esto facilitar� la 
+            comunicaci�n con el cliente y la gesti�n de pedidos en el futuro.
+        </div>
+        
+        <div class="tip">
+            Verifique bien el DNI/CUIT antes de guardar, ya que este dato es �nico y no se puede 
+            duplicar. Si intenta crear un cliente con un DNI/CUIT existente, el sistema mostrar� un error.
+        </div>
+        
+        <div class="warning">
+            <strong>?? Advertencia:</strong> Si marca un cliente como <strong>Inactivo</strong>, 
+            no podr� asignarle nuevos pedidos hasta que lo reactive nuevamente desde la opci�n 
+            <strong>Modificar Cliente</strong>.
+        </div>
+    </section>
+    
+    <section id="errores">
+        <h2>Errores Comunes y Soluciones</h2>
+        
+        <h3>Error: "El DNI/CUIT ya existe en el sistema"</h3>
+        <div class="error">
+            <strong>Causa:</strong> Ya existe un cliente registrado con ese DNI/CUIT.
+        </div>
+        <div class="success">
+            <strong>? Soluci�n:</strong> 
+            <ol>
+                <li>Verifique que el DNI/CUIT sea correcto</li>
+                <li>Use la opci�n <strong>Mostrar Clientes</strong> para buscar si el cliente ya existe</li>
+                <li>Si el cliente existe, use <strong>Modificar Cliente</strong> para actualizar sus datos</li>
+            </ol>
+        </div>
+        
+        <h3>Error: "El Email no tiene un formato v�lido"</h3>
+        <div class="error">
+            <strong>Causa:</strong> El formato del email ingresado es incorrecto.
+        </div>
+        <div class="success">
+            <strong>? Soluci�n:</strong> 
+            <p>Verifique que el email tenga el formato: nombre@dominio.com</p>
+            <p>Ejemplo v�lido: <code>cliente@ejemplo.com</code></p>
+        </div>
+        
+        <h3>Error: "Complete los campos obligatorios"</h3>
+        <div class="error">
+            <strong>Causa:</strong> Faltan completar campos marcados como obligatorios.
+        </div>
+        <div class="success">
+            <strong>? Soluci�n:</strong> 
+            <p>Complete los campos: <strong>Nombre</strong> y <strong>DNI/CUIT</strong></p>
+        </div>
+    </section>
+    
+    <section id="permisos">
+        <h2>Permisos Necesarios</h2>
+        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
+        <ul>
+            <li><code>ClienteCreate</code> - Permite crear nuevos clientes</li>
+        </ul>
+        
+        <div class="warning">
+            <strong>?? Importante:</strong> Si no tiene el permiso necesario, la opci�n aparecer� 
+            deshabilitada en el men�. Contacte al administrador del sistema para solicitar el permiso.
+        </div>
+    </section>
+    
+    <section id="despues">
+        <h2>Despu�s de Crear el Cliente</h2>
+        <p>Una vez creado el cliente exitosamente:</p>
+        <ul>
+            <li>El cliente aparecer� en la lista de <strong>Mostrar Clientes</strong></li>
+            <li>Podr� asignarle pedidos desde <strong>Crear Pedido</strong></li>
+            <li>Podr� modificar sus datos desde <strong>Modificar Cliente</strong></li>
+            <li>Podr� consultar su historial de compras en los reportes</li>
+        </ul>
+        
+        <div class="info-box">
+            <strong>?? Nota:</strong> El sistema asigna autom�ticamente un ID �nico al cliente. 
+            Este ID se usa internamente y no puede ser modificado.
+        </div>
+    </section>
+    
+    <section id="relacionados">
+        <h2>Ver Tambi�n</h2>
+        <ul class="no-bullets">
+            <li>?? <a href="topic_41_modificar_cliente.html">Modificar Cliente</a></li>
+            <li>?? <a href="topic_42_mostrar_clientes.html">Consultar Clientes</a></li>
+            <li>?? <a href="../pedidos/topic_80_crear_pedido.html">Crear Pedido</a></li>
+        </ul>
+    </section>
+    
+    <footer>
+        <p>� 2024 Distribuidora Los Amigos - Sistema de Gesti�n</p>
+        <p>Todos los derechos reservados</p>
+    </footer>
+
+</body>
+</html>

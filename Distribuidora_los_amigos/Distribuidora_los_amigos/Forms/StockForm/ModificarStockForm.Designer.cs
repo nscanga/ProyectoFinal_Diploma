@@ -44,6 +44,7 @@
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(59, 13);
             this.label7.TabIndex = 27;
+            this.label7.Tag = "TipoStock";
             this.label7.Text = "Tipo Stock";
             // 
             // comboBoxTipoStock
@@ -61,6 +62,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(49, 13);
             this.label6.TabIndex = 25;
+            this.label6.Tag = "Cantidad";
             this.label6.Text = "Cantidad";
             // 
             // numericUpDownStock
@@ -81,6 +83,7 @@
             this.btnCancelarProducto.Name = "btnCancelarProducto";
             this.btnCancelarProducto.Size = new System.Drawing.Size(75, 23);
             this.btnCancelarProducto.TabIndex = 23;
+            this.btnCancelarProducto.Tag = "Cancelar";
             this.btnCancelarProducto.Text = "Cancelar";
             this.btnCancelarProducto.UseVisualStyleBackColor = true;
             // 
@@ -90,6 +93,7 @@
             this.btnGuardarProducto.Name = "btnGuardarProducto";
             this.btnGuardarProducto.Size = new System.Drawing.Size(75, 23);
             this.btnGuardarProducto.TabIndex = 22;
+            this.btnGuardarProducto.Tag = "Guardar";
             this.btnGuardarProducto.Text = "Guardar";
             this.btnGuardarProducto.UseVisualStyleBackColor = true;
             this.btnGuardarProducto.Click += new System.EventHandler(this.btnGuardarProducto_Click);
@@ -106,6 +110,7 @@
             this.Controls.Add(this.btnCancelarProducto);
             this.Controls.Add(this.btnGuardarProducto);
             this.Name = "ModificarStockForm";
+            this.Tag = "ModificarStock";
             this.Text = "ModificarStockForm";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownStock)).EndInit();
             this.ResumeLayout(false);

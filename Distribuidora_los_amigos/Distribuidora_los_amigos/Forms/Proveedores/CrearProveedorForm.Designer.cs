@@ -86,6 +86,7 @@
             this.checkBoxProveedor.Name = "checkBoxProveedor";
             this.checkBoxProveedor.Size = new System.Drawing.Size(56, 17);
             this.checkBoxProveedor.TabIndex = 5;
+            this.checkBoxProveedor.Tag = "Activo";
             this.checkBoxProveedor.Text = "Activo";
             this.checkBoxProveedor.UseVisualStyleBackColor = true;
             // 
@@ -96,6 +97,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(44, 13);
             this.label1.TabIndex = 6;
+            this.label1.Tag = "Nombre";
             this.label1.Text = "Nombre";
             // 
             // label2
@@ -105,6 +107,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(52, 13);
             this.label2.TabIndex = 7;
+            this.label2.Tag = "Direccion";
             this.label2.Text = "Direccion";
             // 
             // label3
@@ -114,6 +117,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(32, 13);
             this.label3.TabIndex = 8;
+            this.label3.Tag = "Email";
             this.label3.Text = "Email";
             // 
             // label4
@@ -123,6 +127,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(49, 13);
             this.label4.TabIndex = 9;
+            this.label4.Tag = "Telefono";
             this.label4.Text = "Telefono";
             // 
             // label5
@@ -132,6 +137,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(52, 13);
             this.label5.TabIndex = 10;
+            this.label5.Tag = "Categoria";
             this.label5.Text = "Categoria";
             // 
             // buttonCrearProveedor
@@ -140,6 +146,7 @@
             this.buttonCrearProveedor.Name = "buttonCrearProveedor";
             this.buttonCrearProveedor.Size = new System.Drawing.Size(75, 23);
             this.buttonCrearProveedor.TabIndex = 11;
+            this.buttonCrearProveedor.Tag = "Crear";
             this.buttonCrearProveedor.Text = "Crear";
             this.buttonCrearProveedor.UseVisualStyleBackColor = true;
             this.buttonCrearProveedor.Click += new System.EventHandler(this.buttonCrearProveedor_Click);
@@ -150,6 +157,7 @@
             this.buttonCancelarProveedor.Name = "buttonCancelarProveedor";
             this.buttonCancelarProveedor.Size = new System.Drawing.Size(75, 23);
             this.buttonCancelarProveedor.TabIndex = 12;
+            this.buttonCancelarProveedor.Tag = "Cancelar";
             this.buttonCancelarProveedor.Text = "Cancelar";
             this.buttonCancelarProveedor.UseVisualStyleBackColor = true;
             // 
@@ -172,6 +180,7 @@
             this.Controls.Add(this.textBoxMDireccionProveedor);
             this.Controls.Add(this.textBoxNombreProveedor);
             this.Name = "CrearProveedorForm";
+            this.Tag = "CrearProveedor";
             this.Text = "CrearProveedorForm";
             this.ResumeLayout(false);
             this.PerformLayout();

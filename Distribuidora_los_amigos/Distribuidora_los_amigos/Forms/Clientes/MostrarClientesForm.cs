@@ -12,6 +12,7 @@ using Distribuidora_los_amigos.Forms.Productos;
 using DOMAIN;
 using Service.Facade;
 using Service.DAL.Contracts;
+using Services.Facade;
 
 namespace Distribuidora_los_amigos.Forms.Clientes
 {
@@ -27,6 +28,10 @@ namespace Distribuidora_los_amigos.Forms.Clientes
             InitializeComponent();
             _clienteService = new ClienteService();
             CargarClientes();
+
+            // Habilitar captura de teclas para F1
+            this.KeyPreview = true;
+            this.KeyDown += MostrarClientesForm_KeyDown;
 
             // ✅ Suscribirse a cambios de idioma
             IdiomaService.Subscribe(this);
@@ -52,6 +57,28 @@ namespace Distribuidora_los_amigos.Forms.Clientes
         {
             IdiomaService.Unsubscribe(this);
             base.OnFormClosed(e);
+        }
+
+        /// <summary>
+        /// Muestra la ayuda del formulario cuando se presiona F1.
+        /// </summary>
+        private void MostrarClientesForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.KeyCode == Keys.F1)
+                {
+                    ManualService manualService = new ManualService();
+                    manualService.AbrirAyudaMostrarClientes();
+                    e.Handled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir la ayuda: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LoggerService.WriteException(ex);
+            }
         }
 
         /// <summary>
@@ -106,7 +133,9 @@ namespace Distribuidora_los_amigos.Forms.Clientes
             }
             else
             {
-                MessageBox.Show("Seleccione un cliente para modificar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                string message = IdiomaService.Translate("Seleccione un cliente para modificar.");
+                string title = IdiomaService.Translate("Advertencia");
+                MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -120,18 +149,24 @@ namespace Distribuidora_los_amigos.Forms.Clientes
             if (dataGridView1.SelectedRows.Count > 0)
             {
                 Cliente clienteSeleccionado = (Cliente)dataGridView1.SelectedRows[0].DataBoundItem;
-                DialogResult result = MessageBox.Show("¿Está seguro de eliminar este cliente?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                string confirmMessage = IdiomaService.Translate("¿Está seguro de eliminar este cliente?");
+                string confirmTitle = IdiomaService.Translate("Confirmar");
+                DialogResult result = MessageBox.Show(confirmMessage, confirmTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (result == DialogResult.Yes)
                 {
                     _clienteService.EliminarCliente(clienteSeleccionado.IdCliente);
-                    MessageBox.Show("Cliente eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    string successMessage = IdiomaService.Translate("Cliente eliminado correctamente.");
+                    string successTitle = IdiomaService.Translate("Éxito");
+                    MessageBox.Show(successMessage, successTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     CargarClientes();
                 }
             }
             else
             {
-                MessageBox.Show("Seleccione un cliente para eliminar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                string message = IdiomaService.Translate("Seleccione un cliente para eliminar.");
+                string title = IdiomaService.Translate("Advertencia");
+                MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
     }

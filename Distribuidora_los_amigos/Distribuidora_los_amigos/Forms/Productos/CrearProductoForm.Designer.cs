@@ -56,6 +56,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(44, 13);
             this.label1.TabIndex = 0;
+            this.label1.Tag = "Nombre";
             this.label1.Text = "Nombre";
             // 
             // label2
@@ -65,6 +66,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(52, 13);
             this.label2.TabIndex = 1;
+            this.label2.Tag = "Categoria";
             this.label2.Text = "Categoria";
             // 
             // label4
@@ -74,6 +76,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(37, 13);
             this.label4.TabIndex = 3;
+            this.label4.Tag = "Precio";
             this.label4.Text = "Precio";
             // 
             // label5
@@ -83,6 +86,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(65, 13);
             this.label5.TabIndex = 4;
+            this.label5.Tag = "Vencimiento";
             this.label5.Text = "Vencimiento";
             // 
             // Disponible
@@ -92,6 +96,7 @@
             this.Disponible.Name = "Disponible";
             this.Disponible.Size = new System.Drawing.Size(75, 17);
             this.Disponible.TabIndex = 5;
+            this.Disponible.Tag = "Disponible";
             this.Disponible.Text = "Disponible";
             this.Disponible.UseVisualStyleBackColor = true;
             // 
@@ -101,6 +106,7 @@
             this.btnGuardarProducto.Name = "btnGuardarProducto";
             this.btnGuardarProducto.Size = new System.Drawing.Size(75, 23);
             this.btnGuardarProducto.TabIndex = 6;
+            this.btnGuardarProducto.Tag = "Guardar";
             this.btnGuardarProducto.Text = "Guardar";
             this.btnGuardarProducto.UseVisualStyleBackColor = true;
             this.btnGuardarProducto.Click += new System.EventHandler(this.btnGuardarProducto_Click);
@@ -111,6 +117,7 @@
             this.btnCancelarProducto.Name = "btnCancelarProducto";
             this.btnCancelarProducto.Size = new System.Drawing.Size(75, 23);
             this.btnCancelarProducto.TabIndex = 7;
+            this.btnCancelarProducto.Tag = "Cancelar";
             this.btnCancelarProducto.Text = "Cancelar";
             this.btnCancelarProducto.UseVisualStyleBackColor = true;
             // 
@@ -149,6 +156,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(75, 13);
             this.label3.TabIndex = 14;
+            this.label3.Tag = "Fecha Ingreso";
             this.label3.Text = "Fecha Ingreso";
             // 
             // dateTimePicker1
@@ -184,6 +192,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(49, 13);
             this.label6.TabIndex = 18;
+            this.label6.Tag = "Cantidad";
             this.label6.Text = "Cantidad";
             // 
             // comboBoxTipoStock
@@ -201,6 +210,7 @@
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(59, 13);
             this.label7.TabIndex = 20;
+            this.label7.Tag = "Tipo Stock";
             this.label7.Text = "Tipo Stock";
             // 
             // CrearProductoForm
@@ -226,6 +236,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "CrearProductoForm";
+            this.Tag = "CrearProductoForm";
             this.Text = "CrearProductoForm";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPrecioProducto)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownStock)).EndInit();

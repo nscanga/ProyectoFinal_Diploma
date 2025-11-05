@@ -49,6 +49,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(86, 13);
             this.label1.TabIndex = 12;
+            this.label1.Tag = "Buscar Producto";
             this.label1.Text = "Buscar Producto";
             // 
             // btnCancelarProducto
@@ -57,6 +58,7 @@
             this.btnCancelarProducto.Name = "btnCancelarProducto";
             this.btnCancelarProducto.Size = new System.Drawing.Size(75, 23);
             this.btnCancelarProducto.TabIndex = 23;
+            this.btnCancelarProducto.Tag = "Cancelar";
             this.btnCancelarProducto.Text = "Cancelar";
             this.btnCancelarProducto.UseVisualStyleBackColor = true;
             // 
@@ -66,6 +68,7 @@
             this.btnGuardarProducto.Name = "btnGuardarProducto";
             this.btnGuardarProducto.Size = new System.Drawing.Size(75, 23);
             this.btnGuardarProducto.TabIndex = 22;
+            this.btnGuardarProducto.Tag = "Eliminar";
             this.btnGuardarProducto.Text = "Eliminar";
             this.btnGuardarProducto.UseVisualStyleBackColor = true;
             // 
@@ -79,6 +82,7 @@
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label1);
             this.Name = "EliminarProductoForm";
+            this.Tag = "EliminarProductoForm";
             this.Text = "EliminarProductoForm";
             this.ResumeLayout(false);
             this.PerformLayout();

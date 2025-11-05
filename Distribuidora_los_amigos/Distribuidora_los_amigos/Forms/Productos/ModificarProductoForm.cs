@@ -9,10 +9,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BLL;
 using DOMAIN;
+using Service.Facade;
+using Services.Facade;
+using Service.DAL.Contracts;
 
 namespace Distribuidora_los_amigos.Forms.Productos
 {
-    public partial class ModificarProductoForm : Form
+    public partial class ModificarProductoForm : Form, IIdiomaObserver
     {
         private readonly ProductoService _productoService;
         private Producto _producto;
@@ -34,6 +37,16 @@ namespace Distribuidora_los_amigos.Forms.Productos
             _productoService = new ProductoService();
             _producto = producto;
 
+            // Suscribirse al servicio de idiomas
+            IdiomaService.Subscribe(this);
+            
+            // Traducir el formulario al cargarlo
+            IdiomaService.TranslateForm(this);
+
+            // Configurar ayuda F1
+            this.KeyPreview = true;
+            this.KeyDown += ModificarProductoForm_KeyDown;
+
             // Cargar los datos en los campos del formulario
             textBoxNombreProducto.Text = _producto.Nombre;
             comboBox2.Text = _producto.Categoria;
@@ -54,6 +67,46 @@ namespace Distribuidora_los_amigos.Forms.Productos
         }
 
         /// <summary>
+        /// Muestra la ayuda del formulario cuando se presiona F1.
+        /// </summary>
+        private void ModificarProductoForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.KeyCode == Keys.F1)
+                {
+                    ManualService manualService = new ManualService();
+                    manualService.AbrirAyudaModificarProducto();
+                    e.Handled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir la ayuda: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LoggerService.WriteException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Actualiza los textos del formulario cuando cambia el idioma.
+        /// </summary>
+        public void UpdateIdioma()
+        {
+            IdiomaService.TranslateForm(this);
+            this.Refresh();
+        }
+
+        /// <summary>
+        /// Desuscribirse del servicio de idiomas al cerrar el formulario.
+        /// </summary>
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            IdiomaService.Unsubscribe(this);
+            base.OnFormClosing(e);
+        }
+
+        /// <summary>
         /// Valida la información ingresada y actualiza el producto en la base de datos.
         /// </summary>
         /// <param name="sender">Origen del evento.</param>
@@ -65,14 +118,18 @@ namespace Distribuidora_los_amigos.Forms.Productos
                 // Validar que el precio sea un número válido
                 if (!decimal.TryParse(numericUpDownPrecioProducto.Text, out decimal precio) || precio <= 0)
                 {
-                    MessageBox.Show("Error: El precio debe ser un número positivo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    string errorMessage = IdiomaService.Translate("Error: El precio debe ser un número positivo.");
+                    string errorTitle = IdiomaService.Translate("Error");
+                    MessageBox.Show(errorMessage, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
                 // Validar que la categoría no esté vacía
                 if (string.IsNullOrWhiteSpace(comboBox2.Text))
                 {
-                    MessageBox.Show("Error: Debes seleccionar una categoría.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    string errorMessage = IdiomaService.Translate("Error: Debes seleccionar una categoría.");
+                    string errorTitle = IdiomaService.Translate("Error");
+                    MessageBox.Show(errorMessage, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -83,7 +140,9 @@ namespace Distribuidora_los_amigos.Forms.Productos
                 // Validar que la fecha de vencimiento no sea menor a la fecha de ingreso
                 if (fechaVencimiento.HasValue && fechaVencimiento < fechaIngreso)
                 {
-                    MessageBox.Show("Error: La fecha de vencimiento no puede ser anterior a la fecha de ingreso.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    string errorMessage = IdiomaService.Translate("Error: La fecha de vencimiento no puede ser anterior a la fecha de ingreso.");
+                    string errorTitle = IdiomaService.Translate("Error");
+                    MessageBox.Show(errorMessage, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -96,12 +155,15 @@ namespace Distribuidora_los_amigos.Forms.Productos
 
                 // Guardar los cambios
                 _productoService.ModificarProducto(_producto);
-                MessageBox.Show("Producto modificado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                string successMessage = IdiomaService.Translate("Producto modificado correctamente.");
+                string successTitle = IdiomaService.Translate("Éxito");
+                MessageBox.Show(successMessage, successTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al modificar el producto: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string errorTitle = IdiomaService.Translate("Error");
+                MessageBox.Show("Error al modificar el producto: " + ex.Message, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

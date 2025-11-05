@@ -1,8 +1,15 @@
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Service.Facade;
-using Service.DAL.Contracts;
 using Services.Facade;
+using Service.DAL.Contracts;
 
 namespace Distribuidora_los_amigos.Forms.RecuperarPassword
 {
@@ -11,11 +18,70 @@ namespace Distribuidora_los_amigos.Forms.RecuperarPassword
         private string _currentUsername = "";
 
         /// <summary>
-        /// Inicializa el formulario de recuperacin de contrasea.
+        /// Inicializa el formulario de recuperación de contraseña.
         /// </summary>
         public RecuperarPasswordForm()
         {
             InitializeComponent();
+
+            // Configurar ayuda F1 - DEBE IR DESPUÉS DE InitializeComponent
+            this.KeyPreview = true;
+            this.KeyDown += RecuperarPasswordForm_KeyDown;
+
+            // Suscribirse al servicio de idiomas
+            IdiomaService.Subscribe(this);
+
+            // Traducir el formulario al cargarlo
+            IdiomaService.TranslateForm(this);
+        }
+
+        /// <summary>
+        /// Procesa las teclas de comando del formulario, capturando F1 para mostrar ayuda.
+        /// Este método es más efectivo que KeyDown para formularios modales.
+        /// </summary>
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.F1)
+            {
+                try
+                {
+                    ManualService manualService = new ManualService();
+                    // Pasar 'this' como owner - crucial para formularios modales
+                    manualService.AbrirAyudaRecuperoPass(this);
+                    return true; // Indica que la tecla fue procesada
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al abrir la ayuda: {ex.Message}", "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    LoggerService.WriteException(ex);
+                    return true;
+                }
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        /// <summary>
+        /// Muestra la ayuda del formulario cuando se presiona F1.
+        /// </summary>
+        private void RecuperarPasswordForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.KeyCode == Keys.F1)
+                {
+                    ManualService manualService = new ManualService();
+                    // Pasar 'this' como owner - crucial para formularios modales
+                    manualService.AbrirAyudaRecuperoPass(this);
+                    e.Handled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir la ayuda: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LoggerService.WriteException(ex);
+            }
         }
 
         /// <summary>
@@ -32,33 +98,21 @@ namespace Distribuidora_los_amigos.Forms.RecuperarPassword
                 
                 // Traducir los controles del formulario
                 IdiomaService.TranslateForm(this);
-                
-        /// <summary>
-        /// Reaplica la traduccin del formulario cuando cambia el idioma activo.
-        /// </summary>
-        /// <summary>
-        /// Cancela la suscripcion al servicio de idioma al cerrar el formulario.
-        /// </summary>
-        /// <param name="e">Argumentos del evento de cierre.</param>
-        /// <summary>
-        /// Traduce la clave indicada utilizando el servicio de idiomas.
-        /// </summary>
-        /// <param name="messageKey">Clave de mensaje a traducir.</param>
-        /// <returns>Texto traducido.</returns>
-        /// <summary>
-        /// Solicita y enva el token de recuperacin, habilitando el panel de cambio de contrasea.
-        /// </summary>
-        /// <param name="sender">Origen del evento.</param>
-        /// <param name="e">Argumentos del evento.</param>
-                LoggerService.WriteLog($"Formulario de recuperación de contraseña abierto.", System.Diagnostics.TraceLevel.Info);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar el formulario: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string errorKey = "ErrorCargarFormulario";
+                string translatedError = IdiomaService.Translate(errorKey) + ": " + ex.Message;
+                string errorTitleKey = "Error";
+                string translatedErrorTitle = IdiomaService.Translate(errorTitleKey);
+                MessageBox.Show(translatedError, translatedErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 LoggerService.WriteException(ex);
             }
         }
 
+        /// <summary>
+        /// Reaplica la traducción del formulario cuando cambia el idioma activo.
+        /// </summary>
         public void UpdateIdioma()
         {
             // Actualizar la interfaz cuando cambie el idioma
@@ -66,18 +120,21 @@ namespace Distribuidora_los_amigos.Forms.RecuperarPassword
             this.Refresh();
         }
 
+        /// <summary>
+        /// Cancela la suscripción al servicio de idioma al cerrar el formulario.
+        /// </summary>
+        /// <param name="e">Argumentos del evento de cierre.</param>
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
             IdiomaService.Unsubscribe(this);
-            LoggerService.WriteLog($"Formulario de recuperación de contraseña cerrado.", System.Diagnostics.TraceLevel.Info);
             base.OnFormClosed(e);
         }
 
-        private string TranslateMessageKey(string messageKey)
-        {
-            return IdiomaService.Translate(messageKey);
-        }
-
+        /// <summary>
+        /// Solicita y envía el token de recuperación, habilitando el panel de cambio de contraseña.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void btnEnviarToken_Click(object sender, EventArgs e)
         {
             try
@@ -86,15 +143,17 @@ namespace Distribuidora_los_amigos.Forms.RecuperarPassword
 
                 if (string.IsNullOrEmpty(username))
                 {
-                    string messageKey = "Por favor, ingrese su nombre de usuario.";
-                    string translatedMessage = TranslateMessageKey(messageKey);
-                    MessageBox.Show(translatedMessage, "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    string messageKey = "IngreseNombreUsuario";
+                    string translatedMessage = IdiomaService.Translate(messageKey);
+                    string titleKey = "Advertencia";
+                    string translatedTitle = IdiomaService.Translate(titleKey);
+                    MessageBox.Show(translatedMessage, translatedTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
                 // Deshabilitar el botón mientras se procesa
                 btnEnviarToken.Enabled = false;
-                btnEnviarToken.Text = TranslateMessageKey("Enviando...");
+                btnEnviarToken.Text = IdiomaService.Translate("Enviando");
 
                 // Generar y enviar el token
                 Service.Facade.RecuperoPassService.GenerarYEnviarMailRecuperacion(username);
@@ -102,16 +161,11 @@ namespace Distribuidora_los_amigos.Forms.RecuperarPassword
                 _currentUsername = username;
 
                 // Mostrar mensaje de éxito
-                string successMessage = TranslateMessageKey("Se ha enviado un código de recuperación a su correo electrónico. El código expira en 10 minutos.");
+                string successMessage = IdiomaService.Translate("TokenEnviadoExito");
                 lblMensaje.Text = successMessage;
                 lblMensaje.ForeColor = System.Drawing.Color.Green;
                 lblMensaje.Visible = true;
 
-        /// <summary>
-        /// Valida la informacin ingresada y solicita el cambio de contrasea con el token recibido.
-        /// </summary>
-        /// <param name="sender">Origen del evento.</param>
-        /// <param name="e">Argumentos del evento.</param>
                 // Mostrar panel para ingresar token y nueva contraseña
                 panelToken.Visible = true;
 
@@ -122,7 +176,7 @@ namespace Distribuidora_los_amigos.Forms.RecuperarPassword
             }
             catch (Exception ex)
             {
-                string errorMessage = TranslateMessageKey("Error al enviar el código de recuperación: ") + ex.Message;
+                string errorMessage = IdiomaService.Translate("ErrorEnviarToken") + ": " + ex.Message;
                 lblMensaje.Text = errorMessage;
                 lblMensaje.ForeColor = System.Drawing.Color.Red;
                 lblMensaje.Visible = true;
@@ -133,10 +187,15 @@ namespace Distribuidora_los_amigos.Forms.RecuperarPassword
             finally
             {
                 btnEnviarToken.Enabled = true;
-                btnEnviarToken.Text = TranslateMessageKey("Enviar código de recuperación");
+                btnEnviarToken.Text = IdiomaService.Translate("Enviar_código_de_recuperación");
             }
         }
 
+        /// <summary>
+        /// Valida la información ingresada y solicita el cambio de contraseña con el token recibido.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void btnCambiarPassword_Click(object sender, EventArgs e)
         {
             try
@@ -147,54 +206,57 @@ namespace Distribuidora_los_amigos.Forms.RecuperarPassword
 
                 if (string.IsNullOrEmpty(token))
                 {
-                    string messageKey = "Por favor, ingrese el código de recuperación.";
-                    string translatedMessage = TranslateMessageKey(messageKey);
-                    MessageBox.Show(translatedMessage, "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    string messageKey = "IngreseCodigoRecuperacion";
+                    string translatedMessage = IdiomaService.Translate(messageKey);
+                    string titleKey = "Advertencia";
+                    string translatedTitle = IdiomaService.Translate(titleKey);
+                    MessageBox.Show(translatedMessage, translatedTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
                 if (string.IsNullOrEmpty(nuevaPassword) || string.IsNullOrEmpty(confirmarPassword))
                 {
-                    string messageKey = "Por favor, complete todos los campos de contraseña.";
-                    string translatedMessage = TranslateMessageKey(messageKey);
-                    MessageBox.Show(translatedMessage, "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    string messageKey = "CompleteCamposContraseña";
+                    string translatedMessage = IdiomaService.Translate(messageKey);
+                    string titleKey = "Advertencia";
+                    string translatedTitle = IdiomaService.Translate(titleKey);
+                    MessageBox.Show(translatedMessage, translatedTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
                 if (nuevaPassword != confirmarPassword)
                 {
-                    string messageKey = "Las contraseñas no coinciden.";
-                    string translatedMessage = TranslateMessageKey(messageKey);
-                    MessageBox.Show(translatedMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    string messageKey = "ContraseñasNoCoinciden";
+                    string translatedMessage = IdiomaService.Translate(messageKey);
+                    string titleKey = "Error";
+                    string translatedTitle = IdiomaService.Translate(titleKey);
+                    MessageBox.Show(translatedMessage, translatedTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
                 if (nuevaPassword.Length < 6)
                 {
-                    string messageKey = "La contraseña debe tener al menos 6 caracteres.";
-                    string translatedMessage = TranslateMessageKey(messageKey);
-                    MessageBox.Show(translatedMessage, "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    string messageKey = "ContraseñaMinimo6Caracteres";
+                    string translatedMessage = IdiomaService.Translate(messageKey);
+                    string titleKey = "Advertencia";
+                    string translatedTitle = IdiomaService.Translate(titleKey);
+                    MessageBox.Show(translatedMessage, translatedTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
                 // Deshabilitar botón mientras se procesa
                 btnCambiarPassword.Enabled = false;
-                btnCambiarPassword.Text = TranslateMessageKey("Cambiando...");
+                btnCambiarPassword.Text = IdiomaService.Translate("Cambiando");
 
                 // Cambiar contraseña
                 bool success = Service.Facade.RecuperoPassService.ChangePassword(_currentUsername, nuevaPassword, token, confirmarPassword);
 
                 if (success)
                 {
-        /// <summary>
-        /// Cierra el formulario cancelando el proceso de recuperacin.
-        /// </summary>
-        /// <param name="sender">Origen del evento.</param>
-        /// <param name="e">Argumentos del evento.</param>
-                    string successMessage = TranslateMessageKey("Contraseña cambiada exitosamente. Puede cerrar esta ventana e iniciar sesión con su nueva contraseña.");
-                    MessageBox.Show(successMessage, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    LoggerService.WriteLog($"Contraseña cambiada exitosamente para usuario: {_currentUsername}", System.Diagnostics.TraceLevel.Info);
+                    string successMessage = IdiomaService.Translate("ContraseñaCambiadaExito");
+                    string successTitleKey = "Éxito";
+                    string translatedSuccessTitle = IdiomaService.Translate(successTitleKey);
+                    MessageBox.Show(successMessage, translatedSuccessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     // Cerrar formulario
                     this.DialogResult = DialogResult.OK;
@@ -203,8 +265,10 @@ namespace Distribuidora_los_amigos.Forms.RecuperarPassword
             }
             catch (Exception ex)
             {
-                string errorMessage = TranslateMessageKey("Error al cambiar la contraseña: ") + ex.Message;
-                MessageBox.Show(errorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string errorMessage = IdiomaService.Translate("ErrorCambiarContraseña") + ": " + ex.Message;
+                string errorTitleKey = "Error";
+                string translatedErrorTitle = IdiomaService.Translate(errorTitleKey);
+                MessageBox.Show(errorMessage, translatedErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 LoggerService.WriteLog($"Error al cambiar contraseña: {ex.Message}", System.Diagnostics.TraceLevel.Error);
                 LoggerService.WriteException(ex);
@@ -212,10 +276,15 @@ namespace Distribuidora_los_amigos.Forms.RecuperarPassword
             finally
             {
                 btnCambiarPassword.Enabled = true;
-                btnCambiarPassword.Text = TranslateMessageKey("Cambiar contraseña");
+                btnCambiarPassword.Text = IdiomaService.Translate("Cambiar_contraseña");
             }
         }
 
+        /// <summary>
+        /// Cierra el formulario cancelando el proceso de recuperación.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;

@@ -1,0 +1,396 @@
+/* ============================================
+   Estilos para Manual de Usuario CHM
+   Sistema Distribuidora Los Amigos
+   ============================================ */
+
+/* === Reset y Base === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f9fa;
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* === Tipografía === */
+h1 {
+    color: #2c3e50;
+    font-size: 28px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #3498db;
+}
+
+h2 {
+    color: #34495e;
+    font-size: 22px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    padding-left: 10px;
+    border-left: 4px solid #3498db;
+}
+
+h3 {
+    color: #555;
+    font-size: 18px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    color: #666;
+    font-size: 16px;
+    margin-top: 15px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+    text-align: justify;
+}
+
+/* === Listas === */
+ul, ol {
+    margin-left: 30px;
+    margin-bottom: 15px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+ul.no-bullets {
+    list-style-type: none;
+    margin-left: 0;
+}
+
+/* === Tablas === */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+table th {
+    background-color: #3498db;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    border: 1px solid #2980b9;
+}
+
+table td {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #e8f4f8;
+}
+
+/* === Secciones === */
+section {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* === Cajas de Información === */
+.info-box {
+    background-color: #d1ecf1;
+    border-left: 4px solid #17a2b8;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 4px;
+}
+
+.info-box strong {
+    color: #0c5460;
+}
+
+.warning {
+    background-color: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 4px;
+}
+
+.warning strong {
+    color: #856404;
+}
+
+.error {
+    background-color: #f8d7da;
+    border-left: 4px solid #dc3545;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 4px;
+}
+
+.error strong {
+    color: #721c24;
+}
+
+.success {
+    background-color: #d4edda;
+    border-left: 4px solid #28a745;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 4px;
+}
+
+.success strong {
+    color: #155724;
+}
+
+.tip {
+    background-color: #e7f3ff;
+    border-left: 4px solid #2196F3;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 4px;
+}
+
+.tip::before {
+    content: "?? Consejo: ";
+    font-weight: bold;
+    color: #0d47a1;
+}
+
+/* === Código === */
+code {
+    background-color: #f4f4f4;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+    color: #c7254e;
+}
+
+pre {
+    background-color: #f4f4f4;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin: 15px 0;
+    border-left: 4px solid #3498db;
+}
+
+pre code {
+    background-color: transparent;
+    padding: 0;
+    color: #333;
+}
+
+/* === Botones y Enlaces === */
+a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    margin: 5px;
+}
+
+.button:hover {
+    background-color: #2980b9;
+    text-decoration: none;
+}
+
+.button-success {
+    background-color: #28a745;
+}
+
+.button-success:hover {
+    background-color: #218838;
+}
+
+.button-danger {
+    background-color: #dc3545;
+}
+
+.button-danger:hover {
+    background-color: #c82333;
+}
+
+/* === Imágenes === */
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    margin: 15px 0;
+    display: block;
+}
+
+.screenshot {
+    border: 2px solid #ddd;
+    padding: 5px;
+    background-color: #fff;
+}
+
+/* === Pasos Numerados === */
+.step {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-left: 4px solid #3498db;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+
+.step-number {
+    display: inline-block;
+    background-color: #3498db;
+    color: white;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 50%;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* === Footer === */
+footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+    text-align: center;
+    color: #777;
+    font-size: 12px;
+}
+
+/* === Breadcrumb === */
+.breadcrumb {
+    background-color: #e9ecef;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 13px;
+}
+
+.breadcrumb a {
+    color: #555;
+}
+
+.breadcrumb span {
+    margin: 0 5px;
+    color: #999;
+}
+
+/* === Responsive (para visualización fuera del CHM) === */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    h1 {
+        font-size: 24px;
+    }
+    
+    h2 {
+        font-size: 20px;
+    }
+    
+    table {
+        font-size: 12px;
+    }
+    
+    table th,
+    table td {
+        padding: 8px;
+    }
+}
+
+/* === Clases de Utilidad === */
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.mb-10 {
+    margin-bottom: 10px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.italic {
+    font-style: italic;
+}
+
+/* === Highlighter === */
+.highlight {
+    background-color: #ffeb3b;
+    padding: 2px 4px;
+    border-radius: 2px;
+}
+
+/* === Campos Obligatorios === */
+.required::after {
+    content: " *";
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* === Grid de 2 Columnas === */
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+}

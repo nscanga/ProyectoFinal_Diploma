@@ -1,0 +1,61 @@
+﻿<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Cliente">
+		<param name="Local" value="html\clientes\topic_40_crear_cliente.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Cliente">
+		<param name="Local" value="html\clientes\topic_41_modificar_cliente.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Producto">
+		<param name="Local" value="html\productos\topic_50_crear_producto.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Producto">
+		<param name="Local" value="html\productos\topic_51_modificar_producto.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Pedido">
+		<param name="Local" value="html\pedidos\topic_80_crear_pedido.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Pedido">
+		<param name="Local" value="html\pedidos\topic_81_modificar_pedido.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Usuario">
+		<param name="Local" value="html\usuarios\topic_23_crear_usuario.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Usuario">
+		<param name="Local" value="html\usuarios\topic_28_modificar_usuario.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Backup">
+		<param name="Local" value="html\backup\topic_22_backup.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Backup">
+		<param name="Local" value="html\backup\topic_30_restore.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Login">
+		<param name="Local" value="html\login\topic_31_login.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Stock">
+		<param name="Local" value="html\stock\topic_70_mostrar_stock.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Proveedor">
+		<param name="Local" value="html\proveedores\topic_60_crear_proveedor.html">
+		</OBJECT>
+</UL>
+</BODY></HTML>

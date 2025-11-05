@@ -113,7 +113,8 @@
             this.Controls.Add(this.labelPassword);
             this.Controls.Add(this.labelUserName);
             this.Name = "CrearUsuarioForm";
-            this.Text = "CrearUsuarioForm";
+            this.Tag = "CrearUsuario";
+            this.Text = "Crear Usuario";
             this.ResumeLayout(false);
             this.PerformLayout();
 

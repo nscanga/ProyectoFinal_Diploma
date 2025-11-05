@@ -9,14 +9,16 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BLL;
 using DOMAIN;
+using Service.Facade;
+using Services.Facade;
+using Service.DAL.Contracts;
 
 namespace Distribuidora_los_amigos.Forms.Productos
 {
-    public partial class MostrarProductosForm : Form
+    public partial class MostrarProductosForm : Form, IIdiomaObserver
     {
         private readonly ProductoService _productoService;
-        private Producto    
-            _producto;
+        private Producto _producto;
 
         /// <summary>
         /// Inicializa el listado de productos y registra el evento de carga.
@@ -25,6 +27,17 @@ namespace Distribuidora_los_amigos.Forms.Productos
         {
             InitializeComponent();
             _productoService = new ProductoService();
+            
+            // Suscribirse al servicio de idiomas
+            IdiomaService.Subscribe(this);
+            
+            // Traducir el formulario al cargarlo
+            IdiomaService.TranslateForm(this);
+            
+            // Configurar ayuda F1
+            this.KeyPreview = true;
+            this.KeyDown += MostrarProductosForm_KeyDown;
+            
             this.Load += MostrarProductosForm_Load;
         }
 
@@ -34,6 +47,46 @@ namespace Distribuidora_los_amigos.Forms.Productos
         /// <param name="stockSeleccionado">Stock desde el que se abrió el listado.</param>
         public MostrarProductosForm(Stock stockSeleccionado)
         {
+        }
+
+        /// <summary>
+        /// Muestra la ayuda del formulario cuando se presiona F1.
+        /// </summary>
+        private void MostrarProductosForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.KeyCode == Keys.F1)
+                {
+                    ManualService manualService = new ManualService();
+                    manualService.AbrirAyudaMostrarProductos();
+                    e.Handled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir la ayuda: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LoggerService.WriteException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Actualiza los textos del formulario cuando cambia el idioma.
+        /// </summary>
+        public void UpdateIdioma()
+        {
+            IdiomaService.TranslateForm(this);
+            this.Refresh();
+        }
+
+        /// <summary>
+        /// Desuscribirse del servicio de idiomas al cerrar el formulario.
+        /// </summary>
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            IdiomaService.Unsubscribe(this);
+            base.OnFormClosing(e);
         }
 
         /// <summary>
@@ -90,7 +143,9 @@ namespace Distribuidora_los_amigos.Forms.Productos
             }
             else
             {
-                MessageBox.Show("Seleccione un producto para modificar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                string message = IdiomaService.Translate("Seleccione un producto para modificar.");
+                string title = IdiomaService.Translate("Advertencia");
+                MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -105,8 +160,10 @@ namespace Distribuidora_los_amigos.Forms.Productos
             {
                 Producto productoSeleccionado = (Producto)dataGridView1.SelectedRows[0].DataBoundItem;
 
-                DialogResult result = MessageBox.Show($"¿Está seguro de eliminar el producto {productoSeleccionado.Nombre}?",
-                                                      "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                string confirmMessage = IdiomaService.Translate("¿Está seguro de eliminar el producto?");
+                string confirmTitle = IdiomaService.Translate("Confirmar eliminación");
+                DialogResult result = MessageBox.Show($"{confirmMessage} {productoSeleccionado.Nombre}?",
+                                                      confirmTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (result == DialogResult.Yes)
                 {
@@ -117,13 +174,16 @@ namespace Distribuidora_los_amigos.Forms.Productos
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error al eliminar el producto: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        string errorTitle = IdiomaService.Translate("Error");
+                        MessageBox.Show("Error al eliminar el producto: " + ex.Message, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
             else
             {
-                MessageBox.Show("Seleccione un producto para eliminar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                string message = IdiomaService.Translate("Seleccione un producto para eliminar.");
+                string title = IdiomaService.Translate("Advertencia");
+                MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 

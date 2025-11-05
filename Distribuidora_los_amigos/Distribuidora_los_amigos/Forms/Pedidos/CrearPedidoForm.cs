@@ -9,10 +9,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BLL;
 using DOMAIN;
+using Service.Facade;
+using Services.Facade;
+using Service.DAL.Contracts;
 
 namespace Distribuidora_los_amigos.Forms.Pedidos
 {
-    public partial class CrearPedidoForm : Form
+    public partial class CrearPedidoForm : Form, IIdiomaObserver
     {
         private readonly PedidoService _pedidoService;
         private readonly ClienteService _clienteService;
@@ -20,9 +23,10 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
         private readonly StockService _stockService;
         private List<DetallePedido> _detallePedidoList;
         private List<DetallePedidoDTO> _detallePedidoDTOList;
+        private List<DetallePedido> _detallesPedido;
 
         /// <summary>
-        /// Inicializa el formulario de creación de pedidos cargando servicios, catálogos y eventos.
+        /// Inicializa el formulario de creación de pedido.
         /// </summary>
         public CrearPedidoForm()
         {
@@ -33,14 +37,65 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             _stockService = new StockService();
             _detallePedidoList = new List<DetallePedido>();
             _detallePedidoDTOList = new List<DetallePedidoDTO>();
+            _detallesPedido = new List<DetallePedido>();
 
-            // 🆕 Suscribirse al evento Resize
-            this.Resize += CrearPedidoForm_Resize;
+            // Suscribirse al servicio de idiomas
+            IdiomaService.Subscribe(this);
+
+            // Traducir el formulario al cargarlo
+            IdiomaService.TranslateForm(this);
+
+            // Configurar ayuda F1
+            this.KeyPreview = true;
+            this.KeyDown += CrearPedidoForm_KeyDown;
 
             CargarClientes();
             CargarProductos();
             CargarEstadosPedido();
-            ConfigurarDataGridViews();
+            
+            // Configurar DataGridView con las columnas
+            ConfigurarDataGridViewProductos();
+            ConfigurarDataGridViewDetallePedido();
+        }
+
+        /// <summary>
+        /// Muestra la ayuda del formulario cuando se presiona F1.
+        /// </summary>
+        private void CrearPedidoForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.KeyCode == Keys.F1)
+                {
+                    ManualService manualService = new ManualService();
+                    manualService.AbrirAyudaCrearPedido();
+                    e.Handled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir la ayuda: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LoggerService.WriteException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Actualiza los textos del formulario cuando cambia el idioma.
+        /// </summary>
+        public void UpdateIdioma()
+        {
+            IdiomaService.TranslateForm(this);
+            this.Refresh();
+        }
+
+        /// <summary>
+        /// Desuscribirse del servicio de idiomas al cerrar el formulario.
+        /// </summary>
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            IdiomaService.Unsubscribe(this);
+            base.OnFormClosing(e);
         }
 
         /// <summary>
@@ -48,13 +103,13 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
         /// </summary>
         private void ConfigurarDataGridViews()
         {
-            // 🆕 CONFIGURAR SCROLL Y AJUSTE AUTOMÁTICO para DataGridView de productos
+            // CONFIGURAR SCROLL Y AJUSTE AUTOMÁTICO para DataGridView de productos
             dataGridViewProductos.ScrollBars = ScrollBars.Both; // Habilitar scroll horizontal y vertical
             dataGridViewProductos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells; // Ajustar al contenido
             dataGridViewProductos.AllowUserToResizeColumns = true;
             dataGridViewProductos.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right; // Anclaje para redimensionar
 
-            // 🆕 CONFIGURAR SCROLL Y AJUSTE AUTOMÁTICO para DataGridView de detalles
+            // CONFIGURAR SCROLL Y AJUSTE AUTOMÁTICO para DataGridView de detalles
             dataGridViewDetallePedido.ScrollBars = ScrollBars.Both; // Habilitar scroll horizontal y vertical
             dataGridViewDetallePedido.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells; // Ajustar al contenido
             dataGridViewDetallePedido.AllowUserToResizeColumns = true;
@@ -87,6 +142,113 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
                 
                 if (dataGridViewProductos.Columns["Activo"] != null)
                     dataGridViewProductos.Columns["Activo"].Visible = false;
+            }
+        }
+
+        /// <summary>
+        /// Configura el comportamiento de los DataGridView utilizados en la selección y detalle de productos.
+        /// </summary>
+        private void ConfigurarDataGridViewProductos()
+        {
+            // Configurar columnas y propiedades específicas para el DataGridView de productos
+            if (dataGridViewProductos.Columns.Count > 0)
+            {
+                // Ocultar ID del producto
+                if (dataGridViewProductos.Columns["IdProducto"] != null)
+                    dataGridViewProductos.Columns["IdProducto"].Visible = false;
+
+                // Ajustar encabezados y anchos de columnas
+                if (dataGridViewProductos.Columns["Nombre"] != null)
+                {
+                    dataGridViewProductos.Columns["Nombre"].HeaderText = "Producto";
+                    dataGridViewProductos.Columns["Nombre"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                }
+                
+                if (dataGridViewProductos.Columns["Categoria"] != null)
+                {
+                    dataGridViewProductos.Columns["Categoria"].HeaderText = "Categoría";
+                    dataGridViewProductos.Columns["Categoria"].Width = 120;
+                }
+                
+                if (dataGridViewProductos.Columns["Precio"] != null)
+                {
+                    dataGridViewProductos.Columns["Precio"].HeaderText = "Precio";
+                    dataGridViewProductos.Columns["Precio"].DefaultCellStyle.Format = "C2";
+                    dataGridViewProductos.Columns["Precio"].Width = 100;
+                }
+                
+                if (dataGridViewProductos.Columns["FechaIngreso"] != null)
+                {
+                    dataGridViewProductos.Columns["FechaIngreso"].HeaderText = "Fecha Ingreso";
+                    dataGridViewProductos.Columns["FechaIngreso"].Width = 120;
+                }
+                
+                if (dataGridViewProductos.Columns["Vencimiento"] != null)
+                {
+                    dataGridViewProductos.Columns["Vencimiento"].HeaderText = "Vencimiento";
+                    dataGridViewProductos.Columns["Vencimiento"].Width = 120;
+                }
+                
+                if (dataGridViewProductos.Columns["Activo"] != null)
+                    dataGridViewProductos.Columns["Activo"].Visible = false;
+            }
+        }
+
+        /// <summary>
+        /// Configura el comportamiento de los DataGridView utilizados en la selección y detalle de productos.
+        /// </summary>
+        private void ConfigurarDataGridViewDetallePedido()
+        {
+            // Configurar columnas y propiedades específicas para el DataGridView de detalles de pedido
+            if (dataGridViewDetallePedido.Columns.Count > 0)
+            {
+                // Ocultar IDs innecesarios
+                if (dataGridViewDetallePedido.Columns["IdDetallePedido"] != null)
+                    dataGridViewDetallePedido.Columns["IdDetallePedido"].Visible = false;
+                
+                if (dataGridViewDetallePedido.Columns["IdPedido"] != null)
+                    dataGridViewDetallePedido.Columns["IdPedido"].Visible = false;
+                
+                if (dataGridViewDetallePedido.Columns["IdProducto"] != null)
+                    dataGridViewDetallePedido.Columns["IdProducto"].Visible = false;
+
+                // Configurar encabezados y anchos de columnas
+                if (dataGridViewDetallePedido.Columns["NombreProducto"] != null)
+                {
+                    dataGridViewDetallePedido.Columns["NombreProducto"].HeaderText = "Producto";
+                    dataGridViewDetallePedido.Columns["NombreProducto"].DisplayIndex = 0;
+                    dataGridViewDetallePedido.Columns["NombreProducto"].MinimumWidth = 150; // Ancho mínimo
+                }
+                
+                if (dataGridViewDetallePedido.Columns["Categoria"] != null)
+                {
+                    dataGridViewDetallePedido.Columns["Categoria"].HeaderText = "Categoría";
+                    dataGridViewDetallePedido.Columns["Categoria"].DisplayIndex = 1;
+                    dataGridViewDetallePedido.Columns["Categoria"].MinimumWidth = 100; // Ancho mínimo
+                }
+                
+                if (dataGridViewDetallePedido.Columns["Cantidad"] != null)
+                {
+                    dataGridViewDetallePedido.Columns["Cantidad"].HeaderText = "Cantidad";
+                    dataGridViewDetallePedido.Columns["Cantidad"].DisplayIndex = 2;
+                    dataGridViewDetallePedido.Columns["Cantidad"].MinimumWidth = 70; // Ancho mínimo
+                }
+                
+                if (dataGridViewDetallePedido.Columns["PrecioUnitario"] != null)
+                {
+                    dataGridViewDetallePedido.Columns["PrecioUnitario"].HeaderText = "Precio Unitario";
+                    dataGridViewDetallePedido.Columns["PrecioUnitario"].DefaultCellStyle.Format = "C2";
+                    dataGridViewDetallePedido.Columns["PrecioUnitario"].DisplayIndex = 3;
+                    dataGridViewDetallePedido.Columns["PrecioUnitario"].MinimumWidth = 100; // Ancho mínimo
+                }
+                
+                if (dataGridViewDetallePedido.Columns["Subtotal"] != null)
+                {
+                    dataGridViewDetallePedido.Columns["Subtotal"].HeaderText = "Subtotal";
+                    dataGridViewDetallePedido.Columns["Subtotal"].DefaultCellStyle.Format = "C2";
+                    dataGridViewDetallePedido.Columns["Subtotal"].DisplayIndex = 4;
+                    dataGridViewDetallePedido.Columns["Subtotal"].MinimumWidth = 100; // Ancho mínimo
+                }
             }
         }
 
@@ -273,21 +435,21 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
                 {
                     dataGridViewDetallePedido.Columns["NombreProducto"].HeaderText = "Producto";
                     dataGridViewDetallePedido.Columns["NombreProducto"].DisplayIndex = 0;
-                    dataGridViewDetallePedido.Columns["NombreProducto"].MinimumWidth = 150; // 🆕 Ancho mínimo
+                    dataGridViewDetallePedido.Columns["NombreProducto"].MinimumWidth = 150; // Ancho mínimo
                 }
                 
                 if (dataGridViewDetallePedido.Columns["Categoria"] != null)
                 {
                     dataGridViewDetallePedido.Columns["Categoria"].HeaderText = "Categoría";
                     dataGridViewDetallePedido.Columns["Categoria"].DisplayIndex = 1;
-                    dataGridViewDetallePedido.Columns["Categoria"].MinimumWidth = 100; // 🆕 Ancho mínimo
+                    dataGridViewDetallePedido.Columns["Categoria"].MinimumWidth = 100; // Ancho mínimo
                 }
                 
                 if (dataGridViewDetallePedido.Columns["Cantidad"] != null)
                 {
                     dataGridViewDetallePedido.Columns["Cantidad"].HeaderText = "Cantidad";
                     dataGridViewDetallePedido.Columns["Cantidad"].DisplayIndex = 2;
-                    dataGridViewDetallePedido.Columns["Cantidad"].MinimumWidth = 70; // 🆕 Ancho mínimo
+                    dataGridViewDetallePedido.Columns["Cantidad"].MinimumWidth = 70; // Ancho mínimo
                 }
                 
                 if (dataGridViewDetallePedido.Columns["PrecioUnitario"] != null)
@@ -295,7 +457,7 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
                     dataGridViewDetallePedido.Columns["PrecioUnitario"].HeaderText = "Precio Unitario";
                     dataGridViewDetallePedido.Columns["PrecioUnitario"].DefaultCellStyle.Format = "C2";
                     dataGridViewDetallePedido.Columns["PrecioUnitario"].DisplayIndex = 3;
-                    dataGridViewDetallePedido.Columns["PrecioUnitario"].MinimumWidth = 100; // 🆕 Ancho mínimo
+                    dataGridViewDetallePedido.Columns["PrecioUnitario"].MinimumWidth = 100; // Ancho mínimo
                 }
                 
                 if (dataGridViewDetallePedido.Columns["Subtotal"] != null)
@@ -303,7 +465,7 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
                     dataGridViewDetallePedido.Columns["Subtotal"].HeaderText = "Subtotal";
                     dataGridViewDetallePedido.Columns["Subtotal"].DefaultCellStyle.Format = "C2";
                     dataGridViewDetallePedido.Columns["Subtotal"].DisplayIndex = 4;
-                    dataGridViewDetallePedido.Columns["Subtotal"].MinimumWidth = 100; // 🆕 Ancho mínimo
+                    dataGridViewDetallePedido.Columns["Subtotal"].MinimumWidth = 100; // Ancho mínimo
                 }
             }
         }

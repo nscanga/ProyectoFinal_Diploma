@@ -98,6 +98,7 @@
             this.Controls.Add(this.buttonActualizarProveedor);
             this.Controls.Add(this.dataGridViewProveedores);
             this.Name = "MostrarProveedoresForm";
+            this.Tag = "MostrarProveedores";
             this.Text = "MostrarProveedoresForm";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProveedores)).EndInit();
             this.ResumeLayout(false);

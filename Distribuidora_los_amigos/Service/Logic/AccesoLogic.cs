@@ -45,8 +45,17 @@ namespace Service.Logic
             /// <param name="patentesUsuario">Listado de patentes del usuario autenticado.</param>
             public void SetAccess(List<Patente> patentesUsuario)
             {
-                // Verificar si el usuario tiene el tipo de acceso requerido
-                var hasAccess = patentesUsuario.Any(p => p.TipoAcceso == _requiredAccess);
+                // Validar que la lista no sea null
+                if (patentesUsuario == null || patentesUsuario.Count == 0)
+                {
+                    _control.Visible = false;
+                    return;
+                }
+
+                // Verificar si el usuario tiene el tipo de acceso requerido, filtrando nulls
+                var hasAccess = patentesUsuario
+                    .Where(p => p != null)
+                    .Any(p => p.TipoAcceso == _requiredAccess);
 
                 // Mostrar o esconder el control basado en el tipo de acceso
                 _control.Visible = hasAccess;
@@ -79,13 +88,63 @@ namespace Service.Logic
             /// <param name="patentesUsuario">Patentes del usuario.</param>
             public void SetAccess(List<Patente> patentesUsuario)
             {
-                // Verificar si el usuario tiene el tipo de acceso `Control` y NO `UI`
-                var hasAccess = patentesUsuario.Any(p => p.TipoAcceso == _requiredAccess && _requiredAccess == TipoAcceso.Control);
+                // Validar que la lista no sea null
+                if (patentesUsuario == null || patentesUsuario.Count == 0)
+                {
+                    _menuItem.Visible = false;
+                    return;
+                }
+
+                // Verificar si el usuario tiene patentes del tipo de acceso requerido, filtrando nulls
+                var hasAccess = patentesUsuario
+                    .Where(p => p != null)
+                    .Any(p => p.TipoAcceso == _requiredAccess);
 
                 // Mostrar o esconder el menú basado en el tipo de acceso
                 _menuItem.Visible = hasAccess;
             }
         }
 
+        /// <summary>
+        /// Decorador específico para ítems de menú que requieren una patente específica por nombre.
+        /// </summary>
+        public class MenuItemPatenteDecorator : IControlAccess
+        {
+            private readonly ToolStripMenuItem _menuItem;
+            private readonly string _requiredPatenteName;
+
+            /// <summary>
+            /// Configura el decorador con el ítem de menú objetivo y el nombre de la patente requerida.
+            /// </summary>
+            /// <param name="menuItem">Elemento de menú a gestionar.</param>
+            /// <param name="requiredPatenteName">Nombre exacto de la patente requerida (ejemplo: "Crear_cliente").</param>
+            public MenuItemPatenteDecorator(ToolStripMenuItem menuItem, string requiredPatenteName)
+            {
+                _menuItem = menuItem;
+                _requiredPatenteName = requiredPatenteName;
+            }
+
+            /// <summary>
+            /// Determina la visibilidad del ítem de menú según si el usuario tiene la patente específica.
+            /// </summary>
+            /// <param name="patentesUsuario">Patentes del usuario.</param>
+            public void SetAccess(List<Patente> patentesUsuario)
+            {
+                // Validar que la lista no sea null
+                if (patentesUsuario == null || patentesUsuario.Count == 0)
+                {
+                    _menuItem.Visible = false;
+                    return;
+                }
+
+                // Verificar si el usuario tiene la patente específica por nombre
+                var hasAccess = patentesUsuario
+                    .Where(p => p != null && !string.IsNullOrEmpty(p.Nombre))
+                    .Any(p => p.Nombre.Equals(_requiredPatenteName, StringComparison.OrdinalIgnoreCase));
+
+                // Mostrar o esconder el menú basado en la patente específica
+                _menuItem.Visible = hasAccess;
+            }
+        }
     }
 }

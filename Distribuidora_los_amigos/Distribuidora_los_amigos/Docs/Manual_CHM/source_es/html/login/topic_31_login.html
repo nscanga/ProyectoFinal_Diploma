@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Distribuidora Los Amigos</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body>
+    
+    <div class="breadcrumb">
+        <a href="../general/topic_20_main.html">Inicio</a>
+        <span>›</span>
+        <a href="#">Seguridad</a>
+        <span>›</span>
+        <span>Iniciar Sesión</span>
+    </div>
+
+    <h1>Iniciar Sesión en el Sistema</h1>
+    
+    <section id="introduccion">
+        <h2>Introducción</h2>
+        <p>
+            El inicio de sesión es el primer paso para acceder al Sistema de Gestión Distribuidora Los Amigos. 
+            Este proceso verifica su identidad y carga los permisos asociados a su usuario.
+        </p>
+        
+        <div class="info-box">
+            <strong>?? Importante:</strong> Cada usuario tiene credenciales únicas que no deben ser compartidas 
+            con otras personas. El sistema registra todas las acciones asociadas a su usuario.
+        </div>
+    </section>
+    
+    <section id="acceso">
+        <h2>Cómo Iniciar Sesión</h2>
+        
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Ejecutar la Aplicación</strong>
+            <p>
+                Abra la aplicación "Distribuidora Los Amigos" desde el acceso directo del escritorio 
+                o desde el menú de inicio de Windows.
+            </p>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>Pantalla de Login</strong>
+            <p>
+                Al iniciar la aplicación, aparecerá automáticamente la ventana de inicio de sesión.
+            </p>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Ingresar Credenciales</strong>
+            <p>
+                Complete los siguientes campos:
+            </p>
+            <ul>
+                <li><strong>Usuario:</strong> Su nombre de usuario (sin espacios, sensible a mayúsculas/minúsculas)</li>
+                <li><strong>Contraseña:</strong> Su contraseña personal (oculta por seguridad)</li>
+            </ul>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Seleccionar Idioma (Opcional)</strong>
+            <p>
+                Puede seleccionar el idioma de la interfaz antes de iniciar sesión. 
+                Opciones disponibles:
+            </p>
+            <ul>
+                <li>???? Español</li>
+                <li>???? Inglés</li>
+                <li>???? Portugués</li>
+            </ul>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">5</span>
+            <strong>Iniciar Sesión</strong>
+            <p>
+                Click en el botón <strong>"Iniciar Sesión"</strong> o presione <code>Enter</code>.
+            </p>
+        </div>
+    </section>
+    
+    <section id="campos">
+        <h2>Descripción de Campos</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Campo</th>
+                    <th>Descripción</th>
+                    <th>Formato</th>
+                    <th>Obligatorio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Usuario</strong></td>
+                    <td>Nombre de usuario asignado por el administrador</td>
+                    <td>Texto alfanumérico (sensible a mayúsculas)</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Contraseña</strong></td>
+                    <td>Contraseña personal del usuario</td>
+                    <td>Texto (caracteres ocultos por seguridad)</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Idioma</strong></td>
+                    <td>Idioma de la interfaz del sistema</td>
+                    <td>Lista desplegable</td>
+                    <td>No (predeterminado: último usado)</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <section id="validaciones">
+        <h2>Validaciones del Sistema</h2>
+        <p>Durante el inicio de sesión, el sistema verifica:</p>
+        <ul>
+            <li>? Que el usuario exista en el sistema</li>
+            <li>? Que la contraseña sea correcta</li>
+            <li>? Que el usuario esté activo (no bloqueado)</li>
+            <li>? Que no haya otra sesión abierta con el mismo usuario</li>
+            <li>? La integridad de los datos del usuario (DVH)</li>
+        </ul>
+    </section>
+    
+    <section id="primer-acceso">
+        <h2>Primer Acceso al Sistema</h2>
+        
+        <div class="warning">
+            <strong>?? Cambio de Contraseña Obligatorio:</strong> 
+            Si es su primer acceso o el administrador restableció su contraseña, 
+            el sistema le solicitará cambiarla inmediatamente por razones de seguridad.
+        </div>
+        
+        <h3>Requisitos para la Nueva Contraseña</h3>
+        <ul>
+            <li>Mínimo 8 caracteres</li>
+            <li>Al menos una letra mayúscula</li>
+            <li>Al menos una letra minúscula</li>
+            <li>Al menos un número</li>
+            <li>Al menos un carácter especial (!@#$%^&*)</li>
+            <li>No puede ser igual a las últimas 3 contraseñas</li>
+        </ul>
+    </section>
+    
+    <section id="errores">
+        <h2>Errores Comunes y Soluciones</h2>
+        
+        <h3>Error: "Usuario o contraseña incorrectos"</h3>
+        <div class="error">
+            <strong>Causa:</strong> Las credenciales ingresadas no son válidas.
+        </div>
+        <div class="success">
+            <strong>? Soluciones:</strong>
+            <ol>
+                <li>Verifique que el nombre de usuario esté escrito correctamente (sensible a mayúsculas)</li>
+                <li>Asegúrese de que el <code>Bloq Mayús</code> esté desactivado</li>
+                <li>Verifique que la contraseña sea correcta</li>
+                <li>Si olvidó su contraseña, use la opción <strong>"¿Olvidó su contraseña?"</strong></li>
+            </ol>
+        </div>
+        
+        <h3>Error: "El usuario está bloqueado"</h3>
+        <div class="error">
+            <strong>Causa:</strong> El usuario fue bloqueado por múltiples intentos fallidos o por el administrador.
+        </div>
+        <div class="success">
+            <strong>? Solución:</strong>
+            <p>Contacte al administrador del sistema para desbloquear su cuenta.</p>
+        </div>
+        
+        <h3>Error: "Ya existe una sesión activa para este usuario"</h3>
+        <div class="error">
+            <strong>Causa:</strong> El sistema detectó que ya hay una sesión abierta con sus credenciales.
+        </div>
+        <div class="success">
+            <strong>? Soluciones:</strong>
+            <ol>
+                <li>Verifique si tiene el sistema abierto en otra computadora</li>
+                <li>Si la aplicación se cerró inesperadamente, espere 5 minutos e intente nuevamente</li>
+                <li>Contacte al administrador para cerrar la sesión anterior</li>
+            </ol>
+        </div>
+        
+        <h3>Error: "Error de conexión con la base de datos"</h3>
+        <div class="error">
+            <strong>Causa:</strong> El sistema no puede conectarse al servidor de base de datos.
+        </div>
+        <div class="success">
+            <strong>? Soluciones:</strong>
+            <ol>
+                <li>Verifique su conexión de red</li>
+                <li>Verifique que el servidor de base de datos esté en línea</li>
+                <li>Contacte al administrador de sistemas</li>
+            </ol>
+        </div>
+        
+        <h3>Error: "Se detectó una manipulación de datos"</h3>
+        <div class="error">
+            <strong>Causa:</strong> El sistema detectó inconsistencias en los datos (fallo de DVH).
+        </div>
+        <div class="success">
+            <strong>? Solución:</strong>
+            <p>
+                <strong>URGENTE:</strong> Contacte inmediatamente al administrador. 
+                Este error indica una posible corrupción o manipulación de datos.
+            </p>
+        </div>
+    </section>
+    
+    <section id="seguridad">
+        <h2>Recomendaciones de Seguridad</h2>
+        
+        <div class="tip">
+            <strong>Consejos para proteger su cuenta:</strong>
+        </div>
+        
+        <ul>
+            <li>?? <strong>Nunca comparta</strong> su contraseña con nadie</li>
+            <li>?? <strong>Cambie su contraseña</strong> periódicamente (cada 90 días recomendado)</li>
+            <li>?? <strong>Use contraseñas únicas</strong> - no reutilice contraseñas de otros sistemas</li>
+            <li>?? <strong>No anote su contraseña</strong> en lugares visibles</li>
+            <li>?? <strong>Cierre sesión</strong> cuando no esté usando el sistema</li>
+            <li>?? <strong>No deje el sistema desatendido</strong> con su sesión abierta</li>
+            <li>?? <strong>Bloquee su computadora</strong> si se aleja de su escritorio</li>
+        </ul>
+        
+        <div class="warning">
+            <strong>?? Política de Bloqueo:</strong> Después de 5 intentos fallidos de inicio de sesión, 
+            su cuenta será bloqueada automáticamente por 30 minutos como medida de seguridad.
+        </div>
+    </section>
+    
+    <section id="recuperacion">
+        <h2>Recuperación de Contraseña</h2>
+        <p>Si olvidó su contraseña:</p>
+        <ol>
+            <li>Click en el enlace <strong>"¿Olvidó su contraseña?"</strong> en la pantalla de login</li>
+            <li>Ingrese su nombre de usuario y correo electrónico registrado</li>
+            <li>Responda las preguntas de seguridad configuradas</li>
+            <li>Recibirá un código de recuperación por correo electrónico</li>
+            <li>Ingrese el código y establezca una nueva contraseña</li>
+        </ol>
+        
+        <div class="info-box">
+            <strong>?? Nota:</strong> El código de recuperación tiene una validez de 15 minutos. 
+            Si caduca, deberá solicitar uno nuevo.
+        </div>
+    </section>
+    
+    <section id="acceso-exitoso">
+        <h2>Después de Iniciar Sesión</h2>
+        <p>Una vez que inicie sesión exitosamente:</p>
+        <ul>
+            <li>Se abrirá la <strong>Pantalla Principal</strong> del sistema</li>
+            <li>El sistema cargará su idioma preferido</li>
+            <li>Se habilitarán solo las opciones a las que tiene permiso</li>
+            <li>Su nombre de usuario aparecerá en la barra de estado</li>
+            <li>Se registrará el inicio de sesión en la bitácora del sistema</li>
+        </ul>
+    </section>
+    
+    <section id="multiples-idiomas">
+        <h2>Sistema Multi-Idioma</h2>
+        <p>El sistema soporta los siguientes idiomas:</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Idioma</th>
+                    <th>Código</th>
+                    <th>Bandera</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Español</td>
+                    <td>es-ES</td>
+                    <td>????</td>
+                </tr>
+                <tr>
+                    <td>Inglés (Estados Unidos)</td>
+                    <td>en-US</td>
+                    <td>????</td>
+                </tr>
+                <tr>
+                    <td>Portugués</td>
+                    <td>pt-PT</td>
+                    <td>????</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <p>El idioma seleccionado en el login se aplicará a toda la interfaz del sistema y será recordado para futuros accesos.</p>
+    </section>
+    
+    <section id="relacionados">
+        <h2>Ver También</h2>
+        <ul class="no-bullets">
+            <li>?? <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
+            <li>?? <a href="topic_32_recuperar.html">Recuperar Contraseña</a></li>
+            <li>?? <a href="topic_33_cambiar_pass.html">Cambiar Contraseña</a></li>
+            <li>?? <a href="../usuarios/topic_23_crear_usuario.html">Crear Usuario</a></li>
+        </ul>
+    </section>
+    
+    <footer>
+        <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
+        <p>Todos los derechos reservados</p>
+    </footer>
+
+</body>
+</html>

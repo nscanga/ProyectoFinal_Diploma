@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Service.DAL.Contracts;
 using Service.DOMAIN.DTO;
 using Service.Facade;
 using Service.ManegerEx;
@@ -15,7 +16,7 @@ using Services.Facade;
 
 namespace Distribuidora_los_amigos.Forms.GestionUsuarios
 {
-    public partial class MostrarUsuariosForm : Form
+    public partial class MostrarUsuariosForm : Form, IIdiomaObserver
     {
         /// <summary>
         /// Inicializa el formulario de usuarios configurando la grilla y eventos principales.
@@ -28,6 +29,22 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             this.FormClosed += MostrarUsuariosForm_FormClosed;
             this.KeyPreview = true;
             this.KeyDown += MostrarUsuariosForm_KeyDown;
+            
+            // Suscribirse al servicio de idiomas
+            IdiomaService.Subscribe(this);
+            
+            // Traducir el formulario al cargarlo
+            IdiomaService.TranslateForm(this);
+        }
+
+        /// <summary>
+        /// Actualiza los textos del formulario cuando cambia el idioma.
+        /// </summary>
+        public void UpdateIdioma()
+        {
+            IdiomaService.TranslateForm(this);
+            ConfigureGridColumns(); // Reconfigurar columnas con nuevas traducciones
+            this.Refresh();
         }
 
         /// <summary>
@@ -35,43 +52,41 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
         /// </summary>
         private void ConfigureGridColumns()
         {
+            // Desactivar la generación automática de columnas
+            sfDataGrid.AutoGenerateColumns = false;
+            
+            // Limpiar columnas existentes si las hay
+            sfDataGrid.Columns.Clear();
+
             // Crear y configurar las columnas
             var gridTextColumn1 = new Syncfusion.WinForms.DataGrid.GridTextColumn();
             var gridTextColumn2 = new Syncfusion.WinForms.DataGrid.GridTextColumn();
             var gridTextColumn3 = new Syncfusion.WinForms.DataGrid.GridTextColumn();
-            var gridTextColumn4 = new Syncfusion.WinForms.DataGrid.GridTextColumn();
 
             string translatedUsuario = TranslateMessageKey("Usuario");
             string translatedFamilia = TranslateMessageKey("Familia");
-            string translatedPatente = TranslateMessageKey("Patente");
             string translatedEstado = TranslateMessageKey("Estado");
 
             // Configurar las columnas
             gridTextColumn1.HeaderText = translatedUsuario;
             gridTextColumn1.MappingName = "Usuario";
-            gridTextColumn1.Width = 100D;
+            gridTextColumn1.Width = 150D;
             gridTextColumn1.AllowFiltering = true;
 
             gridTextColumn2.HeaderText = translatedFamilia;
             gridTextColumn2.MappingName = "Familia";
-            gridTextColumn2.Width = 100D;
+            gridTextColumn2.Width = 200D;
             gridTextColumn2.AllowFiltering = true;
 
-            gridTextColumn3.HeaderText = translatedPatente;
-            gridTextColumn3.MappingName = "Patente";
+            gridTextColumn3.HeaderText = translatedEstado;
+            gridTextColumn3.MappingName = "Estado";
             gridTextColumn3.Width = 100D;
             gridTextColumn3.AllowFiltering = true;
-
-            gridTextColumn4.HeaderText = translatedEstado;
-            gridTextColumn4.MappingName = "Estado";
-            gridTextColumn4.Width = 100D;
-            gridTextColumn4.AllowFiltering = true;
 
             // Agregar las columnas al grid
             sfDataGrid.Columns.Add(gridTextColumn1);
             sfDataGrid.Columns.Add(gridTextColumn2);
             sfDataGrid.Columns.Add(gridTextColumn3);
-            sfDataGrid.Columns.Add(gridTextColumn4);
         }
 
         /// <summary>
@@ -85,7 +100,6 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
 
             try
             {
-                IdiomaService.TranslateForm(this);
                 // Intentar cargar los usuarios con sus familias y patentes
                 List<UsuarioRolDto> usuariosConFamilias = UserService.GetUsuariosConFamilasYPatentes();
 
@@ -123,6 +137,9 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
         /// <param name="e">Argumentos del evento de cierre.</param>
         private void MostrarUsuariosForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            // Desuscribirse del servicio de idiomas
+            IdiomaService.Unsubscribe(this);
+            
             // Registrar cuando el formulario se cierra
             LoggerService.WriteLog($"Formulario '{this.Text}' cerrado.", System.Diagnostics.TraceLevel.Info);
         }
@@ -150,12 +167,14 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
 
                     ManualService manualService = new ManualService();
                     manualService.AbrirAyudaMostrarUsuario();
+                    e.Handled = true; // Prevenir propagación del evento
                 }
             }
 
             catch (Exception ex)
             {
-                MessageBox.Show("Error " + ex.Message, "Error");
+                MessageBox.Show($"Error al abrir la ayuda: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 LoggerService.WriteException(ex);
             }
 

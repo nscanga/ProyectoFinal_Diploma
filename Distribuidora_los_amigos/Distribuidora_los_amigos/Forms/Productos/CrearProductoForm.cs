@@ -12,10 +12,11 @@ using BLL;
 using DOMAIN;
 using Service.Facade;
 using Services.Facade;
+using Service.DAL.Contracts;
 
 namespace Distribuidora_los_amigos.Forms.Productos
 {
-    public partial class CrearProductoForm : Form
+    public partial class CrearProductoForm : Form, IIdiomaObserver
     {
         private readonly ProductoService _productoService;
         
@@ -28,10 +29,35 @@ namespace Distribuidora_los_amigos.Forms.Productos
             this.StartPosition = FormStartPosition.CenterScreen;
             _productoService = new ProductoService();
             this.KeyPreview = true;
+            this.KeyDown += CrearProductoForm_KeyDown; // Agregar evento KeyDown
+            
+            // Suscribirse al servicio de idiomas
+            IdiomaService.Subscribe(this);
+            
+            // Traducir el formulario al cargarlo
+            IdiomaService.TranslateForm(this);
             
             // Cargar datos en los ComboBox
             CargarCategorias();
             CargarTiposStock();
+        }
+
+        /// <summary>
+        /// Actualiza los textos del formulario cuando cambia el idioma.
+        /// </summary>
+        public void UpdateIdioma()
+        {
+            IdiomaService.TranslateForm(this);
+            this.Refresh();
+        }
+
+        /// <summary>
+        /// Desuscribirse del servicio de idiomas al cerrar el formulario.
+        /// </summary>
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            IdiomaService.Unsubscribe(this);
+            base.OnFormClosing(e);
         }
 
         /// <summary>
@@ -82,21 +108,27 @@ namespace Distribuidora_los_amigos.Forms.Productos
                 // Validar que el precio sea un número válido
                 if (!decimal.TryParse(numericUpDownPrecioProducto.Text, out decimal precio) || precio <= 0)
                 {
-                    MessageBox.Show("Error: El precio debe ser un número positivo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    string errorMessage = IdiomaService.Translate("Error: El precio debe ser un número positivo.");
+                    string errorTitle = IdiomaService.Translate("Error");
+                    MessageBox.Show(errorMessage, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
                 // Validar que la categoría no esté vacía
                 if (string.IsNullOrWhiteSpace(comboBoxCrearProducto.Text))
                 {
-                    MessageBox.Show("Error: Debes seleccionar una categoría.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    string errorMessage = IdiomaService.Translate("Error: Debes seleccionar una categoría.");
+                    string errorTitle = IdiomaService.Translate("Error");
+                    MessageBox.Show(errorMessage, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
                 // Validar que el tipo de stock no esté vacío
                 if (string.IsNullOrWhiteSpace(comboBoxTipoStock.Text))
                 {
-                    MessageBox.Show("Error: Debes seleccionar un tipo de stock.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    string errorMessage = IdiomaService.Translate("Error: Debes seleccionar un tipo de stock.");
+                    string errorTitle = IdiomaService.Translate("Error");
+                    MessageBox.Show(errorMessage, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -111,7 +143,9 @@ namespace Distribuidora_los_amigos.Forms.Productos
                 // Validar que la fecha de vencimiento no sea menor a la fecha de ingreso
                 if (fechaVencimiento.HasValue && fechaVencimiento < fechaIngreso)
                 {
-                    MessageBox.Show("Error: La fecha de vencimiento no puede ser anterior a la fecha de ingreso.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    string errorMessage = IdiomaService.Translate("Error: La fecha de vencimiento no puede ser anterior a la fecha de ingreso.");
+                    string errorTitle = IdiomaService.Translate("Error");
+                    MessageBox.Show(errorMessage, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -131,9 +165,9 @@ namespace Distribuidora_los_amigos.Forms.Productos
                 
                 LoggerService.WriteLog($"Producto creado: {producto.Nombre}, Categoría: {producto.Categoria}, Cantidad inicial: {cantidadStock}", System.Diagnostics.TraceLevel.Info);
 
-                string messageKey = "Producto creado correctamente.";
-                string translatedMessage = TranslateMessageKey(messageKey);
-                MessageBox.Show(translatedMessage, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                string successMessage = IdiomaService.Translate("Producto creado correctamente.");
+                string successTitle = IdiomaService.Translate("Éxito");
+                MessageBox.Show(successMessage, successTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // Limpiar los campos
                 textBoxNombreProducto.Clear();
@@ -149,7 +183,8 @@ namespace Distribuidora_los_amigos.Forms.Productos
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string errorTitle = IdiomaService.Translate("Error");
+                MessageBox.Show("Error: " + ex.Message, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 LoggerService.WriteException(ex);
             }
         }
@@ -172,6 +207,30 @@ namespace Distribuidora_los_amigos.Forms.Productos
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        /// <summary>
+        /// Muestra la ayuda del formulario cuando se presiona F1.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
+        private void CrearProductoForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.KeyCode == Keys.F1)
+                {
+                    ManualService manualService = new ManualService();
+                    manualService.AbrirAyudaCrearProducto();
+                    e.Handled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir la ayuda: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LoggerService.WriteException(ex);
+            }
         }
     }
 }

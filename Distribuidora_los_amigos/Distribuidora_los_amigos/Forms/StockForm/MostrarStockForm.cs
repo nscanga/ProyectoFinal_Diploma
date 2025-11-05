@@ -8,25 +8,74 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BLL;
-using Distribuidora_los_amigos.Forms.Productos;
 using DOMAIN;
+using Service.Facade;
 using Services.Facade;
+using Service.DAL.Contracts;
 
 namespace Distribuidora_los_amigos.Forms.StockForm
 {
-    public partial class MostrarStockForm : Form
+    public partial class MostrarStockForm : Form, IIdiomaObserver
     {
         private readonly StockService _stockService;
-        
+
         /// <summary>
-        /// Inicializa el formulario de stock configurando servicios y eventos de carga.
+        /// Inicializa el formulario de visualización de stock.
         /// </summary>
         public MostrarStockForm()
         {
             InitializeComponent();
             _stockService = new StockService();
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.Load += MostrarStockForm_Load;
+
+            // Suscribirse al servicio de idiomas
+            IdiomaService.Subscribe(this);
+
+            // Traducir el formulario al cargarlo
+            IdiomaService.TranslateForm(this);
+
+            // Configurar ayuda F1
+            this.KeyPreview = true;
+            this.KeyDown += MostrarStockForm_KeyDown;
+        }
+
+        /// <summary>
+        /// Muestra la ayuda del formulario cuando se presiona F1.
+        /// </summary>
+        private void MostrarStockForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.KeyCode == Keys.F1)
+                {
+                    ManualService manualService = new ManualService();
+                    manualService.AbrirAyudaMostrarStock();
+                    e.Handled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir la ayuda: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LoggerService.WriteException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Actualiza los textos del formulario cuando cambia el idioma.
+        /// </summary>
+        public void UpdateIdioma()
+        {
+            IdiomaService.TranslateForm(this);
+            this.Refresh();
+        }
+
+        /// <summary>
+        /// Desuscribirse del servicio de idiomas al cerrar el formulario.
+        /// </summary>
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            IdiomaService.Unsubscribe(this);
+            base.OnFormClosing(e);
         }
 
         /// <summary>
@@ -52,27 +101,27 @@ namespace Distribuidora_los_amigos.Forms.StockForm
             if (dataGridViewStock.Columns["IdProducto"] != null)
                 dataGridViewStock.Columns["IdProducto"].Visible = false;
 
-            // Configurar nombres de encabezados más amigables
+            // Configurar nombres de encabezados más amigables con traducciones
             if (dataGridViewStock.Columns["NombreProducto"] != null)
-                dataGridViewStock.Columns["NombreProducto"].HeaderText = "Producto";
+                dataGridViewStock.Columns["NombreProducto"].HeaderText = IdiomaService.Translate("Producto");
             
             if (dataGridViewStock.Columns["Categoria"] != null)
-                dataGridViewStock.Columns["Categoria"].HeaderText = "Categoría";
+                dataGridViewStock.Columns["Categoria"].HeaderText = IdiomaService.Translate("Categoria");
             
             if (dataGridViewStock.Columns["Cantidad"] != null)
-                dataGridViewStock.Columns["Cantidad"].HeaderText = "Cantidad";
+                dataGridViewStock.Columns["Cantidad"].HeaderText = IdiomaService.Translate("Cantidad");
             
             if (dataGridViewStock.Columns["Tipo"] != null)
-                dataGridViewStock.Columns["Tipo"].HeaderText = "Tipo de Stock";
+                dataGridViewStock.Columns["Tipo"].HeaderText = IdiomaService.Translate("TipoStock");
             
             if (dataGridViewStock.Columns["PrecioUnitario"] != null)
             {
-                dataGridViewStock.Columns["PrecioUnitario"].HeaderText = "Precio";
+                dataGridViewStock.Columns["PrecioUnitario"].HeaderText = IdiomaService.Translate("Precio");
                 dataGridViewStock.Columns["PrecioUnitario"].DefaultCellStyle.Format = "C2"; // Formato de moneda
             }
             
             if (dataGridViewStock.Columns["Activo"] != null)
-                dataGridViewStock.Columns["Activo"].HeaderText = "Activo";
+                dataGridViewStock.Columns["Activo"].HeaderText = IdiomaService.Translate("Activo");
 
             // Opcional: Configurar orden de columnas
             int orden = 0;
@@ -146,7 +195,11 @@ namespace Distribuidora_los_amigos.Forms.StockForm
             }
             else
             {
-                MessageBox.Show("Seleccione un producto para modificar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                string messageKey = "SeleccioneStockModificar";
+                string translatedMessage = IdiomaService.Translate(messageKey);
+                string titleKey = "Advertencia";
+                string translatedTitle = IdiomaService.Translate(titleKey);
+                MessageBox.Show(translatedMessage, translatedTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -163,9 +216,14 @@ namespace Distribuidora_los_amigos.Forms.StockForm
                 StockDTO stockDTOSeleccionado = (StockDTO)dataGridViewStock.SelectedRows[0].DataBoundItem;
 
                 // Confirmación antes de eliminar (ahora muestra el nombre del producto)
+                string messageKey = "ConfirmarEliminarStock";
+                string translatedMessage = string.Format(IdiomaService.Translate(messageKey), stockDTOSeleccionado.NombreProducto);
+                string titleKey = "ConfirmarEliminacion";
+                string translatedTitle = IdiomaService.Translate(titleKey);
+                
                 DialogResult resultado = MessageBox.Show(
-                    $"¿Estás seguro de que deseas eliminar el stock del producto: {stockDTOSeleccionado.NombreProducto}?",
-                    "Confirmar Eliminación",
+                    translatedMessage,
+                    translatedTitle,
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning
                 );
@@ -183,18 +241,30 @@ namespace Distribuidora_los_amigos.Forms.StockForm
                         // Refrescar la lista después de la eliminación
                         CargarStock();
 
-                        MessageBox.Show("Stock eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        string successKey = "StockEliminadoExito";
+                        string translatedSuccess = IdiomaService.Translate(successKey);
+                        string successTitleKey = "Éxito";
+                        string translatedSuccessTitle = IdiomaService.Translate(successTitleKey);
+                        MessageBox.Show(translatedSuccess, translatedSuccessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error al eliminar el stock: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        string errorKey = "ErrorEliminarStock";
+                        string translatedError = IdiomaService.Translate(errorKey) + ": " + ex.Message;
+                        string errorTitleKey = "Error";
+                        string translatedErrorTitle = IdiomaService.Translate(errorTitleKey);
+                        MessageBox.Show(translatedError, translatedErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         LoggerService.WriteException(ex);
                     }
                 }
             }
             else
             {
-                MessageBox.Show("Seleccione un stock para eliminar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                string messageKey = "SeleccioneStockEliminar";
+                string translatedMessage = IdiomaService.Translate(messageKey);
+                string titleKey = "Advertencia";
+                string translatedTitle = IdiomaService.Translate(titleKey);
+                MessageBox.Show(translatedMessage, translatedTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 

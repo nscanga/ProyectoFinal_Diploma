@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Service.DAL.Contracts;
 using Service.Facade;
 using Service.ManegerEx;
 using Services.Facade;
@@ -15,7 +16,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Distribuidora_los_amigos.Forms.GestionUsuarios
 {
-    public partial class CrearUsuarioForm : Form
+    public partial class CrearUsuarioForm : Form, IIdiomaObserver
     {
         /// <summary>
         /// Inicializa el formulario de creación de usuarios y configura eventos auxiliares.
@@ -27,6 +28,21 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             this.FormClosed += CrearUsuarioForm_FormClosed;
             this.KeyPreview = true;
             this.KeyDown += CrearUsuarioForm_KeyDown;
+            
+            // Suscribirse al servicio de idiomas
+            IdiomaService.Subscribe(this);
+            
+            // Traducir el formulario al cargarlo
+            IdiomaService.TranslateForm(this);
+        }
+
+        /// <summary>
+        /// Actualiza los textos del formulario cuando cambia el idioma.
+        /// </summary>
+        public void UpdateIdioma()
+        {
+            IdiomaService.TranslateForm(this);
+            this.Refresh();
         }
 
         /// <summary>
@@ -103,6 +119,9 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
         /// <param name="e">Argumentos del evento de cierre.</param>
         private void CrearUsuarioForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            // Desuscribirse del servicio de idiomas
+            IdiomaService.Unsubscribe(this);
+            
             // Registrar el cierre del formulario
             LoggerService.WriteLog($"Formulario '{this.Text}' cerrado.", System.Diagnostics.TraceLevel.Info);
         }
@@ -118,18 +137,17 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             {
                 if (e.KeyCode == Keys.F1)
                 {
-
                     ManualService manualService = new ManualService();
                     manualService.AbrirAyudaCrearUsuario();
+                    e.Handled = true; // Prevenir propagación del evento
                 }
             }
-
             catch (Exception ex)
             {
-                MessageBox.Show("Error " + ex.Message, "Error");
+                MessageBox.Show($"Error al abrir la ayuda: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 LoggerService.WriteException(ex);
             }
-
         }
     }
 }

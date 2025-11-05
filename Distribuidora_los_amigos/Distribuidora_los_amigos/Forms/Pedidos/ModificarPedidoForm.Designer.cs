@@ -50,6 +50,7 @@
             this.buttonGuardarPedido.Name = "buttonGuardarPedido";
             this.buttonGuardarPedido.Size = new System.Drawing.Size(107, 23);
             this.buttonGuardarPedido.TabIndex = 16;
+            this.buttonGuardarPedido.Tag = "Guardar pedido";
             this.buttonGuardarPedido.Text = "Guardar pedido";
             this.buttonGuardarPedido.UseVisualStyleBackColor = true;
             this.buttonGuardarPedido.Click += new System.EventHandler(this.buttonGuardarPedido_Click);
@@ -60,6 +61,7 @@
             this.buttonModificarProducto.Name = "buttonModificarProducto";
             this.buttonModificarProducto.Size = new System.Drawing.Size(107, 23);
             this.buttonModificarProducto.TabIndex = 15;
+            this.buttonModificarProducto.Tag = "Modificar Pedido";
             this.buttonModificarProducto.Text = "Modificar Pedido";
             this.buttonModificarProducto.UseVisualStyleBackColor = true;
             this.buttonModificarProducto.Click += new System.EventHandler(this.buttonModificarProducto_Click);
@@ -71,6 +73,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(40, 13);
             this.label3.TabIndex = 14;
+            this.label3.Tag = "Estado";
             this.label3.Text = "Estado";
             // 
             // label2
@@ -80,6 +83,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(89, 13);
             this.label2.TabIndex = 13;
+            this.label2.Tag = "Fecha del pedido";
             this.label2.Text = "Fecha del pedido";
             // 
             // label1
@@ -89,6 +93,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(39, 13);
             this.label1.TabIndex = 12;
+            this.label1.Tag = "Cliente";
             this.label1.Text = "Cliente";
             // 
             // comboBoxEstadoPedido
@@ -128,6 +133,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(52, 13);
             this.label4.TabIndex = 19;
+            this.label4.Tag = "Id Pedido";
             this.label4.Text = "Id Pedido";
             // 
             // buttonEliminarProducto
@@ -136,6 +142,7 @@
             this.buttonEliminarProducto.Name = "buttonEliminarProducto";
             this.buttonEliminarProducto.Size = new System.Drawing.Size(107, 23);
             this.buttonEliminarProducto.TabIndex = 20;
+            this.buttonEliminarProducto.Tag = "Eliminar producto";
             this.buttonEliminarProducto.Text = "Eliminar producto";
             this.buttonEliminarProducto.UseVisualStyleBackColor = true;
             this.buttonEliminarProducto.Click += new System.EventHandler(this.buttonEliminarProducto_Click);
@@ -159,6 +166,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(49, 13);
             this.label5.TabIndex = 22;
+            this.label5.Tag = "Cantidad";
             this.label5.Text = "Cantidad";
             // 
             // ModificarPedidoForm
@@ -180,6 +188,7 @@
             this.Controls.Add(this.dateTimePickerCrearPedido);
             this.Controls.Add(this.comboBoxSeleccionCliente);
             this.Name = "ModificarPedidoForm";
+            this.Tag = "ModificarPedidoForm";
             this.Text = "ModificarPedidoForm";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);

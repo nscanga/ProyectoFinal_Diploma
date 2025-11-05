@@ -41,6 +41,7 @@
             this.Eliminar.Name = "Eliminar";
             this.Eliminar.Size = new System.Drawing.Size(75, 23);
             this.Eliminar.TabIndex = 5;
+            this.Eliminar.Tag = "Eliminar";
             this.Eliminar.Text = "buttonEliminarStock";
             this.Eliminar.UseVisualStyleBackColor = true;
             this.Eliminar.Click += new System.EventHandler(this.Eliminar_Click);
@@ -51,6 +52,7 @@
             this.buttonModificarStock.Name = "buttonModificarStock";
             this.buttonModificarStock.Size = new System.Drawing.Size(75, 23);
             this.buttonModificarStock.TabIndex = 4;
+            this.buttonModificarStock.Tag = "Modificar";
             this.buttonModificarStock.Text = "Modificar";
             this.buttonModificarStock.UseVisualStyleBackColor = true;
             this.buttonModificarStock.Click += new System.EventHandler(this.buttonModificarStock_Click);
@@ -84,6 +86,7 @@
             this.Controls.Add(this.buttonModificarStock);
             this.Controls.Add(this.dataGridViewStock);
             this.Name = "MostrarStockForm";
+            this.Tag = "MostrarStock";
             this.Text = "MostrarStockForm";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStock)).EndInit();
             this.ResumeLayout(false);

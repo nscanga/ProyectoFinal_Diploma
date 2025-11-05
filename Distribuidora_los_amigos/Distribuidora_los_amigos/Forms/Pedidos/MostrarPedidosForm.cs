@@ -9,10 +9,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BLL;
 using DOMAIN;
+using Service.Facade;
+using Services.Facade;
+using Service.DAL.Contracts;
 
 namespace Distribuidora_los_amigos.Forms.Pedidos
 {
-    public partial class MostrarPedidosForm : Form
+    public partial class MostrarPedidosForm : Form, IIdiomaObserver
     {
         private readonly PedidoService _pedidoService;
 
@@ -32,12 +35,62 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             
             // 🔧 SOLUCIÓN: Inicializar los controles que faltan
             InitializeCustomControls();
+
+            // Suscribirse al servicio de idiomas
+            IdiomaService.Subscribe(this);
             
+            // Traducir el formulario al cargarlo
+            IdiomaService.TranslateForm(this);
+            
+            // Configurar ayuda F1
+            this.KeyPreview = true;
+            this.KeyDown += MostrarPedidosForm_KeyDown;
+
             // 🔍 DEBUGGING: Verificar que el botón existe
             Console.WriteLine($"Botón Modificar existe: {buttonModificarPedido != null}");
             Console.WriteLine($"Botón Modificar visible: {buttonModificarPedido?.Visible}");
             Console.WriteLine($"Botón Modificar posición: {buttonModificarPedido?.Location}");
             Console.WriteLine($"Total controles en formulario: {this.Controls.Count}");
+        }
+
+        /// <summary>
+        /// Muestra la ayuda del formulario cuando se presiona F1.
+        /// </summary>
+        private void MostrarPedidosForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.KeyCode == Keys.F1)
+                {
+                    ManualService manualService = new ManualService();
+                    manualService.AbrirAyudaMostrarPedidos();
+                    e.Handled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir la ayuda: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LoggerService.WriteException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Actualiza los textos del formulario cuando cambia el idioma.
+        /// </summary>
+        public void UpdateIdioma()
+        {
+            IdiomaService.TranslateForm(this);
+            this.Refresh();
+        }
+
+        /// <summary>
+        /// Desuscribirse del servicio de idiomas al cerrar el formulario.
+        /// </summary>
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            IdiomaService.Unsubscribe(this);
+            base.OnFormClosing(e);
         }
 
         // 🆕 Método para inicializar los controles personalizados

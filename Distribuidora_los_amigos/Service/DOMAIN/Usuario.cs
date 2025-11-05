@@ -63,18 +63,24 @@ namespace Service.DOMAIN
         {
             foreach (var acceso in accesos)
             {
-                //Cuál sería mi condición de corte?
-                //Significa que estoy ante un elemento de tipo Leaf, Hoja, Primitivo
+                // Validar que el acceso no sea null
+                if (acceso == null)
+                    continue;
+
                 if (acceso.GetCount() == 0)
                 {
-                    //Podría pasar que la patente ya esté agregada (Similar a un distinct)
-                    if (!patentesReturn.Any(o => o.Id == acceso.Id))
-                        patentesReturn.Add(acceso as Patente);
+                    // Convertir a Patente de forma segura
+                    var patente = acceso as Patente;
+                    
+                    // Solo agregar si el cast fue exitoso y no está duplicada
+                    if (patente != null && !patentesReturn.Any(o => o.Id == acceso.Id))
+                        patentesReturn.Add(patente);
                 }
                 else
                 {
-                    //Tengo que tratar a mi "acceso" como si fuese una familia
-                    GetAllPatentes((acceso as Familia).Accesos, patentesReturn);
+                    var familia = acceso as Familia;
+                    if (familia != null)
+                        GetAllPatentes(familia.Accesos, patentesReturn);
                 }
             }
         }

@@ -1,0 +1,115 @@
+﻿[OPTIONS]
+Compatibility=1.1 or later
+Compiled file=..\help_en.chm
+Contents file=help_en.hhc
+Default topic=html\general\topic_20_main.html
+Display compile progress=Yes
+Full-text search=Yes
+Index file=help_en.hhk
+Language=0x0409 English (United States)
+Title=User Manual - Distribuidora Los Amigos
+Default Window=main
+
+[WINDOWS]
+main="User Manual - Distribuidora Los Amigos","help_en.hhc","help_en.hhk","html\general\topic_20_main.html","html\general\topic_20_main.html",,,,,0x63520,,0x387e,,,,,,,,0
+
+[MAP]
+#define TOPIC_MAIN 20
+#define TOPIC_LOGIN 31
+#define TOPIC_RECUPERAR_PASSWORD 32
+#define TOPIC_CAMBIAR_PASSWORD 33
+#define TOPIC_CREAR_USUARIO 23
+#define TOPIC_MODIFICAR_USUARIO 28
+#define TOPIC_MOSTRAR_USUARIOS 29
+#define TOPIC_ASIGNAR_ROL 24
+#define TOPIC_CREAR_ROL 26
+#define TOPIC_CREAR_PATENTE 27
+#define TOPIC_BACKUP 22
+#define TOPIC_RESTORE 30
+#define TOPIC_BITACORA 25
+#define TOPIC_CREAR_CLIENTE 40
+#define TOPIC_MODIFICAR_CLIENTE 41
+#define TOPIC_MOSTRAR_CLIENTES 42
+#define TOPIC_CREAR_PRODUCTO 50
+#define TOPIC_MODIFICAR_PRODUCTO 51
+#define TOPIC_MOSTRAR_PRODUCTOS 52
+#define TOPIC_ELIMINAR_PRODUCTO 53
+#define TOPIC_CREAR_PROVEEDOR 60
+#define TOPIC_MODIFICAR_PROVEEDOR 61
+#define TOPIC_MOSTRAR_PROVEEDORES 62
+#define TOPIC_MOSTRAR_STOCK 70
+#define TOPIC_MODIFICAR_STOCK 71
+#define TOPIC_CREAR_PEDIDO 80
+#define TOPIC_MODIFICAR_PEDIDO 81
+#define TOPIC_MOSTRAR_PEDIDOS 82
+#define TOPIC_DETALLE_PEDIDO 83
+#define TOPIC_REPORTE_STOCK_BAJO 90
+#define TOPIC_REPORTE_PRODUCTOS_MAS_VENDIDOS 91
+
+[ALIAS]
+TOPIC_MAIN=html\general\topic_20_main.html
+TOPIC_LOGIN=html\login\topic_31_login.html
+TOPIC_RECUPERAR_PASSWORD=html\login\topic_32_recuperar.html
+TOPIC_CAMBIAR_PASSWORD=html\login\topic_33_cambiar_pass.html
+TOPIC_CREAR_USUARIO=html\usuarios\topic_23_crear_usuario.html
+TOPIC_MODIFICAR_USUARIO=html\usuarios\topic_28_modificar_usuario.html
+TOPIC_MOSTRAR_USUARIOS=html\usuarios\topic_29_mostrar_usuarios.html
+TOPIC_ASIGNAR_ROL=html\usuarios\topic_24_asignar_rol.html
+TOPIC_CREAR_ROL=html\roles\topic_26_crear_rol.html
+TOPIC_CREAR_PATENTE=html\roles\topic_27_crear_patente.html
+TOPIC_BACKUP=html\backup\topic_22_backup.html
+TOPIC_RESTORE=html\backup\topic_30_restore.html
+TOPIC_BITACORA=html\backup\topic_25_bitacora.html
+TOPIC_CREAR_CLIENTE=html\clientes\topic_40_crear_cliente.html
+TOPIC_MODIFICAR_CLIENTE=html\clientes\topic_41_modificar_cliente.html
+TOPIC_MOSTRAR_CLIENTES=html\clientes\topic_42_mostrar_clientes.html
+TOPIC_CREAR_PRODUCTO=html\productos\topic_50_crear_producto.html
+TOPIC_MODIFICAR_PRODUCTO=html\productos\topic_51_modificar_producto.html
+TOPIC_MOSTRAR_PRODUCTOS=html\productos\topic_52_mostrar_productos.html
+TOPIC_ELIMINAR_PRODUCTO=html\productos\topic_53_eliminar_producto.html
+TOPIC_CREAR_PROVEEDOR=html\proveedores\topic_60_crear_proveedor.html
+TOPIC_MODIFICAR_PROVEEDOR=html\proveedores\topic_61_modificar_proveedor.html
+TOPIC_MOSTRAR_PROVEEDORES=html\proveedores\topic_62_mostrar_proveedores.html
+TOPIC_MOSTRAR_STOCK=html\stock\topic_70_mostrar_stock.html
+TOPIC_MODIFICAR_STOCK=html\stock\topic_71_modificar_stock.html
+TOPIC_CREAR_PEDIDO=html\pedidos\topic_80_crear_pedido.html
+TOPIC_MODIFICAR_PEDIDO=html\pedidos\topic_81_modificar_pedido.html
+TOPIC_MOSTRAR_PEDIDOS=html\pedidos\topic_82_mostrar_pedidos.html
+TOPIC_DETALLE_PEDIDO=html\pedidos\topic_83_detalle_pedido.html
+TOPIC_REPORTE_STOCK_BAJO=html\reportes\topic_90_reporte_stock_bajo.html
+TOPIC_REPORTE_PRODUCTOS_MAS_VENDIDOS=html\reportes\topic_91_reporte_mas_vendidos.html
+
+[FILES]
+css\styles.css
+html\backup\topic_22_backup.html
+html\backup\topic_25_bitacora.html
+html\backup\topic_30_restore.html
+html\clientes\topic_40_crear_cliente.html
+html\clientes\topic_41_modificar_cliente.html
+html\clientes\topic_42_mostrar_clientes.html
+html\general\topic_20_main.html
+html\general\topic_21_intro.html
+html\login\topic_31_login.html
+html\login\topic_32_recuperar.html
+html\login\topic_33_cambiar_pass.html
+html\pedidos\topic_80_crear_pedido.html
+html\pedidos\topic_81_modificar_pedido.html
+html\pedidos\topic_82_mostrar_pedidos.html
+html\pedidos\topic_83_detalle_pedido.html
+html\productos\topic_50_crear_producto.html
+html\productos\topic_51_modificar_producto.html
+html\productos\topic_52_mostrar_productos.html
+html\productos\topic_53_eliminar_producto.html
+html\proveedores\topic_60_crear_proveedor.html
+html\proveedores\topic_61_modificar_proveedor.html
+html\proveedores\topic_62_mostrar_proveedores.html
+html\reportes\topic_90_reporte_stock_bajo.html
+html\reportes\topic_91_reporte_mas_vendidos.html
+html\roles\topic_26_crear_rol.html
+html\roles\topic_27_crear_patente.html
+html\stock\topic_70_mostrar_stock.html
+html\stock\topic_71_modificar_stock.html
+html\usuarios\topic_23_crear_usuario.html
+html\usuarios\topic_24_asignar_rol.html
+html\usuarios\topic_28_modificar_usuario.html
+html\usuarios\topic_29_mostrar_usuarios.html

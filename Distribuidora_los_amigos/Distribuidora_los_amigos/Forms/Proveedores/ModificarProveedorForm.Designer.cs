@@ -49,6 +49,7 @@
             this.buttonCancelarProveedor.Name = "buttonCancelarProveedor";
             this.buttonCancelarProveedor.Size = new System.Drawing.Size(75, 23);
             this.buttonCancelarProveedor.TabIndex = 25;
+            this.buttonCancelarProveedor.Tag = "Cancelar";
             this.buttonCancelarProveedor.Text = "Cancelar";
             this.buttonCancelarProveedor.UseVisualStyleBackColor = true;
             // 
@@ -58,6 +59,7 @@
             this.buttonGuardarProveedor.Name = "buttonGuardarProveedor";
             this.buttonGuardarProveedor.Size = new System.Drawing.Size(75, 23);
             this.buttonGuardarProveedor.TabIndex = 24;
+            this.buttonGuardarProveedor.Tag = "Guardar";
             this.buttonGuardarProveedor.Text = "Guardar";
             this.buttonGuardarProveedor.UseVisualStyleBackColor = true;
             this.buttonGuardarProveedor.Click += new System.EventHandler(this.buttonGuardarProveedor_Click);
@@ -69,6 +71,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(52, 13);
             this.label5.TabIndex = 23;
+            this.label5.Tag = "Categoria";
             this.label5.Text = "Categoria";
             // 
             // label4
@@ -78,6 +81,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(49, 13);
             this.label4.TabIndex = 22;
+            this.label4.Tag = "Telefono";
             this.label4.Text = "Telefono";
             // 
             // label3
@@ -87,6 +91,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(32, 13);
             this.label3.TabIndex = 21;
+            this.label3.Tag = "Email";
             this.label3.Text = "Email";
             // 
             // label2
@@ -96,6 +101,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(52, 13);
             this.label2.TabIndex = 20;
+            this.label2.Tag = "Direccion";
             this.label2.Text = "Direccion";
             // 
             // label1
@@ -105,6 +111,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(44, 13);
             this.label1.TabIndex = 19;
+            this.label1.Tag = "Nombre";
             this.label1.Text = "Nombre";
             // 
             // checkBox1
@@ -114,6 +121,7 @@
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(56, 17);
             this.checkBox1.TabIndex = 18;
+            this.checkBox1.Tag = "Activo";
             this.checkBox1.Text = "Activo";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
@@ -172,6 +180,7 @@
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
             this.Name = "ModificarProveedorForm";
+            this.Tag = "ModificarProveedor";
             this.Text = "ModificarProveedorForm";
             this.ResumeLayout(false);
             this.PerformLayout();

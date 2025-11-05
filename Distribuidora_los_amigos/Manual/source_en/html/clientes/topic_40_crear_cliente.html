@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Customer - Distribuidora Los Amigos</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body>
+    
+    <div class="breadcrumb">
+        <a href="../general/topic_20_main.html">Home</a>
+        <span>»</span>
+        <a href="topic_42_mostrar_clientes.html">Customers</a>
+        <span>»</span>
+        <span>Create Customer</span>
+    </div>
+
+    <h1>Create Customer</h1>
+    
+    <section id="introduccion">
+        <h2>Introduction</h2>
+        <p>
+            This functionality allows you to register new customers in the system. Customers are the 
+            people or companies to whom product sales will be made.
+        </p>
+        <p>
+            A properly registered customer will allow you to manage their orders, check their purchase 
+            history, and generate specific reports.
+        </p>
+    </section>
+    
+    <section id="acceso">
+        <h2>How to Access</h2>
+        <p>To access this functionality:</p>
+        <ol>
+            <li>From the main menu, go to <strong>Customers</strong></li>
+            <li>Select <strong>Create Customer</strong></li>
+            <li>The <strong>Create Customer</strong> window will open</li>
+        </ol>
+    </section>
+    
+    <section id="campos">
+        <h2>Field Description</h2>
+        <p>Each field in the form is described below:</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Required</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Name</strong></td>
+                    <td>Full name of the customer or company business name</td>
+                    <td>Text (max. 100 characters)</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Last Name</strong></td>
+                    <td>Customer's last name (if individual)</td>
+                    <td>Text (max. 100 characters)</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><strong>DNI/CUIT</strong></td>
+                    <td>National Identity Document or Tax ID of the customer</td>
+                    <td>Numeric (8-11 digits)</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Email</strong></td>
+                    <td>Customer's email address</td>
+                    <td>Valid email</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><strong>Phone</strong></td>
+                    <td>Contact phone number</td>
+                    <td>Numeric/Text</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><strong>Address</strong></td>
+                    <td>Complete address of the customer</td>
+                    <td>Text (max. 200 characters)</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><strong>Postal Code</strong></td>
+                    <td>Postal code of the address</td>
+                    <td>Numeric (4 digits)</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><strong>Active</strong></td>
+                    <td>Indicates if the customer is active in the system</td>
+                    <td>Checkbox (Yes/No)</td>
+                    <td>Yes (default: Yes)</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <section id="procedimiento">
+        <h2>Procedure to Create a Customer</h2>
+        
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Enter Basic Information</strong>
+            <p>
+                Complete the <strong>Name</strong> and <strong>DNI/CUIT</strong> fields, which are required. 
+                If it's an individual, also complete the <strong>Last Name</strong>.
+            </p>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>Add Contact Information</strong>
+            <p>
+                Enter the customer's <strong>Email</strong> and <strong>Phone</strong>. 
+                Although optional, it's recommended to complete them to facilitate communication.
+            </p>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Complete Address</strong>
+            <p>
+                Enter the complete <strong>Address</strong> and <strong>Postal Code</strong>. 
+                This is important for delivery management.
+            </p>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Verify Status</strong>
+            <p>
+                Make sure the <strong>Active</strong> checkbox is checked if you want the customer 
+                to be available for placing orders immediately.
+            </p>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">5</span>
+            <strong>Save the Customer</strong>
+            <p>
+                Click the <strong>Save</strong> button or press <code>Ctrl + S</code>. 
+                If all data is valid, the customer will be created successfully.
+            </p>
+        </div>
+    </section>
+    
+    <section id="validaciones">
+        <h2>System Validations</h2>
+        <p>The system performs the following validations:</p>
+        <ul>
+            <li>The <strong>Name</strong> and <strong>DNI/CUIT</strong> fields cannot be left empty</li>
+            <li>The <strong>DNI/CUIT</strong> must be unique - there cannot be two customers with the same document</li>
+            <li>If an <strong>Email</strong> is entered, it must have a valid format (example@domain.com)</li>
+            <li>The <strong>Name</strong> cannot exceed 100 characters</li>
+            <li>The <strong>DNI/CUIT</strong> must contain only numbers</li>
+            <li>The <strong>Postal Code</strong> must be a 4-digit numeric value</li>
+        </ul>
+    </section>
+    
+    <section id="consejos">
+        <h2>Tips and Recommendations</h2>
+        
+        <div class="tip">
+            Complete all possible fields, even if they are not required. This will facilitate 
+            communication with the customer and order management in the future.
+        </div>
+        
+        <div class="tip">
+            Double-check the DNI/CUIT before saving, as this data is unique and cannot be 
+            duplicated. If you try to create a customer with an existing DNI/CUIT, the system will display an error.
+        </div>
+        
+        <div class="warning">
+            <strong>⚠ Warning:</strong> If you mark a customer as <strong>Inactive</strong>, 
+            you will not be able to assign new orders to them until you reactivate them from the 
+            <strong>Modify Customer</strong> option.
+        </div>
+    </section>
+    
+    <section id="errores">
+        <h2>Common Errors and Solutions</h2>
+        
+        <h3>Error: "The DNI/CUIT already exists in the system"</h3>
+        <div class="error">
+            <strong>Cause:</strong> A customer with that DNI/CUIT is already registered.
+        </div>
+        <div class="success">
+            <strong>✓ Solution:</strong> 
+            <ol>
+                <li>Verify that the DNI/CUIT is correct</li>
+                <li>Use the <strong>Show Customers</strong> option to search if the customer already exists</li>
+                <li>If the customer exists, use <strong>Modify Customer</strong> to update their data</li>
+            </ol>
+        </div>
+        
+        <h3>Error: "The Email does not have a valid format"</h3>
+        <div class="error">
+            <strong>Cause:</strong> The email format entered is incorrect.
+        </div>
+        <div class="success">
+            <strong>✓ Solution:</strong> 
+            <p>Verify that the email has the format: name@domain.com</p>
+            <p>Valid example: <code>customer@example.com</code></p>
+        </div>
+        
+        <h3>Error: "Complete the required fields"</h3>
+        <div class="error">
+            <strong>Cause:</strong> Required fields are missing.
+        </div>
+        <div class="success">
+            <strong>✓ Solution:</strong> 
+            <p>Complete the fields: <strong>Name</strong> and <strong>DNI/CUIT</strong></p>
+        </div>
+    </section>
+    
+    <section id="permisos">
+        <h2>Required Permissions</h2>
+        <p>To use this functionality, the user must have the following permissions:</p>
+        <ul>
+            <li><code>ClienteCreate</code> - Allows creating new customers</li>
+        </ul>
+        
+        <div class="warning">
+            <strong>ℹ Important:</strong> If you do not have the necessary permission, the option will appear 
+            disabled in the menu. Contact the system administrator to request the permission.
+        </div>
+    </section>
+    
+    <section id="despues">
+        <h2>After Creating the Customer</h2>
+        <p>Once the customer is successfully created:</p>
+        <ul>
+            <li>The customer will appear in the <strong>Show Customers</strong> list</li>
+            <li>You can assign orders to them from <strong>Create Order</strong></li>
+            <li>You can modify their data from <strong>Modify Customer</strong></li>
+            <li>You can check their purchase history in the reports</li>
+        </ul>
+        
+        <div class="info-box">
+            <strong>ℹ Note:</strong> The system automatically assigns a unique ID to the customer. 
+            This ID is used internally and cannot be modified.
+        </div>
+    </section>
+    
+    <section id="relacionados">
+        <h2>See Also</h2>
+        <ul class="no-bullets">
+            <li>📄 <a href="topic_41_modificar_cliente.html">Modify Customer</a></li>
+            <li>📄 <a href="topic_42_mostrar_clientes.html">View Customers</a></li>
+            <li>📄 <a href="../pedidos/topic_80_crear_pedido.html">Create Order</a></li>
+        </ul>
+    </section>
+    
+    <footer>
+        <p>© 2024 Distribuidora Los Amigos - Management System</p>
+        <p>All rights reserved</p>
+    </footer>
+
+</body>
+</html>

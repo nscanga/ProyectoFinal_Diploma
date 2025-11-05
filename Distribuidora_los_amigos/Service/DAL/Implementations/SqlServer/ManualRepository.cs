@@ -44,6 +44,8 @@ namespace Service.DAL.Implementations.SqlServer
             return helpFilePath;
         }
 
+        #region Ayuda General
+
         /// <summary>
         /// Despliega la ayuda de la pantalla principal.
         /// </summary>
@@ -51,6 +53,10 @@ namespace Service.DAL.Implementations.SqlServer
         {
             Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "20");
         }
+
+        #endregion
+
+        #region Ayuda Login y Seguridad
 
         /// <summary>
         /// Abre la ayuda correspondiente al inicio de sesión.
@@ -71,50 +77,15 @@ namespace Service.DAL.Implementations.SqlServer
         /// <summary>
         /// Presenta la ayuda sobre el proceso de recuperación de contraseña.
         /// </summary>
-        public void AbrirAyudaRecuperoPass()
+        /// <param name="owner">Formulario propietario (opcional, necesario para formularios modales)</param>
+        public void AbrirAyudaRecuperoPass(Control owner = null)
         {
-            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "32");
+            Help.ShowHelp(owner, helpFilePath, HelpNavigator.TopicId, "32");
         }
 
-        /// <summary>
-        /// Despliega la ayuda para asignar roles a los usuarios.
-        /// </summary>
-        public void AbrirAyudaAsignarRol()
-        {
-            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "24");
-        }
+        #endregion
 
-        /// <summary>
-        /// Abre la sección de ayuda sobre la generación de respaldos.
-        /// </summary>
-        public void AbrirAyudaBackUp()
-        {
-            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "22");
-        }
-
-        /// <summary>
-        /// Muestra la ayuda relativa a la consulta de la bitácora.
-        /// </summary>
-        public void AbrirAyudaBitacora()
-        {
-            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "25");
-        }
-
-        /// <summary>
-        /// Presenta la guía para la creación de patentes.
-        /// </summary>
-        public void AbrirAyudaCrearPatente()
-        {
-            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "27");
-        }
-
-        /// <summary>
-        /// Despliega la ayuda para crear roles.
-        /// </summary>
-        public void AbrirAyudaCrearRol()
-        {
-            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "26");
-        }
+        #region Ayuda Gestión de Usuarios
 
         /// <summary>
         /// Abre la ayuda para registrar nuevos usuarios.
@@ -139,6 +110,236 @@ namespace Service.DAL.Implementations.SqlServer
         {
             Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "29");
         }
+
+        #endregion
+
+        #region Ayuda Roles y Permisos
+
+        /// <summary>
+        /// Despliega la ayuda para asignar roles a los usuarios.
+        /// </summary>
+        public void AbrirAyudaAsignarRol()
+        {
+            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "24");
+        }
+
+        /// <summary>
+        /// Despliega la ayuda para crear roles.
+        /// </summary>
+        public void AbrirAyudaCrearRol()
+        {
+            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "26");
+        }
+
+        /// <summary>
+        /// Presenta la guía para la creación de patentes.
+        /// </summary>
+        public void AbrirAyudaCrearPatente()
+        {
+            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "27");
+        }
+
+        #endregion
+
+        #region Ayuda Backup y Restore
+
+        /// <summary>
+        /// Abre la sección de ayuda sobre la generación de respaldos.
+        /// </summary>
+        public void AbrirAyudaBackUp()
+        {
+            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "22");
+        }
+
+        /// <summary>
+        /// Muestra la ayuda sobre restauración de respaldos.
+        /// </summary>
+        public void AbrirAyudaRestore()
+        {
+            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "30");
+        }
+
+        #endregion
+
+        #region Ayuda Bitácora
+
+        /// <summary>
+        /// Muestra la ayuda relativa a la consulta de la bitácora.
+        /// </summary>
+        public void AbrirAyudaBitacora()
+        {
+            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "25");
+        }
+
+        #endregion
+
+        #region Ayuda Clientes
+
+        /// <summary>
+        /// Abre la ayuda para crear clientes.
+        /// </summary>
+        public void AbrirAyudaCrearCliente()
+        {
+            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "40");
+        }
+
+        /// <summary>
+        /// Muestra la ayuda para modificar clientes.
+        /// </summary>
+        public void AbrirAyudaModificarCliente()
+        {
+            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "41");
+        }
+
+        /// <summary>
+        /// Despliega la ayuda para visualizar clientes.
+        /// </summary>
+        public void AbrirAyudaMostrarClientes()
+        {
+            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "42");
+        }
+
+        #endregion
+
+        #region Ayuda Productos
+
+        /// <summary>
+        /// Abre la ayuda para crear productos.
+        /// </summary>
+        public void AbrirAyudaCrearProducto()
+        {
+            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "50");
+        }
+
+        /// <summary>
+        /// Muestra la ayuda para modificar productos.
+        /// </summary>
+        public void AbrirAyudaModificarProducto()
+        {
+            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "51");
+        }
+
+        /// <summary>
+        /// Despliega la ayuda para visualizar productos.
+        /// </summary>
+        public void AbrirAyudaMostrarProductos()
+        {
+            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "52");
+        }
+
+        /// <summary>
+        /// Abre la ayuda para eliminar productos.
+        /// </summary>
+        public void AbrirAyudaEliminarProducto()
+        {
+            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "53");
+        }
+
+        #endregion
+
+        #region Ayuda Proveedores
+
+        /// <summary>
+        /// Abre la ayuda para crear proveedores.
+        /// </summary>
+        public void AbrirAyudaCrearProveedor()
+        {
+            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "60");
+        }
+
+        /// <summary>
+        /// Muestra la ayuda para modificar proveedores.
+        /// </summary>
+        public void AbrirAyudaModificarProveedor()
+        {
+            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "61");
+        }
+
+        /// <summary>
+        /// Despliega la ayuda para visualizar proveedores.
+        /// </summary>
+        public void AbrirAyudaMostrarProveedores()
+        {
+            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "62");
+        }
+
+        #endregion
+
+        #region Ayuda Stock
+
+        /// <summary>
+        /// Muestra la ayuda para visualizar el stock.
+        /// </summary>
+        public void AbrirAyudaMostrarStock()
+        {
+            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "70");
+        }
+
+        /// <summary>
+        /// Abre la ayuda para modificar el stock.
+        /// </summary>
+        public void AbrirAyudaModificarStock()
+        {
+            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "71");
+        }
+
+        #endregion
+
+        #region Ayuda Pedidos
+
+        /// <summary>
+        /// Abre la ayuda para crear pedidos.
+        /// </summary>
+        public void AbrirAyudaCrearPedido()
+        {
+            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "80");
+        }
+
+        /// <summary>
+        /// Muestra la ayuda para modificar pedidos.
+        /// </summary>
+        public void AbrirAyudaModificarPedido()
+        {
+            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "81");
+        }
+
+        /// <summary>
+        /// Despliega la ayuda para visualizar pedidos.
+        /// </summary>
+        public void AbrirAyudaMostrarPedidos()
+        {
+            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "82");
+        }
+
+        /// <summary>
+        /// Abre la ayuda para visualizar el detalle de un pedido.
+        /// </summary>
+        public void AbrirAyudaDetallePedido()
+        {
+            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "83");
+        }
+
+        #endregion
+
+        #region Ayuda Reportes
+
+        /// <summary>
+        /// Muestra la ayuda para el reporte de stock bajo.
+        /// </summary>
+        public void AbrirAyudaReporteStockBajo()
+        {
+            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "90");
+        }
+
+        /// <summary>
+        /// Despliega la ayuda para el reporte de productos más vendidos.
+        /// </summary>
+        public void AbrirAyudaReporteProductosMasVendidos()
+        {
+            Help.ShowHelp(null, helpFilePath, HelpNavigator.TopicId, "91");
+        }
+
+        #endregion
     }
 }
 

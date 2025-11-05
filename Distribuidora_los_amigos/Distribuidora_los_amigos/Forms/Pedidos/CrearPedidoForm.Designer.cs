@@ -76,6 +76,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(39, 13);
             this.label1.TabIndex = 3;
+            this.label1.Tag = "Cliente";
             this.label1.Text = "Cliente";
             // 
             // label2
@@ -85,6 +86,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(89, 13);
             this.label2.TabIndex = 4;
+            this.label2.Tag = "Fecha del pedido";
             this.label2.Text = "Fecha del pedido";
             // 
             // label3
@@ -94,6 +96,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(40, 13);
             this.label3.TabIndex = 5;
+            this.label3.Tag = "Estado";
             this.label3.Text = "Estado";
             // 
             // buttonAgregarProducto
@@ -102,6 +105,7 @@
             this.buttonAgregarProducto.Name = "buttonAgregarProducto";
             this.buttonAgregarProducto.Size = new System.Drawing.Size(121, 23);
             this.buttonAgregarProducto.TabIndex = 6;
+            this.buttonAgregarProducto.Tag = "Agregar producto";
             this.buttonAgregarProducto.Text = "Agregar producto";
             this.buttonAgregarProducto.UseVisualStyleBackColor = true;
             this.buttonAgregarProducto.Click += new System.EventHandler(this.buttonAgregarProducto_Click_1);
@@ -112,6 +116,7 @@
             this.buttonGuardarPedido.Name = "buttonGuardarPedido";
             this.buttonGuardarPedido.Size = new System.Drawing.Size(121, 23);
             this.buttonGuardarPedido.TabIndex = 7;
+            this.buttonGuardarPedido.Tag = "Guardar pedido";
             this.buttonGuardarPedido.Text = "Guardar pedido";
             this.buttonGuardarPedido.UseVisualStyleBackColor = true;
             this.buttonGuardarPedido.Click += new System.EventHandler(this.buttonGuardarPedido_Click_1);
@@ -144,6 +149,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(49, 13);
             this.label4.TabIndex = 10;
+            this.label4.Tag = "Cantidad";
             this.label4.Text = "Cantidad";
             // 
             // dataGridViewDetallePedido
@@ -172,6 +178,7 @@
             this.Controls.Add(this.dateTimePickerCrearPedido);
             this.Controls.Add(this.comboBoxSeleccionCliente);
             this.Name = "CrearPedidoForm";
+            this.Tag = "CrearPedidoForm";
             this.Text = "CrearPedidoForm";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProductos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();

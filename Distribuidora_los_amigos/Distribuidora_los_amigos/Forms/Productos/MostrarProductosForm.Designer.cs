@@ -61,7 +61,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(120, 30);
             this.button1.TabIndex = 3;
-            this.button1.Tag = "Actualizar";
+            this.button1.Tag = "Eliminar Producto";
             this.button1.Text = "Eliminar Producto";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -72,7 +72,7 @@
             this.buttonCrearProducto2.Name = "buttonCrearProducto2";
             this.buttonCrearProducto2.Size = new System.Drawing.Size(120, 30);
             this.buttonCrearProducto2.TabIndex = 4;
-            this.buttonCrearProducto2.Tag = "Actualizar";
+            this.buttonCrearProducto2.Tag = "Crear Producto";
             this.buttonCrearProducto2.Text = "Crear Producto";
             this.buttonCrearProducto2.UseVisualStyleBackColor = true;
             this.buttonCrearProducto2.Click += new System.EventHandler(this.buttonCrearProducto2_Click);
@@ -83,7 +83,7 @@
             this.buttonModificarProducto2.Name = "buttonModificarProducto2";
             this.buttonModificarProducto2.Size = new System.Drawing.Size(120, 30);
             this.buttonModificarProducto2.TabIndex = 5;
-            this.buttonModificarProducto2.Tag = "Actualizar";
+            this.buttonModificarProducto2.Tag = "Modificar Producto";
             this.buttonModificarProducto2.Text = "Modificar Producto";
             this.buttonModificarProducto2.UseVisualStyleBackColor = true;
             this.buttonModificarProducto2.Click += new System.EventHandler(this.buttonModificarProducto2_Click);
@@ -99,6 +99,7 @@
             this.Controls.Add(this.buttonActualizarProducto);
             this.Controls.Add(this.dataGridView1);
             this.Name = "MostrarProductosForm";
+            this.Tag = "MostrarProductosForm";
             this.Text = "MostrarProductosForm";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);

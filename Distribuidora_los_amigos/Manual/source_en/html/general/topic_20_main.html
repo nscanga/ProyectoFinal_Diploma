@@ -1,0 +1,239 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Screen - Distribuidora Los Amigos</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body>
+    
+    <div class="breadcrumb">
+        <a href="topic_20_main.html">Home</a>
+        <span>»</span>
+        <span>Main Screen</span>
+    </div>
+
+    <h1>System Main Screen</h1>
+    
+    <section id="introduccion">
+        <h2>Introduction</h2>
+        <p>
+            The main screen is the control center of the Distribuidora Los Amigos Management System. 
+            From here you can access all system functionalities according to the permissions assigned to your user.
+        </p>
+        <p>
+            The system is designed with an MDI (Multiple Document Interface) that allows working 
+            with multiple windows simultaneously.
+        </p>
+    </section>
+    
+    <section id="componentes">
+        <h2>Main Screen Components</h2>
+        
+        <h3>1. Menu Bar</h3>
+        <p>Contains all system modules organized by categories:</p>
+        <ul>
+            <li><strong>File:</strong> System exit options</li>
+            <li><strong>Management:</strong> Access to users, roles and permissions</li>
+            <li><strong>Customers:</strong> Customer administration</li>
+            <li><strong>Products:</strong> Product catalog and management</li>
+            <li><strong>Suppliers:</strong> Supplier management</li>
+            <li><strong>Stock:</strong> Inventory control</li>
+            <li><strong>Orders:</strong> Order management</li>
+            <li><strong>Reports:</strong> Reports and statistics</li>
+            <li><strong>Backup:</strong> Backups and restoration</li>
+            <li><strong>Language:</strong> System language change</li>
+        </ul>
+        
+        <h3>2. Status Bar</h3>
+        <p>Located at the bottom, displays:</p>
+        <ul>
+            <li>Currently logged in user</li>
+            <li>Current system date and time</li>
+            <li>Database connection status</li>
+        </ul>
+        
+        <h3>3. MDI Work Area</h3>
+        <p>
+            Central space where different module windows open. 
+            Can have multiple windows open simultaneously.
+        </p>
+    </section>
+    
+    <section id="acceso">
+        <h2>First System Access</h2>
+        
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Login</strong>
+            <p>
+                When launching the application, the login window will appear. 
+                Enter your username and password provided by the administrator.
+            </p>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>Permission Verification</strong>
+            <p>
+                The system will automatically load your permissions and enable only 
+                the menu options you have access to.
+            </p>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Language Configuration</strong>
+            <p>
+                The system will remember the last selected language. You can change it 
+                anytime from the <strong>Language</strong> menu.
+            </p>
+        </div>
+    </section>
+    
+    <section id="navegacion">
+        <h2>System Navigation</h2>
+        
+        <h3>Opening a Module</h3>
+        <ol>
+            <li>Click on the corresponding menu (e.g. <strong>Customers</strong>)</li>
+            <li>Select the desired option (e.g. <strong>Create Customer</strong>)</li>
+            <li>A new window will open in the work area</li>
+        </ol>
+        
+        <h3>Working with Multiple Windows</h3>
+        <ul>
+            <li>You can have several windows open at the same time</li>
+            <li>Use the <strong>Windows</strong> menu to organize open windows</li>
+            <li>Click on a window to bring it to front</li>
+        </ul>
+        
+        <div class="tip">
+            Use shortcut keys <code>Alt + [Underlined Letter]</code> to quickly access 
+            menu options.
+        </div>
+    </section>
+    
+    <section id="ayuda">
+        <h2>Getting Contextual Help</h2>
+        <p>In any system window you can press <strong>F1</strong> to get specific help about that functionality.</p>
+        
+        <div class="info-box">
+            <strong>ℹ Note:</strong> Help will be displayed in the currently selected system language.
+        </div>
+    </section>
+    
+    <section id="cierre">
+        <h2>Logout</h2>
+        <p>To safely exit the system:</p>
+        <ol>
+            <li>Go to <strong>File</strong> menu</li>
+            <li>Click on <strong>Exit</strong></li>
+            <li>Confirm closure if there are open windows</li>
+        </ol>
+        
+        <div class="warning">
+            <strong>⚠ Important:</strong> Always close the system properly to 
+            avoid losing unsaved data.
+        </div>
+    </section>
+    
+    <section id="configuracion">
+        <h2>System Configuration</h2>
+        
+        <h3>Change Language</h3>
+        <p>The system supports multiple languages:</p>
+        <ul>
+            <li>Spanish (es-ES)</li>
+            <li>English (en-US)</li>
+            <li>Portuguese (pt-PT)</li>
+        </ul>
+        <p><strong>Language change:</strong> <strong>Language</strong> Menu → Select language → System updates automatically</p>
+        
+        <h3>Customization</h3>
+        <p>According to your permissions, you can customize:</p>
+        <ul>
+            <li>Interface language</li>
+            <li>Window layout</li>
+        </ul>
+    </section>
+    
+    <section id="seguridad">
+        <h2>Security Aspects</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Single Session</strong></td>
+                    <td>A user can only have one active session at a time</td>
+                </tr>
+                <tr>
+                    <td><strong>Audit</strong></td>
+                    <td>All actions are recorded in the event log</td>
+                </tr>
+                <tr>
+                    <td><strong>Granular Permissions</strong></td>
+                    <td>Each action requires a specific permission</td>
+                </tr>
+                <tr>
+                    <td><strong>Data Integrity</strong></td>
+                    <td>DVH and DVV system to detect tampering</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <section id="atajos">
+        <h2>Keyboard Shortcuts</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Key</th>
+                    <th>Function</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>F1</code></td>
+                    <td>Contextual help</td>
+                </tr>
+                <tr>
+                    <td><code>Alt + F4</code></td>
+                    <td>Close current window</td>
+                </tr>
+                <tr>
+                    <td><code>Ctrl + S</code></td>
+                    <td>Save (in edit forms)</td>
+                </tr>
+                <tr>
+                    <td><code>Esc</code></td>
+                    <td>Cancel current operation</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <section id="relacionados">
+        <h2>See Also</h2>
+        <ul class="no-bullets">
+            <li>📄 <a href="../login/topic_31_login.html">Login</a></li>
+            <li>📄 <a href="../usuarios/topic_23_crear_usuario.html">User Management</a></li>
+            <li>📄 <a href="../backup/topic_25_bitacora.html">System Event Log</a></li>
+        </ul>
+    </section>
+    
+    <footer>
+        <p>© 2024 Distribuidora Los Amigos - Management System</p>
+        <p>All rights reserved</p>
+    </footer>
+
+</body>
+</html>
+

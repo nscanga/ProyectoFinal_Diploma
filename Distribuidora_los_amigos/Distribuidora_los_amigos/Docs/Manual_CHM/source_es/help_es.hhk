@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Backup">
+		<param name="Local" value="html\backup\topic_22_backup.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Bitácora">
+		<param name="Local" value="html\backup\topic_25_bitacora.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Cambiar Contraseña">
+		<param name="Local" value="html\login\topic_33_cambiar_pass.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Cliente, Crear">
+		<param name="Local" value="html\clientes\topic_40_crear_cliente.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Cliente, Modificar">
+		<param name="Local" value="html\clientes\topic_41_modificar_cliente.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Clientes, Consultar">
+		<param name="Local" value="html\clientes\topic_42_mostrar_clientes.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Crear Cliente">
+		<param name="Local" value="html\clientes\topic_40_crear_cliente.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Crear Patente">
+		<param name="Local" value="html\roles\topic_27_crear_patente.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Crear Pedido">
+		<param name="Local" value="html\pedidos\topic_80_crear_pedido.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Crear Producto">
+		<param name="Local" value="html\productos\topic_50_crear_producto.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Crear Proveedor">
+		<param name="Local" value="html\proveedores\topic_60_crear_proveedor.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Crear Rol">
+		<param name="Local" value="html\roles\topic_26_crear_rol.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Crear Usuario">
+		<param name="Local" value="html\usuarios\topic_23_crear_usuario.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Detalle Pedido">
+		<param name="Local" value="html\pedidos\topic_83_detalle_pedido.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Eliminar Producto">
+		<param name="Local" value="html\productos\topic_53_eliminar_producto.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Inicio">
+		<param name="Local" value="html\general\topic_20_main.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Iniciar Sesión">
+		<param name="Local" value="html\login\topic_31_login.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Login">
+		<param name="Local" value="html\login\topic_31_login.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Modificar Cliente">
+		<param name="Local" value="html\clientes\topic_41_modificar_cliente.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Modificar Pedido">
+		<param name="Local" value="html\pedidos\topic_81_modificar_pedido.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Modificar Producto">
+		<param name="Local" value="html\productos\topic_51_modificar_producto.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Modificar Proveedor">
+		<param name="Local" value="html\proveedores\topic_61_modificar_proveedor.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Modificar Stock">
+		<param name="Local" value="html\stock\topic_71_modificar_stock.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Modificar Usuario">
+		<param name="Local" value="html\usuarios\topic_28_modificar_usuario.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Pantalla Principal">
+		<param name="Local" value="html\general\topic_20_main.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Patente">
+		<param name="Local" value="html\roles\topic_27_crear_patente.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Pedidos">
+		<param name="Local" value="html\pedidos\topic_82_mostrar_pedidos.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Permisos">
+		<param name="Local" value="html\roles\topic_27_crear_patente.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Productos">
+		<param name="Local" value="html\productos\topic_52_mostrar_productos.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Productos Más Vendidos">
+		<param name="Local" value="html\reportes\topic_91_reporte_mas_vendidos.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Proveedores">
+		<param name="Local" value="html\proveedores\topic_62_mostrar_proveedores.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Recuperar Contraseña">
+		<param name="Local" value="html\login\topic_32_recuperar.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Reporte Stock Bajo">
+		<param name="Local" value="html\reportes\topic_90_reporte_stock_bajo.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Restore">
+		<param name="Local" value="html\backup\topic_30_restore.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Restaurar Base de Datos">
+		<param name="Local" value="html\backup\topic_30_restore.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Rol">
+		<param name="Local" value="html\roles\topic_26_crear_rol.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Asignar Rol">
+		<param name="Local" value="html\usuarios\topic_24_asignar_rol.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Stock">
+		<param name="Local" value="html\stock\topic_70_mostrar_stock.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Usuario, Crear">
+		<param name="Local" value="html\usuarios\topic_23_crear_usuario.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Usuario, Modificar">
+		<param name="Local" value="html\usuarios\topic_28_modificar_usuario.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Usuarios">
+		<param name="Local" value="html\usuarios\topic_29_mostrar_usuarios.html">
+		</OBJECT>
+</UL>
+</BODY></HTML>

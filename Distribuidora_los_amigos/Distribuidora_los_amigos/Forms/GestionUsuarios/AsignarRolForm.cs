@@ -7,13 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Service.DAL.Contracts;
 using Service.DOMAIN;
 using Service.Facade;
 using Services.Facade;
 
 namespace Distribuidora_los_amigos.Forms.GestionUsuarios
 {
-    public partial class AsignarRolForm : Form
+    public partial class AsignarRolForm : Form, IIdiomaObserver
     {
         /// <summary>
         /// Inicializa el formulario de asignación de roles configurando eventos y posición.
@@ -25,6 +26,21 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             this.FormClosed += AsignarRolForm_FormClosed;
             this.KeyPreview = true;
             this.KeyDown += AsignarRolForm_KeyDown;
+            
+            // Suscribirse al servicio de idiomas
+            IdiomaService.Subscribe(this);
+            
+            // Traducir el formulario al cargarlo
+            IdiomaService.TranslateForm(this);
+        }
+
+        /// <summary>
+        /// Actualiza los textos del formulario cuando cambia el idioma.
+        /// </summary>
+        public void UpdateIdioma()
+        {
+            IdiomaService.TranslateForm(this);
+            this.Refresh();
         }
 
         /// <summary>
@@ -36,7 +52,6 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
         {
             try
             {
-                IdiomaService.TranslateForm(this);
                 // Usamos UserService para obtener la lista de usuarios
                 List<Usuario> usuarios = UserService.GetAllUsuarios(); // Método en UserService
                 comboBoxUsers.DataSource = usuarios;
@@ -72,6 +87,9 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
         /// <param name="e">Argumentos del evento de cierre.</param>
         private void AsignarRolForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            // Desuscribirse del servicio de idiomas
+            IdiomaService.Unsubscribe(this);
+            
             // Registrar el cierre del formulario
             LoggerService.WriteLog($"Formulario '{this.Text}' cerrado.", System.Diagnostics.TraceLevel.Info);
         }
@@ -149,18 +167,17 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             {
                 if (e.KeyCode == Keys.F1)
                 {
-
                     ManualService manualService = new ManualService();
                     manualService.AbrirAyudaAsignarRol();
+                    e.Handled = true; // Prevenir propagación del evento
                 }
             }
-
             catch (Exception ex)
             {
-                MessageBox.Show("Error " + ex.Message, "Error");
+                MessageBox.Show($"Error al abrir la ayuda: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 LoggerService.WriteException(ex);
             }
-
         }
     }
 }

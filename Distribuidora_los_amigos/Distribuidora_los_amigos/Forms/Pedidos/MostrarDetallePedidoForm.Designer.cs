@@ -61,6 +61,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(39, 13);
             this.label1.TabIndex = 4;
+            this.label1.Tag = "Cliente";
             this.label1.Text = "Cliente";
             // 
             // label2
@@ -70,6 +71,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(37, 13);
             this.label2.TabIndex = 5;
+            this.label2.Tag = "Fecha";
             this.label2.Text = "Fecha";
             // 
             // label3
@@ -79,6 +81,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(40, 13);
             this.label3.TabIndex = 6;
+            this.label3.Tag = "Estado";
             this.label3.Text = "Estado";
             // 
             // textBoxCliente
@@ -101,6 +104,7 @@
             this.buttonCerrar.Name = "buttonCerrar";
             this.buttonCerrar.Size = new System.Drawing.Size(75, 23);
             this.buttonCerrar.TabIndex = 27;
+            this.buttonCerrar.Tag = "Cerrar";
             this.buttonCerrar.Text = "Cerrar";
             this.buttonCerrar.UseVisualStyleBackColor = true;
             this.buttonCerrar.Click += new System.EventHandler(this.buttonCerrar_Click);
@@ -119,6 +123,7 @@
             this.Controls.Add(this.textBoxEstado);
             this.Controls.Add(this.dataGridViewDetallePedido);
             this.Name = "MostrarDetallePedidoForm";
+            this.Tag = "MostrarDetallePedidoForm";
             this.Text = "MostrarDetallePedidoForm";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDetallePedido)).EndInit();
             this.ResumeLayout(false);

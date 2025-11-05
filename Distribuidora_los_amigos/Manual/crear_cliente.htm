@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Cliente</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .info-box {
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .field-description {
+            background: white;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 3px solid #27ae60;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Crear Cliente</h1>
+    
+    <div class="info-box">
+        <strong>?? Propósito:</strong> Registrar nuevos clientes en el sistema.
+    </div>
+    
+    <h2>Campos del Formulario</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Campo</th>
+                <th>Descripción</th>
+                <th>Obligatorio</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Nombre</strong></td>
+                <td>Nombre completo o razón social del cliente</td>
+                <td>? Sí</td>
+            </tr>
+            <tr>
+                <td><strong>Dirección</strong></td>
+                <td>Dirección física del cliente</td>
+                <td>? No</td>
+            </tr>
+            <tr>
+                <td><strong>Email</strong></td>
+                <td>Correo electrónico de contacto (debe contener @)</td>
+                <td>? Sí</td>
+            </tr>
+            <tr>
+                <td><strong>Teléfono</strong></td>
+                <td>Número de teléfono (solo números)</td>
+                <td>? No</td>
+            </tr>
+            <tr>
+                <td><strong>CUIT</strong></td>
+                <td>Número de CUIT/CUIL del cliente</td>
+                <td>? No</td>
+            </tr>
+            <tr>
+                <td><strong>Activo</strong></td>
+                <td>Indica si el cliente está activo en el sistema</td>
+                <td>? Sí</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h2>Pasos para Crear un Cliente</h2>
+    
+    <div class="field-description">
+        <strong>1.</strong> Complete todos los campos obligatorios.
+    </div>
+    
+    <div class="field-description">
+        <strong>2.</strong> Verifique que el email tenga formato válido (ejemplo: cliente@empresa.com).
+    </div>
+    
+    <div class="field-description">
+        <strong>3.</strong> Si el teléfono contiene un @ por error, el sistema le avisará.
+    </div>
+    
+    <div class="field-description">
+        <strong>4.</strong> Haga clic en "Guardar" para crear el cliente.
+    </div>
+    
+    <h2>Errores Comunes</h2>
+    <ul>
+        <li><strong>Email sin @:</strong> El sistema requiere un formato válido de email.</li>
+        <li><strong>Campo vacío:</strong> Los campos marcados como obligatorios deben completarse.</li>
+        <li><strong>Email en campo teléfono:</strong> El campo teléfono solo acepta números.</li>
+    </ul>
+    
+    <p><a href="clientes.html">? Volver a Clientes</a> | <a href="index.html">? Volver al Índice</a></p>
+</body>
+</html>

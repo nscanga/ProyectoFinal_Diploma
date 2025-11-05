@@ -1,0 +1,233 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<OBJECT type="text/site properties">
+	<param name="Window Styles" value="0x800025">
+	<param name="ImageType" value="Folder">
+</OBJECT>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Inicio">
+		<param name="Local" value="html\general\topic_20_main.html">
+		<param name="ImageNumber" value="1">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Introducción">
+		<param name="Local" value="html\general\topic_21_intro.html">
+		<param name="ImageNumber" value="11">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Login y Seguridad">
+		<param name="ImageNumber" value="1">
+		</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Iniciar Sesión">
+				<param name="Local" value="html\login\topic_31_login.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Recuperar Contraseña">
+				<param name="Local" value="html\login\topic_32_recuperar.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Cambiar Contraseña">
+				<param name="Local" value="html\login\topic_33_cambiar_pass.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+		</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Gestión de Usuarios">
+		<param name="ImageNumber" value="1">
+		</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Crear Usuario">
+				<param name="Local" value="html\usuarios\topic_23_crear_usuario.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Modificar Usuario">
+				<param name="Local" value="html\usuarios\topic_28_modificar_usuario.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Mostrar Usuarios">
+				<param name="Local" value="html\usuarios\topic_29_mostrar_usuarios.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Asignar Rol a Usuario">
+				<param name="Local" value="html\usuarios\topic_24_asignar_rol.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+		</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Roles y Permisos">
+		<param name="ImageNumber" value="1">
+		</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Crear Rol (Familia)">
+				<param name="Local" value="html\roles\topic_26_crear_rol.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Crear Patente">
+				<param name="Local" value="html\roles\topic_27_crear_patente.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+		</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Backup y Restore">
+		<param name="ImageNumber" value="1">
+		</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Realizar Backup">
+				<param name="Local" value="html\backup\topic_22_backup.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Restaurar Base de Datos">
+				<param name="Local" value="html\backup\topic_30_restore.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Bitácora del Sistema">
+				<param name="Local" value="html\backup\topic_25_bitacora.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+		</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Gestión de Clientes">
+		<param name="ImageNumber" value="1">
+		</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Crear Cliente">
+				<param name="Local" value="html\clientes\topic_40_crear_cliente.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Modificar Cliente">
+				<param name="Local" value="html\clientes\topic_41_modificar_cliente.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Consultar Clientes">
+				<param name="Local" value="html\clientes\topic_42_mostrar_clientes.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+		</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Gestión de Productos">
+		<param name="ImageNumber" value="1">
+		</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Crear Producto">
+				<param name="Local" value="html\productos\topic_50_crear_producto.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Modificar Producto">
+				<param name="Local" value="html\productos\topic_51_modificar_producto.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Consultar Productos">
+				<param name="Local" value="html\productos\topic_52_mostrar_productos.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Eliminar Producto">
+				<param name="Local" value="html\productos\topic_53_eliminar_producto.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+		</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Gestión de Proveedores">
+		<param name="ImageNumber" value="1">
+		</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Crear Proveedor">
+				<param name="Local" value="html\proveedores\topic_60_crear_proveedor.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Modificar Proveedor">
+				<param name="Local" value="html\proveedores\topic_61_modificar_proveedor.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Consultar Proveedores">
+				<param name="Local" value="html\proveedores\topic_62_mostrar_proveedores.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+		</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Gestión de Stock">
+		<param name="ImageNumber" value="1">
+		</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Consultar Stock">
+				<param name="Local" value="html\stock\topic_70_mostrar_stock.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Modificar Stock">
+				<param name="Local" value="html\stock\topic_71_modificar_stock.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+		</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Gestión de Pedidos">
+		<param name="ImageNumber" value="1">
+		</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Crear Pedido">
+				<param name="Local" value="html\pedidos\topic_80_crear_pedido.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Modificar Pedido">
+				<param name="Local" value="html\pedidos\topic_81_modificar_pedido.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Consultar Pedidos">
+				<param name="Local" value="html\pedidos\topic_82_mostrar_pedidos.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Detalle del Pedido">
+				<param name="Local" value="html\pedidos\topic_83_detalle_pedido.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+		</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Reportes">
+		<param name="ImageNumber" value="1">
+		</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Reporte Stock Bajo">
+				<param name="Local" value="html\reportes\topic_90_reporte_stock_bajo.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Productos Más Vendidos">
+				<param name="Local" value="html\reportes\topic_91_reporte_mas_vendidos.html">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+		</UL>
+</UL>
+</BODY></HTML>

@@ -328,33 +328,43 @@ namespace Service.DAL.Implementations.SqlServer.Helpers
         }
 
         /// <summary>
-        /// Obtiene la relación de usuarios junto con sus familias y patentes asignadas.
+        /// Obtiene la relación de usuarios junto con sus familias asignadas.
         /// </summary>
-        /// <returns>Listado plano de usuarios con detalle de roles.</returns>
+        /// <returns>Listado de usuarios con sus roles.</returns>
         public List<UsuarioRolDto> GetUsuariosConFamilasYPatentes()
         {
-        var usuariosRoles = new List<UsuarioRolDto>();
+            var usuariosRoles = new List<UsuarioRolDto>();
 
-            // Consulta SQL para unir las tablas Usuario, Familia y Patente
-        string query = @"
-        SELECT u.UserName, f.Nombre AS Familia, p.Nombre AS Patente, u.Estado
-        FROM Usuario u
-        LEFT JOIN Usuario_Familia uf ON u.IdUsuario = uf.IdUsuario
-        LEFT JOIN Familia f ON uf.IdFamilia = f.IdFamilia
-        LEFT JOIN Familia_Patente fp ON f.IdFamilia = fp.IdFamilia
-        LEFT JOIN Patente p ON fp.IdPatente = p.IdPatente
-        ";
+            // Consulta SQL compatible con SQL Server 2008 y superiores
+            // Agrupa las familias por usuario usando STUFF y FOR XML PATH
+            string query = @"
+            SELECT 
+                u.UserName AS Usuario,
+                STUFF((
+                    SELECT DISTINCT ', ' + f2.Nombre
+                    FROM Usuario_Familia uf2
+                    INNER JOIN Familia f2 ON uf2.IdFamilia = f2.IdFamilia
+                    WHERE uf2.IdUsuario = u.IdUsuario
+                    FOR XML PATH(''), TYPE
+                ).value('.', 'NVARCHAR(MAX)'), 1, 2, '') AS Familias,
+                u.Estado
+            FROM Usuario u
+            GROUP BY u.IdUsuario, u.UserName, u.Estado
+            ORDER BY u.UserName
+            ";
 
             using (var reader = SqlHelper.ExecuteReader(query, CommandType.Text))
             {
                 while (reader.Read())
                 {
+                    var familias = reader.IsDBNull(reader.GetOrdinal("Familias")) 
+                        ? "Sin rol asignado" 
+                        : reader.GetString(reader.GetOrdinal("Familias"));
+
                     var usuarioRolDto = new UsuarioRolDto
                     {
-
-                        Usuario = reader.GetString(reader.GetOrdinal("UserName")),
-                        Familia = reader.IsDBNull(reader.GetOrdinal("Familia")) ? null : reader.GetString(reader.GetOrdinal("Familia")),
-                        Patente = reader.IsDBNull(reader.GetOrdinal("Patente")) ? null : reader.GetString(reader.GetOrdinal("Patente")),
+                        Usuario = reader.GetString(reader.GetOrdinal("Usuario")),
+                        Familia = familias,
                         Estado = reader.GetInt32(reader.GetOrdinal("Estado")) == 1 ? "Habilitado" : "Deshabilitado"
                     };
 

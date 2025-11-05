@@ -9,33 +9,36 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BLL;
 using DOMAIN;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Service.Facade;
+using Services.Facade;
+using Service.DAL.Contracts;
 
 namespace Distribuidora_los_amigos.Forms.Proveedores
 {
-    public partial class ModificarProveedorForm : Form
+    public partial class ModificarProveedorForm : Form, IIdiomaObserver
     {
-
         private readonly ProveedorService _proveedorService;
         private Proveedor _proveedor;
-        /// <summary>
-        /// Inicializa el formulario de modificación sin datos precargados.
-        /// </summary>
-        public ModificarProveedorForm()
-        {
-            InitializeComponent();
-        }
 
         /// <summary>
-        /// Inicializa el formulario cargando la información del proveedor a editar.
+        /// Inicializa el formulario con los datos del proveedor a modificar.
         /// </summary>
-        /// <param name="proveedor">Proveedor seleccionado para modificar.</param>
+        /// <param name="proveedor">Proveedor seleccionado para edición.</param>
         public ModificarProveedorForm(Proveedor proveedor)
         {
             InitializeComponent();
-            this.StartPosition = FormStartPosition.CenterScreen;
             _proveedorService = new ProveedorService();
             _proveedor = proveedor;
+
+            // Suscribirse al servicio de idiomas
+            IdiomaService.Subscribe(this);
+
+            // Traducir el formulario al cargarlo
+            IdiomaService.TranslateForm(this);
+
+            // Configurar ayuda F1
+            this.KeyPreview = true;
+            this.KeyDown += ModificarProveedorForm_KeyDown;
 
             // Cargar los datos en los campos del formulario
             textBox1.Text = _proveedor.Nombre;
@@ -44,6 +47,46 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
             textBox4.Text = _proveedor.Telefono;
             comboBox1.Text = _proveedor.Categoria;
             checkBox1.Checked = _proveedor.Activo;
+        }
+
+        /// <summary>
+        /// Muestra la ayuda del formulario cuando se presiona F1.
+        /// </summary>
+        private void ModificarProveedorForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.KeyCode == Keys.F1)
+                {
+                    ManualService manualService = new ManualService();
+                    manualService.AbrirAyudaModificarProveedor();
+                    e.Handled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir la ayuda: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LoggerService.WriteException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Actualiza los textos del formulario cuando cambia el idioma.
+        /// </summary>
+        public void UpdateIdioma()
+        {
+            IdiomaService.TranslateForm(this);
+            this.Refresh();
+        }
+
+        /// <summary>
+        /// Desuscribirse del servicio de idiomas al cerrar el formulario.
+        /// </summary>
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            IdiomaService.Unsubscribe(this);
+            base.OnFormClosing(e);
         }
 
         /// <summary>
@@ -66,12 +109,20 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
                 // Guardar los cambios en la base de datos
                 _proveedorService.ModificarProveedor(_proveedor);
 
-                MessageBox.Show("Proveedor modificado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                string successKey = "ProveedorModificadoExito";
+                string translatedSuccess = IdiomaService.Translate(successKey);
+                string successTitleKey = "Éxito";
+                string translatedSuccessTitle = IdiomaService.Translate(successTitleKey);
+                MessageBox.Show(translatedSuccess, translatedSuccessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al modificar el proveedor: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string errorKey = "ErrorModificarProveedor";
+                string translatedError = IdiomaService.Translate(errorKey) + ": " + ex.Message;
+                string errorTitleKey = "Error";
+                string translatedErrorTitle = IdiomaService.Translate(errorTitleKey);
+                MessageBox.Show(translatedError, translatedErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

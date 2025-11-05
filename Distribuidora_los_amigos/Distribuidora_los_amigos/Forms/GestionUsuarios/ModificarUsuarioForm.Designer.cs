@@ -46,6 +46,7 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             this.labelTitle.Name = "labelTitle";
             this.labelTitle.Size = new System.Drawing.Size(80, 20);
             this.labelTitle.TabIndex = 0;
+            this.labelTitle.Tag = "Usuarios";
             this.labelTitle.Text = "Usuarios";
             // 
             // cbUsuarios
@@ -88,7 +89,8 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             this.Controls.Add(this.cbUsuarios);
             this.Controls.Add(this.labelTitle);
             this.Name = "ModificarUsuarioForm";
-            this.Text = "Users";
+            this.Tag = "ModificarUsuario";
+            this.Text = "Modificar Usuario";
             this.Load += new System.EventHandler(this.ModificarUsuarioForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

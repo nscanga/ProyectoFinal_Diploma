@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pantalla Principal - Distribuidora Los Amigos</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body>
+    
+    <div class="breadcrumb">
+        <a href="topic_20_main.html">Inicio</a>
+        <span>›</span>
+        <span>Pantalla Principal</span>
+    </div>
+
+    <h1>Pantalla Principal del Sistema</h1>
+    
+    <section id="introduccion">
+        <h2>Introducción</h2>
+        <p>
+            La pantalla principal es el centro de control del Sistema de Gestión Distribuidora Los Amigos. 
+            Desde aquí podrá acceder a todas las funcionalidades del sistema según los permisos asignados a su usuario.
+        </p>
+        <p>
+            El sistema está diseñado con una interfaz MDI (Multiple Document Interface) que permite trabajar 
+            con múltiples ventanas simultáneamente.
+        </p>
+    </section>
+    
+    <section id="componentes">
+        <h2>Componentes de la Pantalla Principal</h2>
+        
+        <h3>1. Barra de Menú</h3>
+        <p>Contiene todos los módulos del sistema organizados por categorías:</p>
+        <ul>
+            <li><strong>Archivo:</strong> Opciones de salida del sistema</li>
+            <li><strong>Gestión:</strong> Acceso a usuarios, roles y permisos</li>
+            <li><strong>Clientes:</strong> Administración de clientes</li>
+            <li><strong>Productos:</strong> Catálogo y gestión de productos</li>
+            <li><strong>Proveedores:</strong> Gestión de proveedores</li>
+            <li><strong>Stock:</strong> Control de inventario</li>
+            <li><strong>Pedidos:</strong> Gestión de pedidos</li>
+            <li><strong>Reportes:</strong> Informes y estadísticas</li>
+            <li><strong>Backup:</strong> Copias de seguridad y restauración</li>
+            <li><strong>Idioma:</strong> Cambio de idioma del sistema</li>
+        </ul>
+        
+        <h3>2. Barra de Estado</h3>
+        <p>Ubicada en la parte inferior, muestra:</p>
+        <ul>
+            <li>Usuario actualmente conectado</li>
+            <li>Fecha y hora actual del sistema</li>
+            <li>Estado de conexión a la base de datos</li>
+        </ul>
+        
+        <h3>3. Área de Trabajo MDI</h3>
+        <p>
+            Espacio central donde se abren las ventanas de los diferentes módulos. 
+            Puede tener múltiples ventanas abiertas simultáneamente.
+        </p>
+    </section>
+    
+    <section id="acceso">
+        <h2>Primer Acceso al Sistema</h2>
+        
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Iniciar Sesión</strong>
+            <p>
+                Al ejecutar la aplicación, se mostrará la ventana de login. 
+                Ingrese su usuario y contraseña proporcionados por el administrador.
+            </p>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>Verificación de Permisos</strong>
+            <p>
+                El sistema cargará automáticamente sus permisos y habilitará solo 
+                las opciones del menú a las que tiene acceso.
+            </p>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Configuración de Idioma</strong>
+            <p>
+                El sistema recordará el último idioma seleccionado. Puede cambiarlo 
+                en cualquier momento desde el menú <strong>Idioma</strong>.
+            </p>
+        </div>
+    </section>
+    
+    <section id="navegacion">
+        <h2>Navegación por el Sistema</h2>
+        
+        <h3>Abrir un Módulo</h3>
+        <ol>
+            <li>Click en el menú correspondiente (ej. <strong>Clientes</strong>)</li>
+            <li>Seleccionar la opción deseada (ej. <strong>Crear Cliente</strong>)</li>
+            <li>Se abrirá una nueva ventana en el área de trabajo</li>
+        </ol>
+        
+        <h3>Trabajar con Múltiples Ventanas</h3>
+        <ul>
+            <li>Puede tener varias ventanas abiertas al mismo tiempo</li>
+            <li>Use el menú <strong>Ventanas</strong> para organizar las ventanas abiertas</li>
+            <li>Click en la ventana para traerla al frente</li>
+        </ul>
+        
+        <div class="tip">
+            Use las teclas rápidas <code>Alt + [Letra subrayada]</code> para acceder 
+            rápidamente a las opciones del menú.
+        </div>
+    </section>
+    
+    <section id="ayuda">
+        <h2>Obtener Ayuda Contextual</h2>
+        <p>En cualquier ventana del sistema puede presionar <strong>F1</strong> para obtener ayuda específica sobre esa funcionalidad.</p>
+        
+        <div class="info-box">
+            <strong>?? Nota:</strong> La ayuda se mostrará en el idioma actualmente seleccionado en el sistema.
+        </div>
+    </section>
+    
+    <section id="cierre">
+        <h2>Cerrar Sesión</h2>
+        <p>Para salir del sistema de forma segura:</p>
+        <ol>
+            <li>Ir al menú <strong>Archivo</strong></li>
+            <li>Click en <strong>Salir</strong></li>
+            <li>Confirmar el cierre si hay ventanas abiertas</li>
+        </ol>
+        
+        <div class="warning">
+            <strong>?? Importante:</strong> Siempre cierre el sistema correctamente para 
+            evitar pérdida de datos no guardados.
+        </div>
+    </section>
+    
+    <section id="configuracion">
+        <h2>Configuración del Sistema</h2>
+        
+        <h3>Cambiar Idioma</h3>
+        <p>El sistema soporta múltiples idiomas:</p>
+        <ul>
+            <li>Español (es-ES)</li>
+            <li>Inglés (en-US)</li>
+            <li>Portugués (pt-PT)</li>
+        </ul>
+        <p><strong>Cambio de idioma:</strong> Menú <strong>Idioma</strong> ? Seleccionar idioma ? El sistema se actualiza automáticamente</p>
+        
+        <h3>Personalización</h3>
+        <p>Según sus permisos, puede personalizar:</p>
+        <ul>
+            <li>Idioma de la interfaz</li>
+            <li>Disposición de ventanas</li>
+        </ul>
+    </section>
+    
+    <section id="seguridad">
+        <h2>Aspectos de Seguridad</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Aspecto</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Sesión Única</strong></td>
+                    <td>Un usuario solo puede tener una sesión activa a la vez</td>
+                </tr>
+                <tr>
+                    <td><strong>Auditoría</strong></td>
+                    <td>Todas las acciones quedan registradas en la bitácora</td>
+                </tr>
+                <tr>
+                    <td><strong>Permisos Granulares</strong></td>
+                    <td>Cada acción requiere un permiso específico</td>
+                </tr>
+                <tr>
+                    <td><strong>Integridad de Datos</strong></td>
+                    <td>Sistema de DVH y DVV para detectar manipulaciones</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <section id="atajos">
+        <h2>Atajos de Teclado</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tecla</th>
+                    <th>Función</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>F1</code></td>
+                    <td>Ayuda contextual</td>
+                </tr>
+                <tr>
+                    <td><code>Alt + F4</code></td>
+                    <td>Cerrar ventana actual</td>
+                </tr>
+                <tr>
+                    <td><code>Ctrl + S</code></td>
+                    <td>Guardar (en formularios de edición)</td>
+                </tr>
+                <tr>
+                    <td><code>Esc</code></td>
+                    <td>Cancelar operación actual</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <section id="relacionados">
+        <h2>Ver También</h2>
+        <ul class="no-bullets">
+            <li>?? <a href="../login/topic_31_login.html">Iniciar Sesión</a></li>
+            <li>?? <a href="../usuarios/topic_23_crear_usuario.html">Gestión de Usuarios</a></li>
+            <li>?? <a href="../backup/topic_25_bitacora.html">Bitácora del Sistema</a></li>
+        </ul>
+    </section>
+    
+    <footer>
+        <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
+        <p>Todos los derechos reservados</p>
+    </footer>
+
+</body>
+</html>

@@ -4,13 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using Service.DAL.Contracts;
 
 namespace Distribuidora_los_amigos.Forms.GestionUsuarios
 {
     /// <summary>
     /// Formulario para restaurar bases de datos desde archivos de backup.
     /// </summary>
-    public partial class RestoreForm : Form
+    public partial class RestoreForm : Form, IIdiomaObserver
     {
         /// <summary>
         /// Inicializa el formulario de restauración y registra el evento de carga.
@@ -19,6 +20,16 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
         {
             InitializeComponent();
             this.Load += RestoreForm_Load;
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormClosed += RestoreForm_FormClosed;
+            this.KeyPreview = true;
+            this.KeyDown += RestoreForm_KeyDown;
+
+            // Suscribirse al servicio de idiomas
+            IdiomaService.Subscribe(this);
+
+            // Traducir el formulario al cargarlo
+            IdiomaService.TranslateForm(this);
         }
 
         /// <summary>
@@ -32,7 +43,7 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             {
                 // ? Configurar el evento del botón
                 btnRestore.Click += BtnRestore_Click;
-                
+
                 LoggerService.WriteLog("Formulario de restauración de base de datos abierto.", System.Diagnostics.TraceLevel.Info);
             }
             catch (Exception ex)
@@ -177,7 +188,7 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
                     "Error de Permisos",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
-                
+
                 LoggerService.WriteLog("Error de permisos al intentar restaurar base de datos.", System.Diagnostics.TraceLevel.Error);
             }
             catch (Exception ex)
@@ -195,6 +206,53 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
 
                 LoggerService.WriteException(ex);
                 LoggerService.WriteLog($"Error al restaurar base de datos: {ex.Message}", System.Diagnostics.TraceLevel.Error);
+            }
+        }
+
+        /// <summary>
+        /// Actualiza los textos del formulario cuando cambia el idioma.
+        /// </summary>
+        public void UpdateIdioma()
+        {
+            IdiomaService.TranslateForm(this);
+            this.Refresh();
+        }
+
+        /// <summary>
+        /// Registra el cierre del formulario.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento de cierre.</param>
+        private void RestoreForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            // Desuscribirse del servicio de idiomas
+            IdiomaService.Unsubscribe(this);
+
+            // Registrar cuando el formulario se cierra
+            LoggerService.WriteLog($"Formulario '{this.Text}' cerrado.", System.Diagnostics.TraceLevel.Info);
+        }
+
+        /// <summary>
+        /// Muestra la ayuda del formulario cuando se presiona F1.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
+        private void RestoreForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.KeyCode == Keys.F1)
+                {
+                    ManualService manualService = new ManualService();
+                    manualService.AbrirAyudaRestore();
+                    e.Handled = true; // Prevenir propagación del evento
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir la ayuda: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LoggerService.WriteException(ex);
             }
         }
     }

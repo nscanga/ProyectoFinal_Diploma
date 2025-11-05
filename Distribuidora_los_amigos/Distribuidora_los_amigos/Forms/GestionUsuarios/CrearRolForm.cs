@@ -7,24 +7,40 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Service.DAL.Contracts;
 using Service.DOMAIN;
 using Service.Facade;
 using Services.Facade;
 
 namespace Distribuidora_los_amigos.Forms.GestionUsuarios
 {
-    public partial class CrearRolForm : Form
+    public partial class CrearRolForm : Form, IIdiomaObserver
     {
         /// <summary>
-        /// Inicializa el formulario de creación de roles y configura eventos auxiliares.
+        /// Inicializa el formulario y carga la lista de patentes disponibles.
         /// </summary>
         public CrearRolForm()
         {
             InitializeComponent();
-            this.FormClosed += CrearRolForm_FormClosed;
             this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormClosed += CrearRolForm_FormClosed;
             this.KeyPreview = true;
             this.KeyDown += CrearRolForm_KeyDown;
+            
+            // Suscribirse al servicio de idiomas
+            IdiomaService.Subscribe(this);
+            
+            // Traducir el formulario al cargarlo
+            IdiomaService.TranslateForm(this);
+        }
+
+        /// <summary>
+        /// Actualiza los textos del formulario cuando cambia el idioma.
+        /// </summary>
+        public void UpdateIdioma()
+        {
+            IdiomaService.TranslateForm(this);
+            this.Refresh();
         }
 
         /// <summary>
@@ -37,7 +53,6 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             LoggerService.WriteLog($"Formulario '{this.Text}' abierto.", System.Diagnostics.TraceLevel.Info);
             try
             {
-                IdiomaService.TranslateForm(this);
                 // Cargar todas las patentes disponibles en el CheckedListBox
                 List<Patente> patentes = FamiliaService.GetAllPatentes();
                 checkedListBoxPatents.DataSource = patentes;
@@ -54,13 +69,16 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
         }
 
         /// <summary>
-        /// Registra el cierre del formulario de roles.
+        /// Registra el cierre del formulario para auditoría.
         /// </summary>
         /// <param name="sender">Origen del evento.</param>
         /// <param name="e">Argumentos del evento de cierre.</param>
         private void CrearRolForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            // Registrar el cierre del formulario
+            // Desuscribirse del servicio de idiomas
+            IdiomaService.Unsubscribe(this);
+            
+            // Registrar cuando el formulario se cierra
             LoggerService.WriteLog($"Formulario '{this.Text}' cerrado.", System.Diagnostics.TraceLevel.Info);
         }
 
@@ -147,18 +165,17 @@ namespace Distribuidora_los_amigos.Forms.GestionUsuarios
             {
                 if (e.KeyCode == Keys.F1)
                 {
-
                     ManualService manualService = new ManualService();
                     manualService.AbrirAyudaCrearRol();
+                    e.Handled = true; // Prevenir propagación del evento
                 }
             }
-
             catch (Exception ex)
             {
-                MessageBox.Show("Error " + ex.Message, "Error");
+                MessageBox.Show($"Error al abrir la ayuda: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 LoggerService.WriteException(ex);
             }
-
         }
     }
 }

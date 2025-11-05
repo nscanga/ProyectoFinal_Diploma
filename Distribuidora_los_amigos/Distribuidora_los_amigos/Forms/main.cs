@@ -38,6 +38,8 @@ namespace Distribuidora_los_amigos
             InitializeComponent();
             this.IsMdiContainer = true;
             this.SizeChanged += MainForm_SizeChanged;
+            this.KeyPreview = true; // Habilitar captura de teclas
+            this.KeyDown += Main_KeyDown; // Agregar evento KeyDown
         }
 
         /// <summary>
@@ -52,14 +54,17 @@ namespace Distribuidora_los_amigos
                 InicializadorDeIdioma();
                 // Obtener el usuario logueado desde el SesionService
                 Usuario usuarioLogueado = SesionService.UsuarioLogueado;
+                
                 // Obtener los roles del usuario logueado
                 string rolesUsuario = SesionService.ObtenerRolesUsuario();
                 // Obtener las patentes del usuario logueado
                 List<Patente> patentesDelUsuario = usuarioLogueado.GetPatentes();
+                
                 // Obtener las familias para mostrar en el label de perfil
                 List<Familia> familiasDelUsuario = usuarioLogueado.GetFamilias();
-                // Aplicar los accesos solo a los menús
-                AccesoService.ConfigureMenuItems(tOOLSToolStripMenuItem1, patentesDelUsuario);
+                
+                // ✅ Aplicar control de acceso granular a cada opción de menú
+                ConfigurarAccesosMenu(patentesDelUsuario);
 
                 label2.Text = $": {usuarioLogueado.UserName}";
                 label4.Text = $": {rolesUsuario}";
@@ -82,6 +87,59 @@ namespace Distribuidora_los_amigos
             }
         }
 
+        /// <summary>
+        /// Configura la visibilidad de todos los menús según las patentes del usuario.
+        /// </summary>
+        /// <param name="patentesDelUsuario">Lista de patentes que posee el usuario autenticado.</param>
+        private void ConfigurarAccesosMenu(List<Patente> patentesDelUsuario)
+        {
+            // Diccionario que mapea cada opción de menú con su patente requerida
+            var menuPatentes = new Dictionary<ToolStripMenuItem, string>
+            {
+                // PEDIDOS
+                { CREARPEDIDOToolStripMenuItem, "CREAR_PEDIDO" },
+                { mOSTRARPEDIDOSToolStripMenuItem, "MOSTRAR_PEDIDOS" },
+
+                // CLIENTES
+                { CrearClienteToolStripMenuItem, "Crear_cliente" },
+                { mostrarClientesToolStripMenuItem, "Mostrar_clientes" },
+
+                // PRODUCTOS
+                { addItemToolStripMenuItem, "AGREGAR" },
+                { mODIFICARToolStripMenuItem, "MODIFICAR" },
+                { eLIMINARToolStripMenuItem, "ELIMINAR" },
+                { vERPRODUCTOSToolStripMenuItem, "VER_PRODUCTOS" },
+
+                // STOCK
+                { mostrarStockStripMenuItem, "Mostrar_Stock" },
+
+                // PROVEEDORES
+                { mostrarProveedoresToolStripMenuItem, "Mostrar_Proveedores" },
+                { modificarProveedorToolStripMenuItem, "Modificar_Proveedor" },
+                { crearProveedorToolStripMenuItem, "Crear_Proveedor" },
+
+                // GESTIÓN DE USUARIOS
+                { btnCrearUsuario, "Crear_usuario" },
+                { notepadToolStripMenuItem, "Ver_usuarios" },
+                { AsignarRolToolStripMenuItem, "Asignar_rol" },
+                { taskManagerToolStripMenuItem, "Modificar_Usuario" },
+                { crearRolToolStripMenuItem, "Crear_rol" },
+                { crearToolStripMenuItem, "Crear_patente" },
+
+                // BACKUP Y RESTORE
+                { generarBackupToolStripMenuItem, "Generar_Backup" },
+                { restaurarBackupToolStripMenuItem, "RestaurarBackup" },
+
+                // REPORTES
+                { reporteStockBajoToolStripMenuItem, "ReporteStockBajo" },
+                { reporteProductosMasVendidosToolStripMenuItem, "ReporteProductosMasVendidos" }
+            };
+
+            // Aplicar control de acceso a cada opción
+            AccesoService.ConfigureMultipleMenuItems(menuPatentes, patentesDelUsuario);
+
+            // ✅ Los menús ahora se muestran correctamente sin necesidad de OcultarMenusPadresSinHijos()
+        }
 
         /// <summary>
         /// Placeholder para la opción de menú Category (sin implementación actual).
@@ -225,9 +283,8 @@ namespace Distribuidora_los_amigos
             }
             MostrarUsuariosForm usuariosForm = new MostrarUsuariosForm();
             usuariosForm.MdiParent = this;
-            usuariosForm.WindowState = FormWindowState.Maximized; // Opcional: lo abre maximizado
+            usuariosForm.WindowState = FormWindowState.Maximized;
             usuariosForm.Show();
-
         }
 
         /// <summary>
@@ -297,13 +354,17 @@ namespace Distribuidora_los_amigos
         }
 
         /// <summary>
-        /// Abre el cuadro de diálogo de creación de roles como ventana independiente.
+        /// Abre el cuadro de diálogo de creación de patentes como ventana MDI.
         /// </summary>
         /// <param name="sender">Origen del evento.</param>
         /// <param name="e">Argumentos del evento.</param>
         private void crearToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = new CrearRolForm();
+            var form = new CrearPatenteForm();
+            form.MdiParent = this;
+            form.FormBorderStyle = FormBorderStyle.None;
+            form.Dock = DockStyle.Fill;
+            form.WindowState = FormWindowState.Maximized;
             form.Show();
         }
 
@@ -412,17 +473,29 @@ namespace Distribuidora_los_amigos
 
         /// <summary>
         /// Presenta la pantalla de modificación de proveedores integrada al MDI.
+        /// Abre el formulario de mostrar proveedores desde donde se puede modificar.
         /// </summary>
         /// <param name="sender">Origen del evento.</param>
         /// <param name="e">Argumentos del evento.</param>
         private void modificarProveedorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = new ModificarProveedorForm();
-            form.MdiParent = this;
-            form.FormBorderStyle = FormBorderStyle.None;
-            form.Dock = DockStyle.Fill;
-            form.WindowState = FormWindowState.Maximized;
-            form.Show();
+            // Verificar si ya existe una instancia abierta
+            foreach (Form form in this.MdiChildren)
+            {
+                if (form is MostrarProveedoresForm)
+                {
+                    form.BringToFront();
+                    form.WindowState = FormWindowState.Maximized;
+                    return;
+                }
+            }
+
+            var proveedoresForm = new MostrarProveedoresForm();
+            proveedoresForm.MdiParent = this;
+            proveedoresForm.FormBorderStyle = FormBorderStyle.None;
+            proveedoresForm.Dock = DockStyle.Fill;
+            proveedoresForm.WindowState = FormWindowState.Maximized;
+            proveedoresForm.Show();
         }
 
         /// <summary>
@@ -637,6 +710,30 @@ namespace Distribuidora_los_amigos
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al abrir el reporte: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LoggerService.WriteException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Muestra la ayuda del formulario principal cuando se presiona F1.
+        /// </summary>
+        /// <param name="sender">Origen del evento.</param>
+        /// <param name="e">Argumentos del evento.</param>
+        private void Main_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.KeyCode == Keys.F1)
+                {
+                    ManualService manualService = new ManualService();
+                    manualService.AbrirAyudaMain();
+                    e.Handled = true; // Prevenir propagación del evento
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir la ayuda: {ex.Message}", "Error", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 LoggerService.WriteException(ex);
             }
         }
