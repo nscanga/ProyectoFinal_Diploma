@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Orders - Distribuidora Los Amigos</title>
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../../css/styles.css">
 </head>
 <body>
 
     <div class="breadcrumb">
         <a href="../general/topic_20_main.html">Home</a>
-        <span>›</span>
+        <span>»</span>
         <a href="#">Order Management</a>
-        <span>›</span>
+        <span>»</span>
         <span>View Orders</span>
     </div>
 
@@ -21,10 +21,10 @@
     <section id="introduccion">
         <h2>Introduction</h2>
         <p>
-            This feature allows [DESCRIBE THE FUNCTIONALITY].
+            The order list centralises every sale registered in the system, showing customer name, current status, total amount and number of items. From here you can create new orders, edit their status, delete them or open the detailed view of each one.
         </p>
         <p>
-            [EXPLAIN WHAT IT IS USED FOR AND WHEN TO USE IT].
+            It is the main dashboard for tracking the fulfilment workflow and quickly identifying orders that require attention.
         </p>
     </section>
 
@@ -32,33 +32,55 @@
         <h2>How to Access</h2>
         <p>To access this feature:</p>
         <ol>
-            <li>From the main menu go to <strong>Orders</strong></li>
-            <li>Select <strong>View Orders</strong></li>
-            <li>The <strong>View Orders</strong> window opens</li>
+            <li>From the main menu choose <strong>Orders → View orders</strong>.</li>
+            <li>The <strong>MostrarPedidosForm</strong> loads with the grid populated.</li>
         </ol>
     </section>
 
     <section id="campos">
-        <h2>Field Description</h2>
-        <p>The following table describes each field on the form:</p>
-
+        <h2>Screen Elements</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Field</th>
+                    <th>Element</th>
                     <th>Description</th>
-                    <th>Type</th>
                     <th>Required</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Field Name]</strong></td>
-                    <td>[Field description]</td>
-                    <td>[Data type]</td>
-                    <td>Yes / No</td>
+                    <td><strong>Order grid</strong> (dataGridViewPedidos)</td>
+                    <td>Displays columns for Date, Customer, Status, Total and Items. Rows are read-only and must be selected for further actions.</td>
+                    <td>Yes</td>
                 </tr>
-                <!-- ADD MORE FIELDS HERE -->
+                <tr>
+                    <td><strong>Order counter</strong> (lblContadorPedidos)</td>
+                    <td>Shows how many orders are currently displayed.</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><strong>Status combo</strong> (comboBoxCambiarEstado)</td>
+                    <td>Provides a quick way to change the status of the selected order without opening another window.</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><strong>Change Status</strong> button</td>
+                    <td>Applies the status chosen in the combo box after user confirmation.</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><strong>Action buttons</strong></td>
+                    <td>
+                        <ul>
+                            <li><strong>➕ Create:</strong> opens the <em>Create Order</em> form.</li>
+                            <li><strong>✏️ Edit:</strong> opens <em>Edit Order</em> for the selected row.</li>
+                            <li><strong>🗑️ Delete:</strong> asks for confirmation and removes the order (restoring stock via the service).</li>
+                            <li><strong>👁️ View Details:</strong> opens the product breakdown of the order.</li>
+                            <li><strong>🔄 Refresh:</strong> reloads the grid from the database.</li>
+                        </ul>
+                    </td>
+                    <td>No</td>
+                </tr>
             </tbody>
         </table>
     </section>
@@ -68,26 +90,37 @@
 
         <div class="step">
             <span class="step-number">1</span>
-            <strong>[Step 1 Title]</strong>
-            <p>[Step 1 description]</p>
+            <strong>Select the order</strong>
+            <p>Sort the grid or use the scrollbar to locate the order you want to manage, then click the row.</p>
         </div>
 
         <div class="step">
             <span class="step-number">2</span>
-            <strong>[Step 2 Title]</strong>
-            <p>[Step 2 description]</p>
+            <strong>Change the status quickly</strong>
+            <p>Choose the new status from the combo on the lower-left corner and click <strong>Change Status</strong>. The system asks for confirmation before saving.</p>
         </div>
 
-        <!-- ADD MORE STEPS AS NEEDED -->
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Execute additional actions</strong>
+            <p>Use the action buttons to create, edit, delete or inspect details. Each button validates that a row is selected and displays informative messages when necessary.</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Refresh the information</strong>
+            <p>Click <strong>🔄 Refresh</strong> after any modification to update the grid and the order counter.</p>
+        </div>
     </section>
 
     <section id="validaciones">
         <h2>System Validations</h2>
-        <p>The system performs the following validations:</p>
+        <p>The form performs the following checks:</p>
         <ul>
-            <li>[Validation 1]</li>
-            <li>[Validation 2]</li>
-            <li>[Validation 3]</li>
+            <li>Shows a warning if you try to edit, delete or view details without selecting a row.</li>
+            <li>Requires a status selection before allowing the quick change and confirms the action with the user.</li>
+            <li>When deleting, calls <code>PedidoService.EliminarPedido</code> which restores stock and removes order details before deleting the order.</li>
+            <li>If no orders are found, an informational message is displayed.</li>
         </ul>
     </section>
 
@@ -95,43 +128,49 @@
         <h2>Tips and Recommendations</h2>
 
         <div class="tip">
-            [Useful tip for the user]
-        </div>
+            Use the <strong>Status</strong> column to prioritise pending orders and track deliveries.</div>
+
+        <div class="tip">
+            Press <strong>F1</strong> to open the contextual help and review available shortcuts.</div>
 
         <div class="warning">
-            <strong>⚠️ Warning:</strong> [Important information]
-        </div>
+            <strong>⚠️ Warning:</strong> Deleting an order cannot be undone. Consider editing the status or cancelling it from the <em>Edit Order</em> form to keep the history.</div>
     </section>
 
     <section id="errores">
         <h2>Common Errors and Solutions</h2>
 
-        <h3>Error: "[Error message]"</h3>
+        <h3>Warning: "Select an order to edit."</h3>
         <div class="error">
-            <strong>Cause:</strong> [Error explanation]
-        </div>
+            <strong>Cause:</strong> The Edit button was pressed without selecting a row.</div>
         <div class="success">
-            <strong>✅ Fix:</strong> [Steps to resolve it]
-        </div>
+            <strong>✅ Fix:</strong> Click the desired order in the grid and press <em>Edit</em> again.</div>
+
+        <h3>Error: "Select a valid status."</h3>
+        <div class="error">
+            <strong>Cause:</strong> The Change Status button was pressed without choosing a value.</div>
+        <div class="success">
+            <strong>✅ Fix:</strong> Pick a status from the combo box and confirm the operation.</div>
     </section>
 
     <section id="permisos">
         <h2>Required Permissions</h2>
-        <p>To use this feature the user must have the following permissions:</p>
+        <p>The following patents are involved:</p>
         <ul>
-            <li><code>[PatentName]</code> - [Permission description]</li>
+            <li><code>MOSTRAR_PEDIDOS</code> – Required to access the list and perform status changes.</li>
+            <li><code>CREAR_PEDIDO</code> – Enables the <em>Create</em> button.</li>
         </ul>
 
         <div class="warning">
-            <strong>⚠️ Important:</strong> If you do not have the necessary permission, contact the system administrator.
-        </div>
+            <strong>⚠️ Important:</strong> If an action button is hidden or disabled, ask the administrator to grant the appropriate patent.</div>
     </section>
 
     <section id="relacionados">
         <h2>See Also</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Main Screen</a></li>
-            <!-- ADD RELATED LINKS -->
+            <li>📄 <a href="topic_80_crear_pedido.html">Create order</a></li>
+            <li>📄 <a href="topic_81_modificar_pedido.html">Edit order</a></li>
+            <li>📄 <a href="topic_83_detalle_pedido.html">Order details</a></li>
         </ul>
     </section>
 

@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Details - Distribuidora Los Amigos</title>
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../../css/styles.css">
 </head>
 <body>
 
     <div class="breadcrumb">
         <a href="../general/topic_20_main.html">Home</a>
-        <span>›</span>
+        <span>»</span>
         <a href="#">Order Management</a>
-        <span>›</span>
+        <span>»</span>
         <span>Order Details</span>
     </div>
 
@@ -21,10 +21,10 @@
     <section id="introduccion">
         <h2>Introduction</h2>
         <p>
-            This feature allows [DESCRIBE THE FUNCTIONALITY].
+            This view shows the products included in a specific order along with quantities, unit prices and subtotals. The header area summarises the customer, creation date and current status. When the order is delivered you can also generate a PDF receipt.
         </p>
         <p>
-            [EXPLAIN WHAT IT IS USED FOR AND WHEN TO USE IT].
+            Open it to verify the preparation of an order, answer customer inquiries or export a delivery confirmation.
         </p>
     </section>
 
@@ -32,33 +32,53 @@
         <h2>How to Access</h2>
         <p>To access this feature:</p>
         <ol>
-            <li>From the main menu go to <strong>Orders</strong></li>
-            <li>Select <strong>Order Details</strong></li>
-            <li>The <strong>Order Details</strong> window opens</li>
+            <li>Go to <strong>Orders → View orders</strong>.</li>
+            <li>Select an order and click <strong>👁️ View Details</strong>.</li>
+            <li>The <strong>ShowOrderDetailsForm</strong> opens with the selected order.</li>
         </ol>
     </section>
 
     <section id="campos">
-        <h2>Field Description</h2>
-        <p>The following table describes each field on the form:</p>
-
+        <h2>Main Components</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Field</th>
+                    <th>Element</th>
                     <th>Description</th>
-                    <th>Type</th>
                     <th>Required</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Field Name]</strong></td>
-                    <td>[Field description]</td>
-                    <td>[Data type]</td>
-                    <td>Yes / No</td>
+                    <td><strong>Details grid</strong> (dataGridViewDetallePedido)</td>
+                    <td>Displays Product, Quantity, Unit Price and Subtotal columns. Rows are read-only.</td>
+                    <td>Yes</td>
                 </tr>
-                <!-- ADD MORE FIELDS HERE -->
+                <tr>
+                    <td><strong>Customer</strong> (textBoxCliente)</td>
+                    <td>Customer name obtained from the order.</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Date</strong> (textBoxFecha)</td>
+                    <td>Order date formatted as <code>dd/MM/yyyy</code>.</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Status</strong> (textBoxEstado)</td>
+                    <td>Current status description provided by <code>PedidoService.ObtenerNombreEstadoPorId</code>.</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>📄 Generate PDF</strong></td>
+                    <td>Button dynamically added when the order status is <em>Delivered</em>. Creates a PDF receipt using <code>PdfService</code>.</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><strong>Close</strong></td>
+                    <td>Returns to the order list.</td>
+                    <td>No</td>
+                </tr>
             </tbody>
         </table>
     </section>
@@ -68,26 +88,37 @@
 
         <div class="step">
             <span class="step-number">1</span>
-            <strong>[Step 1 Title]</strong>
-            <p>[Step 1 description]</p>
+            <strong>Review the header</strong>
+            <p>Check the customer, date and status to confirm you are analysing the correct order.</p>
         </div>
 
         <div class="step">
             <span class="step-number">2</span>
-            <strong>[Step 2 Title]</strong>
-            <p>[Step 2 description]</p>
+            <strong>Inspect the products</strong>
+            <p>Read the grid to confirm each product, quantity and amount before dispatching or closing the order.</p>
         </div>
 
-        <!-- ADD MORE STEPS AS NEEDED -->
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Generate the PDF (if available)</strong>
+            <p>When the order is <em>Delivered</em>, click <strong>📄 Generate PDF</strong>, choose the destination folder and open the file if needed.</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Close the window</strong>
+            <p>Click <strong>Close</strong> to return to the order list.</p>
+        </div>
     </section>
 
     <section id="validaciones">
         <h2>System Validations</h2>
-        <p>The system performs the following validations:</p>
+        <p>The form applies these validations:</p>
         <ul>
-            <li>[Validation 1]</li>
-            <li>[Validation 2]</li>
-            <li>[Validation 3]</li>
+            <li>If the order cannot be loaded, an error message is displayed.</li>
+            <li>The PDF button only appears when the order status equals <em>Delivered</em>.</li>
+            <li>During PDF generation the application asks for the destination path and offers to open the resulting file.</li>
+            <li>The grid is configured as read-only to prevent unintended edits.</li>
         </ul>
     </section>
 
@@ -95,43 +126,48 @@
         <h2>Tips and Recommendations</h2>
 
         <div class="tip">
-            [Useful tip for the user]
-        </div>
+            Compare the detail grid with the packing list to ensure the shipment is complete.</div>
+
+        <div class="tip">
+            Store the generated PDFs in a shared folder for quick access by logistics and accounting teams.</div>
 
         <div class="warning">
-            <strong>⚠️ Warning:</strong> [Important information]
-        </div>
+            <strong>⚠️ Warning:</strong> To adjust quantities or products, return to <em>Edit Order</em>; this view is informational only.</div>
     </section>
 
     <section id="errores">
         <h2>Common Errors and Solutions</h2>
 
-        <h3>Error: "[Error message]"</h3>
+        <h3>Error: "Error generating PDF"</h3>
         <div class="error">
-            <strong>Cause:</strong> [Error explanation]
-        </div>
+            <strong>Cause:</strong> The selected path is not accessible or a file with the same name is in use.</div>
         <div class="success">
-            <strong>✅ Fix:</strong> [Steps to resolve it]
-        </div>
+            <strong>✅ Fix:</strong> Choose a writable folder and ensure the file is not open before retrying.</div>
+
+        <h3>Error: "The order could not be loaded."</h3>
+        <div class="error">
+            <strong>Cause:</strong> The order was removed or the form was opened without a valid selection.</div>
+        <div class="success">
+            <strong>✅ Fix:</strong> Close the window, refresh the order list and select the record again.</div>
     </section>
 
     <section id="permisos">
         <h2>Required Permissions</h2>
-        <p>To use this feature the user must have the following permissions:</p>
+        <p>Access to this view requires:</p>
         <ul>
-            <li><code>[PatentName]</code> - [Permission description]</li>
+            <li><code>MOSTRAR_PEDIDOS</code> – Grants access to the order list and allows opening the detail view.</li>
         </ul>
 
         <div class="warning">
-            <strong>⚠️ Important:</strong> If you do not have the necessary permission, contact the system administrator.
-        </div>
+            <strong>⚠️ Important:</strong> If the PDF button is missing, verify that the order status is <em>Delivered</em> or contact the administrator.</div>
     </section>
 
     <section id="relacionados">
         <h2>See Also</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Main Screen</a></li>
-            <!-- ADD RELATED LINKS -->
+            <li>📄 <a href="topic_80_crear_pedido.html">Create order</a></li>
+            <li>📄 <a href="topic_81_modificar_pedido.html">Edit order</a></li>
+            <li>📄 <a href="topic_82_mostrar_pedidos.html">View orders</a></li>
         </ul>
     </section>
 

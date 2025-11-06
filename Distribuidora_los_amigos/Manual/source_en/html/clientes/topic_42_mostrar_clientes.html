@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Customers - Distribuidora Los Amigos</title>
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../../css/styles.css">
 </head>
 <body>
 
     <div class="breadcrumb">
         <a href="../general/topic_20_main.html">Home</a>
-        <span>›</span>
+        <span>»</span>
         <a href="#">Customer Management</a>
-        <span>›</span>
+        <span>»</span>
         <span>View Customers</span>
     </div>
 
@@ -21,10 +21,10 @@
     <section id="introduccion">
         <h2>Introduction</h2>
         <p>
-            This feature allows [DESCRIBE THE FUNCTIONALITY].
+            The customer list displays every registered customer and provides shortcuts to create, edit or remove records. The grid shows all data returned by <code>ClienteService.ObtenerTodosClientes()</code> and is automatically refreshed after each operation.
         </p>
         <p>
-            [EXPLAIN WHAT IT IS USED FOR AND WHEN TO USE IT].
+            Use this screen to keep track of your customer base, search for contact information and maintain data quality.
         </p>
     </section>
 
@@ -32,33 +32,47 @@
         <h2>How to Access</h2>
         <p>To access this feature:</p>
         <ol>
-            <li>From the main menu go to <strong>Customers</strong></li>
-            <li>Select <strong>View Customers</strong></li>
-            <li>The <strong>View Customers</strong> window opens</li>
+            <li>From the main menu choose <strong>Customers → View customers</strong>.</li>
+            <li>The <strong>MostrarClientesForm</strong> opens with the grid already populated.</li>
         </ol>
     </section>
 
     <section id="campos">
-        <h2>Field Description</h2>
-        <p>The following table describes each field on the form:</p>
-
+        <h2>Screen Elements</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Field</th>
+                    <th>Element</th>
                     <th>Description</th>
-                    <th>Type</th>
                     <th>Required</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Field Name]</strong></td>
-                    <td>[Field description]</td>
-                    <td>[Data type]</td>
-                    <td>Yes / No</td>
+                    <td><strong>Customer grid</strong> (dataGridView1)</td>
+                    <td>Shows every customer attribute. Rows can be sorted and must be selected before launching an action.</td>
+                    <td>Yes</td>
                 </tr>
-                <!-- ADD MORE FIELDS HERE -->
+                <tr>
+                    <td><strong>Create</strong></td>
+                    <td>Opens the <em>Create Customer</em> form. When the window closes, the grid refreshes automatically.</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><strong>Modify</strong></td>
+                    <td>Requires a selected row and opens <em>Modify Customer</em> with the chosen record.</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><strong>Delete</strong></td>
+                    <td>Requests confirmation and removes the customer through <code>ClienteService.EliminarCliente</code>.</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><strong>Refresh</strong></td>
+                    <td>Reloads the grid by calling <code>CargarClientes()</code>. Useful if changes were made from another window.</td>
+                    <td>No</td>
+                </tr>
             </tbody>
         </table>
     </section>
@@ -68,26 +82,30 @@
 
         <div class="step">
             <span class="step-number">1</span>
-            <strong>[Step 1 Title]</strong>
-            <p>[Step 1 description]</p>
+            <strong>Search and select</strong>
+            <p>Use column sorting or the scrollbar to find the customer you need. Click the row to highlight it.</p>
         </div>
 
         <div class="step">
             <span class="step-number">2</span>
-            <strong>[Step 2 Title]</strong>
-            <p>[Step 2 description]</p>
+            <strong>Launch the desired action</strong>
+            <p>Choose <strong>Create</strong>, <strong>Modify</strong> or <strong>Delete</strong>. The form validates the selection and shows meaningful feedback if none is provided.</p>
         </div>
 
-        <!-- ADD MORE STEPS AS NEEDED -->
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Refresh the list</strong>
+            <p>After saving or deleting, click <strong>Refresh</strong> to ensure the grid reflects the latest data.</p>
+        </div>
     </section>
 
     <section id="validaciones">
         <h2>System Validations</h2>
-        <p>The system performs the following validations:</p>
+        <p>The form performs the following checks:</p>
         <ul>
-            <li>[Validation 1]</li>
-            <li>[Validation 2]</li>
-            <li>[Validation 3]</li>
+            <li>Shows a warning if you try to modify or delete without selecting a customer.</li>
+            <li>Asks for confirmation before deleting a customer.</li>
+            <li>Automatically reloads the grid when a child form closes to avoid stale data.</li>
         </ul>
     </section>
 
@@ -95,43 +113,50 @@
         <h2>Tips and Recommendations</h2>
 
         <div class="tip">
-            [Useful tip for the user]
-        </div>
+            Export the grid (Ctrl+C → paste into a spreadsheet) when you need a quick list of contacts.</div>
+
+        <div class="tip">
+            Keep the list filtered by activity using the <strong>Active</strong> column shown in the grid.</div>
 
         <div class="warning">
-            <strong>⚠️ Warning:</strong> [Important information]
-        </div>
+            <strong>⚠️ Warning:</strong> Deleting a customer is irreversible. If you only need to suspend them, open <em>Modify Customer</em> and uncheck <strong>Active</strong>.</div>
     </section>
 
     <section id="errores">
         <h2>Common Errors and Solutions</h2>
 
-        <h3>Error: "[Error message]"</h3>
+        <h3>Warning: "Select a customer to modify."</h3>
         <div class="error">
-            <strong>Cause:</strong> [Error explanation]
-        </div>
+            <strong>Cause:</strong> The Modify button was pressed without selecting a row.</div>
         <div class="success">
-            <strong>✅ Fix:</strong> [Steps to resolve it]
-        </div>
+            <strong>✅ Fix:</strong> Click the row in the grid and press <em>Modify</em> again.</div>
+
+        <h3>Warning: "Select a customer to delete."</h3>
+        <div class="error">
+            <strong>Cause:</strong> The Delete button was clicked without a selection.</div>
+        <div class="success">
+            <strong>✅ Fix:</strong> Select a customer and confirm the deletion when prompted.</div>
     </section>
 
     <section id="permisos">
         <h2>Required Permissions</h2>
-        <p>To use this feature the user must have the following permissions:</p>
+        <p>The following patents control access to this screen and its actions:</p>
         <ul>
-            <li><code>[PatentName]</code> - [Permission description]</li>
+            <li><code>Mostrar_clientes</code> – Required to open the list.</li>
+            <li><code>Crear_cliente</code> – Enables the <em>Create</em> button.</li>
+            <li><code>Modificar_cliente</code> – Enables the <em>Modify</em> button.</li>
+            <li><code>Eliminar_cliente</code> – Enables the <em>Delete</em> button.</li>
         </ul>
 
         <div class="warning">
-            <strong>⚠️ Important:</strong> If you do not have the necessary permission, contact the system administrator.
-        </div>
+            <strong>⚠️ Important:</strong> If a button is hidden or disabled, contact the administrator to request the corresponding patent.</div>
     </section>
 
     <section id="relacionados">
         <h2>See Also</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Main Screen</a></li>
-            <!-- ADD RELATED LINKS -->
+            <li>📄 <a href="topic_40_crear_cliente.html">Create customer</a></li>
+            <li>📄 <a href="topic_41_modificar_cliente.html">Modify customer</a></li>
         </ul>
     </section>
 

@@ -1,143 +1,194 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modificar Cliente - Distribuidora Los Amigos</title>
-    <link rel="stylesheet" href="../css/styles.css">
+    <title>Modify Customer - Distribuidora Los Amigos</title>
+    <link rel="stylesheet" href="../../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
-        <a href="../general/topic_20_main.html">Inicio</a>
-        <span>õ</span>
-        <a href="#">GestiÛn de Clientes</a>
-        <span>õ</span>
-        <span>Modificar Cliente</span>
+        <a href="../general/topic_20_main.html">Home</a>
+        <span>¬ª</span>
+        <a href="topic_42_mostrar_clientes.html">Customer Management</a>
+        <span>¬ª</span>
+        <span>Modify Customer</span>
     </div>
 
-    <h1>Modificar Cliente</h1>
-    
+    <h1>Modify Customer</h1>
+
     <section id="introduccion">
-        <h2>IntroducciÛn</h2>
+        <h2>Introduction</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
+            This window is used to update the information of an existing customer. All the data is pre-loaded from the selected row in the customer list so you can adjust contact details, address, tax ID and activation status.
         </p>
         <p>
-            [EXPLICAR PARA QU… SIRVE Y CU¡NDO USARLA].
+            Keep customer records up to date to ensure the correct delivery of orders and accurate billing information.
         </p>
     </section>
-    
+
     <section id="acceso">
-        <h2>CÛmo Acceder</h2>
-        <p>Para acceder a esta funcionalidad:</p>
+        <h2>How to Access</h2>
+        <p>To access this feature:</p>
         <ol>
-            <li>Desde el men˙ principal, ir a <strong>Clientes</strong></li>
-            <li>Seleccionar <strong>Modificar Cliente</strong></li>
-            <li>Se abrir· la ventana de <strong>Modificar Cliente</strong></li>
+            <li>Open <strong>Customers ‚Üí View customers</strong> from the main menu.</li>
+            <li>Select a customer in the grid and click <strong>Modify</strong>.</li>
+            <li>The <strong>ModifyCustomerForm</strong> opens with the current data ready to edit.</li>
         </ol>
     </section>
-    
+
     <section id="campos">
-        <h2>DescripciÛn de Campos</h2>
-        <p>A continuaciÛn se describe cada campo del formulario:</p>
-        
+        <h2>Field Description</h2>
+        <p>The table below describes each field in the form:</p>
+
         <table>
             <thead>
                 <tr>
-                    <th>Campo</th>
-                    <th>DescripciÛn</th>
-                    <th>Tipo</th>
-                    <th>Obligatorio</th>
+                    <th>Field</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Required</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[DescripciÛn del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>SÌ / No</td>
+                    <td><strong>Name</strong></td>
+                    <td>Customer or company name.</td>
+                    <td>Text (max. 100 characters)</td>
+                    <td>Yes</td>
                 </tr>
-                <!-- AGREGAR M¡S CAMPOS AQUÕ -->
+                <tr>
+                    <td><strong>Address</strong></td>
+                    <td>Physical address used for deliveries.</td>
+                    <td>Text (max. 200 characters)</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Email</strong></td>
+                    <td>Contact email. Must contain the character <code>@</code> and not be a numeric string.</td>
+                    <td>Email</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Phone</strong></td>
+                    <td>Contact phone number. Must contain only digits (no <code>@</code>).</td>
+                    <td>Numeric/Text</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>CUIT / Tax ID</strong></td>
+                    <td>Unique tax identification number for invoicing.</td>
+                    <td>Numeric (11 digits)</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Active</strong></td>
+                    <td>Marks whether the customer can place new orders. Uncheck to temporarily deactivate the account.</td>
+                    <td>Checkbox</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Save</strong></td>
+                    <td>Button that persists the changes and shows the confirmation message.</td>
+                    <td>Button</td>
+                    <td>‚Äî</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
+
     <section id="procedimiento">
-        <h2>Procedimiento</h2>
-        
+        <h2>Procedure</h2>
+
         <div class="step">
             <span class="step-number">1</span>
-            <strong>[TÌtulo del Paso 1]</strong>
-            <p>[DescripciÛn del paso 1]</p>
+            <strong>Review the current information</strong>
+            <p>Verify that the form corresponds to the customer you selected before applying changes.</p>
         </div>
-        
+
         <div class="step">
             <span class="step-number">2</span>
-            <strong>[TÌtulo del Paso 2]</strong>
-            <p>[DescripciÛn del paso 2]</p>
+            <strong>Update contact data</strong>
+            <p>Adjust the address, email and phone number. Make sure the email has a valid format and the phone contains only digits.</p>
         </div>
-        
-        <!-- AGREGAR M¡S PASOS SEG⁄N NECESIDAD -->
+
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Confirm activity status</strong>
+            <p>Use the <strong>Active</strong> checkbox to enable or disable the customer according to their current relationship with the company.</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Save the changes</strong>
+            <p>Click <strong>Save</strong>. If validation succeeds, the service updates the record and displays ‚ÄúCustomer successfully updated‚Äù.</p>
+        </div>
     </section>
-    
+
     <section id="validaciones">
-        <h2>Validaciones del Sistema</h2>
-        <p>El sistema realiza las siguientes validaciones:</p>
+        <h2>System Validations</h2>
+        <p>The system applies the following business rules before saving:</p>
         <ul>
-            <li>[ValidaciÛn 1]</li>
-            <li>[ValidaciÛn 2]</li>
-            <li>[ValidaciÛn 3]</li>
+            <li>All fields (Name, Address, Email, Phone and CUIT) are mandatory.</li>
+            <li>The email cannot be only numbers and must contain <code>@</code>.</li>
+            <li>The phone must not contain the <code>@</code> character.</li>
+            <li>If any rule fails, the form shows the detailed error message returned by <code>ClienteService.ValidarCliente</code>.</li>
         </ul>
     </section>
-    
+
     <section id="consejos">
-        <h2>Consejos y Recomendaciones</h2>
-        
+        <h2>Tips and Recommendations</h2>
+
         <div class="tip">
-            [Consejo ˙til para el usuario]
-        </div>
-        
+            Double-check the CUIT before saving; it is used as the unique identifier for financial processes.</div>
+
+        <div class="tip">
+            Use the <strong>F1</strong> key to open the contextual help and review the validation criteria.</div>
+
         <div class="warning">
-            <strong>?? Advertencia:</strong> [InformaciÛn importante]
-        </div>
+            <strong>‚ö†Ô∏è Warning:</strong> Deactivating a customer prevents new orders until the checkbox is marked again.</div>
     </section>
-    
+
     <section id="errores">
-        <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
+        <h2>Common Errors and Solutions</h2>
+
+        <h3>Error: "All customer fields are mandatory."</h3>
         <div class="error">
-            <strong>Causa:</strong> [ExplicaciÛn del error]
-        </div>
+            <strong>Cause:</strong> One or more fields were left blank when saving.</div>
         <div class="success">
-            <strong>? SoluciÛn:</strong> [Pasos para resolverlo]
-        </div>
+            <strong>‚úÖ Fix:</strong> Complete every field and press <em>Save</em> again.</div>
+
+        <h3>Error: "The email address is not valid."</h3>
+        <div class="error">
+            <strong>Cause:</strong> The email does not contain <code>@</code> or was typed as a numeric string.</div>
+        <div class="success">
+            <strong>‚úÖ Fix:</strong> Enter a valid email (example: <code>user@domain.com</code>) and retry.</div>
     </section>
-    
+
     <section id="permisos">
-        <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
+        <h2>Required Permissions</h2>
+        <p>To use this feature, the user must have the following patents:</p>
         <ul>
-            <li><code>[NombrePatente]</code> - [DescripciÛn del permiso]</li>
+            <li><code>Mostrar_clientes</code> ‚Äì Grants access to the customer list.</li>
+            <li><code>Modificar_cliente</code> ‚Äì Allows editing and saving changes for a customer.</li>
         </ul>
-        
+
         <div class="warning">
-            <strong>?? Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
-        </div>
+            <strong>‚ö†Ô∏è Important:</strong> If the <em>Modify</em> option is disabled, contact the system administrator to request the required patents.</div>
     </section>
-    
+
     <section id="relacionados">
-        <h2>Ver TambiÈn</h2>
+        <h2>See Also</h2>
         <ul class="no-bullets">
-            <li>?? <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>üìÑ <a href="topic_40_crear_cliente.html">Create customer</a></li>
+            <li>üìÑ <a href="topic_42_mostrar_clientes.html">View customers</a></li>
         </ul>
     </section>
-    
+
     <footer>
-        <p>© 2024 Distribuidora Los Amigos - Sistema de GestiÛn</p>
-        <p>Todos los derechos reservados</p>
+        <p>¬© 2024 Distribuidora Los Amigos - Management System</p>
+        <p>All rights reserved</p>
     </footer>
 
 </body>
