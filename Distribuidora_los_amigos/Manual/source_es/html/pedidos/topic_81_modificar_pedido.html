@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
         <a href="../general/topic_20_main.html">Inicio</a>
         <span>›</span>
@@ -17,124 +17,187 @@
     </div>
 
     <h1>Modificar Pedido</h1>
-    
+
     <section id="introduccion">
         <h2>Introducción</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
+            Este formulario permite actualizar el estado de un pedido existente y consultar los datos principales
+            asociados (cliente, fecha y cantidad de artículos). También ofrece la opción de cancelar el pedido,
+            restituyendo el stock reservado para cada producto.
         </p>
         <p>
-            [EXPLICAR PARA QUÉ SIRVE Y CUÁNDO USARLA].
+            Utilícelo cuando un pedido avance en el circuito logístico (por ejemplo, pasa a <strong>En camino</strong>
+            o <strong>Entregado</strong>) o cuando sea necesario anularlo antes de su despacho.
         </p>
     </section>
-    
+
     <section id="acceso">
         <h2>Cómo Acceder</h2>
         <p>Para acceder a esta funcionalidad:</p>
         <ol>
-            <li>Desde el menú principal, ir a <strong>Pedidos</strong></li>
-            <li>Seleccionar <strong>Modificar Pedido</strong></li>
-            <li>Se abrirá la ventana de <strong>Modificar Pedido</strong></li>
+            <li>Desde el menú principal seleccione <strong>Pedidos → Mostrar pedidos</strong>.</li>
+            <li>Elija un pedido en la grilla y presione <strong>✏️ Modificar</strong>.</li>
+            <li>Se abrirá la ventana <strong>ModificarPedidoForm</strong> con los datos precargados.</li>
         </ol>
     </section>
-    
+
     <section id="campos">
-        <h2>Descripción de Campos</h2>
-        <p>A continuación se describe cada campo del formulario:</p>
-        
+        <h2>Controles principales</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Campo</th>
+                    <th>Control</th>
                     <th>Descripción</th>
-                    <th>Tipo</th>
                     <th>Obligatorio</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[Descripción del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>Sí / No</td>
+                    <td><strong>Cantidad total de ítems</strong> (numericUpDown1)</td>
+                    <td>Muestra la suma de unidades del pedido. Es informativo y se completa automáticamente.</td>
+                    <td>No</td>
                 </tr>
-                <!-- AGREGAR MÁS CAMPOS AQUÍ -->
+                <tr>
+                    <td><strong>Id Pedido</strong> (textBoxIdPedido)</td>
+                    <td>Identificador único del pedido. Se muestra solo para referencia.</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Cliente</strong> (comboBoxSeleccionCliente)</td>
+                    <td>Cliente asociado al pedido. Se carga automáticamente y se recomienda no modificarlo desde esta vista.</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Fecha del pedido</strong> (dateTimePickerCrearPedido)</td>
+                    <td>Fecha registrada originalmente. Solo lectura.</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Estado</strong> (comboBoxEstadoPedido)</td>
+                    <td>Listado de estados disponibles (Pendiente, En preparación, En camino, Entregado, etc.).</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Modificar pedido</strong></td>
+                    <td>Botón que confirma el nuevo estado y, si corresponde, envía la notificación por email al cliente.</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Eliminar pedido</strong></td>
+                    <td>Cancela el pedido completo, elimina los detalles y devuelve el stock comprometido.</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Guardar pedido</strong></td>
+                    <td>Botón reservado para futuras ampliaciones. Actualmente no ejecuta acciones adicionales.</td>
+                    <td>—</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
+
     <section id="procedimiento">
         <h2>Procedimiento</h2>
-        
+
         <div class="step">
             <span class="step-number">1</span>
-            <strong>[Título del Paso 1]</strong>
-            <p>[Descripción del paso 1]</p>
+            <strong>Revise la información del pedido</strong>
+            <p>Verifique el cliente, la fecha registrada y la cantidad total de artículos antes de realizar cambios.</p>
         </div>
-        
+
         <div class="step">
             <span class="step-number">2</span>
-            <strong>[Título del Paso 2]</strong>
-            <p>[Descripción del paso 2]</p>
+            <strong>Seleccione el nuevo estado</strong>
+            <p>Elija el estado adecuado en el combo <strong>Estado</strong>. Solo los estados habilitados por el servicio se muestran.</p>
         </div>
-        
-        <!-- AGREGAR MÁS PASOS SEGÚN NECESIDAD -->
+
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Confirme con “Modificar pedido”</strong>
+            <p>Presione el botón <strong>Modificar pedido</strong>. El sistema valida el cambio, actualiza el estado y, si el nuevo estado es <em>En camino</em>, envía un correo al cliente (si tiene email válido).</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Cancelar el pedido (opcional)</strong>
+            <p>Si necesita anularlo, presione <strong>Eliminar pedido</strong>. El stock se restituye automáticamente antes de eliminar el registro.</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">5</span>
+            <strong>Cierre el formulario</strong>
+            <p>Al finalizar, cierre la ventana para regresar al listado. Los cambios se reflejarán al actualizar la grilla.</p>
+        </div>
     </section>
-    
+
     <section id="validaciones">
         <h2>Validaciones del Sistema</h2>
         <p>El sistema realiza las siguientes validaciones:</p>
         <ul>
-            <li>[Validación 1]</li>
-            <li>[Validación 2]</li>
-            <li>[Validación 3]</li>
+            <li>Exige seleccionar un estado válido antes de confirmar el cambio.</li>
+            <li>Si se intenta elegir el mismo estado actual se informa con un mensaje y no se realizan cambios.</li>
+            <li>Cuando el nuevo estado es <em>En camino</em> se intenta enviar una notificación al email del cliente; si falta el email se muestra una advertencia.</li>
+            <li>Al eliminar un pedido se recorren todos los detalles y se incrementa el stock de cada producto antes de remover el registro.</li>
         </ul>
     </section>
-    
+
     <section id="consejos">
         <h2>Consejos y Recomendaciones</h2>
-        
+
         <div class="tip">
-            [Consejo útil para el usuario]
+            Confirme con el sector logístico el estado real del pedido antes de actualizarlo para mantener informados a los clientes.
         </div>
-        
+
+        <div class="tip">
+            Utilice la tecla <strong>F1</strong> para abrir la ayuda contextual en cualquier momento.
+        </div>
+
         <div class="warning">
-            <strong>⚠️ Advertencia:</strong> [Información importante]
+            <strong>⚠️ Advertencia:</strong> La eliminación del pedido es definitiva. Solo utilícela cuando esté seguro de que no debe mantenerse el registro.
         </div>
     </section>
-    
+
     <section id="errores">
         <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
+
+        <h3>Error: "Seleccione un estado válido."</h3>
         <div class="error">
-            <strong>Causa:</strong> [Explicación del error]
+            <strong>Causa:</strong> No se eligió ningún estado en el combo antes de presionar <em>Modificar pedido</em>.
         </div>
         <div class="success">
-            <strong>✅ Solución:</strong> [Pasos para resolverlo]
+            <strong>✅ Solución:</strong> Seleccione un estado de la lista y vuelva a intentar la operación.
+        </div>
+
+        <h3>Mensaje: "El estado seleccionado es el mismo actual."</h3>
+        <div class="error">
+            <strong>Causa:</strong> El pedido ya se encontraba en el estado elegido, por lo que no hay cambios que guardar.
+        </div>
+        <div class="success">
+            <strong>✅ Solución:</strong> Seleccione un estado diferente o cierre el formulario si no necesita modificarlo.
         </div>
     </section>
-    
+
     <section id="permisos">
         <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
+        <p>Para utilizar esta funcionalidad, el usuario debe tener la siguiente patente:</p>
         <ul>
-            <li><code>[NombrePatente]</code> - [Descripción del permiso]</li>
+            <li><code>MOSTRAR_PEDIDOS</code> - Habilita la gestión completa de pedidos (listar, modificar estado y eliminar).</li>
         </ul>
-        
+
         <div class="warning">
-            <strong>⚠️ Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
+            <strong>⚠️ Importante:</strong> Si no cuenta con el permiso necesario, solicítelo al administrador del sistema.
         </div>
     </section>
-    
+
     <section id="relacionados">
         <h2>Ver También</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>📄 <a href="topic_80_crear_pedido.html">Crear pedido</a></li>
+            <li>📄 <a href="topic_82_mostrar_pedidos.html">Ver pedidos</a></li>
+            <li>📄 <a href="topic_83_detalle_pedido.html">Detalle del pedido</a></li>
         </ul>
     </section>
-    
+
     <footer>
         <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
         <p>Todos los derechos reservados</p>

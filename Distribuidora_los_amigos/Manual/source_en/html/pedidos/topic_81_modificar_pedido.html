@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Order - Distribuidora Los Amigos</title>
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../../css/styles.css">
 </head>
 <body>
 
     <div class="breadcrumb">
         <a href="../general/topic_20_main.html">Home</a>
-        <span>›</span>
+        <span>»</span>
         <a href="#">Order Management</a>
-        <span>›</span>
+        <span>»</span>
         <span>Edit Order</span>
     </div>
 
@@ -21,10 +21,11 @@
     <section id="introduccion">
         <h2>Introduction</h2>
         <p>
-            This feature allows [DESCRIBE THE FUNCTIONALITY].
+            Use this window to update the status of an existing order, review its main information and cancel it if necessary.
+            The form displays the associated customer, creation date and the total quantity of items already reserved.
         </p>
         <p>
-            [EXPLAIN WHAT IT IS USED FOR AND WHEN TO USE IT].
+            It is especially useful for reflecting logistics progress (e.g. moving the order to <strong>On the way</strong> or <strong>Delivered</strong>) and for rolling back stock when an order must be cancelled.
         </p>
     </section>
 
@@ -32,33 +33,63 @@
         <h2>How to Access</h2>
         <p>To access this feature:</p>
         <ol>
-            <li>From the main menu go to <strong>Orders</strong></li>
-            <li>Select <strong>Edit Order</strong></li>
-            <li>The <strong>Edit Order</strong> window opens</li>
+            <li>Open <strong>Orders → View orders</strong>.</li>
+            <li>Select an order and click <strong>✏️ Edit</strong>.</li>
+            <li>The <strong>ModifyOrderForm</strong> opens with the current data.</li>
         </ol>
     </section>
 
     <section id="campos">
-        <h2>Field Description</h2>
-        <p>The following table describes each field on the form:</p>
-
+        <h2>Main Controls</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Field</th>
+                    <th>Control</th>
                     <th>Description</th>
-                    <th>Type</th>
                     <th>Required</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Field Name]</strong></td>
-                    <td>[Field description]</td>
-                    <td>[Data type]</td>
-                    <td>Yes / No</td>
+                    <td><strong>Total items</strong> (numericUpDown1)</td>
+                    <td>Displays the sum of product quantities included in the order. Informational only.</td>
+                    <td>No</td>
                 </tr>
-                <!-- ADD MORE FIELDS HERE -->
+                <tr>
+                    <td><strong>Order Id</strong> (textBoxIdPedido)</td>
+                    <td>Unique identifier of the order. Read-only.</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Customer</strong> (comboBoxSeleccionCliente)</td>
+                    <td>Customer assigned to the order. Loaded for reference; changes are not persisted from this view.</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Order date</strong> (dateTimePickerCrearPedido)</td>
+                    <td>Date when the order was created. Read-only.</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Status</strong> (comboBoxEstadoPedido)</td>
+                    <td>List of available statuses (Pending, Preparing, On the way, Delivered, etc.).</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Edit order</strong></td>
+                    <td>Button that validates and applies the new status. Sends a notification email when the order becomes <em>On the way</em>.</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Delete order</strong></td>
+                    <td>Cancels the order, returns the stock to inventory and removes the record.</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Save order</strong></td>
+                    <td>Reserved for future enhancements. Currently no additional action is executed.</td>
+                    <td>—</td>
+                </tr>
             </tbody>
         </table>
     </section>
@@ -68,26 +99,43 @@
 
         <div class="step">
             <span class="step-number">1</span>
-            <strong>[Step 1 Title]</strong>
-            <p>[Step 1 description]</p>
+            <strong>Review the order header</strong>
+            <p>Check the customer, creation date and total items before changing anything.</p>
         </div>
 
         <div class="step">
             <span class="step-number">2</span>
-            <strong>[Step 2 Title]</strong>
-            <p>[Step 2 description]</p>
+            <strong>Select the new status</strong>
+            <p>Choose the target status from the <strong>Status</strong> combo box.</p>
         </div>
 
-        <!-- ADD MORE STEPS AS NEEDED -->
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Confirm with “Edit order”</strong>
+            <p>Click <strong>Edit order</strong>. The service validates the selection, updates the status and sends an email when it changes to <em>On the way</em> and the customer has a valid email address.</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Cancel the order (optional)</strong>
+            <p>If the order must be discarded, click <strong>Delete order</strong>. Stock is restored before removing the record.</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">5</span>
+            <strong>Close the form</strong>
+            <p>Close the window to return to the list. Refresh the grid to see the updated information.</p>
+        </div>
     </section>
 
     <section id="validaciones">
         <h2>System Validations</h2>
-        <p>The system performs the following validations:</p>
+        <p>The form enforces these rules:</p>
         <ul>
-            <li>[Validation 1]</li>
-            <li>[Validation 2]</li>
-            <li>[Validation 3]</li>
+            <li>A valid status must be selected; otherwise an error message is shown.</li>
+            <li>If the new status matches the current one, the system informs the user and no changes are saved.</li>
+            <li>When the status changes to <em>On the way</em>, the service attempts to send an email to the customer (if an address is registered).</li>
+            <li>When deleting, the system iterates through every order detail, increases the stock using <code>StockService.AumentarStock</code> and then removes the order.</li>
         </ul>
     </section>
 
@@ -95,43 +143,48 @@
         <h2>Tips and Recommendations</h2>
 
         <div class="tip">
-            [Useful tip for the user]
-        </div>
+            Confirm the real logistics status before applying changes so customers receive accurate notifications.</div>
+
+        <div class="tip">
+            Press <strong>F1</strong> at any time to open the contextual help.</div>
 
         <div class="warning">
-            <strong>⚠️ Warning:</strong> [Important information]
-        </div>
+            <strong>⚠️ Warning:</strong> Deleting an order is definitive. Use it only when you are certain the order must be cancelled.</div>
     </section>
 
     <section id="errores">
         <h2>Common Errors and Solutions</h2>
 
-        <h3>Error: "[Error message]"</h3>
+        <h3>Error: "Select a valid status."</h3>
         <div class="error">
-            <strong>Cause:</strong> [Error explanation]
-        </div>
+            <strong>Cause:</strong> No status was selected before pressing <em>Edit order</em>.</div>
         <div class="success">
-            <strong>✅ Fix:</strong> [Steps to resolve it]
-        </div>
+            <strong>✅ Fix:</strong> Choose a status from the list and try again.</div>
+
+        <h3>Message: "The selected status is the same as the current one."</h3>
+        <div class="error">
+            <strong>Cause:</strong> The order already has the chosen status.</div>
+        <div class="success">
+            <strong>✅ Fix:</strong> Select a different status or close the window if no change is required.</div>
     </section>
 
     <section id="permisos">
         <h2>Required Permissions</h2>
-        <p>To use this feature the user must have the following permissions:</p>
+        <p>This feature requires the following patent:</p>
         <ul>
-            <li><code>[PatentName]</code> - [Permission description]</li>
+            <li><code>MOSTRAR_PEDIDOS</code> – Grants access to the order list and enables editing and cancellation.</li>
         </ul>
 
         <div class="warning">
-            <strong>⚠️ Important:</strong> If you do not have the necessary permission, contact the system administrator.
-        </div>
+            <strong>⚠️ Important:</strong> If the Edit option is not available, request the patent from the system administrator.</div>
     </section>
 
     <section id="relacionados">
         <h2>See Also</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Main Screen</a></li>
-            <!-- ADD RELATED LINKS -->
+            <li>📄 <a href="topic_80_crear_pedido.html">Create order</a></li>
+            <li>📄 <a href="topic_82_mostrar_pedidos.html">View orders</a></li>
+            <li>📄 <a href="topic_83_detalle_pedido.html">Order details</a></li>
         </ul>
     </section>
 

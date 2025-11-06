@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    
+
     <div class="breadcrumb">
         <a href="../general/topic_20_main.html">Inicio</a>
         <span>›</span>
@@ -16,125 +16,164 @@
         <span>Detalle del Pedido</span>
     </div>
 
-    <h1>Detalle del Pedido</h1>
-    
+    <h1>Detalle del pedido</h1>
+
     <section id="introduccion">
         <h2>Introducción</h2>
         <p>
-            Esta funcionalidad permite [DESCRIBIR LA FUNCIONALIDAD].
+            Esta vista permite consultar los productos asociados a un pedido específico, junto con cantidades,
+            precios y subtotales. También muestra la información de cabecera (cliente, fecha y estado) y habilita
+            la generación de un comprobante en PDF cuando el pedido fue entregado.
         </p>
         <p>
-            [EXPLICAR PARA QUÉ SIRVE Y CUÁNDO USARLA].
+            Utilícela para validar la preparación antes del despacho, responder consultas de clientes o emitir un
+            comprobante de entrega.
         </p>
     </section>
-    
+
     <section id="acceso">
         <h2>Cómo Acceder</h2>
         <p>Para acceder a esta funcionalidad:</p>
         <ol>
-            <li>Desde el menú principal, ir a <strong>Pedidos</strong></li>
-            <li>Seleccionar <strong>Detalle Pedido</strong></li>
-            <li>Se abrirá la ventana de <strong>Detalle del Pedido</strong></li>
+            <li>Abra <strong>Pedidos → Mostrar pedidos</strong>.</li>
+            <li>Seleccione un pedido y presione <strong>👁️ Ver Detalle</strong>.</li>
+            <li>Se abrirá la ventana <strong>MostrarDetallePedidoForm</strong> con la información del pedido.</li>
         </ol>
     </section>
-    
+
     <section id="campos">
-        <h2>Descripción de Campos</h2>
-        <p>A continuación se describe cada campo del formulario:</p>
-        
+        <h2>Componentes principales</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Campo</th>
+                    <th>Elemento</th>
                     <th>Descripción</th>
-                    <th>Tipo</th>
                     <th>Obligatorio</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>[Nombre del Campo]</strong></td>
-                    <td>[Descripción del campo]</td>
-                    <td>[Tipo de dato]</td>
-                    <td>Sí / No</td>
+                    <td><strong>Grilla de detalles</strong> (dataGridViewDetallePedido)</td>
+                    <td>Muestra columnas de Producto, Cantidad, Precio Unitario y Subtotal. Filas solo lectura.</td>
+                    <td>Sí</td>
                 </tr>
-                <!-- AGREGAR MÁS CAMPOS AQUÍ -->
+                <tr>
+                    <td><strong>Cliente</strong> (textBoxCliente)</td>
+                    <td>Nombre del cliente asociado al pedido.</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Fecha</strong> (textBoxFecha)</td>
+                    <td>Fecha de generación del pedido en formato <code>dd/MM/yyyy</code>.</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>Estado</strong> (textBoxEstado)</td>
+                    <td>Estado actual del pedido obtenido desde el servicio de pedidos.</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td><strong>📄 Generar PDF</strong></td>
+                    <td>Botón dinámico que aparece cuando el pedido se encuentra en estado <em>Entregado</em> y permite descargar un comprobante.</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><strong>Cerrar</strong></td>
+                    <td>Botón que cierra la ventana y regresa al listado.</td>
+                    <td>No</td>
+                </tr>
             </tbody>
         </table>
     </section>
-    
+
     <section id="procedimiento">
         <h2>Procedimiento</h2>
-        
+
         <div class="step">
             <span class="step-number">1</span>
-            <strong>[Título del Paso 1]</strong>
-            <p>[Descripción del paso 1]</p>
+            <strong>Revise la cabecera</strong>
+            <p>Verifique el cliente, la fecha y el estado para asegurarse de estar consultando el pedido correcto.</p>
         </div>
-        
+
         <div class="step">
             <span class="step-number">2</span>
-            <strong>[Título del Paso 2]</strong>
-            <p>[Descripción del paso 2]</p>
+            <strong>Analice los productos</strong>
+            <p>Recorra la grilla para confirmar cantidades, precios y subtotales de cada artículo incluido en el pedido.</p>
         </div>
-        
-        <!-- AGREGAR MÁS PASOS SEGÚN NECESIDAD -->
+
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Genere el PDF (si está disponible)</strong>
+            <p>Cuando el estado es <em>Entregado</em>, presione <strong>📄 Generar PDF</strong>, elija la ubicación del archivo y confirme si desea abrirlo al finalizar.</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Cierre la ventana</strong>
+            <p>Presione <strong>Cerrar</strong> para volver al listado de pedidos.</p>
+        </div>
     </section>
-    
+
     <section id="validaciones">
         <h2>Validaciones del Sistema</h2>
         <p>El sistema realiza las siguientes validaciones:</p>
         <ul>
-            <li>[Validación 1]</li>
-            <li>[Validación 2]</li>
-            <li>[Validación 3]</li>
+            <li>Si el pedido no se encuentra o no posee detalles se informa mediante un mensaje de error.</li>
+            <li>El botón PDF solo se muestra cuando el estado es <em>Entregado</em>.</li>
+            <li>Al generar el PDF se solicita confirmación de ruta y se ofrece abrir el archivo recién creado.</li>
+            <li>Las columnas de la grilla se configuran como solo lectura para evitar modificaciones accidentales.</li>
         </ul>
     </section>
-    
+
     <section id="consejos">
         <h2>Consejos y Recomendaciones</h2>
-        
+
         <div class="tip">
-            [Consejo útil para el usuario]
-        </div>
-        
+            Utilice la grilla para detectar diferencias entre lo preparado y lo facturado antes de despachar la mercadería.</div>
+
+        <div class="tip">
+            Guarde el PDF en una carpeta compartida para que logística y administración accedan al comprobante de entrega.</div>
+
         <div class="warning">
-            <strong>⚠️ Advertencia:</strong> [Información importante]
-        </div>
+            <strong>⚠️ Advertencia:</strong> Si necesita corregir cantidades deberá volver a <em>Modificar pedido</em>; esta vista es solo informativa.</div>
     </section>
-    
+
     <section id="errores">
         <h2>Errores Comunes y Soluciones</h2>
-        
-        <h3>Error: "[Mensaje de error]"</h3>
+
+        <h3>Error: "Error al generar el PDF"</h3>
         <div class="error">
-            <strong>Causa:</strong> [Explicación del error]
-        </div>
+            <strong>Causa:</strong> La ruta seleccionada no es accesible o se produjo un problema al crear el archivo.</div>
         <div class="success">
-            <strong>✅ Solución:</strong> [Pasos para resolverlo]
-        </div>
+            <strong>✅ Solución:</strong> Seleccione una carpeta válida y vuelva a ejecutar la acción. Compruebe que el archivo no esté en uso.</div>
+
+        <h3>Error: "No se pudo cargar el pedido."</h3>
+        <div class="error">
+            <strong>Causa:</strong> El pedido ya no existe en la base de datos o se abrió el formulario sin una selección válida.</div>
+        <div class="success">
+            <strong>✅ Solución:</strong> Cierre la ventana, actualice el listado de pedidos y vuelva a seleccionar el registro.</div>
     </section>
-    
+
     <section id="permisos">
         <h2>Permisos Necesarios</h2>
-        <p>Para utilizar esta funcionalidad, el usuario debe tener los siguientes permisos:</p>
+        <p>Para utilizar esta funcionalidad, el usuario debe contar con:</p>
         <ul>
-            <li><code>[NombrePatente]</code> - [Descripción del permiso]</li>
+            <li><code>MOSTRAR_PEDIDOS</code> - Permite acceder al listado y abrir el detalle.</li>
         </ul>
-        
+
         <div class="warning">
-            <strong>⚠️ Importante:</strong> Si no tiene el permiso necesario, contacte al administrador del sistema.
-        </div>
+            <strong>⚠️ Importante:</strong> Si no aparece el botón para generar PDF, verifique que el pedido esté marcado como <em>Entregado</em> o consulte al administrador.</div>
     </section>
-    
+
     <section id="relacionados">
         <h2>Ver También</h2>
         <ul class="no-bullets">
-            <li>📄 <a href="../general/topic_20_main.html">Pantalla Principal</a></li>
-            <!-- AGREGAR LINKS RELACIONADOS -->
+            <li>📄 <a href="topic_80_crear_pedido.html">Crear pedido</a></li>
+            <li>📄 <a href="topic_81_modificar_pedido.html">Modificar pedido</a></li>
+            <li>📄 <a href="topic_82_mostrar_pedidos.html">Ver pedidos</a></li>
         </ul>
     </section>
-    
+
     <footer>
         <p>© 2024 Distribuidora Los Amigos - Sistema de Gestión</p>
         <p>Todos los derechos reservados</p>
