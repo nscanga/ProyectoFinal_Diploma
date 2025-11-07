@@ -152,10 +152,10 @@
     <Compile Include="Forms\LoginForm\LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\main.cs">
+    <Compile Include="Forms\StockForm\main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\main.Designer.cs">
+    <Compile Include="Forms\StockForm\main.Designer.cs">
       <DependentUpon>main.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Pedidos\CrearPedidoForm.cs">
@@ -287,7 +287,7 @@
     <EmbeddedResource Include="Forms\LoginForm\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\main.resx">
+    <EmbeddedResource Include="Forms\StockForm\main.resx">
       <DependentUpon>main.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Pedidos\CrearPedidoForm.resx">
