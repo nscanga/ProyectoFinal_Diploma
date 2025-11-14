@@ -7,6 +7,8 @@ using DAL.Contratcs;
 using DAL.Factory;
 using DOMAIN;
 using Service.Facade;
+using BLL.Exceptions;
+using BLL.Helpers;
 
 namespace BLL
 {
@@ -230,11 +232,31 @@ namespace BLL
 
         /// <summary>
         /// Obtiene todos los pedidos de la base de datos.
+        /// Si hay error de conexión, devuelve lista vacía para que la aplicación continúe funcionando.
         /// </summary>
         /// <returns>Lista de pedidos.</returns>
         public List<Pedido> ObtenerTodosLosPedidos()
         {
-            return _pedidoRepository.GetAll();
+            try
+            {
+                return ExceptionMapper.ExecuteWithMapping(() =>
+                {
+                    return _pedidoRepository.GetAll();
+                }, "Error al obtener todos los pedidos");
+            }
+            catch (DatabaseException dbEx)
+            {
+                // Si es error de conexión o timeout, devolver lista vacía
+                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed || 
+                    dbEx.ErrorType == DatabaseErrorType.Timeout)
+                {
+                    Console.WriteLine($"⚠️ Error de conexión al obtener pedidos. Devolviendo lista vacía.");
+                    // Propagar la excepción para que la UI pueda manejarla apropiadamente
+                    throw;
+                }
+                // Si es otro error crítico, propagar
+                throw;
+            }
         }
 
         /// <summary>
@@ -259,11 +281,66 @@ namespace BLL
 
         /// <summary>
         /// Recupera el catálogo de estados disponibles para los pedidos.
+        /// Si hay error de conexión, devuelve estados por defecto para que la aplicación continúe funcionando.
         /// </summary>
         /// <returns>Listado de estados.</returns>
         public List<EstadoPedido> ObtenerEstadosPedido()
         {
-            return _pedidoRepository.ObtenerEstadosPedido();
+            try
+            {
+                return ExceptionMapper.ExecuteWithMapping(() =>
+                {
+                    return _pedidoRepository.ObtenerEstadosPedido();
+                }, "Error al obtener estados de pedido");
+            }
+            catch (DatabaseException dbEx)
+            {
+                // Si es error de conexión o timeout, devolver estados por defecto
+                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed || 
+                    dbEx.ErrorType == DatabaseErrorType.Timeout)
+                {
+                    Console.WriteLine($"⚠️ Error de conexión al obtener estados. Usando estados por defecto.");
+                    return ObtenerEstadosPorDefecto();
+                }
+                // Si es otro error crítico, propagar
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Devuelve estados de pedido por defecto cuando la base de datos no está disponible.
+        /// Permite que la aplicación continúe funcionando con funcionalidad limitada.
+        /// </summary>
+        private List<EstadoPedido> ObtenerEstadosPorDefecto()
+        {
+            return new List<EstadoPedido>
+            {
+                new EstadoPedido 
+                { 
+                    IdEstadoPedido = Guid.Parse("00000000-0000-0000-0000-000000000001"), 
+                    NombreEstado = "Pendiente" 
+                },
+                new EstadoPedido 
+                { 
+                    IdEstadoPedido = Guid.Parse("00000000-0000-0000-0000-000000000002"), 
+                    NombreEstado = "En Proceso" 
+                },
+                new EstadoPedido 
+                { 
+                    IdEstadoPedido = Guid.Parse("00000000-0000-0000-0000-000000000003"), 
+                    NombreEstado = "En Camino" 
+                },
+                new EstadoPedido 
+                { 
+                    IdEstadoPedido = Guid.Parse("00000000-0000-0000-0000-000000000004"), 
+                    NombreEstado = "Entregado" 
+                },
+                new EstadoPedido 
+                { 
+                    IdEstadoPedido = Guid.Parse("00000000-0000-0000-0000-000000000005"), 
+                    NombreEstado = "Cancelado" 
+                }
+            };
         }
 
         /// <summary>

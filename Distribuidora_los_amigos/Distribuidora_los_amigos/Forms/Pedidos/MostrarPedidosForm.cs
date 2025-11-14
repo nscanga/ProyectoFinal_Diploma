@@ -8,10 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BLL;
+using BLL.Exceptions;
 using DOMAIN;
 using Service.Facade;
 using Services.Facade;
 using Service.DAL.Contracts;
+using Service.ManegerEx;
 
 namespace Distribuidora_los_amigos.Forms.Pedidos
 {
@@ -138,12 +140,23 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             }
 
             ConfigurarDataGridView(); // 🆕 Configurar el grid antes de cargar datos
-            CargarPedidos();
-            CargarEstadosEnCombo(); // 🆕 Cargar estados al iniciar
+            
+            try
+            {
+                CargarEstadosEnCombo(); // 🆕 Cargar estados al iniciar
+                CargarPedidos();
+            }
+            catch (Exception ex)
+            {
+                // Si hay error general, registrar pero no cerrar el formulario
+                ErrorHandler.HandleGeneralException(ex);
+                // No cerrar el form - permitir uso limitado
+            }
         }
 
         /// <summary>
         /// Recupera los pedidos y los enriquece con información adicional para mostrarlos en la grilla.
+        /// Si hay error de conexión, muestra mensaje pero permite que el formulario continúe funcionando.
         /// </summary>
         private void CargarPedidos()
         {
@@ -180,12 +193,29 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
                 // 🔍 Debug: Verificar si hay datos
                 if (pedidosEnriquecidos.Count == 0)
                 {
-                    MessageBox.Show("No se encontraron pedidos en la base de datos.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Console.WriteLine("ℹ️ No hay pedidos disponibles en la base de datos.");
                 }
+            }
+            catch (DatabaseException dbEx)
+            {
+                // Obtener usuario actual para el log
+                string username = ObtenerUsuarioActual();
+                
+                // Manejar error con registro automático
+                ErrorHandler.HandleDatabaseException(dbEx, username, showMessageBox: true);
+                
+                // Mostrar grid vacío en lugar de cerrar
+                dataGridViewPedidos.DataSource = new List<object>();
+                
+                Console.WriteLine("❌ Error de conexión al cargar pedidos");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar los pedidos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Error inesperado
+                ErrorHandler.HandleGeneralException(ex);
+                
+                // Mostrar grid vacío
+                dataGridViewPedidos.DataSource = new List<object>();
             }
         }
 
@@ -481,16 +511,74 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             }
         }
 
-        // 🆕 Cargar estados en el ComboBox
+        // 🆕 Cargar estados en el ComboBox con manejo de excepciones
         /// <summary>
         /// Pobla el combo auxiliar con los estados disponibles para el cambio rápido.
+        /// Si hay error de conexión, muestra indicador visual pero permite continuar.
         /// </summary>
         private void CargarEstadosEnCombo()
         {
-            comboBoxCambiarEstado.DataSource = _pedidoService.ObtenerEstadosPedido();
-            comboBoxCambiarEstado.DisplayMember = "NombreEstado";
-            comboBoxCambiarEstado.ValueMember = "IdEstadoPedido";
-            comboBoxCambiarEstado.SelectedIndex = -1; // Sin selección inicial
+            try
+            {
+                var estados = _pedidoService.ObtenerEstadosPedido();
+                
+                if (estados != null && estados.Count > 0)
+                {
+                    comboBoxCambiarEstado.DataSource = estados;
+                    comboBoxCambiarEstado.DisplayMember = "NombreEstado";
+                    comboBoxCambiarEstado.ValueMember = "IdEstadoPedido";
+                    comboBoxCambiarEstado.SelectedIndex = -1; // Sin selección inicial
+                    
+                    // Verificar si son estados por defecto (sin conexión a BD)
+                    bool sonEstadosPorDefecto = estados.Any(e => e.IdEstadoPedido == Guid.Parse("00000000-0000-0000-0000-000000000001"));
+                    if (sonEstadosPorDefecto && estados.Count == 5)
+                    {
+                        // Mostrar indicador de modo limitado
+                        Console.WriteLine("⚠️ Usando estados por defecto - modo sin conexión");
+                    }
+                }
+                else
+                {
+                    // Si está vacío, mostrar mensaje pero continuar
+                    Console.WriteLine("⚠️ Sin estados disponibles");
+                }
+            }
+            catch (DatabaseException dbEx)
+            {
+                // Obtener usuario actual para el log
+                string username = ObtenerUsuarioActual();
+                
+                // Manejar error con registro automático
+                ErrorHandler.HandleDatabaseException(dbEx, username, showMessageBox: true);
+                
+                Console.WriteLine("❌ Error de conexión al cargar estados");
+                
+                // Deshabilitar funciones que requieren BD
+                comboBoxCambiarEstado.Enabled = false;
+                buttonCambiarEstado.Enabled = false;
+            }
+            catch (Exception ex)
+            {
+                // Error inesperado
+                ErrorHandler.HandleGeneralException(ex);
+                Console.WriteLine($"❌ Error inesperado al cargar estados: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Obtiene el nombre del usuario actual de la sesión de forma segura.
+        /// </summary>
+        /// <returns>Nombre de usuario o "Desconocido" si no está disponible.</returns>
+        private string ObtenerUsuarioActual()
+        {
+            try
+            {
+                return SesionService.UsuarioLogueado?.UserName ?? "Desconocido";
+            }
+            catch
+            {
+                return "Desconocido";
+            }
         }
     }
 }

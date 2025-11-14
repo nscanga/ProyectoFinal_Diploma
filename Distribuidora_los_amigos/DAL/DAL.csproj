@@ -52,6 +52,7 @@
     <Compile Include="Contratcs\IProductoRepository.cs" />
     <Compile Include="Contratcs\IProveedorRepository.cs" />
     <Compile Include="Contratcs\IStockRepository.cs" />
+    <Compile Include="Exceptions\DALException.cs" />
     <Compile Include="Factory\FactoryDAL.cs" />
     <Compile Include="Implementations\SqlDetallePedidoRepository.cs" />
     <Compile Include="Implementations\SqlServer\Helpers\SQLHelper.cs" />

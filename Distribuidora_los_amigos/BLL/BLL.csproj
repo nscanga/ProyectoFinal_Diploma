@@ -52,7 +52,13 @@
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\Producto\CrearProductoConStockCommand.cs" />
     <Compile Include="DetallePedidoService.cs" />
+    <Compile Include="Exceptions\BusinessException.cs" />
+    <Compile Include="Exceptions\ClienteException.cs" />
+    <Compile Include="Exceptions\DatabaseException.cs" />
+    <Compile Include="Exceptions\PedidoException.cs" />
     <Compile Include="Exceptions\ProductoException.cs" />
+    <Compile Include="Exceptions\StockException.cs" />
+    <Compile Include="Helpers\ExceptionMapper.cs" />
     <Compile Include="PdfService.cs" />
     <Compile Include="PedidoService.cs" />
     <Compile Include="ProductoService.cs" />
