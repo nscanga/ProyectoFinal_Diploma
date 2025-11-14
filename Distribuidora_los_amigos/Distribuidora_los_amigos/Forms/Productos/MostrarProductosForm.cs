@@ -8,16 +8,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BLL;
+using BLL.Exceptions;
 using DOMAIN;
 using Service.Facade;
 using Services.Facade;
 using Service.DAL.Contracts;
+using Service.ManegerEx;
 
 namespace Distribuidora_los_amigos.Forms.Productos
 {
     public partial class MostrarProductosForm : Form, IIdiomaObserver
     {
         private readonly ProductoService _productoService;
+        private readonly StockService _stockService;
         private Producto _producto;
 
         /// <summary>
@@ -27,6 +30,7 @@ namespace Distribuidora_los_amigos.Forms.Productos
         {
             InitializeComponent();
             _productoService = new ProductoService();
+            _stockService = new StockService();
             
             // Suscribirse al servicio de idiomas
             IdiomaService.Subscribe(this);
@@ -106,12 +110,50 @@ namespace Distribuidora_los_amigos.Forms.Productos
         {
             try
             {
-                List<Producto> productos = _productoService.ObtenerTodosProductos();
-                dataGridView1.DataSource = productos;
+                List<Producto> listaProductos = _productoService.ObtenerTodosProductos();
+
+                var productosEnriquecidos = listaProductos.Select(p => new
+                {
+                    IdProducto = p.IdProducto,
+                    Nombre = p.Nombre,
+                    Descripcion = p.Descripcion,
+                    Precio = p.Precio,
+                    Stock = ObtenerStockProducto(p.IdProducto),
+                    ProductoOriginal = p
+                }).ToList();
+
+                dataGridView1.DataSource = productosEnriquecidos;
+            }
+            catch (DatabaseException dbEx)
+            {
+                string username = ObtenerUsuarioActual();
+                ErrorHandler.HandleDatabaseException(dbEx, username, showMessageBox: true);
+                dataGridView1.DataSource = new List<object>();
+                Console.WriteLine("❌ Error de conexión al cargar productos");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar los productos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorHandler.HandleGeneralException(ex);
+                dataGridView1.DataSource = new List<object>();
+            }
+        }
+
+        private int ObtenerStockProducto(Guid idProducto)
+        {
+            try
+            {
+                var stock = _stockService.ObtenerStockPorProducto(idProducto);
+                return stock?.Cantidad ?? 0;
+            }
+            catch (DatabaseException dbEx)
+            {
+                ErrorHandler.HandleDatabaseException(dbEx, ObtenerUsuarioActual(), showMessageBox: false);
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.HandleGeneralException(ex);
+                return 0;
             }
         }
 
@@ -195,6 +237,18 @@ namespace Distribuidora_los_amigos.Forms.Productos
         private void buttonActualizarProducto_Click(object sender, EventArgs e)
         {
             CargarProductos();
+        }
+
+        private string ObtenerUsuarioActual()
+        {
+            try
+            {
+                return SesionService.UsuarioLogueado?.UserName ?? "Desconocido";
+            }
+            catch
+            {
+                return "Desconocido";
+            }
         }
     }
 }

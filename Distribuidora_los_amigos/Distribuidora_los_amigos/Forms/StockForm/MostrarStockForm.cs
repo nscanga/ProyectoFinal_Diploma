@@ -8,10 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BLL;
+using BLL.Exceptions;
 using DOMAIN;
 using Service.Facade;
 using Services.Facade;
 using Service.DAL.Contracts;
+using Service.ManegerEx;
 
 namespace Distribuidora_los_amigos.Forms.StockForm
 {
@@ -85,7 +87,15 @@ namespace Distribuidora_los_amigos.Forms.StockForm
         /// <param name="e">Argumentos del evento.</param>
         private void MostrarStockForm_Load(object sender, EventArgs e)
         {
-            CargarStock();
+            try
+            {
+                CargarStock();
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.HandleGeneralException(ex);
+            }
+
             ConfigurarDataGridView();
         }
 
@@ -157,13 +167,20 @@ namespace Distribuidora_los_amigos.Forms.StockForm
                 // 🆕 USAR EL NUEVO MÉTODO CON DETALLES
                 List<StockDTO> stockList = _stockService.ObtenerStockConDetalles();
                 dataGridViewStock.DataSource = stockList;
-                
+
                 LoggerService.WriteLog($"Se cargó la lista de stock en {this.Text}", System.Diagnostics.TraceLevel.Info);
+            }
+            catch (DatabaseException dbEx)
+            {
+                string username = ObtenerUsuarioActual();
+                ErrorHandler.HandleDatabaseException(dbEx, username, showMessageBox: true);
+                dataGridViewStock.DataSource = new List<object>();
+                Console.WriteLine("❌ Error de conexión al cargar stock");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar el stock: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                LoggerService.WriteException(ex);
+                ErrorHandler.HandleGeneralException(ex);
+                dataGridViewStock.DataSource = new List<object>();
             }
         }
 
@@ -276,6 +293,18 @@ namespace Distribuidora_los_amigos.Forms.StockForm
         private void buttonActualizarProducto_Click(object sender, EventArgs e)
         {
             CargarStock();
+        }
+
+        private string ObtenerUsuarioActual()
+        {
+            try
+            {
+                return SesionService.UsuarioLogueado?.UserName ?? "Desconocido";
+            }
+            catch
+            {
+                return "Desconocido";
+            }
         }
     }
 }
