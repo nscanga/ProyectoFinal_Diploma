@@ -8,10 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BLL;
+using BLL.Exceptions;
 using DOMAIN;
 using Service.Facade;
 using Services.Facade;
 using Service.DAL.Contracts;
+using Service.ManegerEx;
 
 namespace Distribuidora_los_amigos.Forms.Proveedores
 {
@@ -37,7 +39,7 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
             this.KeyPreview = true;
             this.KeyDown += MostrarProveedoresForm_KeyDown;
 
-            CargarProveedores();
+            this.Load += MostrarProveedoresForm_Load;
         }
 
         /// <summary>
@@ -49,14 +51,35 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
             {
                 List<Proveedor> proveedores = _proveedorService.ObtenerTodosProveedores();
                 dataGridViewProveedores.DataSource = proveedores;
+
+                if (proveedores.Count == 0)
+                {
+                    Console.WriteLine("ℹ️ No hay proveedores disponibles.");
+                }
+            }
+            catch (DatabaseException dbEx)
+            {
+                string username = ObtenerUsuarioActual();
+                ErrorHandler.HandleDatabaseException(dbEx, username, showMessageBox: true);
+                dataGridViewProveedores.DataSource = new List<Proveedor>();
+                Console.WriteLine("❌ Error de conexión al cargar proveedores");
             }
             catch (Exception ex)
             {
-                string errorKey = "ErrorCargarProveedores";
-                string translatedError = IdiomaService.Translate(errorKey) + ": " + ex.Message;
-                string errorTitleKey = "Error";
-                string translatedErrorTitle = IdiomaService.Translate(errorTitleKey);
-                MessageBox.Show(translatedError, translatedErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorHandler.HandleGeneralException(ex);
+                dataGridViewProveedores.DataSource = new List<Proveedor>();
+            }
+        }
+
+        private void MostrarProveedoresForm_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                CargarProveedores();
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.HandleGeneralException(ex);
             }
         }
 
@@ -248,6 +271,18 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
         {
             IdiomaService.Unsubscribe(this);
             base.OnFormClosed(e);
+        }
+
+        private string ObtenerUsuarioActual()
+        {
+            try
+            {
+                return SesionService.UsuarioLogueado?.UserName ?? "Desconocido";
+            }
+            catch
+            {
+                return "Desconocido";
+            }
         }
     }
 }

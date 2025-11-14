@@ -8,11 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BLL;
+using BLL.Exceptions;
 using Distribuidora_los_amigos.Forms.Productos;
 using DOMAIN;
 using Service.Facade;
 using Service.DAL.Contracts;
 using Services.Facade;
+using Service.ManegerEx;
 
 namespace Distribuidora_los_amigos.Forms.Clientes
 {
@@ -27,7 +29,6 @@ namespace Distribuidora_los_amigos.Forms.Clientes
         {
             InitializeComponent();
             _clienteService = new ClienteService();
-            CargarClientes();
 
             // Habilitar captura de teclas para F1
             this.KeyPreview = true;
@@ -38,6 +39,8 @@ namespace Distribuidora_los_amigos.Forms.Clientes
 
             // ✅ Traducir al cargar
             IdiomaService.TranslateForm(this);
+
+            this.Load += MostrarClientesForm_Load;
         }
 
         /// <summary>
@@ -88,11 +91,37 @@ namespace Distribuidora_los_amigos.Forms.Clientes
         {
             try
             {
-                dataGridView1.DataSource = _clienteService.ObtenerTodosClientes();
+                List<Cliente> listaClientes = _clienteService.ObtenerTodosClientes();
+                dataGridView1.DataSource = listaClientes;
+
+                if (listaClientes.Count == 0)
+                {
+                    Console.WriteLine("ℹ️ No hay clientes disponibles.");
+                }
+            }
+            catch (DatabaseException dbEx)
+            {
+                string username = ObtenerUsuarioActual();
+                ErrorHandler.HandleDatabaseException(dbEx, username, showMessageBox: true);
+                dataGridView1.DataSource = new List<Cliente>();
+                Console.WriteLine("❌ Error de conexión al cargar clientes");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar los clientes: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorHandler.HandleGeneralException(ex);
+                dataGridView1.DataSource = new List<Cliente>();
+            }
+        }
+
+        private void MostrarClientesForm_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                CargarClientes();
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.HandleGeneralException(ex);
             }
         }
 
@@ -167,6 +196,18 @@ namespace Distribuidora_los_amigos.Forms.Clientes
                 string message = IdiomaService.Translate("Seleccione un cliente para eliminar.");
                 string title = IdiomaService.Translate("Advertencia");
                 MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private string ObtenerUsuarioActual()
+        {
+            try
+            {
+                return SesionService.UsuarioLogueado?.UserName ?? "Desconocido";
+            }
+            catch
+            {
+                return "Desconocido";
             }
         }
     }
