@@ -42,13 +42,7 @@
             this.vERPRODUCTOSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sTOCKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mostrarStockStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.stockOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sEARCHToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.searchSummeryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.searchByDateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tOOLSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.stockItemReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.salesReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reporteStockBajoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reporteProductosMasVendidosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tOOLSToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -182,8 +176,7 @@
             // sTOCKToolStripMenuItem
             // 
             this.sTOCKToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mostrarStockStripMenuItem,
-            this.stockOutToolStripMenuItem});
+            this.mostrarStockStripMenuItem});
             this.sTOCKToolStripMenuItem.Name = "sTOCKToolStripMenuItem";
             this.sTOCKToolStripMenuItem.Size = new System.Drawing.Size(273, 32);
             this.sTOCKToolStripMenuItem.Tag = "STOCK";
@@ -197,62 +190,15 @@
             this.mostrarStockStripMenuItem.Text = "Mostrar Stock";
             this.mostrarStockStripMenuItem.Click += new System.EventHandler(this.mostrarStockStripMenuItem_Click);
             // 
-            // stockOutToolStripMenuItem
-            // 
-            this.stockOutToolStripMenuItem.Name = "stockOutToolStripMenuItem";
-            this.stockOutToolStripMenuItem.Size = new System.Drawing.Size(217, 32);
-            this.stockOutToolStripMenuItem.Tag = "Stock_Out";
-            this.stockOutToolStripMenuItem.Text = "Stock Out";
-            // 
-            // sEARCHToolStripMenuItem
-            // 
-            this.sEARCHToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.searchSummeryToolStripMenuItem,
-            this.searchByDateToolStripMenuItem});
-            this.sEARCHToolStripMenuItem.Name = "sEARCHToolStripMenuItem";
-            this.sEARCHToolStripMenuItem.Size = new System.Drawing.Size(273, 32);
-            this.sEARCHToolStripMenuItem.Tag = "BUSQUEDA";
-            this.sEARCHToolStripMenuItem.Text = "BUSQUEDA";
-            // 
-            // searchSummeryToolStripMenuItem
-            // 
-            this.searchSummeryToolStripMenuItem.Name = "searchSummeryToolStripMenuItem";
-            this.searchSummeryToolStripMenuItem.Size = new System.Drawing.Size(296, 32);
-            this.searchSummeryToolStripMenuItem.Tag = "Resumen_busqueda";
-            this.searchSummeryToolStripMenuItem.Text = "Resumen de busqueda";
-            // 
-            // searchByDateToolStripMenuItem
-            // 
-            this.searchByDateToolStripMenuItem.Name = "searchByDateToolStripMenuItem";
-            this.searchByDateToolStripMenuItem.Size = new System.Drawing.Size(296, 32);
-            this.searchByDateToolStripMenuItem.Tag = "Busqueda_fecha";
-            this.searchByDateToolStripMenuItem.Text = "Busqueda por fecha";
-            // 
             // tOOLSToolStripMenuItem
             // 
             this.tOOLSToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.stockItemReportToolStripMenuItem,
-            this.salesReportToolStripMenuItem,
             this.reporteStockBajoToolStripMenuItem,
             this.reporteProductosMasVendidosToolStripMenuItem});
             this.tOOLSToolStripMenuItem.Name = "tOOLSToolStripMenuItem";
             this.tOOLSToolStripMenuItem.Size = new System.Drawing.Size(273, 32);
             this.tOOLSToolStripMenuItem.Tag = "REPORTES";
             this.tOOLSToolStripMenuItem.Text = "REPORTES";
-            // 
-            // stockItemReportToolStripMenuItem
-            // 
-            this.stockItemReportToolStripMenuItem.Name = "stockItemReportToolStripMenuItem";
-            this.stockItemReportToolStripMenuItem.Size = new System.Drawing.Size(362, 32);
-            this.stockItemReportToolStripMenuItem.Tag = "Informe_stock";
-            this.stockItemReportToolStripMenuItem.Text = "Informe de articulos en stock";
-            // 
-            // salesReportToolStripMenuItem
-            // 
-            this.salesReportToolStripMenuItem.Name = "salesReportToolStripMenuItem";
-            this.salesReportToolStripMenuItem.Size = new System.Drawing.Size(362, 32);
-            this.salesReportToolStripMenuItem.Tag = "Informe_ventas";
-            this.salesReportToolStripMenuItem.Text = "Informe de ventas";
             // 
             // reporteStockBajoToolStripMenuItem
             // 
@@ -370,7 +316,6 @@
             this.CLIENTEToolStripMenuItem,
             this.iTEMToolStripMenuItem,
             this.sTOCKToolStripMenuItem,
-            this.sEARCHToolStripMenuItem,
             this.tOOLSToolStripMenuItem,
             this.tOOLSToolStripMenuItem1,
             this.pROVEEDORESToolStripMenuItem,
@@ -575,13 +520,7 @@
         private System.Windows.Forms.ToolStripMenuItem addItemToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sTOCKToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mostrarStockStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem stockOutToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem sEARCHToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem searchSummeryToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem searchByDateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tOOLSToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem stockItemReportToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem salesReportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reporteStockBajoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reporteProductosMasVendidosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tOOLSToolStripMenuItem1;

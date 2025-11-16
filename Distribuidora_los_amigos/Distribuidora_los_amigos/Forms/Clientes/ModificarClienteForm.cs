@@ -99,24 +99,127 @@ namespace Distribuidora_los_amigos.Forms.Clientes
         {
             try
             {
+                // ✅ Validaciones básicas de UI (entrada del usuario)
+                if (string.IsNullOrWhiteSpace(textBox1.Text))
+                {
+                    MessageBox.Show(
+                        IdiomaService.Translate("El nombre es obligatorio."),
+                        IdiomaService.Translate("Error"),
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    textBox1.Focus();
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(textBox3.Text))
+                {
+                    MessageBox.Show(
+                        IdiomaService.Translate("El email es obligatorio."),
+                        IdiomaService.Translate("Error"),
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    textBox3.Focus();
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(textBox4.Text))
+                {
+                    MessageBox.Show(
+                        IdiomaService.Translate("El teléfono es obligatorio."),
+                        IdiomaService.Translate("Error"),
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    textBox4.Focus();
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(textBox2.Text))
+                {
+                    MessageBox.Show(
+                        IdiomaService.Translate("La dirección es obligatoria."),
+                        IdiomaService.Translate("Error"),
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    textBox2.Focus();
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(textBox5.Text))
+                {
+                    MessageBox.Show(
+                        IdiomaService.Translate("El CUIT es obligatorio."),
+                        IdiomaService.Translate("Error"),
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    textBox5.Focus();
+                    return;
+                }
+
+                // 🎯 Actualizar los datos del cliente
                 _cliente.Nombre = textBox1.Text.Trim();
                 _cliente.Direccion = textBox2.Text.Trim();
                 _cliente.Email = textBox3.Text.Trim();
                 _cliente.Telefono = textBox4.Text.Trim();
                 _cliente.CUIT = textBox5.Text.Trim();
-                _cliente.Activo = checkBox1.Checked.Equals(true);
+                _cliente.Activo = checkBox1.Checked;
 
-
+                // 🚀 El BLL se encarga de TODAS las validaciones de negocio:
+                // - Validar email formato válido y no sea teléfono
+                // - Validar teléfono mínimo 10 dígitos y no sea email
+                // - Validar CUIT 11 dígitos
                 _clienteService.ModificarCliente(_cliente);
-                string successMessage = IdiomaService.Translate("Cliente modificado correctamente.");
-                string successTitle = IdiomaService.Translate("Éxito");
-                MessageBox.Show(successMessage, successTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                MessageBox.Show(
+                    IdiomaService.Translate("✅ Cliente modificado correctamente."),
+                    IdiomaService.Translate("Éxito"),
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+                this.DialogResult = DialogResult.OK;
                 this.Close();
+            }
+            catch (BLL.Exceptions.ClienteException cliEx)
+            {
+                // 🎯 Excepciones de reglas de negocio de clientes
+                MessageBox.Show(
+                    $"❌ {cliEx.Message}",
+                    IdiomaService.Translate("Error de Validación"),
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                LoggerService.WriteException(cliEx);
+            }
+            catch (BLL.Exceptions.DatabaseException dbEx)
+            {
+                // 🎯 Errores de conexión/base de datos
+                string username = ObtenerUsuarioActual();
+                Service.ManegerEx.ErrorHandler.HandleDatabaseException(dbEx, username, showMessageBox: true);
+                
+                if (dbEx.ErrorType == BLL.Exceptions.DatabaseErrorType.ConnectionFailed)
+                {
+                    MessageBox.Show(
+                        "No se puede modificar el cliente sin conexión a la base de datos.\n" +
+                        "Por favor, verifique la conexión e intente nuevamente.",
+                        "Error de Conexión",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
             }
             catch (Exception ex)
             {
-                string errorTitle = IdiomaService.Translate("Error");
-                MessageBox.Show("Error al modificar el cliente: " + ex.Message, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // 🎯 Errores inesperados
+                MessageBox.Show(
+                    $"Error inesperado al modificar el cliente: {ex.Message}",
+                    IdiomaService.Translate("Error"),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LoggerService.WriteException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Obtiene el nombre del usuario actual de forma segura.
+        /// </summary>
+        private string ObtenerUsuarioActual()
+        {
+            try
+            {
+                return SesionService.UsuarioLogueado?.UserName ?? "Desconocido";
+            }
+            catch
+            {
+                return "Desconocido";
             }
         }
     }

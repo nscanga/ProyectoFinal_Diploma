@@ -115,36 +115,42 @@ namespace Distribuidora_los_amigos.Forms.Productos
         {
             try
             {
-                // Validar que el precio sea un número válido
-                if (!decimal.TryParse(numericUpDownPrecioProducto.Text, out decimal precio) || precio <= 0)
+                // ✅ Validaciones básicas de UI (formato/entrada del usuario)
+                if (string.IsNullOrWhiteSpace(textBoxNombreProducto.Text))
                 {
-                    string errorMessage = IdiomaService.Translate("Error: El precio debe ser un número positivo.");
-                    string errorTitle = IdiomaService.Translate("Error");
-                    MessageBox.Show(errorMessage, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(
+                        IdiomaService.Translate("Debe ingresar un nombre para el producto."),
+                        IdiomaService.Translate("Error"),
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    textBoxNombreProducto.Focus();
                     return;
                 }
 
-                // Validar que la categoría no esté vacía
+                if (!decimal.TryParse(numericUpDownPrecioProducto.Text, out decimal precio))
+                {
+                    MessageBox.Show(
+                        IdiomaService.Translate("El precio debe ser un número válido."),
+                        IdiomaService.Translate("Error"),
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    numericUpDownPrecioProducto.Focus();
+                    return;
+                }
+
                 if (string.IsNullOrWhiteSpace(comboBox2.Text))
                 {
-                    string errorMessage = IdiomaService.Translate("Error: Debes seleccionar una categoría.");
-                    string errorTitle = IdiomaService.Translate("Error");
-                    MessageBox.Show(errorMessage, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(
+                        IdiomaService.Translate("Debe seleccionar una categoría."),
+                        IdiomaService.Translate("Error"),
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    comboBox2.Focus();
                     return;
                 }
 
-                // Obtener las fechas de ingreso y vencimiento
+                // 🎯 Construir los datos del producto
                 DateTime fechaIngreso = dateTimePicker1.Value.Date;
-                DateTime? fechaVencimiento = dateTimePicker2.Checked ? (DateTime?)dateTimePicker2.Value.Date : null;
-
-                // Validar que la fecha de vencimiento no sea menor a la fecha de ingreso
-                if (fechaVencimiento.HasValue && fechaVencimiento < fechaIngreso)
-                {
-                    string errorMessage = IdiomaService.Translate("Error: La fecha de vencimiento no puede ser anterior a la fecha de ingreso.");
-                    string errorTitle = IdiomaService.Translate("Error");
-                    MessageBox.Show(errorMessage, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+                DateTime? fechaVencimiento = dateTimePicker2.Checked 
+                    ? (DateTime?)dateTimePicker2.Value.Date 
+                    : null;
 
                 // Actualizar los valores del producto
                 _producto.Nombre = textBoxNombreProducto.Text.Trim();
@@ -153,17 +159,70 @@ namespace Distribuidora_los_amigos.Forms.Productos
                 _producto.FechaIngreso = fechaIngreso;
                 _producto.Vencimiento = fechaVencimiento;
 
-                // Guardar los cambios
+                // 🚀 El BLL se encarga de TODAS las validaciones de negocio:
+                // - Validar nombre no vacío
+                // - Validar categoría no vacía
+                // - Validar precio > 0
+                // - Validar fecha de ingreso válida
+                // - Validar vencimiento >= fecha de ingreso
                 _productoService.ModificarProducto(_producto);
-                string successMessage = IdiomaService.Translate("Producto modificado correctamente.");
-                string successTitle = IdiomaService.Translate("Éxito");
-                MessageBox.Show(successMessage, successTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                MessageBox.Show(
+                    IdiomaService.Translate("✅ Producto modificado correctamente."),
+                    IdiomaService.Translate("Éxito"),
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+                this.DialogResult = DialogResult.OK;
                 this.Close();
+            }
+            catch (BLL.Exceptions.ProductoException prodEx)
+            {
+                // 🎯 Excepciones de reglas de negocio de productos
+                MessageBox.Show(
+                    $"❌ {prodEx.Message}",
+                    IdiomaService.Translate("Error de Validación"),
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                LoggerService.WriteException(prodEx);
+            }
+            catch (BLL.Exceptions.DatabaseException dbEx)
+            {
+                // 🎯 Errores de conexión/base de datos
+                string username = ObtenerUsuarioActual();
+                Service.ManegerEx.ErrorHandler.HandleDatabaseException(dbEx, username, showMessageBox: true);
+                
+                if (dbEx.ErrorType == BLL.Exceptions.DatabaseErrorType.ConnectionFailed)
+                {
+                    MessageBox.Show(
+                        "No se puede modificar el producto sin conexión a la base de datos.\n" +
+                        "Por favor, verifique la conexión e intente nuevamente.",
+                        "Error de Conexión",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
             }
             catch (Exception ex)
             {
-                string errorTitle = IdiomaService.Translate("Error");
-                MessageBox.Show("Error al modificar el producto: " + ex.Message, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // 🎯 Errores inesperados
+                MessageBox.Show(
+                    $"Error inesperado al modificar el producto: {ex.Message}",
+                    IdiomaService.Translate("Error"),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LoggerService.WriteException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Obtiene el nombre del usuario actual de forma segura.
+        /// </summary>
+        private string ObtenerUsuarioActual()
+        {
+            try
+            {
+                return SesionService.UsuarioLogueado?.UserName ?? "Desconocido";
+            }
+            catch
+            {
+                return "Desconocido";
             }
         }
 

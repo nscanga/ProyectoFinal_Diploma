@@ -88,6 +88,7 @@
             this.Name = "MostrarStockForm";
             this.Tag = "MostrarStock";
             this.Text = "MostrarStockForm";
+            this.Load += new System.EventHandler(this.MostrarStockForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStock)).EndInit();
             this.ResumeLayout(false);
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\$(Configuration)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -387,11 +388,13 @@
     <None Include="Docs\PLANTILLAS_RESILIENCIA.md" />
     <None Include="Docs\PLAN_RESILIENCIA_COMPLETA.md" />
     <None Include="Docs\README.md" />
+    <None Include="Docs\REFACTORIZACION_VALIDACIONES_COMPLETADA.md" />
     <None Include="Docs\RESUMEN_CORRECCION_PERMISOS.md" />
     <None Include="Docs\RESUMEN_IMPLEMENTACION_AYUDA.md" />
     <None Include="Docs\RESUMEN_IMPLEMENTACION_EXCEPCIONES.md" />
     <None Include="Docs\RESUMEN_IMPLEMENTACION_REPORTES.md" />
     <None Include="Docs\RESUMEN_RESILIENCIA.md" />
+    <None Include="Docs\RESUMEN_RESILIENCIA_COMPLETADA.md" />
     <None Include="Docs\SISTEMA_PERMISOS_COMPLETO.md" />
     <None Include="Docs\SOLUCION_ADMINNICO_SOLO_VE_BUSQUEDA.md" />
     <None Include="Docs\SOLUCION_ERROR_CONEXION.md" />

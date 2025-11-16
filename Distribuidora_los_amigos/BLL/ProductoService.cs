@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BLL.Exceptions;
+using BLL.Helpers;
 using DAL.Contratcs;
 using DAL.Factory;
 using DOMAIN;
@@ -31,36 +32,102 @@ namespace BLL
         /// <param name="tipoStock">Descripción del tipo de stock (por ejemplo, unidad o caja).</param>
         public void CrearProducto(Producto producto, int cantidadInicial, string tipoStock)
         {
-            ValidarProducto(producto);
-            var productoExistente = _productoRepository.GetById(producto.IdProducto);
+            try
+            {
+                // 🆕 Validaciones completas de negocio
+                ValidarProductoCompleto(producto, cantidadInicial, tipoStock);
+                
+                ExceptionMapper.ExecuteWithMapping(() =>
+                {
+                    var productoExistente = _productoRepository.GetById(producto.IdProducto);
 
-            // Insertar el producto en la base de datos
-            if (productoExistente == null)
-            {
-                _productoRepository.Add(producto);
-            }
-            else
-            {
-                throw new Exception("El producto ya existe en la base de datos.");
-            }
-            // Insertar el stock inicial para el producto recién creado
-            Stock nuevoStock = new Stock
-            {
-                IdStock = Guid.NewGuid(),
-                IdProducto = producto.IdProducto, // Relación con el producto
-                Cantidad = cantidadInicial, // Cantidad inicial
-                Tipo = tipoStock // Tipo de stock
-            };
+                    // Insertar el producto en la base de datos
+                    if (productoExistente == null)
+                    {
+                        _productoRepository.Add(producto);
+                    }
+                    else
+                    {
+                        throw ProductoException.ProductoDuplicado(producto.Nombre);
+                    }
+                    
+                    // Insertar el stock inicial para el producto recién creado
+                    Stock nuevoStock = new Stock
+                    {
+                        IdStock = Guid.NewGuid(),
+                        IdProducto = producto.IdProducto,
+                        Cantidad = cantidadInicial,
+                        Tipo = tipoStock
+                    };
 
-            // Insertar el stock en la base de datos
-            _stockRepository.Add(nuevoStock);
+                    _stockRepository.Add(nuevoStock);
+                }, "Error al crear producto");
+            }
+            catch (DatabaseException dbEx)
+            {
+                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed)
+                {
+                    Console.WriteLine($"❌ No se puede crear producto sin conexión.");
+                }
+                throw;
+            }
         }
 
+        /// <summary>
+        /// Valida completamente un producto antes de crearlo o modificarlo.
+        /// Incluye validaciones de datos básicos, fechas y stock inicial.
+        /// </summary>
+        /// <param name="producto">Producto a validar.</param>
+        /// <param name="cantidadInicial">Cantidad inicial de stock (solo para creación).</param>
+        /// <param name="tipoStock">Tipo de stock (solo para creación).</param>
+        private void ValidarProductoCompleto(Producto producto, int cantidadInicial = 0, string tipoStock = null)
+        {
+            // Validar que el producto no sea nulo
+            if (producto == null)
+                throw ProductoException.ProductoNulo();
+
+            // Validar nombre
+            if (string.IsNullOrWhiteSpace(producto.Nombre))
+                throw ProductoException.NombreRequerido();
+
+            // Validar categoría
+            if (string.IsNullOrWhiteSpace(producto.Categoria))
+                throw ProductoException.CategoriaRequerida();
+
+            // Validar precio
+            if (producto.Precio <= 0)
+                throw ProductoException.PrecioInvalido(producto.Precio);
+
+            // Validar fecha de ingreso
+            if (producto.FechaIngreso == default)
+                throw ProductoException.FechaIngresoRequerida();
+
+            // Validar que la fecha de ingreso no sea futura
+            if (producto.FechaIngreso > DateTime.Now)
+                throw ProductoException.FechaIngresoInvalida(producto.FechaIngreso);
+
+            // Validar fecha de vencimiento (si está presente)
+            if (producto.Vencimiento.HasValue)
+            {
+                if (producto.Vencimiento.Value < producto.FechaIngreso)
+                    throw ProductoException.VencimientoInvalido(producto.Vencimiento.Value, producto.FechaIngreso);
+            }
+
+            // Validar cantidad inicial (solo para creación)
+            if (cantidadInicial < 0)
+                throw ProductoException.CantidadInvalida(cantidadInicial);
+
+            // Validar tipo de stock (solo para creación cuando se especifica cantidad)
+            if (cantidadInicial > 0 && string.IsNullOrWhiteSpace(tipoStock))
+                throw ProductoException.TipoStockRequerido();
+        }
 
         /// <summary>
         /// Comprueba que el producto tenga datos válidos antes de persistirlo o modificarlo.
+        /// NOTA: Método legacy mantenido por compatibilidad. Usar ValidarProductoCompleto() en su lugar.
         /// </summary>
         /// <param name="producto">Producto a validar.</param>
+        [Obsolete("Usar ValidarProductoCompleto() que incluye validaciones más robustas")]
         private void ValidarProducto(Producto producto)
         {
             if (string.IsNullOrWhiteSpace(producto.Nombre) ||
@@ -91,8 +158,24 @@ namespace BLL
         /// <param name="producto">Producto con los cambios a aplicar.</param>
         public void ModificarProducto(Producto producto)
         {
-            ValidarProducto(producto);
-            _productoRepository.Update(producto);
+            try
+            {
+                // 🆕 Usar la validación completa (sin cantidadInicial ni tipoStock)
+                ValidarProductoCompleto(producto);
+                
+                ExceptionMapper.ExecuteWithMapping(() =>
+                {
+                    _productoRepository.Update(producto);
+                }, "Error al modificar producto");
+            }
+            catch (DatabaseException dbEx)
+            {
+                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed)
+                {
+                    Console.WriteLine($"❌ No se puede modificar producto sin conexión.");
+                }
+                throw;
+            }
         }
 
         /// <summary>
@@ -101,7 +184,21 @@ namespace BLL
         /// <param name="idProducto">Identificador del producto a deshabilitar.</param>
         public void DeshabilitarProducto(Guid idProducto)
         {
-            _productoRepository.Disable(idProducto);
+            try
+            {
+                ExceptionMapper.ExecuteWithMapping(() =>
+                {
+                    _productoRepository.Disable(idProducto);
+                }, "Error al deshabilitar producto");
+            }
+            catch (DatabaseException dbEx)
+            {
+                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed)
+                {
+                    Console.WriteLine($"❌ No se puede deshabilitar producto sin conexión.");
+                }
+                throw;
+            }
         }
 
         /// <summary>
@@ -110,7 +207,22 @@ namespace BLL
         /// <returns>Listado completo de productos.</returns>
         public List<Producto> ObtenerTodosProductos()
         {
-            return _productoRepository.GetAll();
+            try
+            {
+                return ExceptionMapper.ExecuteWithMapping(() =>
+                {
+                    return _productoRepository.GetAll();
+                }, "Error al obtener productos");
+            }
+            catch (DatabaseException dbEx)
+            {
+                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed || 
+                    dbEx.ErrorType == DatabaseErrorType.Timeout)
+                {
+                    Console.WriteLine($"⚠️ Error de conexión al obtener productos.");
+                }
+                throw;
+            }
         }
 
         /// <summary>
@@ -120,7 +232,22 @@ namespace BLL
         /// <returns>Producto encontrado o null si no existe.</returns>
         public Producto ObtenerProductoPorId(Guid idProducto)
         {
-            return _productoRepository.GetById(idProducto);
+            try
+            {
+                return ExceptionMapper.ExecuteWithMapping(() =>
+                {
+                    return _productoRepository.GetById(idProducto);
+                }, $"Error al obtener producto {idProducto}");
+            }
+            catch (DatabaseException dbEx)
+            {
+                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed || 
+                    dbEx.ErrorType == DatabaseErrorType.Timeout)
+                {
+                    Console.WriteLine($"⚠️ Error de conexión al obtener producto.");
+                }
+                throw;
+            }
         }
 
         /// <summary>
@@ -130,8 +257,23 @@ namespace BLL
         /// <returns>Precio del producto o 0 si no se encuentra.</returns>
         public decimal ObtenerPrecioProducto(Guid idProducto)
         {
-            Producto producto = _productoRepository.GetById(idProducto);
-            return producto != null ? producto.Precio : 0;
+            try
+            {
+                return ExceptionMapper.ExecuteWithMapping(() =>
+                {
+                    Producto producto = _productoRepository.GetById(idProducto);
+                    return producto != null ? producto.Precio : 0;
+                }, $"Error al obtener precio del producto {idProducto}");
+            }
+            catch (DatabaseException dbEx)
+            {
+                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed || 
+                    dbEx.ErrorType == DatabaseErrorType.Timeout)
+                {
+                    Console.WriteLine($"⚠️ Error de conexión al obtener precio del producto.");
+                }
+                throw;
+            }
         }
 
 
@@ -141,11 +283,25 @@ namespace BLL
         /// <param name="idProducto">Identificador del producto a eliminar.</param>
         public void EliminarProducto(Guid idProducto)
         {
-            // Primero eliminar el stock relacionado
-            _stockRepository.EliminarStockPorProducto(idProducto);
+            try
+            {
+                ExceptionMapper.ExecuteWithMapping(() =>
+                {
+                    // Primero eliminar el stock relacionado
+                    _stockRepository.EliminarStockPorProducto(idProducto);
 
-            // Luego eliminar el producto
-            _productoRepository.Remove(idProducto);
+                    // Luego eliminar el producto
+                    _productoRepository.Remove(idProducto);
+                }, "Error al eliminar producto");
+            }
+            catch (DatabaseException dbEx)
+            {
+                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed)
+                {
+                    Console.WriteLine($"❌ No se puede eliminar producto sin conexión.");
+                }
+                throw;
+            }
         }
 
         /// <summary>
@@ -155,7 +311,22 @@ namespace BLL
         /// <returns>Listado de productos pertenecientes a la categoría.</returns>
         public List<Producto> ObtenerProductosPorCategoria(string categoria)
         {
-            return _productoRepository.GetByCategoria(categoria);
+            try
+            {
+                return ExceptionMapper.ExecuteWithMapping(() =>
+                {
+                    return _productoRepository.GetByCategoria(categoria);
+                }, $"Error al obtener productos de categoría {categoria}");
+            }
+            catch (DatabaseException dbEx)
+            {
+                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed || 
+                    dbEx.ErrorType == DatabaseErrorType.Timeout)
+                {
+                    Console.WriteLine($"⚠️ Error de conexión al obtener productos por categoría.");
+                }
+                throw;
+            }
         }
 
     }

@@ -76,6 +76,7 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
             try
             {
                 CargarProveedores();
+                ConfigurarDataGridView();
             }
             catch (Exception ex)
             {
@@ -83,6 +84,34 @@ namespace Distribuidora_los_amigos.Forms.Proveedores
             }
         }
 
+        /// <summary>
+        /// Configura la visualización del DataGridView ocultando columnas no relevantes para el usuario.
+        /// </summary>
+        private void ConfigurarDataGridView()
+        {
+            // Ocultar la columna de ID que no es relevante para el usuario
+            if (dataGridViewProveedores.Columns["IdProveedor"] != null)
+                dataGridViewProveedores.Columns["IdProveedor"].Visible = false;
+
+            // Configurar nombres de encabezados más amigables
+            if (dataGridViewProveedores.Columns["Nombre"] != null)
+                dataGridViewProveedores.Columns["Nombre"].HeaderText = IdiomaService.Translate("Nombre");
+            
+            if (dataGridViewProveedores.Columns["Cuit"] != null)
+                dataGridViewProveedores.Columns["Cuit"].HeaderText = IdiomaService.Translate("CUIT");
+            
+            if (dataGridViewProveedores.Columns["Direccion"] != null)
+                dataGridViewProveedores.Columns["Direccion"].HeaderText = IdiomaService.Translate("Dirección");
+            
+            if (dataGridViewProveedores.Columns["Telefono"] != null)
+                dataGridViewProveedores.Columns["Telefono"].HeaderText = IdiomaService.Translate("Teléfono");
+            
+            if (dataGridViewProveedores.Columns["Email"] != null)
+                dataGridViewProveedores.Columns["Email"].HeaderText = IdiomaService.Translate("Email");
+
+            // Ajustar ancho de columnas
+            dataGridViewProveedores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
 
         /// <summary>
         /// Abre el formulario de creación y actualiza la lista al cerrarlo.

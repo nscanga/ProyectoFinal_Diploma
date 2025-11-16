@@ -95,8 +95,6 @@ namespace Distribuidora_los_amigos.Forms.StockForm
             {
                 ErrorHandler.HandleGeneralException(ex);
             }
-
-            ConfigurarDataGridView();
         }
 
         /// <summary>
@@ -167,6 +165,9 @@ namespace Distribuidora_los_amigos.Forms.StockForm
                 // 🆕 USAR EL NUEVO MÉTODO CON DETALLES
                 List<StockDTO> stockList = _stockService.ObtenerStockConDetalles();
                 dataGridViewStock.DataSource = stockList;
+
+                // Configurar DataGridView después de cargar los datos
+                ConfigurarDataGridView();
 
                 LoggerService.WriteLog($"Se cargó la lista de stock en {this.Text}", System.Diagnostics.TraceLevel.Info);
             }

@@ -101,6 +101,37 @@ namespace Distribuidora_los_amigos.Forms.Productos
         private void MostrarProductosForm_Load(object sender, EventArgs e)
         {
             CargarProductos();
+            ConfigurarDataGridView();
+        }
+
+        /// <summary>
+        /// Configura la visualización del DataGridView ocultando columnas no relevantes para el usuario.
+        /// </summary>
+        private void ConfigurarDataGridView()
+        {
+            // Ocultar la columna de ID que no es relevante para el usuario
+            if (dataGridView1.Columns["IdProducto"] != null)
+                dataGridView1.Columns["IdProducto"].Visible = false;
+            
+            // Ocultar la columna de ProductoOriginal si existe
+            if (dataGridView1.Columns["ProductoOriginal"] != null)
+                dataGridView1.Columns["ProductoOriginal"].Visible = false;
+
+            // Configurar nombres de encabezados más amigables
+            if (dataGridView1.Columns["Nombre"] != null)
+                dataGridView1.Columns["Nombre"].HeaderText = IdiomaService.Translate("Producto");
+            
+            if (dataGridView1.Columns["Precio"] != null)
+            {
+                dataGridView1.Columns["Precio"].HeaderText = IdiomaService.Translate("Precio");
+                dataGridView1.Columns["Precio"].DefaultCellStyle.Format = "C2"; // Formato de moneda
+            }
+            
+            if (dataGridView1.Columns["Stock"] != null)
+                dataGridView1.Columns["Stock"].HeaderText = IdiomaService.Translate("Stock");
+
+            // Ajustar ancho de columnas
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         /// <summary>
@@ -116,7 +147,6 @@ namespace Distribuidora_los_amigos.Forms.Productos
                 {
                     IdProducto = p.IdProducto,
                     Nombre = p.Nombre,
-                    Descripcion = p.Descripcion,
                     Precio = p.Precio,
                     Stock = ObtenerStockProducto(p.IdProducto),
                     ProductoOriginal = p
@@ -178,10 +208,11 @@ namespace Distribuidora_los_amigos.Forms.Productos
         {
             if (dataGridView1.SelectedRows.Count > 0)
             {
-                Producto productoSeleccionado = (Producto)dataGridView1.SelectedRows[0].DataBoundItem;
+                dynamic item = dataGridView1.SelectedRows[0].DataBoundItem;
+                Producto productoSeleccionado = item.ProductoOriginal;
                 ModificarProductoForm formModificar = new ModificarProductoForm(productoSeleccionado);
                 formModificar.ShowDialog();
-                CargarProductos(); // Refresca la lista después de modificar
+                CargarProductos();
             }
             else
             {

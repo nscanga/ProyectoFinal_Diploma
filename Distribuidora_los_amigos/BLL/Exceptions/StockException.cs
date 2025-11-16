@@ -17,7 +17,7 @@ namespace BLL.Exceptions
         /// <summary>
         /// Construye una excepción que indica que no hay stock disponible.
         /// </summary>
-        public static StockException StockInsuficiente(int productoId, int cantidadRequerida, int cantidadDisponible)
+        public static StockException StockInsuficiente(Guid productoId, int cantidadRequerida, int cantidadDisponible)
         {
             return new StockException(
                 $"Stock insuficiente para el producto ID {productoId}. Requerido: {cantidadRequerida}, Disponible: {cantidadDisponible}",
@@ -27,11 +27,21 @@ namespace BLL.Exceptions
         /// <summary>
         /// Construye una excepción que indica que el stock está por debajo del mínimo.
         /// </summary>
-        public static StockException StockBajoMinimo(int productoId, int stockActual, int stockMinimo)
+        public static StockException StockBajoMinimo(Guid productoId, int stockActual, int stockMinimo)
         {
             return new StockException(
                 $"El stock del producto ID {productoId} está por debajo del mínimo. Actual: {stockActual}, Mínimo: {stockMinimo}",
                 "STOCK_BAJO_MINIMO");
+        }
+
+        /// <summary>
+        /// Construye una excepción que indica que no existe registro de stock para el producto.
+        /// </summary>
+        public static StockException StockNoExiste(Guid productoId)
+        {
+            return new StockException(
+                $"No existe registro de stock para el producto con ID {productoId}.",
+                "STOCK_NO_EXISTE");
         }
     }
 }

@@ -1,0 +1,48 @@
+# =========================================
+# Visual Studio / .NET
+# =========================================
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+
+# =========================================
+# Sandcastle Help File Builder
+# =========================================
+# Documentación generada
+Help/
+*.chm
+
+# Archivos de trabajo temporal
+Working/
+*.tmp
+
+# Logs
+*.log
+LastBuild.log
+
+# Caché
+*.cache
+
+# Archivos de usuario
+*.shfbproj_*
+
+# =========================================
+# DocFX (legacy - ya no usado)
+# =========================================
+_site/
+api/
+.manifest
+
+# =========================================
+# Otros
+# =========================================
+*.xml
+!packages.config
+packages/
+node_modules/

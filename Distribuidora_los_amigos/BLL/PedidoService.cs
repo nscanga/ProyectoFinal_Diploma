@@ -40,31 +40,48 @@ namespace BLL
         /// <param name="pedido">Pedido a crear.</param>
         public void CrearPedido(Pedido pedido, int cantidad)
         {
-            ValidarPedido(pedido);
+            // 🆕 Validaciones completas de negocio
+            ValidarPedidoCompleto(pedido);
 
-            // Calcular el total sumando los subtotales de los detalles
-            pedido.Total = pedido.Detalles.Sum(d => d.Subtotal);
-
-            // Primero, insertar el pedido en la base de datos
-            _pedidoRepository.Add(pedido);
-
-            // Luego, insertar los detalles del pedido con el mismo IdPedido
-            foreach (var detalle in pedido.Detalles)
+            try
             {
-                detalle.IdPedido = pedido.IdPedido; // Asegurar que todos los detalles tengan el mismo IdPedido
-                _detallePedidoRepository.Add(detalle);
-                
-                // 🆕 USAR StockService en lugar de _stockRepository
-                // Esto activará la verificación y notificación de stock bajo
-                _stockService.DisminuirStock(detalle.IdProducto, detalle.Cantidad);
+                ExceptionMapper.ExecuteWithMapping(() =>
+                {
+                    // Calcular el total sumando los subtotales de los detalles
+                    pedido.Total = pedido.Detalles.Sum(d => d.Subtotal);
+
+                    // Primero, insertar el pedido en la base de datos
+                    _pedidoRepository.Add(pedido);
+
+                    // Luego, insertar los detalles del pedido con el mismo IdPedido
+                    foreach (var detalle in pedido.Detalles)
+                    {
+                        detalle.IdPedido = pedido.IdPedido; // Asegurar que todos los detalles tengan el mismo IdPedido
+                        _detallePedidoRepository.Add(detalle);
+                        
+                        // Usar StockService para disminuir stock
+                        // Esto activará la verificación y notificación de stock bajo
+                        _stockService.DisminuirStock(detalle.IdProducto, detalle.Cantidad);
+                    }
+                }, "Error al crear pedido");
+            }
+            catch (DatabaseException dbEx)
+            {
+                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed)
+                {
+                    Console.WriteLine($"❌ No se puede crear pedido sin conexión.");
+                }
+                throw;
             }
         }
 
         /// <summary>
-        /// Modifica un pedido existente y verifica cambios de estado para notificaciones
+        /// Modifica un pedido existente y verifica cambios de estado para notificaciones.
+        /// Gestiona cambios en los productos y cantidades del pedido.
         /// </summary>
         /// <param name="pedido">Pedido modificado.</param>
-        public void ModificarPedido(Pedido pedido)
+        /// <param name="detallesOriginales">Detalles originales del pedido para calcular diferencias de stock.</param>
+        public void ModificarPedido(Pedido pedido, List<DetallePedido> detallesOriginales = null)
         {
             Console.WriteLine($"📌 Modificando pedido {pedido.IdPedido} con {pedido.Detalles.Count} detalles.");
 
@@ -88,6 +105,25 @@ namespace BLL
                 }
             }
 
+            // 🆕 GESTIONAR CAMBIOS EN LOS PRODUCTOS Y STOCK
+            if (detallesOriginales != null && detallesOriginales.Count > 0)
+            {
+                // Primero, devolver el stock de los productos originales
+                foreach (var detalleOriginal in detallesOriginales)
+                {
+                    Console.WriteLine($"🔄 Devolviendo stock original: Producto {detalleOriginal.IdProducto}, Cantidad {detalleOriginal.Cantidad}");
+                    _stockService.AumentarStock(detalleOriginal.IdProducto, detalleOriginal.Cantidad);
+                }
+
+                // Luego, validar y descontar el stock de los productos nuevos/modificados
+                foreach (var detalleNuevo in pedido.Detalles)
+                {
+                    ValidarDetallePedido(detalleNuevo);
+                    Console.WriteLine($"🔄 Descontando nuevo stock: Producto {detalleNuevo.IdProducto}, Cantidad {detalleNuevo.Cantidad}");
+                    _stockService.DisminuirStock(detalleNuevo.IdProducto, detalleNuevo.Cantidad);
+                }
+            }
+
             // 📌 Recalcular el total del pedido sumando los subtotales de sus detalles
             pedido.Total = pedido.Detalles.Sum(d => d.Subtotal);
 
@@ -97,6 +133,17 @@ namespace BLL
             // 📌 Obtener los detalles actuales del pedido en la base de datos
             List<DetallePedido> detallesActuales = _detallePedidoRepository.GetByPedido(pedido.IdPedido);
 
+            // 📌 Eliminar los detalles que ya no están en el pedido
+            foreach (var detalleActual in detallesActuales)
+            {
+                if (!pedido.Detalles.Any(d => d.IdDetallePedido == detalleActual.IdDetallePedido))
+                {
+                    Console.WriteLine($"🗑️ Eliminando detalle {detalleActual.IdDetallePedido}");
+                    _detallePedidoRepository.Remove(detalleActual.IdDetallePedido);
+                }
+            }
+
+            // 📌 Actualizar o agregar los detalles del pedido
             foreach (var detalle in pedido.Detalles)
             {
                 var detalleExistente = detallesActuales.FirstOrDefault(d => d.IdDetallePedido == detalle.IdDetallePedido);
@@ -344,19 +391,74 @@ namespace BLL
         }
 
         /// <summary>
-        /// Valida que un pedido tenga datos correctos.
+        /// Valida que un pedido tenga datos correctos antes de ser creado o modificado.
+        /// Lanza excepciones específicas de negocio si hay problemas.
         /// </summary>
         /// <param name="pedido">Pedido a validar.</param>
-        private void ValidarPedido(Pedido pedido)
+        private void ValidarPedidoCompleto(Pedido pedido)
         {
+            // Validar que el pedido no sea nulo
+            if (pedido == null)
+                throw PedidoException.PedidoNulo();
+
+            // Validar cliente
             if (pedido.IdCliente == Guid.Empty)
-                throw new ArgumentException("El pedido debe estar asociado a un cliente.");
+                throw PedidoException.ClienteRequerido();
 
+            // Verificar que el cliente exista
+            Cliente cliente = _clienteRepository.GetById(pedido.IdCliente);
+            if (cliente == null)
+                throw PedidoException.ClienteNoExiste(pedido.IdCliente);
+
+            // Validar estado
             if (pedido.IdEstadoPedido == Guid.Empty)
-                throw new ArgumentException("El pedido debe tener un estado válido.");
+                throw PedidoException.EstadoRequerido();
 
+            // Verificar que el estado exista
+            EstadoPedido estado = _estadoPedidoRepository.GetById(pedido.IdEstadoPedido);
+            if (estado == null)
+                throw PedidoException.EstadoNoExiste(pedido.IdEstadoPedido);
+
+            // Validar fecha
             if (pedido.FechaPedido > DateTime.Now)
-                throw new ArgumentException("La fecha del pedido no puede ser en el futuro.");
+                throw PedidoException.FechaInvalida(pedido.FechaPedido);
+
+            // Validar que tenga productos
+            if (pedido.Detalles == null || pedido.Detalles.Count == 0)
+                throw PedidoException.PedidoVacio();
+
+            // Validar cada detalle del pedido
+            foreach (var detalle in pedido.Detalles)
+            {
+                ValidarDetallePedido(detalle);
+            }
+        }
+
+        /// <summary>
+        /// Valida un detalle de pedido individual verificando cantidades y disponibilidad de stock.
+        /// </summary>
+        /// <param name="detalle">Detalle del pedido a validar.</param>
+        private void ValidarDetallePedido(DetallePedido detalle)
+        {
+            // Validar cantidad
+            if (detalle.Cantidad <= 0)
+                throw PedidoException.CantidadInvalida(detalle.Cantidad);
+
+            // Validar precio unitario
+            if (detalle.PrecioUnitario < 0)
+                throw PedidoException.PrecioInvalido(detalle.PrecioUnitario);
+
+            // Validar producto
+            if (detalle.IdProducto == Guid.Empty)
+                throw PedidoException.ProductoRequerido();
+
+            // Verificar stock disponible
+            Stock stock = _stockRepository.GetByProducto(detalle.IdProducto).FirstOrDefault();
+            if (stock == null)
+                throw StockException.StockNoExiste(detalle.IdProducto);
+
+            if (stock.Cantidad < detalle.Cantidad)
+                throw StockException.StockInsuficiente(detalle.IdProducto, detalle.Cantidad, stock.Cantidad);
         }
 
         /// <summary>

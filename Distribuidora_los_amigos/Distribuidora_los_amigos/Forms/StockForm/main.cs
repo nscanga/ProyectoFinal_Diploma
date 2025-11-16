@@ -22,6 +22,7 @@ using DOMAIN;
 using Service.DAL.Contracts;
 using Service.DOMAIN;
 using Service.Facade;
+using Service.ManegerEx;
 using Services.Facade;
 using Syncfusion.WinForms.DataGrid;
 using Usuario = Service.DOMAIN.Usuario;
@@ -172,32 +173,110 @@ namespace Distribuidora_los_amigos
 
         /// <summary>
         /// Maneja el cierre de sesión registrando la auditoría, limpiando la sesión y reiniciando la aplicación.
+        /// Implementa manejo robusto de errores para evitar crashes si hay problemas de conexión.
         /// </summary>
         /// <param name="sender">Origen del evento.</param>
         /// <param name="e">Argumentos del evento.</param>
         private void btnCerrarSesion_Click(object sender, EventArgs e)
         {
+            string username = "Desconocido";
+            
             try
             {
-
-                // Cierra el formulario principal
-                LoggerService.WriteLog($"El usuario {SesionService.UsuarioLogueado.UserName} cerró sesión.", System.Diagnostics.TraceLevel.Info);
-                // Desuscribirse cuando se cierra el formulario
-
-                SesionService.ClearSession(); // Limpiar la sesión  
-
+                // Obtener nombre de usuario antes de limpiar la sesión
+                username = SesionService.UsuarioLogueado?.UserName ?? "Desconocido";
+                
+                // Intentar registrar el cierre de sesión
+                // Este log puede fallar si no hay conexión a BD, pero no debe detener el cierre de sesión
+                try
+                {
+                    LoggerService.WriteLog($"El usuario {username} cerró sesión.", System.Diagnostics.TraceLevel.Info);
+                }
+                catch (DatabaseException dbEx)
+                {
+                    // Si hay error de conexión al intentar guardar en BD, registrar en archivo
+                    Console.WriteLine($"⚠️ No se pudo registrar cierre de sesión en BD para {username}. Error: {dbEx.Message}");
+                    // El log ya debería estar en archivo gracias al fallback del LoggerService
+                }
+                catch (Exception logEx)
+                {
+                    // Cualquier otro error al intentar registrar el log
+                    Console.WriteLine($"⚠️ Error al intentar registrar log de cierre de sesión: {logEx.Message}");
+                }
+                
+                // Limpiar la sesión (esto SIEMPRE debe ejecutarse, con o sin BD)
+                SesionService.ClearSession();
+                
+                // Desuscribirse del servicio de idiomas
+                IdiomaService.Unsubscribe(this);
+                
+                // Reiniciar la aplicación
                 Application.Restart();
+            }
+            catch (DatabaseException dbEx)
+            {
+                // Error de BD durante el proceso de cierre de sesión
+                ErrorHandler.HandleDatabaseException(dbEx, username, showMessageBox: true);
+                
+                // Mensaje específico para el usuario
+                string messageKey = "No se pudo completar el registro del cierre de sesión debido a un problema de conexión.\n¿Desea cerrar sesión de todos modos?";
+                string translatedMessage = TranslateMessageKey(messageKey);
+                
+                DialogResult result = MessageBox.Show(
+                    translatedMessage,
+                    "Cerrar Sesión",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+                
+                if (result == DialogResult.Yes)
+                {
+                    // Forzar cierre de sesión sin registrar en BD
+                    try
+                    {
+                        SesionService.ClearSession();
+                        IdiomaService.Unsubscribe(this);
+                        Application.Restart();
+                    }
+                    catch (Exception restartEx)
+                    {
+                        Console.WriteLine($"❌ Error crítico al reiniciar aplicación: {restartEx.Message}");
+                        Application.Exit();
+                    }
+                }
             }
             catch (Exception ex)
             {
-                string messageKey = "Ocurrió un error al cerrar sesión:";
+                // Error general durante el proceso de cierre de sesión
+                ErrorHandler.HandleGeneralException(ex);
+                
+                string messageKey = "Ocurrió un error al cerrar sesión: ";
                 string translatedMessage = TranslateMessageKey(messageKey);
-                MessageBox.Show(translatedMessage + ex.Message);
-
-                // Manejar errores durante el proceso de cierre de sesión
-
-                // Registrar el error
-                LoggerService.WriteLog($"Error al cerrar sesión: {ex.Message}", System.Diagnostics.TraceLevel.Error);
+                MessageBox.Show(translatedMessage + ex.Message, "Error", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
+                // Registrar el error en archivo
+                Console.WriteLine($"❌ Error al cerrar sesión: {ex.Message}");
+                
+                // Ofrecer cerrar de todos modos
+                DialogResult result = MessageBox.Show(
+                    "¿Desea cerrar la sesión de todos modos?",
+                    "Error al Cerrar Sesión",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+                
+                if (result == DialogResult.Yes)
+                {
+                    try
+                    {
+                        SesionService.ClearSession();
+                        IdiomaService.Unsubscribe(this);
+                        Application.Restart();
+                    }
+                    catch
+                    {
+                        Application.Exit();
+                    }
+                }
             }
         }
 

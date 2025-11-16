@@ -118,11 +118,44 @@ namespace Distribuidora_los_amigos.Forms.Clientes
             try
             {
                 CargarClientes();
+                ConfigurarDataGridView();
             }
             catch (Exception ex)
             {
                 ErrorHandler.HandleGeneralException(ex);
             }
+        }
+
+        /// <summary>
+        /// Configura la visualización del DataGridView ocultando columnas no relevantes para el usuario.
+        /// </summary>
+        private void ConfigurarDataGridView()
+        {
+            // Ocultar la columna de ID que no es relevante para el usuario
+            if (dataGridView1.Columns["IdCliente"] != null)
+                dataGridView1.Columns["IdCliente"].Visible = false;
+
+            // Configurar nombres de encabezados más amigables
+            if (dataGridView1.Columns["Nombre"] != null)
+                dataGridView1.Columns["Nombre"].HeaderText = IdiomaService.Translate("Nombre");
+            
+            if (dataGridView1.Columns["Apellido"] != null)
+                dataGridView1.Columns["Apellido"].HeaderText = IdiomaService.Translate("Apellido");
+            
+            if (dataGridView1.Columns["Cuit"] != null)
+                dataGridView1.Columns["Cuit"].HeaderText = IdiomaService.Translate("CUIT");
+            
+            if (dataGridView1.Columns["Direccion"] != null)
+                dataGridView1.Columns["Direccion"].HeaderText = IdiomaService.Translate("Dirección");
+            
+            if (dataGridView1.Columns["Telefono"] != null)
+                dataGridView1.Columns["Telefono"].HeaderText = IdiomaService.Translate("Teléfono");
+            
+            if (dataGridView1.Columns["Email"] != null)
+                dataGridView1.Columns["Email"].HeaderText = IdiomaService.Translate("Email");
+
+            // Ajustar ancho de columnas
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         /// <summary>

@@ -8,10 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BLL;
+using BLL.Exceptions;
 using DOMAIN;
 using Service.DAL.Contracts;
 using Service.Facade;
 using Services.Facade;
+using Service.ManegerEx;
 
 namespace Distribuidora_los_amigos.Forms.Clientes
 {
@@ -57,67 +59,58 @@ namespace Distribuidora_los_amigos.Forms.Clientes
         {
             try
             {
-                // 🆕 VALIDACIONES ANTES DE CREAR
+                // ✅ Validaciones básicas de UI (entrada del usuario)
                 if (string.IsNullOrWhiteSpace(textBox1.Text))
                 {
-                    string messageKey = "El nombre es obligatorio.";
-                    string translatedMessage = IdiomaService.Translate(messageKey);
-                    string titleKey = "Error";
-                    string translatedTitle = IdiomaService.Translate(titleKey);
-                    MessageBox.Show(translatedMessage, translatedTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(
+                        IdiomaService.Translate("El nombre es obligatorio."),
+                        IdiomaService.Translate("Error"),
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     textBox1.Focus();
                     return;
                 }
 
                 if (string.IsNullOrWhiteSpace(textBox3.Text))
                 {
-                    string messageKey = "El email es obligatorio.";
-                    string translatedMessage = IdiomaService.Translate(messageKey);
-                    string titleKey = "Error";
-                    string translatedTitle = IdiomaService.Translate(titleKey);
-                    MessageBox.Show(translatedMessage, translatedTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(
+                        IdiomaService.Translate("El email es obligatorio."),
+                        IdiomaService.Translate("Error"),
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     textBox3.Focus();
                     return;
                 }
 
-                // 🔧 VALIDAR QUE EMAIL NO SEA TELÉFONO
-                if (System.Text.RegularExpressions.Regex.IsMatch(textBox3.Text.Trim(), @"^\d{8,15}$"))
+                if (string.IsNullOrWhiteSpace(textBox4.Text))
                 {
-                    string messageKey = "Ha ingresado un número de teléfono en el campo Email.\nPor favor ingrese un email válido (ejemplo: nombre@empresa.com).";
-                    string translatedMessage = IdiomaService.Translate(messageKey);
-                    string titleKey = "Error de Formato";
-                    string translatedTitle = IdiomaService.Translate(titleKey);
-                    MessageBox.Show(translatedMessage, translatedTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    textBox3.Focus();
-                    textBox3.SelectAll();
-                    return;
-                }
-
-                // 🔧 VALIDAR FORMATO DE EMAIL
-                if (!textBox3.Text.Contains("@"))
-                {
-                    string messageKey = "El email debe contener '@'.\nFormato correcto: nombre@empresa.com";
-                    string translatedMessage = IdiomaService.Translate(messageKey);
-                    string titleKey = "Error de Formato";
-                    string translatedTitle = IdiomaService.Translate(titleKey);
-                    MessageBox.Show(translatedMessage, translatedTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    textBox3.Focus();
-                    return;
-                }
-
-                // 🔧 VALIDAR QUE TELÉFONO NO SEA EMAIL
-                if (textBox4.Text.Contains("@"))
-                {
-                    string messageKey = "Ha ingresado un email en el campo Teléfono.\nPor favor ingrese solo números.";
-                    string translatedMessage = IdiomaService.Translate(messageKey);
-                    string titleKey = "Error de Formato";
-                    string translatedTitle = IdiomaService.Translate(titleKey);
-                    MessageBox.Show(translatedMessage, translatedTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(
+                        IdiomaService.Translate("El teléfono es obligatorio."),
+                        IdiomaService.Translate("Error"),
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     textBox4.Focus();
-                    textBox4.SelectAll();
                     return;
                 }
 
+                if (string.IsNullOrWhiteSpace(textBox2.Text))
+                {
+                    MessageBox.Show(
+                        IdiomaService.Translate("La dirección es obligatoria."),
+                        IdiomaService.Translate("Error"),
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    textBox2.Focus();
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(textBox5.Text))
+                {
+                    MessageBox.Show(
+                        IdiomaService.Translate("El CUIT es obligatorio."),
+                        IdiomaService.Translate("Error"),
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    textBox5.Focus();
+                    return;
+                }
+
+                // 🎯 Construir el cliente
                 Cliente cliente = new Cliente()
                 {
                     IdCliente = Guid.NewGuid(),
@@ -129,13 +122,17 @@ namespace Distribuidora_los_amigos.Forms.Clientes
                     Activo = checkBox1.Checked
                 };
 
+                // 🚀 El BLL se encarga de TODAS las validaciones de negocio:
+                // - Validar email formato válido y no sea teléfono
+                // - Validar teléfono mínimo 10 dígitos y no sea email
+                // - Validar CUIT 11 dígitos
+                // - Verificar CUIT no duplicado
                 _clienteService.CrearCliente(cliente);
                 
-                string successMessageKey = "Cliente creado correctamente.";
-                string translatedSuccessMessage = IdiomaService.Translate(successMessageKey);
-                string successTitleKey = "Éxito";
-                string translatedSuccessTitle = IdiomaService.Translate(successTitleKey);
-                MessageBox.Show(translatedSuccessMessage, translatedSuccessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(
+                    IdiomaService.Translate("✅ Cliente creado correctamente."),
+                    IdiomaService.Translate("Éxito"),
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // Limpiar los campos
                 textBox1.Text = "";
@@ -144,12 +141,42 @@ namespace Distribuidora_los_amigos.Forms.Clientes
                 textBox4.Text = "";
                 textBox5.Text = "";
                 checkBox1.Checked = false;
+                
+                textBox1.Focus();
+            }
+            catch (ClienteException cliEx)
+            {
+                // 🎯 Excepciones de reglas de negocio de clientes
+                MessageBox.Show(
+                    $"❌ {cliEx.Message}",
+                    IdiomaService.Translate("Error de Validación"),
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                LoggerService.WriteException(cliEx);
+            }
+            catch (DatabaseException dbEx)
+            {
+                // 🎯 Errores de conexión/base de datos
+                string username = ObtenerUsuarioActual();
+                ErrorHandler.HandleDatabaseException(dbEx, username, showMessageBox: true);
+                
+                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed)
+                {
+                    MessageBox.Show(
+                        "No se puede crear el cliente sin conexión a la base de datos.\n" +
+                        "Por favor, verifique la conexión e intente nuevamente.",
+                        "Error de Conexión",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
             }
             catch (Exception ex)
             {
-                string errorTitleKey = "Error";
-                string translatedErrorTitle = IdiomaService.Translate(errorTitleKey);
-                MessageBox.Show(translatedErrorTitle + ": " + ex.Message, translatedErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // 🎯 Errores inesperados
+                ErrorHandler.HandleGeneralException(ex);
+                MessageBox.Show(
+                    $"Error inesperado: {ex.Message}",
+                    IdiomaService.Translate("Error"),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -183,6 +210,18 @@ namespace Distribuidora_los_amigos.Forms.Clientes
                 MessageBox.Show($"Error al abrir la ayuda: {ex.Message}", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 LoggerService.WriteException(ex);
+            }
+        }
+
+        private string ObtenerUsuarioActual()
+        {
+            try
+            {
+                return SesionService.UsuarioLogueado?.UserName ?? "Desconocido";
+            }
+            catch
+            {
+                return "Desconocido";
             }
         }
     }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BLL.Exceptions;
+using BLL.Helpers;
 using DAL.Contracts;
 using DAL.Contratcs;
 using DAL.Factory;
@@ -15,7 +17,7 @@ namespace BLL
         private readonly IStockRepository _stockRepository;
         private readonly IProductoRepository _productoRepository;
         private const int STOCK_MINIMO = 10; // Umbral para notificación
-        private const string EMAIL_ADMINISTRADOR = "distribuidoralosamigos@gmail.com"; // Configurar email del admin
+        private const string EMAIL_ADMINISTRADOR = "nicolas.scanga@hotmail.com"; // Configurar email del admin
 
         /// <summary>
         /// Inicializa el servicio resolviendo los repositorios de stock y productos necesarios.
@@ -32,7 +34,21 @@ namespace BLL
         /// <param name="stock">Entidad de stock que se almacenará.</param>
         public void AgregarStock(Stock stock)
         {
-            _stockRepository.Add(stock);
+            try
+            {
+                ExceptionMapper.ExecuteWithMapping(() =>
+                {
+                    _stockRepository.Add(stock);
+                }, "Error al agregar stock");
+            }
+            catch (DatabaseException dbEx)
+            {
+                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed)
+                {
+                    Console.WriteLine($"❌ No se puede agregar stock sin conexión.");
+                }
+                throw;
+            }
         }
 
         /// <summary>
@@ -40,14 +56,28 @@ namespace BLL
         /// </summary>
         public void ModificarStock(Guid idProducto, int cantidad)
         {
-            Stock stock = ObtenerStockPorProducto(idProducto);
-            if (stock != null)
+            try
             {
-                stock.Cantidad += cantidad;
-                _stockRepository.Update(stock);
-                
-                // Verificar si el stock es bajo
-                VerificarYNotificarStockBajo(idProducto, stock);
+                ExceptionMapper.ExecuteWithMapping(() =>
+                {
+                    Stock stock = ObtenerStockPorProducto(idProducto);
+                    if (stock != null)
+                    {
+                        stock.Cantidad += cantidad;
+                        _stockRepository.Update(stock);
+                        
+                        // Verificar si el stock es bajo
+                        VerificarYNotificarStockBajo(idProducto, stock);
+                    }
+                }, "Error al modificar stock");
+            }
+            catch (DatabaseException dbEx)
+            {
+                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed)
+                {
+                    Console.WriteLine($"❌ No se puede modificar stock sin conexión.");
+                }
+                throw;
             }
         }
 
@@ -57,7 +87,21 @@ namespace BLL
         /// <param name="idStock">Identificador del stock a remover.</param>
         public void EliminarStock(Guid idStock)
         {
-            _stockRepository.Remove(idStock);
+            try
+            {
+                ExceptionMapper.ExecuteWithMapping(() =>
+                {
+                    _stockRepository.Remove(idStock);
+                }, "Error al eliminar stock");
+            }
+            catch (DatabaseException dbEx)
+            {
+                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed)
+                {
+                    Console.WriteLine($"❌ No se puede eliminar stock sin conexión.");
+                }
+                throw;
+            }
         }
 
         /// <summary>
@@ -65,14 +109,28 @@ namespace BLL
         /// </summary>
         public void AumentarStock(Guid idProducto, int cantidad)
         {
-            Stock stock = _stockRepository.GetByProducto(idProducto).FirstOrDefault();
-            if (stock != null)
+            try
             {
-                stock.Cantidad += cantidad;
-                _stockRepository.Update(stock);
-                
-                // Verificar si el stock sigue bajo después del aumento
-                VerificarYNotificarStockBajo(idProducto, stock);
+                ExceptionMapper.ExecuteWithMapping(() =>
+                {
+                    Stock stock = _stockRepository.GetByProducto(idProducto).FirstOrDefault();
+                    if (stock != null)
+                    {
+                        stock.Cantidad += cantidad;
+                        _stockRepository.Update(stock);
+                        
+                        // Verificar si el stock sigue bajo después del aumento
+                        VerificarYNotificarStockBajo(idProducto, stock);
+                    }
+                }, "Error al aumentar stock");
+            }
+            catch (DatabaseException dbEx)
+            {
+                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed)
+                {
+                    Console.WriteLine($"❌ No se puede aumentar stock sin conexión.");
+                }
+                throw;
             }
         }
 
@@ -81,14 +139,34 @@ namespace BLL
         /// </summary>
         public void DisminuirStock(Guid idProducto, int cantidad)
         {
-            Stock stock = _stockRepository.GetByProducto(idProducto).FirstOrDefault();
-            if (stock != null && stock.Cantidad >= cantidad)
+            try
             {
-                stock.Cantidad -= cantidad;
-                _stockRepository.Update(stock);
-                
-                // Verificar si el stock quedó bajo después de disminuir
-                VerificarYNotificarStockBajo(idProducto, stock);
+                ExceptionMapper.ExecuteWithMapping(() =>
+                {
+                    Stock stock = _stockRepository.GetByProducto(idProducto).FirstOrDefault();
+                    if (stock != null)
+                    {
+                        if (stock.Cantidad < cantidad)
+                        {
+                            throw StockException.StockInsuficiente(idProducto, cantidad, stock.Cantidad);
+                        }
+                        
+                        stock.Cantidad -= cantidad;
+                        _stockRepository.Update(stock);
+                        
+                        // Verificar si el stock quedó bajo después de disminuir
+                        VerificarYNotificarStockBajo(idProducto, stock);
+                    }
+                }, "Error al disminuir stock");
+            }
+            catch (DatabaseException dbEx)
+            {
+                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed)
+                {
+                    Console.WriteLine($"❌ No se puede disminuir stock sin conexión.");
+                    throw new StockException("No se puede actualizar el stock: Sin conexión a la base de datos");
+                }
+                throw;
             }
         }
 
@@ -98,7 +176,22 @@ namespace BLL
         /// <returns>Listado completo de stock.</returns>
         public List<Stock> ObtenerStock()
         {
-            return _stockRepository.GetAll();
+            try
+            {
+                return ExceptionMapper.ExecuteWithMapping(() =>
+                {
+                    return _stockRepository.GetAll();
+                }, "Error al obtener stocks");
+            }
+            catch (DatabaseException dbEx)
+            {
+                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed || 
+                    dbEx.ErrorType == DatabaseErrorType.Timeout)
+                {
+                    Console.WriteLine($"⚠️ Error de conexión al obtener stocks.");
+                }
+                throw;
+            }
         }
 
         /// <summary>
@@ -106,41 +199,53 @@ namespace BLL
         /// </summary>
         public List<StockDTO> ObtenerStockConDetalles()
         {
-            List<StockDTO> listaStockDTO = new List<StockDTO>();
-            
             try
             {
-                // Obtener todos los stocks
-                List<Stock> stocks = _stockRepository.GetAll();
-                
-                // Obtener todos los productos
-                List<Producto> productos = _productoRepository.GetAll();
-                
-                // Combinar la información usando LINQ
-                var stockConDetalles = from stock in stocks
-                                       join producto in productos 
-                                       on stock.IdProducto equals producto.IdProducto
-                                       select new StockDTO
-                                       {
-                                           IdStock = stock.IdStock,
-                                           IdProducto = stock.IdProducto,
-                                           NombreProducto = producto.Nombre,
-                                           Categoria = producto.Categoria,
-                                           Cantidad = stock.Cantidad,
-                                           Tipo = stock.Tipo,
-                                           PrecioUnitario = producto.Precio,
-                                           Activo = stock.Activo
-                                       };
-                
-                listaStockDTO = stockConDetalles.ToList();
+                return ExceptionMapper.ExecuteWithMapping(() =>
+                {
+                    List<StockDTO> listaStockDTO = new List<StockDTO>();
+                    
+                    // Obtener todos los stocks
+                    List<Stock> stocks = _stockRepository.GetAll();
+                    
+                    // Obtener todos los productos
+                    List<Producto> productos = _productoRepository.GetAll();
+                    
+                    // Combinar la información usando LINQ
+                    var stockConDetalles = from stock in stocks
+                                           join producto in productos 
+                                           on stock.IdProducto equals producto.IdProducto
+                                           select new StockDTO
+                                           {
+                                               IdStock = stock.IdStock,
+                                               IdProducto = stock.IdProducto,
+                                               NombreProducto = producto.Nombre,
+                                               Categoria = producto.Categoria,
+                                               Cantidad = stock.Cantidad,
+                                               Tipo = stock.Tipo,
+                                               PrecioUnitario = producto.Precio,
+                                               Activo = stock.Activo
+                                           };
+                    
+                    listaStockDTO = stockConDetalles.ToList();
+                    return listaStockDTO;
+                }, "Error al obtener stock con detalles");
+            }
+            catch (DatabaseException dbEx)
+            {
+                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed || 
+                    dbEx.ErrorType == DatabaseErrorType.Timeout)
+                {
+                    Console.WriteLine($"⚠️ Error de conexión al obtener stock con detalles.");
+                }
+                throw;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al obtener stock con detalles: {ex.Message}");
                 LoggerService.WriteException(ex);
+                return new List<StockDTO>();
             }
-            
-            return listaStockDTO;
         }
 
         /// <summary>
@@ -148,7 +253,22 @@ namespace BLL
         /// </summary>
         public Stock ObtenerStockPorProducto(Guid idProducto)
         {
-            return _stockRepository.GetByProducto(idProducto).FirstOrDefault();
+            try
+            {
+                return ExceptionMapper.ExecuteWithMapping(() =>
+                {
+                    return _stockRepository.GetByProducto(idProducto).FirstOrDefault();
+                }, $"Error al obtener stock del producto {idProducto}");
+            }
+            catch (DatabaseException dbEx)
+            {
+                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed || 
+                    dbEx.ErrorType == DatabaseErrorType.Timeout)
+                {
+                    Console.WriteLine($"⚠️ Error de conexión al obtener stock por producto.");
+                }
+                throw;
+            }
         }
 
         /// <summary>
@@ -187,9 +307,24 @@ namespace BLL
         /// </summary>
         public List<Stock> ObtenerProductosConStockBajo()
         {
-            return _stockRepository.GetAll()
-                .Where(s => s.Cantidad < STOCK_MINIMO)
-                .ToList();
+            try
+            {
+                return ExceptionMapper.ExecuteWithMapping(() =>
+                {
+                    return _stockRepository.GetAll()
+                        .Where(s => s.Cantidad < STOCK_MINIMO)
+                        .ToList();
+                }, "Error al obtener productos con stock bajo");
+            }
+            catch (DatabaseException dbEx)
+            {
+                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed || 
+                    dbEx.ErrorType == DatabaseErrorType.Timeout)
+                {
+                    Console.WriteLine($"⚠️ Error de conexión al obtener productos con stock bajo.");
+                }
+                throw;
+            }
         }
     }
 }

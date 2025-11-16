@@ -9,10 +9,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BLL;
+using BLL.Exceptions;
 using DOMAIN;
 using Service.Facade;
 using Services.Facade;
 using Service.DAL.Contracts;
+using Service.ManegerEx;
 
 namespace Distribuidora_los_amigos.Forms.Productos
 {
@@ -105,49 +107,52 @@ namespace Distribuidora_los_amigos.Forms.Productos
         {
             try
             {
-                // Validar que el precio sea un número válido
-                if (!decimal.TryParse(numericUpDownPrecioProducto.Text, out decimal precio) || precio <= 0)
+                // ✅ Validaciones básicas de UI (formato/entrada del usuario)
+                if (string.IsNullOrWhiteSpace(textBoxNombreProducto.Text))
                 {
-                    string errorMessage = IdiomaService.Translate("Error: El precio debe ser un número positivo.");
-                    string errorTitle = IdiomaService.Translate("Error");
-                    MessageBox.Show(errorMessage, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(
+                        IdiomaService.Translate("Debe ingresar un nombre para el producto."),
+                        IdiomaService.Translate("Error"),
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    textBoxNombreProducto.Focus();
                     return;
                 }
 
-                // Validar que la categoría no esté vacía
-                if (string.IsNullOrWhiteSpace(comboBoxCrearProducto.Text))
+                if (!decimal.TryParse(numericUpDownPrecioProducto.Text, out decimal precio))
                 {
-                    string errorMessage = IdiomaService.Translate("Error: Debes seleccionar una categoría.");
-                    string errorTitle = IdiomaService.Translate("Error");
-                    MessageBox.Show(errorMessage, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(
+                        IdiomaService.Translate("El precio debe ser un número válido."),
+                        IdiomaService.Translate("Error"),
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    numericUpDownPrecioProducto.Focus();
                     return;
                 }
 
-                // Validar que el tipo de stock no esté vacío
-                if (string.IsNullOrWhiteSpace(comboBoxTipoStock.Text))
+                if (comboBoxCrearProducto.SelectedIndex == -1)
                 {
-                    string errorMessage = IdiomaService.Translate("Error: Debes seleccionar un tipo de stock.");
-                    string errorTitle = IdiomaService.Translate("Error");
-                    MessageBox.Show(errorMessage, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(
+                        IdiomaService.Translate("Debe seleccionar una categoría."),
+                        IdiomaService.Translate("Error"),
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    comboBoxCrearProducto.Focus();
                     return;
                 }
 
-                // Obtener la cantidad inicial de stock y el tipo
+                if (comboBoxTipoStock.SelectedIndex == -1)
+                {
+                    MessageBox.Show(
+                        IdiomaService.Translate("Debe seleccionar un tipo de stock."),
+                        IdiomaService.Translate("Error"),
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    comboBoxTipoStock.Focus();
+                    return;
+                }
+
+                // 🎯 Construir el producto
                 int cantidadStock = (int)numericUpDownStock.Value;
                 string tipoStock = comboBoxTipoStock.Text;
-
-                // Obtener las fechas de ingreso y vencimiento
                 DateTime fechaIngreso = dateTimePicker1.Value.Date;
                 DateTime? fechaVencimiento = dateTimePicker2.Checked ? (DateTime?)dateTimePicker2.Value.Date : null;
-
-                // Validar que la fecha de vencimiento no sea menor a la fecha de ingreso
-                if (fechaVencimiento.HasValue && fechaVencimiento < fechaIngreso)
-                {
-                    string errorMessage = IdiomaService.Translate("Error: La fecha de vencimiento no puede ser anterior a la fecha de ingreso.");
-                    string errorTitle = IdiomaService.Translate("Error");
-                    MessageBox.Show(errorMessage, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
 
                 Producto producto = new Producto()
                 {
@@ -160,14 +165,24 @@ namespace Distribuidora_los_amigos.Forms.Productos
                     Activo = true
                 };
 
-                // Guardar el producto
+                // 🚀 El BLL se encarga de TODAS las validaciones de negocio:
+                // - Validar nombre no vacío
+                // - Validar categoría no vacía
+                // - Validar precio > 0
+                // - Validar fecha de ingreso válida
+                // - Validar vencimiento >= fecha de ingreso
+                // - Validar cantidad inicial >= 0
+                // - Validar tipo de stock requerido
                 _productoService.CrearProducto(producto, cantidadStock, tipoStock);
                 
-                LoggerService.WriteLog($"Producto creado: {producto.Nombre}, Categoría: {producto.Categoria}, Cantidad inicial: {cantidadStock}", System.Diagnostics.TraceLevel.Info);
+                LoggerService.WriteLog(
+                    $"Producto creado: {producto.Nombre}, Categoría: {producto.Categoria}, Cantidad inicial: {cantidadStock}",
+                    System.Diagnostics.TraceLevel.Info);
 
-                string successMessage = IdiomaService.Translate("Producto creado correctamente.");
-                string successTitle = IdiomaService.Translate("Éxito");
-                MessageBox.Show(successMessage, successTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(
+                    IdiomaService.Translate("✅ Producto creado correctamente."),
+                    IdiomaService.Translate("Éxito"),
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // Limpiar los campos
                 textBoxNombreProducto.Clear();
@@ -181,11 +196,39 @@ namespace Distribuidora_los_amigos.Forms.Productos
                 
                 textBoxNombreProducto.Focus();
             }
+            catch (ProductoException prodEx)
+            {
+                // 🎯 Excepciones de reglas de negocio de productos
+                MessageBox.Show(
+                    $"❌ {prodEx.Message}",
+                    IdiomaService.Translate("Error de Validación"),
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                LoggerService.WriteException(prodEx);
+            }
+            catch (DatabaseException dbEx)
+            {
+                // 🎯 Errores de conexión/base de datos
+                string username = ObtenerUsuarioActual();
+                ErrorHandler.HandleDatabaseException(dbEx, username, showMessageBox: true);
+                
+                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed)
+                {
+                    MessageBox.Show(
+                        "No se puede crear el producto sin conexión a la base de datos.\n" +
+                        "Por favor, verifique la conexión e intente nuevamente.",
+                        "Error de Conexión",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }
             catch (Exception ex)
             {
-                string errorTitle = IdiomaService.Translate("Error");
-                MessageBox.Show("Error: " + ex.Message, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                LoggerService.WriteException(ex);
+                // 🎯 Errores inesperados
+                ErrorHandler.HandleGeneralException(ex);
+                MessageBox.Show(
+                    $"Error inesperado al crear el producto: {ex.Message}",
+                    IdiomaService.Translate("Error"),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -230,6 +273,18 @@ namespace Distribuidora_los_amigos.Forms.Productos
                 MessageBox.Show($"Error al abrir la ayuda: {ex.Message}", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 LoggerService.WriteException(ex);
+            }
+        }
+
+        private string ObtenerUsuarioActual()
+        {
+            try
+            {
+                return SesionService.UsuarioLogueado?.UserName ?? "Desconocido";
+            }
+            catch
+            {
+                return "Desconocido";
             }
         }
     }

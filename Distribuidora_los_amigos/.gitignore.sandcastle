@@ -1,0 +1,25 @@
+# =========================================
+# Sandcastle Help File Builder - .gitignore
+# =========================================
+
+# Documentación generada
+Help/
+*.chm
+
+# Archivos de trabajo temporal
+Working/
+*.tmp
+
+# Logs de compilación
+*.log
+LastBuild.log
+
+# Caché de componentes
+*.cache
+
+# Archivos de configuración de usuario
+*.shfbproj_*
+*.user
+
+# Archivos XML de documentación (opcional - descomenta si no quieres versionar XML)
+# **/bin/*/*.xml

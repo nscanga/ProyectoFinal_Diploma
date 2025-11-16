@@ -8,10 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BLL;
+using BLL.Exceptions;
 using DOMAIN;
 using Service.Facade;
 using Services.Facade;
 using Service.DAL.Contracts;
+using Service.ManegerEx;
 
 namespace Distribuidora_los_amigos.Forms.Pedidos
 {
@@ -284,9 +286,24 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
         /// </summary>
         private void CargarClientes()
         {
-            comboBoxSeleccionCliente.DataSource = _clienteService.ObtenerTodosClientes();
-            comboBoxSeleccionCliente.DisplayMember = "Nombre";
-            comboBoxSeleccionCliente.ValueMember = "IdCliente";
+            try
+            {
+                List<Cliente> clientes = _clienteService.ObtenerTodosClientes();
+                comboBoxSeleccionCliente.DataSource = clientes;
+                comboBoxSeleccionCliente.DisplayMember = "Nombre";
+                comboBoxSeleccionCliente.ValueMember = "IdCliente";
+            }
+            catch (DatabaseException dbEx)
+            {
+                ErrorHandler.HandleDatabaseException(dbEx, ObtenerUsuarioActual(), showMessageBox: true);
+                comboBoxSeleccionCliente.Enabled = false;
+                Console.WriteLine("❌ Error de conexión al cargar clientes");
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.HandleGeneralException(ex);
+                comboBoxSeleccionCliente.Enabled = false;
+            }
         }
 
         /// <summary>
@@ -300,9 +317,18 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
                 dataGridViewProductos.DataSource = listaProductos;
                 ConfigurarDataGridViews();
             }
+            catch (DatabaseException dbEx)
+            {
+                ErrorHandler.HandleDatabaseException(dbEx, ObtenerUsuarioActual(), showMessageBox: true);
+                dataGridViewProductos.DataSource = new List<Producto>();
+                dataGridViewProductos.Enabled = false;
+                buttonAgregarProducto.Enabled = false;
+                Console.WriteLine("❌ Error de conexión al cargar productos");
+            }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar los productos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorHandler.HandleGeneralException(ex);
+                dataGridViewProductos.DataSource = new List<Producto>();
             }
         }
 
@@ -311,9 +337,22 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
         /// </summary>
         private void CargarEstadosPedido()
         {
-            comboBoxEstadoPedido.DataSource = _pedidoService.ObtenerEstadosPedido();
-            comboBoxEstadoPedido.DisplayMember = "NombreEstado";
-            comboBoxEstadoPedido.ValueMember = "IdEstadoPedido";
+            try
+            {
+                List<EstadoPedido> estados = _pedidoService.ObtenerEstadosPedido();
+                comboBoxEstadoPedido.DataSource = estados;
+                comboBoxEstadoPedido.DisplayMember = "NombreEstado";
+                comboBoxEstadoPedido.ValueMember = "IdEstadoPedido";
+            }
+            catch (DatabaseException dbEx)
+            {
+                ErrorHandler.HandleDatabaseException(dbEx, ObtenerUsuarioActual(), showMessageBox: true);
+                Console.WriteLine("⚠️ Error de conexión al cargar estados, usando valores por defecto");
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.HandleGeneralException(ex);
+            }
         }
 
         /// <summary>
@@ -327,6 +366,7 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
             {
                 Producto productoSeleccionado = (Producto)dataGridViewProductos.SelectedRows[0].DataBoundItem;
 
+                // ✅ Validación básica de UI (formato/entrada)
                 if (numericUpDown1.Value <= 0)
                 {
                     MessageBox.Show("Ingrese una cantidad válida mayor a 0.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -334,66 +374,84 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
                 }
                 int cantidad = (int)numericUpDown1.Value;
 
-                Stock stockProducto = _stockService.ObtenerStockPorProducto(productoSeleccionado.IdProducto);
-
-                if (stockProducto == null || stockProducto.Cantidad < cantidad)
+                // 🔍 Verificar stock disponible (validación de negocio)
+                try
                 {
-                    MessageBox.Show($"No hay suficiente stock para el producto: {productoSeleccionado.Nombre}.\nStock disponible: {stockProducto?.Cantidad ?? 0}", 
-                                    "Stock Insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+                    Stock stockProducto = _stockService.ObtenerStockPorProducto(productoSeleccionado.IdProducto);
 
-                var detalleExistente = _detallePedidoList.FirstOrDefault(d => d.IdProducto == productoSeleccionado.IdProducto);
-                
-                if (detalleExistente != null)
-                {
-                    int cantidadTotal = detalleExistente.Cantidad + cantidad;
+                    if (stockProducto == null)
+                    {
+                        MessageBox.Show($"No hay registro de stock para el producto: {productoSeleccionado.Nombre}", 
+                                        "Stock no disponible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    // Calcular cantidad total incluyendo lo ya agregado
+                    var detalleExistente = _detallePedidoList.FirstOrDefault(d => d.IdProducto == productoSeleccionado.IdProducto);
+                    int cantidadTotal = detalleExistente != null ? detalleExistente.Cantidad + cantidad : cantidad;
                     
                     if (stockProducto.Cantidad < cantidadTotal)
                     {
-                        MessageBox.Show($"No hay suficiente stock para agregar {cantidad} unidades más.\nStock disponible: {stockProducto.Cantidad}\nYa agregado al pedido: {detalleExistente.Cantidad}", 
+                        MessageBox.Show($"No hay suficiente stock para el producto: {productoSeleccionado.Nombre}.\n" +
+                                      $"Stock disponible: {stockProducto.Cantidad}\n" +
+                                      $"Ya agregado: {detalleExistente?.Cantidad ?? 0}\n" +
+                                      $"Solicitado: {cantidad}",
                                         "Stock Insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
-                    
-                    detalleExistente.Cantidad = cantidadTotal;
-                    detalleExistente.Subtotal = cantidadTotal * productoSeleccionado.Precio;
-                    
-                    var dtoExistente = _detallePedidoDTOList.FirstOrDefault(d => d.IdProducto == productoSeleccionado.IdProducto);
-                    if (dtoExistente != null)
+
+                    // Agregar o actualizar el detalle
+                    if (detalleExistente != null)
                     {
-                        dtoExistente.Cantidad = cantidadTotal;
-                        dtoExistente.Subtotal = cantidadTotal * productoSeleccionado.Precio;
+                        detalleExistente.Cantidad = cantidadTotal;
+                        detalleExistente.Subtotal = cantidadTotal * productoSeleccionado.Precio;
+                        
+                        var dtoExistente = _detallePedidoDTOList.FirstOrDefault(d => d.IdProducto == productoSeleccionado.IdProducto);
+                        if (dtoExistente != null)
+                        {
+                            dtoExistente.Cantidad = cantidadTotal;
+                            dtoExistente.Subtotal = cantidadTotal * productoSeleccionado.Precio;
+                        }
                     }
+                    else
+                    {
+                        DetallePedido nuevoDetalle = new DetallePedido()
+                        {
+                            IdDetallePedido = Guid.NewGuid(),
+                            IdProducto = productoSeleccionado.IdProducto,
+                            Cantidad = cantidad,
+                            PrecioUnitario = productoSeleccionado.Precio,
+                            Subtotal = cantidad * productoSeleccionado.Precio
+                        };
+
+                        DetallePedidoDTO nuevoDetalleDTO = new DetallePedidoDTO()
+                        {
+                            IdDetallePedido = nuevoDetalle.IdDetallePedido,
+                            IdProducto = nuevoDetalle.IdProducto,
+                            NombreProducto = productoSeleccionado.Nombre,
+                            Categoria = productoSeleccionado.Categoria,
+                            Cantidad = nuevoDetalle.Cantidad,
+                            PrecioUnitario = nuevoDetalle.PrecioUnitario,
+                            Subtotal = nuevoDetalle.Subtotal
+                        };
+
+                        _detallePedidoList.Add(nuevoDetalle);
+                        _detallePedidoDTOList.Add(nuevoDetalleDTO);
+                    }
+
+                    ActualizarListaProductosPedido();
+                    numericUpDown1.Value = 1;
                 }
-                else
+                catch (DatabaseException dbEx)
                 {
-                    DetallePedido nuevoDetalle = new DetallePedido()
-                    {
-                        IdDetallePedido = Guid.NewGuid(),
-                        IdProducto = productoSeleccionado.IdProducto,
-                        Cantidad = cantidad,
-                        PrecioUnitario = productoSeleccionado.Precio,
-                        Subtotal = cantidad * productoSeleccionado.Precio
-                    };
-
-                    DetallePedidoDTO nuevoDetalleDTO = new DetallePedidoDTO()
-                    {
-                        IdDetallePedido = nuevoDetalle.IdDetallePedido,
-                        IdProducto = nuevoDetalle.IdProducto,
-                        NombreProducto = productoSeleccionado.Nombre,
-                        Categoria = productoSeleccionado.Categoria,
-                        Cantidad = nuevoDetalle.Cantidad,
-                        PrecioUnitario = nuevoDetalle.PrecioUnitario,
-                        Subtotal = nuevoDetalle.Subtotal
-                    };
-
-                    _detallePedidoList.Add(nuevoDetalle);
-                    _detallePedidoDTOList.Add(nuevoDetalleDTO);
+                    ErrorHandler.HandleDatabaseException(dbEx, ObtenerUsuarioActual(), showMessageBox: true);
                 }
-
-                ActualizarListaProductosPedido();
-                numericUpDown1.Value = 1;
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al agregar producto: {ex.Message}", "Error", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    LoggerService.WriteException(ex);
+                }
             }
             else
             {
@@ -488,14 +546,26 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
         {
             try
             {
-                if (comboBoxSeleccionCliente.SelectedValue == null || _detallePedidoList.Count == 0)
+                // ✅ Validaciones básicas de UI (formato/entrada)
+                if (comboBoxSeleccionCliente.SelectedValue == null)
                 {
-                    MessageBox.Show("Debe seleccionar un cliente y agregar al menos un producto.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Debe seleccionar un cliente.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                Guid idEstadoPedido = (Guid)comboBoxEstadoPedido.SelectedValue;
+                if (_detallePedidoList.Count == 0)
+                {
+                    MessageBox.Show("Debe agregar al menos un producto al pedido.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
+                if (comboBoxEstadoPedido.SelectedValue == null)
+                {
+                    MessageBox.Show("Debe seleccionar un estado para el pedido.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // 🎯 Construir el pedido
                 Pedido nuevoPedido = new Pedido()
                 {
                     IdPedido = Guid.NewGuid(),
@@ -505,24 +575,62 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
                     Detalles = new List<DetallePedido>(_detallePedidoList),
                     Total = _detallePedidoList.Sum(d => d.Subtotal)
                 };
-                
-                if (comboBoxEstadoPedido.SelectedValue == null)
-                {
-                    MessageBox.Show("El estado del pedido no ha sido seleccionado correctamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
 
                 int cantidadTotal = _detallePedidoList.Sum(d => d.Cantidad);
 
+                // 🚀 El BLL se encarga de TODAS las validaciones de negocio:
+                // - Validar cliente existe
+                // - Validar estado existe
+                // - Validar fecha no futura
+                // - Validar productos existen
+                // - Validar cantidades > 0
+                // - Validar stock suficiente
+                // - Verificar y notificar stock bajo
                 _pedidoService.CrearPedido(nuevoPedido, cantidadTotal);
 
-                MessageBox.Show($"Pedido creado correctamente.\n\nTotal: {nuevoPedido.Total:C2}\nProductos: {_detallePedidoList.Count}\nCantidad total: {cantidadTotal}", 
+                MessageBox.Show($"✅ Pedido creado correctamente.\n\n" +
+                              $"Total: {nuevoPedido.Total:C2}\n" +
+                              $"Productos: {_detallePedidoList.Count}\n" +
+                              $"Cantidad total: {cantidadTotal}", 
                                 "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
+            catch (PedidoException pedEx)
+            {
+                // 🎯 Excepciones de reglas de negocio de pedidos
+                MessageBox.Show($"❌ {pedEx.Message}", "Error de Validación", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                LoggerService.WriteException(pedEx);
+            }
+            catch (StockException stockEx)
+            {
+                // 🎯 Excepciones de stock insuficiente
+                MessageBox.Show($"⚠️ {stockEx.Message}", "Stock Insuficiente", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                LoggerService.WriteException(stockEx);
+            }
+            catch (DatabaseException dbEx)
+            {
+                // 🎯 Errores de conexión/base de datos
+                string username = ObtenerUsuarioActual();
+                ErrorHandler.HandleDatabaseException(dbEx, username, showMessageBox: true);
+                
+                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed)
+                {
+                    MessageBox.Show(
+                        "No se puede crear el pedido sin conexión a la base de datos.\n" +
+                        "Por favor, verifique la conexión e intente nuevamente.",
+                        "Error de Conexión",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al crear el pedido: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // 🎯 Errores inesperados
+                ErrorHandler.HandleGeneralException(ex);
+                MessageBox.Show($"Error inesperado al crear el pedido: {ex.Message}", 
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -534,6 +642,18 @@ namespace Distribuidora_los_amigos.Forms.Pedidos
         private void comboBoxEstadoPedido_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private string ObtenerUsuarioActual()
+        {
+            try
+            {
+                return SesionService.UsuarioLogueado?.UserName ?? "Desconocido";
+            }
+            catch
+            {
+                return "Desconocido";
+            }
         }
     }
 }
