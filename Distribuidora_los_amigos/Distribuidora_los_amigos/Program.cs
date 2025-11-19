@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Service.Facade;
-//using Syncfusion.Licensing;
+using Syncfusion.Licensing;
 
 namespace Distribuidora_los_amigos
 {
@@ -17,7 +17,7 @@ namespace Distribuidora_los_amigos
         [STAThread]
         static void Main()
         {
-            //SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NDaF5cWWtCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdnWXZcc3ZUQ2ldUEB+WUA=");
+            SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JFaF1cXGFCf1FpRGtGfV5ycUVPal9ZTndYUj0eQnxTdEBiWH5WcnVWTmJcVUd0WUleYg==");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new LoginForm());
