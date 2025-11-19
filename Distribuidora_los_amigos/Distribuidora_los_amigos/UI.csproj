@@ -351,6 +351,7 @@
     <None Include="Docs\EJEMPLOS_EXCEPCIONES.md" />
     <None Include="Docs\GUIA_IMPLEMENTACION_AYUDA_F1.md" />
     <None Include="Docs\GUIA_TRADUCCION_FORMULARIOS.md" />
+    <None Include="Docs\INSTALACION_PRODUCCION.md" />
     <None Include="Docs\MANEJO_EXCEPCIONES.md" />
     <None Include="Docs\Manual_CHM\CHECKLIST_CONTENIDO.md" />
     <None Include="Docs\Manual_CHM\compilar_chm.bat" />
@@ -453,6 +454,7 @@
     <Content Include="Docs\Manual_CHM\source_es\html\general\topic_20_main.html" />
     <Content Include="Docs\Manual_CHM\source_es\html\login\topic_31_login.html" />
     <Content Include="Docs\Manual_CHM\source_es\template.html" />
+    <Content Include="Docs\SQL_Scripts\00_Crear_Patentes_Sistema.sql" />
     <Content Include="Docs\SQL_Scripts\00_Crear_Usuario_Admin_Default.sql" />
     <Content Include="Docs\SQL_Scripts\01_Restore_Manual_Emergency.sql" />
     <Content Include="Docs\SQL_Scripts\02_Fix_Patentes_TipoAcceso.sql" />
@@ -465,6 +467,7 @@
     <Content Include="Docs\SQL_Scripts\09_Diagnosticar_Rol_Especifico.sql" />
     <Content Include="Docs\SQL_Scripts\10_Configurar_Rol_Limitado.sql" />
     <Content Include="Docs\SQL_Scripts\11_Asignar_Rol_Admin_A_Usuario_Existente.sql" />
+    <Content Include="Docs\SQL_Scripts\12_Diagnostico_Sistema_Permisos.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
