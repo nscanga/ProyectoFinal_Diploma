@@ -96,6 +96,7 @@ namespace Service.Facade
 
         /// <summary>
         /// Obtiene la familia Administrador o la crea si no existe con todas las patentes disponibles.
+        /// Si la familia existe pero no tiene patentes asignadas, le asigna todas las disponibles.
         /// </summary>
         private static Familia ObtenerOCrearFamiliaAdministrador()
         {
@@ -103,11 +104,47 @@ namespace Service.Facade
             List<Familia> todasLasFamilias = _familiaDAL.GetAll();
             Familia familiaAdmin = todasLasFamilias.FirstOrDefault(f => f.Nombre.Equals("Administrador", StringComparison.OrdinalIgnoreCase));
 
+            // Obtener todas las patentes disponibles del sistema
+            List<Patente> todasLasPatentes = _familiaDAL.GetAllPatentes();
+
             if (familiaAdmin != null)
             {
-                // La familia ya existe, cargar sus patentes
-                familiaAdmin.Accesos.AddRange(_familiaDAL.GetPatentesByFamiliaId(familiaAdmin.Id));
-                LoggerService.WriteLog("Familia 'Administrador' encontrada en el sistema.", System.Diagnostics.TraceLevel.Info);
+                // La familia ya existe, verificar si tiene patentes
+                List<Patente> patentesActuales = _familiaDAL.GetPatentesByFamiliaId(familiaAdmin.Id);
+                
+                if (patentesActuales.Count > 0)
+                {
+                    // La familia existe y ya tiene patentes asignadas
+                    familiaAdmin.Accesos.AddRange(patentesActuales);
+                    LoggerService.WriteLog($"Familia 'Administrador' encontrada con {patentesActuales.Count} patentes asignadas.", System.Diagnostics.TraceLevel.Info);
+                }
+                else
+                {
+                    // La familia existe pero NO tiene patentes - esto es el problema que estamos solucionando
+                    LoggerService.WriteLog("ADVERTENCIA: Familia 'Administrador' existe pero NO tiene patentes asignadas. Asignando todas las patentes disponibles...", System.Diagnostics.TraceLevel.Warning);
+                    
+                    if (todasLasPatentes.Count > 0)
+                    {
+                        // Asignar todas las patentes a la familia existente
+                        foreach (var patente in todasLasPatentes)
+                        {
+                            // Insertar en la tabla Familia_Patente
+                            SqlHelper.ExecuteNonQuery(
+                                "INSERT INTO Familia_Patente (IdFamilia, IdPatente) VALUES (@IdFamilia, @IdPatente)",
+                                System.Data.CommandType.Text,
+                                new System.Data.SqlClient.SqlParameter("@IdFamilia", familiaAdmin.Id),
+                                new System.Data.SqlClient.SqlParameter("@IdPatente", patente.Id)
+                            );
+                            familiaAdmin.Add(patente);
+                        }
+                        LoggerService.WriteLog($"✅ Se asignaron {todasLasPatentes.Count} patentes a la familia 'Administrador' existente.", System.Diagnostics.TraceLevel.Info);
+                    }
+                    else
+                    {
+                        LoggerService.WriteLog("ADVERTENCIA CRÍTICA: No existen patentes en el sistema. El administrador tendrá acceso limitado hasta que se creen y asignen patentes.", System.Diagnostics.TraceLevel.Warning);
+                    }
+                }
+                
                 return familiaAdmin;
             }
 
@@ -117,14 +154,11 @@ namespace Service.Facade
                 Id = Guid.NewGuid(),
                 Nombre = "Administrador"
             };
-
-            // Obtener todas las patentes disponibles
-            List<Patente> todasLasPatentes = _familiaDAL.GetAllPatentes();
             
             if (todasLasPatentes.Count == 0)
             {
-                // Si no hay patentes, crear las básicas para que el admin pueda gestionar el sistema
-                LoggerService.WriteLog("ADVERTENCIA: No existen patentes en el sistema. El administrador tendrá acceso limitado hasta que se configuren las patentes.", System.Diagnostics.TraceLevel.Warning);
+                // Si no hay patentes en el sistema
+                LoggerService.WriteLog("ADVERTENCIA CRÍTICA: No existen patentes en el sistema. Se creará la familia 'Administrador' pero sin patentes. El administrador tendrá acceso limitado hasta que se configuren las patentes desde la base de datos.", System.Diagnostics.TraceLevel.Warning);
             }
             else
             {
@@ -136,7 +170,7 @@ namespace Service.Facade
                 LoggerService.WriteLog($"Familia 'Administrador' creada con {todasLasPatentes.Count} patentes.", System.Diagnostics.TraceLevel.Info);
             }
 
-            // Crear la familia en la base de datos
+            // Crear la familia en la base de datos (esto también crea las relaciones Familia_Patente)
             _familiaDAL.CreateFamilia(familiaAdmin);
 
             return familiaAdmin;

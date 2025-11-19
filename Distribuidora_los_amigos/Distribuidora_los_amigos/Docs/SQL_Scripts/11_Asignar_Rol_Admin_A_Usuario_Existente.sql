@@ -2,7 +2,9 @@
 -- Script: Asignar Rol Administrador a Usuario Admin Existente
 -- Base de datos: Login
 -- Descripción: Asigna el rol de Administrador al usuario admin si no lo tiene
+--              Y asegura que la familia Administrador tenga TODAS las patentes
 --              Este script soluciona el problema de usuarios creados sin rol
+--              o familias sin patentes asignadas
 -- =============================================
 
 USE [Login]
@@ -42,72 +44,107 @@ GO
 PRINT '2?? VERIFICAR FAMILIA ADMINISTRADOR'
 PRINT '===================================='
 
+DECLARE @IdFamiliaAdmin UNIQUEIDENTIFIER
+DECLARE @FamiliaCreada BIT = 0
+
 IF NOT EXISTS (SELECT 1 FROM Familia WHERE Nombre = 'Administrador')
 BEGIN
     PRINT '??  La familia "Administrador" NO EXISTE'
     PRINT '?? Creando familia Administrador...'
     
-    DECLARE @IdFamiliaAdmin UNIQUEIDENTIFIER = NEWID()
+    SET @IdFamiliaAdmin = NEWID()
     
     INSERT INTO Familia (IdFamilia, Nombre)
     VALUES (@IdFamiliaAdmin, 'Administrador')
     
     PRINT '? Familia "Administrador" creada con ID: ' + CAST(@IdFamiliaAdmin AS VARCHAR(50))
-    
-    -- Asignar TODAS las patentes a la familia Administrador
-    PRINT '?? Asignando todas las patentes a Administrador...'
-    
-    INSERT INTO Familia_Patente (IdFamilia, IdPatente)
-    SELECT @IdFamiliaAdmin, IdPatente FROM Patente
-    
-    DECLARE @PatentesAsignadas INT = @@ROWCOUNT
-    PRINT '? ' + CAST(@PatentesAsignadas AS VARCHAR(10)) + ' patentes asignadas a Administrador'
+    SET @FamiliaCreada = 1
 END
 ELSE
 BEGIN
     PRINT '? Familia "Administrador" existe'
-    
-    -- Verificar que tenga patentes asignadas
-    DECLARE @CantidadPatentes INT
-    SELECT @CantidadPatentes = COUNT(*)
-    FROM Familia_Patente fp
-    INNER JOIN Familia f ON fp.IdFamilia = f.IdFamilia
-    WHERE f.Nombre = 'Administrador'
-    
-    IF @CantidadPatentes = 0
-    BEGIN
-        PRINT '??  La familia Administrador NO tiene patentes asignadas'
-        PRINT '?? Asignando todas las patentes...'
-        
-        DECLARE @IdFamiliaAdminExistente UNIQUEIDENTIFIER
-        SELECT @IdFamiliaAdminExistente = IdFamilia FROM Familia WHERE Nombre = 'Administrador'
-        
-        INSERT INTO Familia_Patente (IdFamilia, IdPatente)
-        SELECT @IdFamiliaAdminExistente, IdPatente FROM Patente
-        WHERE IdPatente NOT IN (
-            SELECT IdPatente FROM Familia_Patente WHERE IdFamilia = @IdFamiliaAdminExistente
-        )
-        
-        SET @PatentesAsignadas = @@ROWCOUNT
-        PRINT '? ' + CAST(@PatentesAsignadas AS VARCHAR(10)) + ' patentes asignadas'
-    END
-    ELSE
-    BEGIN
-        PRINT '? Familia Administrador tiene ' + CAST(@CantidadPatentes AS VARCHAR(10)) + ' patentes asignadas'
-    END
+    SELECT @IdFamiliaAdmin = IdFamilia FROM Familia WHERE Nombre = 'Administrador'
+    SET @FamiliaCreada = 0
 END
 PRINT ''
 GO
 
 -- ==================================================
--- PASO 3: Verificar si el usuario ya tiene la familia
+-- PASO 3: Verificar y asignar TODAS las patentes
 -- ==================================================
-PRINT '3?? VERIFICAR ASIGNACIÓN ACTUAL'
+PRINT '3?? VERIFICAR PATENTES DE LA FAMILIA'
+PRINT '===================================='
+
+DECLARE @IdFamiliaAdminExistente UNIQUEIDENTIFIER
+SELECT @IdFamiliaAdminExistente = IdFamilia FROM Familia WHERE Nombre = 'Administrador'
+
+-- Contar patentes actuales de la familia
+DECLARE @CantidadPatentesActuales INT
+SELECT @CantidadPatentesActuales = COUNT(*)
+FROM Familia_Patente
+WHERE IdFamilia = @IdFamiliaAdminExistente
+
+-- Contar total de patentes en el sistema
+DECLARE @TotalPatentesDisponibles INT
+SELECT @TotalPatentesDisponibles = COUNT(*) FROM Patente
+
+PRINT '?? Patentes actuales de Administrador: ' + CAST(@CantidadPatentesActuales AS VARCHAR(10))
+PRINT '?? Total de patentes disponibles: ' + CAST(@TotalPatentesDisponibles AS VARCHAR(10))
+PRINT ''
+
+IF @TotalPatentesDisponibles = 0
+BEGIN
+    PRINT '??  ADVERTENCIA CRÍTICA: No hay patentes en el sistema'
+    PRINT '?? El administrador tendrá acceso limitado hasta que se creen patentes'
+    PRINT '?? Ejecute los scripts de creación de patentes o cree patentes desde la aplicación'
+    PRINT ''
+END
+ELSE IF @CantidadPatentesActuales = 0
+BEGIN
+    PRINT '??  La familia Administrador NO tiene patentes asignadas'
+    PRINT '?? Asignando TODAS las patentes disponibles...'
+    
+    INSERT INTO Familia_Patente (IdFamilia, IdPatente)
+    SELECT @IdFamiliaAdminExistente, IdPatente FROM Patente
+    
+    DECLARE @PatentesAsignadas INT = @@ROWCOUNT
+    PRINT '? ' + CAST(@PatentesAsignadas AS VARCHAR(10)) + ' patentes asignadas a Administrador'
+    PRINT ''
+END
+ELSE IF @CantidadPatentesActuales < @TotalPatentesDisponibles
+BEGIN
+    PRINT '??  La familia Administrador solo tiene ' + CAST(@CantidadPatentesActuales AS VARCHAR(10)) + ' de ' + CAST(@TotalPatentesDisponibles AS VARCHAR(10)) + ' patentes'
+    PRINT '?? Asignando patentes faltantes...'
+    
+    -- Insertar solo las patentes que faltan
+    INSERT INTO Familia_Patente (IdFamilia, IdPatente)
+    SELECT @IdFamiliaAdminExistente, p.IdPatente
+    FROM Patente p
+    WHERE p.IdPatente NOT IN (
+        SELECT IdPatente 
+        FROM Familia_Patente 
+        WHERE IdFamilia = @IdFamiliaAdminExistente
+    )
+    
+    SET @PatentesAsignadas = @@ROWCOUNT
+    PRINT '? ' + CAST(@PatentesAsignadas AS VARCHAR(10)) + ' patentes adicionales asignadas'
+    PRINT ''
+END
+ELSE
+BEGIN
+    PRINT '? Familia Administrador tiene TODAS las patentes asignadas (' + CAST(@CantidadPatentesActuales AS VARCHAR(10)) + ')'
+    PRINT ''
+END
+GO
+
+-- ==================================================
+-- PASO 4: Verificar asignación del usuario
+-- ==================================================
+PRINT '4?? VERIFICAR ASIGNACIÓN ACTUAL DEL USUARIO'
 PRINT '===================================='
 
 DECLARE @IdUsuarioAdmin UNIQUEIDENTIFIER
 DECLARE @IdFamilia UNIQUEIDENTIFIER
-DECLARE @TieneFamilia BIT = 0
 
 SELECT @IdUsuarioAdmin = IdUsuario FROM Usuario WHERE UserName = 'admin'
 SELECT @IdFamilia = IdFamilia FROM Familia WHERE Nombre = 'Administrador'
@@ -119,20 +156,18 @@ IF EXISTS (
 )
 BEGIN
     PRINT '? El usuario "admin" YA TIENE el rol de Administrador asignado'
-    SET @TieneFamilia = 1
 END
 ELSE
 BEGIN
     PRINT '??  El usuario "admin" NO TIENE el rol de Administrador asignado'
-    SET @TieneFamilia = 0
 END
 PRINT ''
 GO
 
 -- ==================================================
--- PASO 4: Asignar familia Administrador al usuario admin
+-- PASO 5: Asignar familia Administrador al usuario admin
 -- ==================================================
-PRINT '4?? ASIGNAR ROL'
+PRINT '5?? ASIGNAR ROL AL USUARIO'
 PRINT '===================================='
 
 DECLARE @IdUsuarioAdmin2 UNIQUEIDENTIFIER
@@ -149,8 +184,8 @@ IF NOT EXISTS (
 BEGIN
     PRINT '?? Asignando rol Administrador al usuario admin...'
     
-    -- Primero, eliminar cualquier otra familia asignada (opcional)
-    -- Descomentar las siguientes líneas si quieres que admin solo tenga el rol de Administrador
+    -- Opcional: Eliminar cualquier otra familia asignada
+    -- Descomenta estas líneas si quieres que admin solo tenga el rol de Administrador
     /*
     DELETE FROM Usuario_Familia WHERE IdUsuario = @IdUsuarioAdmin2
     PRINT '?? Roles anteriores eliminados'
@@ -170,27 +205,67 @@ PRINT ''
 GO
 
 -- ==================================================
--- PASO 5: Verificación final
+-- PASO 6: Verificación final detallada
 -- ==================================================
-PRINT '5?? VERIFICACIÓN FINAL'
+PRINT '6?? VERIFICACIÓN FINAL COMPLETA'
 PRINT '===================================='
+PRINT ''
 
+-- Información del usuario
+PRINT '?? USUARIO ADMIN:'
 SELECT 
     u.UserName AS Usuario,
     u.Email AS Email,
     CASE u.Estado 
         WHEN 1 THEN 'Habilitado' 
         ELSE 'Deshabilitado' 
-    END AS Estado,
-    f.Nombre AS Familia,
-    COUNT(DISTINCT p.IdPatente) AS TotalPatentes
+    END AS Estado
 FROM Usuario u
-LEFT JOIN Usuario_Familia uf ON u.IdUsuario = uf.IdUsuario
-LEFT JOIN Familia f ON uf.IdFamilia = f.IdFamilia
+WHERE u.UserName = 'admin'
+
+PRINT ''
+PRINT '?? ROL ASIGNADO:'
+SELECT 
+    u.UserName AS Usuario,
+    f.Nombre AS Familia
+FROM Usuario u
+INNER JOIN Usuario_Familia uf ON u.IdUsuario = uf.IdUsuario
+INNER JOIN Familia f ON uf.IdFamilia = f.IdFamilia
+WHERE u.UserName = 'admin'
+
+PRINT ''
+PRINT '?? PATENTES DISPONIBLES:'
+SELECT 
+    f.Nombre AS Familia,
+    COUNT(DISTINCT p.IdPatente) AS TotalPatentes,
+    SUM(CASE WHEN p.TipoAcceso = 0 THEN 1 ELSE 0 END) AS Patentes_UI,
+    SUM(CASE WHEN p.TipoAcceso = 1 THEN 1 ELSE 0 END) AS Patentes_Control,
+    SUM(CASE WHEN p.TipoAcceso = 2 THEN 1 ELSE 0 END) AS Patentes_UseCases
+FROM Familia f
 LEFT JOIN Familia_Patente fp ON f.IdFamilia = fp.IdFamilia
 LEFT JOIN Patente p ON fp.IdPatente = p.IdPatente
-WHERE u.UserName = 'admin'
-GROUP BY u.UserName, u.Email, u.Estado, f.Nombre
+WHERE f.Nombre = 'Administrador'
+GROUP BY f.Nombre
+
+PRINT ''
+PRINT '?? DETALLE DE PATENTES:'
+SELECT 
+    ROW_NUMBER() OVER (ORDER BY p.TipoAcceso, p.Nombre) AS '#',
+    p.Nombre AS Patente,
+    CASE p.TipoAcceso
+        WHEN 0 THEN 'UI (Visualización)'
+        WHEN 1 THEN 'Control (Administración)'
+        WHEN 2 THEN 'UseCases (Casos especiales)'
+        ELSE 'Desconocido'
+    END AS TipoAcceso
+FROM Familia f
+INNER JOIN Familia_Patente fp ON f.IdFamilia = fp.IdFamilia
+INNER JOIN Patente p ON fp.IdPatente = p.IdPatente
+WHERE f.Nombre = 'Administrador'
+ORDER BY p.TipoAcceso, p.Nombre
+
+PRINT ''
+GO
 
 PRINT ''
 PRINT '============================================'
@@ -203,10 +278,23 @@ PRINT '2?? Vuelva a iniciar la aplicación'
 PRINT '3?? Inicie sesión con:'
 PRINT '   Usuario: admin'
 PRINT '   Contraseña: Admin123!'
-PRINT '4?? Verifique que puede ver TODOS los menús del sistema'
+PRINT '4?? Verifique que puede ver los menús del sistema'
 PRINT ''
-PRINT '??  IMPORTANTE: Cambie la contraseña del usuario admin'
-PRINT '    después del primer inicio de sesión'
+PRINT '?? MENÚS ESPERADOS (si hay patentes):'
+PRINT '   ? PEDIDOS'
+PRINT '   ? CLIENTES'
+PRINT '   ? PRODUCTOS'
+PRINT '   ? STOCK'
+PRINT '   ? BÚSQUEDA'
+PRINT '   ? REPORTES'
+PRINT '   ? GESTIÓN DE USUARIOS'
+PRINT '   ? PROVEEDORES'
+PRINT '   ? BACKUP Y RESTORE'
+PRINT ''
+PRINT '??  IMPORTANTE:'
+PRINT '   • Cambie la contraseña del usuario admin después del primer inicio de sesión'
+PRINT '   • Si no ve todos los menús, verifique que existan patentes en la base de datos'
+PRINT '   • Consulte los logs de la aplicación en C:\Logs\ para más detalles'
 PRINT ''
 PRINT '============================================'
 GO
