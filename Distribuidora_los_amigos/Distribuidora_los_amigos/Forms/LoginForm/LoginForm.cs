@@ -49,49 +49,39 @@ namespace Distribuidora_los_amigos
                 // Cargar el idioma guardado y aplicarlo
                 string currentLanguage = IdiomaService.LoadUserLanguage();
 
-                // ✅ Verificar si existen usuarios en el sistema
-                List<Usuario> usuarios = UserService.GetAllUsuarios();
-
-                if (usuarios.Count == 0)
+                // ✅ Inicializar el sistema con usuario administrador si no existe ningún usuario
+                try
                 {
-                    string messageKey = "No hay usuarios en el sistema. Se creará un usuario administrador por defecto.\n\nUsuario: admin\nContraseña: Admin123!";
-                    string translatedMessage = TranslateMessageKey(messageKey);
-                    string titleKey = "Inicialización del Sistema";
-                    string translatedTitle = TranslateMessageKey(titleKey);
-                    MessageBox.Show(translatedMessage, translatedTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    try
+                    bool sistemaInicializado = UserService.InicializarSistemaConAdminDefault();
+                    
+                    if (sistemaInicializado)
                     {
-                        // ✅ Crear usuario administrador usando el servicio (esto aplicará el hash MD5 correctamente)
-                        var usuarioAdmin = new Usuario
-                        {
-                            UserName = "admin"
-                        };
-
-                        UserService.Register("admin", "Admin123!", "admin@sistema.com");
-
-                        LoggerService.WriteLog("Usuario administrador por defecto creado exitosamente.", System.Diagnostics.TraceLevel.Info);
+                        string messageKey = "No hay usuarios en el sistema. Se creará un usuario administrador por defecto con todos los permisos.\n\nUsuario: admin\nContraseña: Admin123!\nRol: Administrador";
+                        string translatedMessage = TranslateMessageKey(messageKey);
+                        string titleKey = "Inicialización del Sistema";
+                        string translatedTitle = TranslateMessageKey(titleKey);
+                        MessageBox.Show(translatedMessage, translatedTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         
-                        string successKey = "Usuario administrador creado exitosamente.\n\nUsuario: admin\nContraseña: Admin123!\n\n⚠️ Por favor, cambie esta contraseña después del primer inicio de sesión.";
+                        string successKey = "✅ Sistema inicializado correctamente.\n\nUsuario: admin\nContraseña: Admin123!\nRol: Administrador (con todos los permisos)\n\n⚠️ Por favor, cambie esta contraseña después del primer inicio de sesión.";
                         string successMessage = TranslateMessageKey(successKey);
-                        string successTitleKey = "Sistema Inicializado";
+                        string successTitleKey = "Sistema Listo";
                         string successTitle = TranslateMessageKey(successTitleKey);
                         MessageBox.Show(successMessage, successTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
-                    catch (Exception ex)
-                    {
-                        LoggerService.WriteLog($"Error al crear usuario administrador por defecto: {ex.Message}", System.Diagnostics.TraceLevel.Error);
-                        LoggerService.WriteException(ex);
-                        
-                        string errorKey = "Error crítico: No se pudo crear el usuario administrador por defecto. La aplicación no puede continuar.";
-                        string errorMessage = TranslateMessageKey(errorKey);
-                        string errorTitleKey = "Error Fatal";
-                        string errorTitle = TranslateMessageKey(errorTitleKey);
-                        MessageBox.Show(errorMessage + "\n\n" + ex.Message, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        
-                        Application.Exit();
-                        return;
-                    }
+                }
+                catch (Exception ex)
+                {
+                    LoggerService.WriteLog($"Error al inicializar el sistema: {ex.Message}", System.Diagnostics.TraceLevel.Error);
+                    LoggerService.WriteException(ex);
+                    
+                    string errorKey = "Error crítico: No se pudo inicializar el sistema. La aplicación no puede continuar.";
+                    string errorMessage = TranslateMessageKey(errorKey);
+                    string errorTitleKey = "Error Fatal";
+                    string errorTitle = TranslateMessageKey(errorTitleKey);
+                    MessageBox.Show(errorMessage + "\n\n" + ex.Message, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    
+                    Application.Exit();
+                    return;
                 }
 
                 // Establecer la cultura del hilo principal al idioma guardado

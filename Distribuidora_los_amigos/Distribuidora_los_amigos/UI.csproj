@@ -399,6 +399,7 @@
     <None Include="Docs\SOLUCION_ADMINNICO_SOLO_VE_BUSQUEDA.md" />
     <None Include="Docs\SOLUCION_ERROR_CONEXION.md" />
     <None Include="Docs\SOLUCION_UI_MULTIIDIOMA.md" />
+    <None Include="Docs\SOLUCION_USUARIO_ADMIN_SIN_ROL.md" />
     <None Include="Docs\USUARIO_ADMINISTRADOR_DEFAULT.md" />
     <None Include="l18n\2vbwypcf.qlm~" />
     <None Include="l18n\d0j2zvho.vgb~" />
@@ -463,6 +464,7 @@
     <Content Include="Docs\SQL_Scripts\08_Asignar_Todas_Patentes_Administrador.sql" />
     <Content Include="Docs\SQL_Scripts\09_Diagnosticar_Rol_Especifico.sql" />
     <Content Include="Docs\SQL_Scripts\10_Configurar_Rol_Limitado.sql" />
+    <Content Include="Docs\SQL_Scripts\11_Asignar_Rol_Admin_A_Usuario_Existente.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

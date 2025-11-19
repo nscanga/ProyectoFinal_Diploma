@@ -2,6 +2,7 @@
 using Service.DOMAIN;
 using Service.DOMAIN.DTO;
 using Service.Logic;
+using Services.Facade;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace Service.Facade
     {
         private static UserLogic _userLogic = new UserLogic();
         private static readonly UsuarioRepository _UsuarioDAL = new UsuarioRepository();
+        private static readonly FamiliaRepository _familiaDAL = new FamiliaRepository();
 
         /// <summary>
         /// Valida credenciales de usuario delegando en la lógica correspondiente.
@@ -46,6 +48,100 @@ namespace Service.Facade
             };
             _userLogic.CreateUser(usuario, password, email);
         }
+
+        /// <summary>
+        /// Inicializa el sistema creando el usuario administrador por defecto con su rol.
+        /// Este método se ejecuta automáticamente cuando no existen usuarios en el sistema.
+        /// </summary>
+        /// <returns>True si la inicialización fue exitosa, False si ya existían usuarios.</returns>
+        public static bool InicializarSistemaConAdminDefault()
+        {
+            try
+            {
+                // Verificar si ya existen usuarios
+                List<Usuario> usuarios = GetAllUsuarios();
+                if (usuarios.Count > 0)
+                {
+                    return false; // El sistema ya está inicializado
+                }
+
+                // Crear el usuario administrador
+                Register("admin", "Admin123!", "admin@sistema.com");
+                LoggerService.WriteLog("Usuario administrador por defecto creado exitosamente.", System.Diagnostics.TraceLevel.Info);
+
+                // Obtener el usuario recién creado
+                Usuario adminUser = _userLogic.GetUsuarioByUsername("admin");
+                if (adminUser == null)
+                {
+                    throw new Exception("Error al recuperar el usuario administrador recién creado.");
+                }
+
+                // Buscar o crear la familia Administrador
+                Familia familiaAdmin = ObtenerOCrearFamiliaAdministrador();
+
+                // Asignar la familia al usuario admin (sin validación de familia existente)
+                _familiaDAL.SaveUsuarioFamilia(adminUser.IdUsuario, familiaAdmin.Id);
+                
+                LoggerService.WriteLog($"Rol 'Administrador' asignado al usuario admin exitosamente.", System.Diagnostics.TraceLevel.Info);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LoggerService.WriteLog($"Error al inicializar sistema con usuario admin: {ex.Message}", System.Diagnostics.TraceLevel.Error);
+                LoggerService.WriteException(ex);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Obtiene la familia Administrador o la crea si no existe con todas las patentes disponibles.
+        /// </summary>
+        private static Familia ObtenerOCrearFamiliaAdministrador()
+        {
+            // Buscar si ya existe la familia Administrador
+            List<Familia> todasLasFamilias = _familiaDAL.GetAll();
+            Familia familiaAdmin = todasLasFamilias.FirstOrDefault(f => f.Nombre.Equals("Administrador", StringComparison.OrdinalIgnoreCase));
+
+            if (familiaAdmin != null)
+            {
+                // La familia ya existe, cargar sus patentes
+                familiaAdmin.Accesos.AddRange(_familiaDAL.GetPatentesByFamiliaId(familiaAdmin.Id));
+                LoggerService.WriteLog("Familia 'Administrador' encontrada en el sistema.", System.Diagnostics.TraceLevel.Info);
+                return familiaAdmin;
+            }
+
+            // La familia no existe, crearla con todas las patentes
+            familiaAdmin = new Familia
+            {
+                Id = Guid.NewGuid(),
+                Nombre = "Administrador"
+            };
+
+            // Obtener todas las patentes disponibles
+            List<Patente> todasLasPatentes = _familiaDAL.GetAllPatentes();
+            
+            if (todasLasPatentes.Count == 0)
+            {
+                // Si no hay patentes, crear las básicas para que el admin pueda gestionar el sistema
+                LoggerService.WriteLog("ADVERTENCIA: No existen patentes en el sistema. El administrador tendrá acceso limitado hasta que se configuren las patentes.", System.Diagnostics.TraceLevel.Warning);
+            }
+            else
+            {
+                // Agregar todas las patentes a la familia Administrador
+                foreach (var patente in todasLasPatentes)
+                {
+                    familiaAdmin.Add(patente);
+                }
+                LoggerService.WriteLog($"Familia 'Administrador' creada con {todasLasPatentes.Count} patentes.", System.Diagnostics.TraceLevel.Info);
+            }
+
+            // Crear la familia en la base de datos
+            _familiaDAL.CreateFamilia(familiaAdmin);
+
+            return familiaAdmin;
+        }
+
         /// <summary>
         /// Crea una patente siempre que no exista otra con el mismo nombre.
         /// </summary>
