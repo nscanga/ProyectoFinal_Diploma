@@ -352,6 +352,7 @@
     <None Include="Docs\CORRECCION_FORMULARIOS_MODALES.md" />
     <None Include="Docs\CORRECCION_SCRIPTS_SQL.md" />
     <None Include="Docs\EJEMPLOS_EXCEPCIONES.md" />
+    <None Include="Docs\FIX_BACKUP_EXPRESS_EDITION.md" />
     <None Include="Docs\GUIA_IMPLEMENTACION_AYUDA_F1.md" />
     <None Include="Docs\GUIA_TRADUCCION_FORMULARIOS.md" />
     <None Include="Docs\INSTALACION_PRODUCCION.md" />
@@ -394,6 +395,7 @@
     <None Include="Docs\README.md" />
     <None Include="Docs\REFACTORIZACION_VALIDACIONES_COMPLETADA.md" />
     <None Include="Docs\RESUMEN_CORRECCION_PERMISOS.md" />
+    <None Include="Docs\RESUMEN_FIXES_BACKUP_RESTORE.md" />
     <None Include="Docs\RESUMEN_IMPLEMENTACION_AYUDA.md" />
     <None Include="Docs\RESUMEN_IMPLEMENTACION_EXCEPCIONES.md" />
     <None Include="Docs\RESUMEN_IMPLEMENTACION_REPORTES.md" />
@@ -404,6 +406,7 @@
     <None Include="Docs\SOLUCION_ERROR_CONEXION.md" />
     <None Include="Docs\SOLUCION_UI_MULTIIDIOMA.md" />
     <None Include="Docs\SOLUCION_USUARIO_ADMIN_SIN_ROL.md" />
+    <None Include="Docs\TROUBLESHOOTING_PERMISOS_SQL.md" />
     <None Include="Docs\USUARIO_ADMINISTRADOR_DEFAULT.md" />
     <None Include="l18n\2vbwypcf.qlm~" />
     <None Include="l18n\d0j2zvho.vgb~" />

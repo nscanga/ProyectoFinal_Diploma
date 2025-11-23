@@ -15,7 +15,7 @@ namespace Service.DAL.Contracts
         /// <summary>
         /// Realiza una copia de respaldo de la base indicada hacia la ubicación solicitada.
         /// </summary>
-        /// <param name="connectionString">Cadena de conexión de origen.</param>
+        /// <param name="connectionString">Cadena de conexión de origen.</param>a
         /// <param name="backupPath">Ruta destino para el archivo generado.</param>
         void BackupDatabase(string connectionString, string backupPath);
 

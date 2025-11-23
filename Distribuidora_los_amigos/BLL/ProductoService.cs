@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using BLL.Exceptions;
 using BLL.Helpers;
+using DAL;
 using DAL.Contratcs;
 using DAL.Factory;
 using DOMAIN;
@@ -285,14 +286,36 @@ namespace BLL
         {
             try
             {
-                ExceptionMapper.ExecuteWithMapping(() =>
+                // Verificar si el producto tiene pedidos asociados
+                if (ProductoTienePedidosAsociados(idProducto))
                 {
-                    // Primero eliminar el stock relacionado
-                    _stockRepository.EliminarStockPorProducto(idProducto);
+                    throw new InvalidOperationException(
+                        "No se puede eliminar el producto porque tiene pedidos asociados. " +
+                        "Elimine primero los pedidos relacionados o use la opción de deshabilitar el producto.");
+                }
 
-                    // Luego eliminar el producto
-                    _productoRepository.Remove(idProducto);
-                }, "Error al eliminar producto");
+                // Primero eliminar el stock relacionado
+                _stockRepository.EliminarStockPorProducto(idProducto);
+
+                // Luego eliminar el producto
+                _productoRepository.Remove(idProducto);
+            }
+            catch (DALException dalEx)
+            {
+                // Manejar errores específicos de SQL (como violación de FK)
+                if (dalEx.InnerException is System.Data.SqlClient.SqlException sqlEx)
+                {
+                    if (sqlEx.Number == 547) // Violación de restricción de clave foránea
+                    {
+                        throw new InvalidOperationException(
+                            "No se puede eliminar el producto porque tiene pedidos o registros asociados. " +
+                            "Elimine primero los registros relacionados o use la opción de deshabilitar el producto.",
+                            dalEx);
+                    }
+                }
+                
+                // Para otros errores DAL, convertir a DatabaseException
+                throw ExceptionMapper.MapToBusinessException(dalEx, "Error al eliminar producto");
             }
             catch (DatabaseException dbEx)
             {
@@ -305,29 +328,33 @@ namespace BLL
         }
 
         /// <summary>
-        /// Devuelve los productos cuya categoría coincide con la indicada.
+        /// Verifica si un producto tiene pedidos asociados.
         /// </summary>
-        /// <param name="categoria">Nombre de la categoría a filtrar.</param>
-        /// <returns>Listado de productos pertenecientes a la categoría.</returns>
-        public List<Producto> ObtenerProductosPorCategoria(string categoria)
+        /// <param name="idProducto">Identificador del producto.</param>
+        /// <returns>True si tiene pedidos asociados, False en caso contrario.</returns>
+        private bool ProductoTienePedidosAsociados(Guid idProducto)
         {
             try
             {
-                return ExceptionMapper.ExecuteWithMapping(() =>
+                // Verificar en la base de datos si existen registros en DetallePedido
+                var resultado = ExceptionMapper.ExecuteWithMapping(() =>
                 {
-                    return _productoRepository.GetByCategoria(categoria);
-                }, $"Error al obtener productos de categoría {categoria}");
+                    // Usar el repositorio para ejecutar la consulta
+                    return _productoRepository.TienePedidosAsociados(idProducto);
+                }, "Error al verificar pedidos asociados");
+
+                return resultado;
             }
-            catch (DatabaseException dbEx)
+            catch (DatabaseException)
             {
-                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed || 
-                    dbEx.ErrorType == DatabaseErrorType.Timeout)
-                {
-                    Console.WriteLine($"⚠️ Error de conexión al obtener productos por categoría.");
-                }
-                throw;
+                // Si hay error de BD, asumir que puede tener pedidos para evitar eliminar por error
+                return true;
+            }
+            catch (Exception)
+            {
+                // Si el método no existe en el repositorio, intentar eliminar de todos modos
+                return false;
             }
         }
-
     }
 }

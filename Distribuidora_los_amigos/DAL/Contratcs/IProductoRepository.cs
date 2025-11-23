@@ -33,5 +33,11 @@ namespace DAL.Contratcs
         /// <param name="idProducto">Identificador del producto que se deshabilita.</param>
         void Disable(Guid idProducto);
 
+        /// <summary>
+        /// Verifica si un producto tiene pedidos asociados en la tabla DetallePedido.
+        /// </summary>
+        /// <param name="idProducto">Identificador del producto a verificar.</param>
+        /// <returns>True si tiene pedidos asociados, False en caso contrario.</returns>
+        bool TienePedidosAsociados(Guid idProducto);
     }
 }

@@ -204,5 +204,21 @@ namespace DAL.Implementations.SqlServer
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Verifica si un producto tiene pedidos asociados en la tabla DetallePedido.
+        /// </summary>
+        /// <param name="idProducto">Identificador del producto a verificar.</param>
+        /// <returns>True si tiene pedidos asociados, False en caso contrario.</returns>
+        public bool TienePedidosAsociados(Guid idProducto)
+        {
+            string query = "SELECT COUNT(*) FROM DetallePedido WHERE IdProducto = @IdProducto";
+
+            SqlParameter[] parameters = { new SqlParameter("@IdProducto", idProducto) };
+
+            int count = (int)SqlHelper.ExecuteScalar(query, CommandType.Text, parameters);
+
+            return count > 0;
+        }
     }
 }

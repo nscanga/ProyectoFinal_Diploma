@@ -231,25 +231,66 @@ namespace Distribuidora_los_amigos.Forms.Productos
         {
             if (dataGridView1.SelectedRows.Count > 0)
             {
-                Producto productoSeleccionado = (Producto)dataGridView1.SelectedRows[0].DataBoundItem;
-
-                string confirmMessage = IdiomaService.Translate("¿Está seguro de eliminar el producto?");
-                string confirmTitle = IdiomaService.Translate("Confirmar eliminación");
-                DialogResult result = MessageBox.Show($"{confirmMessage} {productoSeleccionado.Nombre}?",
-                                                      confirmTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-                if (result == DialogResult.Yes)
+                try
                 {
-                    try
+                    dynamic item = dataGridView1.SelectedRows[0].DataBoundItem;
+                    Producto productoSeleccionado = item.ProductoOriginal;
+
+                    string confirmMessage = IdiomaService.Translate("¿Está seguro de eliminar el producto?");
+                    string confirmTitle = IdiomaService.Translate("Confirmar eliminación");
+                    DialogResult result = MessageBox.Show($"{confirmMessage} {productoSeleccionado.Nombre}?",
+                                                          confirmTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                    if (result == DialogResult.Yes)
                     {
-                        _productoService.EliminarProducto(productoSeleccionado.IdProducto);
-                        CargarProductos();
+                        try
+                        {
+                            _productoService.EliminarProducto(productoSeleccionado.IdProducto);
+                            
+                            string successMessage = IdiomaService.Translate("Producto eliminado correctamente");
+                            string successTitle = IdiomaService.Translate("Éxito");
+                            MessageBox.Show(successMessage, successTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            
+                            CargarProductos();
+                        }
+                        catch (InvalidOperationException invalidEx)
+                        {
+                            // Error de restricción de clave foránea o regla de negocio
+                            LoggerService.WriteException(invalidEx);
+                            
+                            string errorTitle = IdiomaService.Translate("No se puede eliminar");
+                            MessageBox.Show(invalidEx.Message, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                        catch (DatabaseException dbEx)
+                        {
+                            // Registrar en bitácora
+                            LoggerService.WriteException(dbEx);
+                            
+                            // Manejar según el tipo de error
+                            string username = ObtenerUsuarioActual();
+                            ErrorHandler.HandleDatabaseException(dbEx, username, showMessageBox: true);
+                        }
+                        catch (Exception ex)
+                        {
+                            // Registrar cualquier otro error
+                            LoggerService.WriteException(ex);
+                            
+                            string errorTitle = IdiomaService.Translate("Error");
+                            string errorMessage = IdiomaService.Translate("Error al eliminar el producto");
+                            MessageBox.Show($"{errorMessage}: {ex.Message}", 
+                                          errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        string errorTitle = IdiomaService.Translate("Error");
-                        MessageBox.Show("Error al eliminar el producto: " + ex.Message, errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                }
+                catch (Exception ex)
+                {
+                    // Registrar error al obtener el producto seleccionado
+                    LoggerService.WriteException(ex);
+                    
+                    string errorTitle = IdiomaService.Translate("Error");
+                    string errorMessage = IdiomaService.Translate("Error al procesar la selección");
+                    MessageBox.Show($"{errorMessage}: {ex.Message}", 
+                                  errorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
