@@ -121,6 +121,9 @@ namespace Distribuidora_los_amigos.Forms.Productos
             if (dataGridView1.Columns["Nombre"] != null)
                 dataGridView1.Columns["Nombre"].HeaderText = IdiomaService.Translate("Producto");
             
+            if (dataGridView1.Columns["Categoria"] != null)
+                dataGridView1.Columns["Categoria"].HeaderText = IdiomaService.Translate("Categoria");
+            
             if (dataGridView1.Columns["Precio"] != null)
             {
                 dataGridView1.Columns["Precio"].HeaderText = IdiomaService.Translate("Precio");
@@ -129,6 +132,21 @@ namespace Distribuidora_los_amigos.Forms.Productos
             
             if (dataGridView1.Columns["Stock"] != null)
                 dataGridView1.Columns["Stock"].HeaderText = IdiomaService.Translate("Stock");
+
+            if (dataGridView1.Columns["FechaIngreso"] != null)
+            {
+                dataGridView1.Columns["FechaIngreso"].HeaderText = IdiomaService.Translate("Fecha Ingreso");
+                dataGridView1.Columns["FechaIngreso"].DefaultCellStyle.Format = "dd/MM/yyyy"; // Formato de fecha
+            }
+
+            if (dataGridView1.Columns["Vencimiento"] != null)
+            {
+                dataGridView1.Columns["Vencimiento"].HeaderText = IdiomaService.Translate("Vencimiento");
+                dataGridView1.Columns["Vencimiento"].DefaultCellStyle.Format = "dd/MM/yyyy"; // Formato de fecha
+                
+                // Opcional: resaltar productos próximos a vencer o vencidos
+                // Se puede agregar formato condicional si lo deseas
+            }
 
             // Ajustar ancho de columnas
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -147,8 +165,11 @@ namespace Distribuidora_los_amigos.Forms.Productos
                 {
                     IdProducto = p.IdProducto,
                     Nombre = p.Nombre,
+                    Categoria = p.Categoria,
                     Precio = p.Precio,
                     Stock = ObtenerStockProducto(p.IdProducto),
+                    FechaIngreso = p.FechaIngreso,
+                    Vencimiento = p.Vencimiento,
                     ProductoOriginal = p
                 }).ToList();
 

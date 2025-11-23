@@ -61,6 +61,7 @@
             this.btnCancelarProducto.Tag = "Cancelar";
             this.btnCancelarProducto.Text = "Cancelar";
             this.btnCancelarProducto.UseVisualStyleBackColor = true;
+            this.btnCancelarProducto.Click += new System.EventHandler(this.btnCancelarProducto_Click);
             // 
             // btnGuardarProducto
             // 

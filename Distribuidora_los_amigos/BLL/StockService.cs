@@ -52,8 +52,54 @@ namespace BLL
         }
 
         /// <summary>
-        /// Modifica la cantidad del stock asociado a un producto y verifica si necesita notificación.
+        /// Modifica el stock completo (cantidad y tipo) de un producto.
         /// </summary>
+        /// <param name="stock">Entidad de stock con los nuevos valores.</param>
+        public void ModificarStock(Stock stock)
+        {
+            try
+            {
+                ExceptionMapper.ExecuteWithMapping(() =>
+                {
+                    if (stock == null)
+                        throw new StockException("El stock no puede ser nulo");
+
+                    // Validar que existe el stock
+                    Stock stockExistente = _stockRepository.GetByProducto(stock.IdProducto).FirstOrDefault();
+                    if (stockExistente == null)
+                        throw StockException.StockNoExiste(stock.IdProducto);
+
+                    // Validar cantidad
+                    if (stock.Cantidad < 0)
+                        throw new StockException("La cantidad no puede ser negativa");
+
+                    // Validar tipo
+                    if (string.IsNullOrWhiteSpace(stock.Tipo))
+                        throw new StockException("El tipo de stock es requerido");
+
+                    // Actualizar el stock completo (cantidad y tipo)
+                    _stockRepository.Update(stock);
+                    
+                    // Verificar si el stock es bajo
+                    VerificarYNotificarStockBajo(stock.IdProducto, stock);
+                }, "Error al modificar stock");
+            }
+            catch (DatabaseException dbEx)
+            {
+                if (dbEx.ErrorType == DatabaseErrorType.ConnectionFailed)
+                {
+                    Console.WriteLine($"❌ No se puede modificar stock sin conexión.");
+                }
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Modifica la cantidad del stock asociado a un producto sumando/restando la cantidad especificada.
+        /// NOTA: Este método suma/resta. Para reemplazar la cantidad, usar ModificarStock(Stock stock).
+        /// </summary>
+        /// <param name="idProducto">ID del producto.</param>
+        /// <param name="cantidad">Cantidad a sumar (positivo) o restar (negativo).</param>
         public void ModificarStock(Guid idProducto, int cantidad)
         {
             try

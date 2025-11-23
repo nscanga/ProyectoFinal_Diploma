@@ -107,8 +107,6 @@ namespace Distribuidora_los_amigos
 
                 // PRODUCTOS
                 { addItemToolStripMenuItem, "AGREGAR" },
-                { mODIFICARToolStripMenuItem, "MODIFICAR" },
-                { eLIMINARToolStripMenuItem, "ELIMINAR" },
                 { vERPRODUCTOSToolStripMenuItem, "VER_PRODUCTOS" },
 
                 // STOCK
@@ -481,21 +479,6 @@ namespace Distribuidora_los_amigos
             usuariosForm.MdiParent = this;
             usuariosForm.WindowState = FormWindowState.Maximized; // Opcional: lo abre maximizado
             usuariosForm.Show();
-        }
-
-        /// <summary>
-        /// Abre el formulario para modificar productos dentro del espacio MDI.
-        /// </summary>
-        /// <param name="sender">Origen del evento.</param>
-        /// <param name="e">Argumentos del evento.</param>
-        private void mODIFICARToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = new ModificarProductoForm();
-            form.MdiParent = this;
-            form.FormBorderStyle = FormBorderStyle.None;
-            form.Dock = DockStyle.Fill;
-            form.WindowState = FormWindowState.Maximized;
-            form.Show();
         }
 
         /// <summary>

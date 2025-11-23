@@ -37,8 +37,6 @@
             this.mOSTRARPEDIDOSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iTEMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mODIFICARToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.eLIMINARToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vERPRODUCTOSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sTOCKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mostrarStockStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -133,8 +131,6 @@
             // 
             this.iTEMToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addItemToolStripMenuItem,
-            this.mODIFICARToolStripMenuItem,
-            this.eLIMINARToolStripMenuItem,
             this.vERPRODUCTOSToolStripMenuItem});
             this.iTEMToolStripMenuItem.Name = "iTEMToolStripMenuItem";
             this.iTEMToolStripMenuItem.ShowShortcutKeys = false;
@@ -149,21 +145,6 @@
             this.addItemToolStripMenuItem.Tag = "AGREGAR";
             this.addItemToolStripMenuItem.Text = "AGREGAR";
             this.addItemToolStripMenuItem.Click += new System.EventHandler(this.addItemToolStripMenuItem_Click);
-            // 
-            // mODIFICARToolStripMenuItem
-            // 
-            this.mODIFICARToolStripMenuItem.Name = "mODIFICARToolStripMenuItem";
-            this.mODIFICARToolStripMenuItem.Size = new System.Drawing.Size(245, 32);
-            this.mODIFICARToolStripMenuItem.Tag = "MODIFICAR";
-            this.mODIFICARToolStripMenuItem.Text = "MODIFICAR";
-            this.mODIFICARToolStripMenuItem.Click += new System.EventHandler(this.mODIFICARToolStripMenuItem_Click);
-            // 
-            // eLIMINARToolStripMenuItem
-            // 
-            this.eLIMINARToolStripMenuItem.Name = "eLIMINARToolStripMenuItem";
-            this.eLIMINARToolStripMenuItem.Size = new System.Drawing.Size(245, 32);
-            this.eLIMINARToolStripMenuItem.Tag = "ELIMINAR";
-            this.eLIMINARToolStripMenuItem.Text = "ELIMINAR";
             // 
             // vERPRODUCTOSToolStripMenuItem
             // 
@@ -530,8 +511,6 @@
         private System.Windows.Forms.ToolStripMenuItem taskManagerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem crearRolToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem crearToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem mODIFICARToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem eLIMINARToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem vERPRODUCTOSToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bACKUPYRESTOREToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generarBackupToolStripMenuItem;

@@ -346,6 +346,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="Docs\BACKUP_Y_RESTORE.md" />
+    <None Include="Docs\CHECKLIST_FINAL_PRE_PRODUCCION_ACTUALIZADO.md" />
     <None Include="Docs\CONFIGURACION_INICIAL.md" />
     <None Include="Docs\CONFIGURACION_REPORTES.md" />
     <None Include="Docs\CONTROL_ACCESO_GRANULAR.md" />
@@ -394,7 +395,9 @@
     <None Include="Docs\PLAN_RESILIENCIA_COMPLETA.md" />
     <None Include="Docs\README.md" />
     <None Include="Docs\REFACTORIZACION_VALIDACIONES_COMPLETADA.md" />
+    <None Include="Docs\RESILIENCIA_FORMULARIOS_MODIFICACION_COMPLETADA.md" />
     <None Include="Docs\RESUMEN_CORRECCION_PERMISOS.md" />
+    <None Include="Docs\RESUMEN_EJECUTIVO_IMPLEMENTACION.md" />
     <None Include="Docs\RESUMEN_FIXES_BACKUP_RESTORE.md" />
     <None Include="Docs\RESUMEN_IMPLEMENTACION_AYUDA.md" />
     <None Include="Docs\RESUMEN_IMPLEMENTACION_EXCEPCIONES.md" />

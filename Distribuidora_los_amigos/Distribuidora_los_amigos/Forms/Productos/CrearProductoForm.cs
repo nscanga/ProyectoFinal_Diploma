@@ -287,5 +287,13 @@ namespace Distribuidora_los_amigos.Forms.Productos
                 return "Desconocido";
             }
         }
+
+        /// <summary>
+        /// Cierra el formulario sin guardar cambios.
+        /// </summary>
+        private void btnCancelarProducto_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

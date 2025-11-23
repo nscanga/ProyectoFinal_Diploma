@@ -79,6 +79,7 @@
             // 
             // btnCancelarProducto
             // 
+            this.btnCancelarProducto.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancelarProducto.Location = new System.Drawing.Point(72, 100);
             this.btnCancelarProducto.Name = "btnCancelarProducto";
             this.btnCancelarProducto.Size = new System.Drawing.Size(75, 23);
@@ -86,6 +87,7 @@
             this.btnCancelarProducto.Tag = "Cancelar";
             this.btnCancelarProducto.Text = "Cancelar";
             this.btnCancelarProducto.UseVisualStyleBackColor = true;
+            this.btnCancelarProducto.Click += new System.EventHandler(this.btnCancelarProducto_Click);
             // 
             // btnGuardarProducto
             // 

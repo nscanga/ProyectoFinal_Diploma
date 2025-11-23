@@ -72,5 +72,10 @@ namespace Distribuidora_los_amigos.Forms.Productos
             IdiomaService.Unsubscribe(this);
             base.OnFormClosing(e);
         }
+
+        private void btnCancelarProducto_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -25,6 +25,8 @@ namespace Distribuidora_los_amigos.Forms.Productos
         /// </summary>
         public ModificarProductoForm()
         {
+            InitializeComponent();
+            _productoService = new ProductoService();
         }
 
         /// <summary>
@@ -47,10 +49,25 @@ namespace Distribuidora_los_amigos.Forms.Productos
             this.KeyPreview = true;
             this.KeyDown += ModificarProductoForm_KeyDown;
 
+            // Cargar las categorías disponibles
+            CargarCategorias();
+
             // Cargar los datos en los campos del formulario
             textBoxNombreProducto.Text = _producto.Nombre;
-            comboBox2.Text = _producto.Categoria;
             numericUpDownPrecioProducto.Value = _producto.Precio;
+
+            // Preseleccionar la categoría del producto
+            int categoriaIndex = comboBox2.Items.IndexOf(_producto.Categoria);
+            if (categoriaIndex >= 0)
+            {
+                comboBox2.SelectedIndex = categoriaIndex;
+            }
+            else
+            {
+                // Si la categoría no está en la lista, agregarla y seleccionarla
+                comboBox2.Items.Add(_producto.Categoria);
+                comboBox2.SelectedIndex = comboBox2.Items.Count - 1;
+            }
 
             // Cargar fechas
             dateTimePicker1.Value = _producto.FechaIngreso;
@@ -64,6 +81,24 @@ namespace Distribuidora_los_amigos.Forms.Productos
                 Disponible.Checked = false;
                 dateTimePicker2.Enabled = false;
             }
+        }
+
+        /// <summary>
+        /// Rellena el combo de categorías disponibles para los productos.
+        /// </summary>
+        private void CargarCategorias()
+        {
+            comboBox2.Items.Clear();
+            comboBox2.Items.Add("Pollo Fresco");
+            comboBox2.Items.Add("Pollo Congelado");
+            comboBox2.Items.Add("Menudencias");
+            comboBox2.Items.Add("Embutidos de Pollo");
+            comboBox2.Items.Add("Huevos");
+            comboBox2.Items.Add("Productos Elaborados");
+            comboBox2.Items.Add("Condimentos y Salsas");
+            comboBox2.Items.Add("Insumos");
+            
+            comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         /// <summary>
@@ -136,7 +171,7 @@ namespace Distribuidora_los_amigos.Forms.Productos
                     return;
                 }
 
-                if (string.IsNullOrWhiteSpace(comboBox2.Text))
+                if (comboBox2.SelectedIndex == -1)
                 {
                     MessageBox.Show(
                         IdiomaService.Translate("Debe seleccionar una categoría."),
@@ -234,6 +269,15 @@ namespace Distribuidora_los_amigos.Forms.Productos
         private void ModificarProductoForm_Load(object sender, EventArgs e)
         {
 
+        }
+
+        /// <summary>
+        /// Cierra el formulario sin guardar cambios.
+        /// </summary>
+        private void btnCancelarProducto_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
         }
     }
 }
