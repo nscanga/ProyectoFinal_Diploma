@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -346,6 +346,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="Docs\BACKUP_Y_RESTORE.md" />
+    <None Include="Docs\CAMBIO_DINAMICO_LOGS.md" />
     <None Include="Docs\CHECKLIST_FINAL_PRE_PRODUCCION_ACTUALIZADO.md" />
     <None Include="Docs\CONFIGURACION_INICIAL.md" />
     <None Include="Docs\CONFIGURACION_REPORTES.md" />
@@ -355,6 +356,7 @@
     <None Include="Docs\EJEMPLOS_EXCEPCIONES.md" />
     <None Include="Docs\FIX_BACKUP_EXPRESS_EDITION.md" />
     <None Include="Docs\GUIA_IMPLEMENTACION_AYUDA_F1.md" />
+    <None Include="Docs\GUIA_RAPIDA_PRUEBA_LOGS.md" />
     <None Include="Docs\GUIA_TRADUCCION_FORMULARIOS.md" />
     <None Include="Docs\INSTALACION_PRODUCCION.md" />
     <None Include="Docs\MANEJO_EXCEPCIONES.md" />
@@ -369,7 +371,10 @@
     <None Include="Docs\Manual_CHM\crear_estructura.ps1" />
     <None Include="Docs\Manual_CHM\crear_manual_ingles.ps1" />
     <None Include="Docs\Manual_CHM\diagnostico.bat" />
+    <None Include="Docs\Manual_CHM\DistribuidoraLosAmigos.chw" />
+    <None Include="Docs\Manual_CHM\DistribuidoraLosAmigos.hhp" />
     <None Include="Docs\Manual_CHM\ESTADO_IMPLEMENTACION_F1.md" />
+    <None Include="Docs\Manual_CHM\ESTADO_PROYECTO_MANUALES.md" />
     <None Include="Docs\Manual_CHM\generar_paginas.ps1" />
     <None Include="Docs\Manual_CHM\generar_proyecto.bat" />
     <None Include="Docs\Manual_CHM\generar_proyecto_chm.ps1" />
@@ -377,25 +382,41 @@
     <None Include="Docs\Manual_CHM\GUIA_FINAL.md" />
     <None Include="Docs\Manual_CHM\GUIA_RAPIDA_COMPILACION.md" />
     <None Include="Docs\Manual_CHM\GUIA_RAPIDA_INGLES.md" />
+    <None Include="Docs\Manual_CHM\GUIA_TRADUCCION_HTML.md" />
     <None Include="Docs\Manual_CHM\GUIA_VISUAL_HTML_HELP_WORKSHOP.md" />
+    <None Include="Docs\Manual_CHM\help_en.chm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Docs\Manual_CHM\help_es.chm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Docs\Manual_CHM\help_es.chw" />
+    <None Include="Docs\Manual_CHM\Index.hhk" />
     <None Include="Docs\Manual_CHM\INDICE.md" />
     <None Include="Docs\Manual_CHM\INDICE_MANUALES_CHM.md" />
     <None Include="Docs\Manual_CHM\INICIO_AQUI.md" />
     <None Include="Docs\Manual_CHM\INICIO_RAPIDO.md" />
+    <None Include="Docs\Manual_CHM\INICIO_RAPIDO_MANUALES.md" />
     <None Include="Docs\Manual_CHM\MANUAL_COMPILACION_CHM_COMPLETO.md" />
+    <None Include="Docs\Manual_CHM\MiAppHelp.hhk" />
     <None Include="Docs\Manual_CHM\README.md" />
+    <None Include="Docs\Manual_CHM\recompilar_en.bat" />
+    <None Include="Docs\Manual_CHM\recompilar_es.bat" />
     <None Include="Docs\Manual_CHM\RESUMEN_EJECUTIVO.md" />
+    <None Include="Docs\Manual_CHM\RESUMEN_MANUAL_INGLES.md" />
     <None Include="Docs\Manual_CHM\RESUMEN_PROXIMO_CHAT.md" />
     <None Include="Docs\Manual_CHM\SOLUCION_F1_MAP_SECTION.md" />
     <None Include="Docs\Manual_CHM\SOLUCION_FINAL_F1_RECUPERAR_PASSWORD.md" />
     <None Include="Docs\Manual_CHM\source_es\help_es.hhc" />
     <None Include="Docs\Manual_CHM\source_es\help_es.hhk" />
     <None Include="Docs\Manual_CHM\source_es\help_es.hhp" />
+    <None Include="Docs\Manual_CHM\verificar_traduccion.ps1" />
     <None Include="Docs\PLANTILLAS_RESILIENCIA.md" />
     <None Include="Docs\PLAN_RESILIENCIA_COMPLETA.md" />
     <None Include="Docs\README.md" />
     <None Include="Docs\REFACTORIZACION_VALIDACIONES_COMPLETADA.md" />
     <None Include="Docs\RESILIENCIA_FORMULARIOS_MODIFICACION_COMPLETADA.md" />
+    <None Include="Docs\RESUMEN_CAMBIO_DINAMICO_LOGS.md" />
     <None Include="Docs\RESUMEN_CORRECCION_PERMISOS.md" />
     <None Include="Docs\RESUMEN_EJECUTIVO_IMPLEMENTACION.md" />
     <None Include="Docs\RESUMEN_FIXES_BACKUP_RESTORE.md" />
@@ -411,20 +432,48 @@
     <None Include="Docs\SOLUCION_USUARIO_ADMIN_SIN_ROL.md" />
     <None Include="Docs\TROUBLESHOOTING_PERMISOS_SQL.md" />
     <None Include="Docs\USUARIO_ADMINISTRADOR_DEFAULT.md" />
-    <None Include="l18n\2vbwypcf.qlm~" />
-    <None Include="l18n\d0j2zvho.vgb~" />
-    <None Include="l18n\fuumdsp0.odh~" />
-    <None Include="l18n\language.en-US" />
-    <None Include="l18n\language.en-US~RF124752.TMP" />
-    <None Include="l18n\language.en-US~RF27aeb00.TMP" />
-    <None Include="l18n\language.en-US~RF44da30b.TMP" />
-    <None Include="l18n\language.en-US~RF57a3896f.TMP" />
-    <None Include="l18n\language.es-ES" />
-    <None Include="l18n\language.pt-PT" />
-    <None Include="l18n\nka0xxix.j14~" />
-    <None Include="l18n\xlotjyi1.pow~" />
-    <None Include="l18n\yykjdril.wlf~" />
-    <None Include="l18n\z011ila2.n5t~" />
+    <None Include="l18n\2vbwypcf.qlm~">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="l18n\d0j2zvho.vgb~">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="l18n\fuumdsp0.odh~">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="l18n\language.en-US">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="l18n\language.en-US~RF124752.TMP">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="l18n\language.en-US~RF27aeb00.TMP">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="l18n\language.en-US~RF44da30b.TMP">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="l18n\language.en-US~RF57a3896f.TMP">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="l18n\language.es-ES">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="l18n\language.pt-PT">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="l18n\nka0xxix.j14~">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="l18n\xlotjyi1.pow~">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="l18n\yykjdril.wlf~">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="l18n\z011ila2.n5t~">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -437,7 +486,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\App.config" />
+    <None Include="Properties\App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj">
@@ -458,6 +509,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Docs\Manual_CHM\crear_cliente.htm" />
+    <Content Include="Docs\Manual_CHM\index.htm" />
+    <Content Include="Docs\Manual_CHM\login.htm" />
     <Content Include="Docs\Manual_CHM\source_es\css\styles.css" />
     <Content Include="Docs\Manual_CHM\source_es\html\clientes\topic_40_crear_cliente.html" />
     <Content Include="Docs\Manual_CHM\source_es\html\general\topic_20_main.html" />

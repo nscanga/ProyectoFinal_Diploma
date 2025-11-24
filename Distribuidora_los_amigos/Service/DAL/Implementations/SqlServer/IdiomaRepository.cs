@@ -14,11 +14,43 @@ namespace Service.DAL.Implementations
     /// </summary>
     internal static class LanguageRepository
     {
-        // Obtener las rutas desde el App.config
-        private static string LanguagePath = ConfigurationManager.AppSettings["IdiomaPath"];
-        private static readonly string UserIdiomaConfigPath = ConfigurationManager.AppSettings["UserIdiomaConfigPath"];
+        /// <summary>
+        /// Resuelve rutas relativas basándose en la ubicación del ejecutable.
+        /// </summary>
+        /// <param name="path">Ruta desde el App.config</param>
+        /// <returns>Ruta absoluta resuelta</returns>
+        private static string ResolvePath(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+                return path;
 
+            // Si ya es absoluta, devolverla tal cual
+            if (Path.IsPathRooted(path))
+                return path;
 
+            // Si es relativa, combinarla con la carpeta del ejecutable
+            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            return Path.GetFullPath(Path.Combine(baseDirectory, path));
+        }
+
+        // Obtener las rutas desde el App.config y resolver rutas relativas
+        private static string LanguagePath
+        {
+            get
+            {
+                string path = ConfigurationManager.AppSettings["IdiomaPath"];
+                return ResolvePath(path);
+            }
+        }
+
+        private static string UserIdiomaConfigPath
+        {
+            get
+            {
+                string path = ConfigurationManager.AppSettings["UserIdiomaConfigPath"];
+                return ResolvePath(path);
+            }
+        }
 
         /// <summary>
         /// Traduce una clave textual utilizando el archivo correspondiente al idioma actual.
@@ -27,31 +59,25 @@ namespace Service.DAL.Implementations
         /// <returns>Cadena traducida encontrada.</returns>
         public static string Translate(string key)
         {
-            // Obtener el código de idioma actual (es-ES, en-US, etc.)
             string language = Thread.CurrentThread.CurrentUICulture.Name;
-
-            // Construir el nombre completo del archivo basado en el idioma (language.es-ES, language.en-US)
             string fileName = Path.Combine(LanguagePath, $"language.{language}");
 
-            // Verificar que el archivo de idioma existe
             if (!File.Exists(fileName))
             {
-
-                throw new Exception($"No se encontró el archivo de idioma para {language}");
+                throw new Exception($"No se encontró el archivo de idioma para {language} en: {fileName}");
             }
 
-            // Leer el archivo y buscar la clave
             using (StreamReader reader = new StreamReader(fileName))
             {
-
                 while (!reader.EndOfStream)
                 {
                     string line = reader.ReadLine();
+                    if (string.IsNullOrEmpty(line)) continue;
+                    
                     string[] columns = line.Split('=');
-
-                    if (columns[0].ToLower() == key.ToLower())
+                    if (columns.Length >= 2 && columns[0].Trim().ToLower() == key.ToLower())
                     {
-                        return columns[1]; // Retorna la traducción
+                        return columns[1].Trim();
                     }
                 }
             }
@@ -66,7 +92,6 @@ namespace Service.DAL.Implementations
         public static void WriteKey(string key)
         {
             string language = Thread.CurrentThread.CurrentUICulture.Name;
-
         }
 
         /// <summary>
@@ -78,17 +103,46 @@ namespace Service.DAL.Implementations
             return new List<string>();
         }
 
-
-
         /// <summary>
         /// Guarda el idioma preferido por el usuario en el archivo de configuración correspondiente.
         /// </summary>
         /// <param name="languageCode">Código de idioma a almacenar.</param>
         public static void SaveUserLanguage(string languageCode)
         {
-            using (StreamWriter writer = new StreamWriter(UserIdiomaConfigPath, false))  // Sobrescribe el archivo
+            try
             {
-                writer.WriteLine(languageCode);  // Guarda el código del idioma
+                string filePath = UserIdiomaConfigPath;
+                
+                // Asegurar que el directorio exista
+                string directory = Path.GetDirectoryName(filePath);
+                if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
+                // Guardar el idioma
+                File.WriteAllText(filePath, languageCode);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                // Si no tiene permisos en esa carpeta, intentar guardar en AppData del usuario
+                string appDataPath = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    "DistribuidoraLosAmigos",
+                    "user_language.config"
+                );
+                
+                string directory = Path.GetDirectoryName(appDataPath);
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+                
+                File.WriteAllText(appDataPath, languageCode);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al guardar el idioma del usuario: {ex.Message}", ex);
             }
         }
 
@@ -98,24 +152,43 @@ namespace Service.DAL.Implementations
         /// <returns>Código de idioma configurado.</returns>
         public static string LoadUserLanguage()
         {
-            if (File.Exists(UserIdiomaConfigPath))
+            try
             {
-                using (StreamReader reader = new StreamReader(UserIdiomaConfigPath))
+                string filePath = UserIdiomaConfigPath;
+                
+                // Intentar leer del archivo configurado
+                if (File.Exists(filePath))
                 {
-                    string languageCode = reader.ReadLine();
+                    string languageCode = File.ReadAllText(filePath).Trim();
                     if (!string.IsNullOrEmpty(languageCode))
                     {
-                        return languageCode;  // Retorna el idioma guardado
+                        return languageCode;
+                    }
+                }
+                
+                // Si no existe, intentar leer del AppData
+                string appDataPath = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    "DistribuidoraLosAmigos",
+                    "user_language.config"
+                );
+                
+                if (File.Exists(appDataPath))
+                {
+                    string languageCode = File.ReadAllText(appDataPath).Trim();
+                    if (!string.IsNullOrEmpty(languageCode))
+                    {
+                        return languageCode;
                     }
                 }
             }
+            catch (Exception)
+            {
+                // Si hay cualquier error, continuar con idioma por defecto
+            }
 
-            // Si no existe el archivo o no tiene un valor, retorna "es-ES" como idioma predeterminado
+            // Si no existe el archivo o hay error, retorna "es-ES" como idioma predeterminado
             return "es-ES";
         }
-
-
-
-
     }
 }

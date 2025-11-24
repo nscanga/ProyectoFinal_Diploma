@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,23 @@ namespace Service.DAL.Implementations.SqlServer
         }
 
         /// <summary>
+        /// Resuelve rutas relativas basándose en la ubicación del ejecutable.
+        /// </summary>
+        private static string ResolvePath(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+                return path;
+
+            // Si ya es absoluta, devolverla tal cual
+            if (Path.IsPathRooted(path))
+                return path;
+
+            // Si es relativa, combinarla con la carpeta del ejecutable
+            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            return Path.GetFullPath(Path.Combine(baseDirectory, path));
+        }
+
+        /// <summary>
         /// Obtiene la ruta del archivo de ayuda correspondiente al idioma solicitado.
         /// </summary>
         /// <param name="languageCode">Código de idioma configurado.</param>
@@ -41,7 +59,8 @@ namespace Service.DAL.Implementations.SqlServer
                 helpFilePath = ConfigurationManager.AppSettings["HelpFilePath_Default"];
             }
 
-            return helpFilePath;
+            // Resolver ruta relativa
+            return ResolvePath(helpFilePath);
         }
 
         #region Ayuda General

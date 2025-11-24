@@ -15,16 +15,14 @@ namespace Service.Facade
     /// </summary>
     public class ManualService
     {
-        private ManualRepository manualRepository;
-
         /// <summary>
-        /// Inicializa el servicio cargando el repositorio correspondiente al idioma del usuario.
+        /// Obtiene el repositorio del manual según el idioma actual del usuario.
         /// </summary>
-        public ManualService()
+        private ManualRepository GetManualRepository()
         {
-            // Obtener el código de idioma de la configuración o de otro lugar
+            // Siempre obtener el idioma actual en el momento de abrir la ayuda
             string languageCode = IdiomaLogic.LoadUserLanguage();
-            manualRepository = new ManualRepository(languageCode);
+            return new ManualRepository(languageCode);
         }
 
         #region Ayuda General
@@ -34,7 +32,7 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaMain()
         {
-            manualRepository.AbrirAyudaMain();
+            GetManualRepository().AbrirAyudaMain();
         }
 
         #endregion
@@ -46,7 +44,7 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaLogin()
         {
-            manualRepository.AbrirAyudaLogin();
+            GetManualRepository().AbrirAyudaLogin();
         }
 
         /// <summary>
@@ -54,7 +52,7 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaCambiarPass()
         {
-            manualRepository.AbrirAyudaCambiarPass();
+            GetManualRepository().AbrirAyudaCambiarPass();
         }
 
         /// <summary>
@@ -63,7 +61,7 @@ namespace Service.Facade
         /// <param name="owner">Formulario propietario (necesario para formularios modales)</param>
         public void AbrirAyudaRecuperoPass(Control owner = null)
         {
-            manualRepository.AbrirAyudaRecuperoPass(owner);
+            GetManualRepository().AbrirAyudaRecuperoPass(owner);
         }
 
         #endregion
@@ -75,7 +73,7 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaCrearUsuario()
         {
-            manualRepository.AbrirAyudaCrearUsuario();
+            GetManualRepository().AbrirAyudaCrearUsuario();
         }
 
         /// <summary>
@@ -83,7 +81,7 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaModUsuario()
         {
-            manualRepository.AbrirAyudaModUsuario();
+            GetManualRepository().AbrirAyudaModUsuario();
         }
 
         /// <summary>
@@ -91,7 +89,7 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaMostrarUsuario()
         {
-            manualRepository.AbrirAyudaMostrarUsuario();
+            GetManualRepository().AbrirAyudaMostrarUsuario();
         }
 
         #endregion
@@ -103,23 +101,23 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaAsignarRol()
         {
-            manualRepository.AbrirAyudaAsignarRol();
+            GetManualRepository().AbrirAyudaAsignarRol();
         }
 
         /// <summary>
-        /// Muestra la ayuda para crear roles.
+        /// Despliega la ayuda para crear roles.
         /// </summary>
         public void AbrirAyudaCrearRol()
         {
-            manualRepository.AbrirAyudaCrearRol();
+            GetManualRepository().AbrirAyudaCrearRol();
         }
 
         /// <summary>
-        /// Abre la ayuda para crear patentes.
+        /// Presenta la guía para crear patentes.
         /// </summary>
         public void AbrirAyudaCrearPatente()
         {
-            manualRepository.AbrirAyudaCrearPatente();
+            GetManualRepository().AbrirAyudaCrearPatente();
         }
 
         #endregion
@@ -127,19 +125,19 @@ namespace Service.Facade
         #region Ayuda Backup y Restore
 
         /// <summary>
-        /// Muestra la ayuda sobre generación de respaldos.
+        /// Abre la sección de ayuda sobre la generación de respaldos.
         /// </summary>
         public void AbrirAyudaBackUp()
         {
-            manualRepository.AbrirAyudaBackUp();
+            GetManualRepository().AbrirAyudaBackUp();
         }
 
         /// <summary>
-        /// Abre la ayuda para restauración de respaldos.
+        /// Muestra la ayuda sobre restauración de respaldos.
         /// </summary>
         public void AbrirAyudaRestore()
         {
-            manualRepository.AbrirAyudaRestore();
+            GetManualRepository().AbrirAyudaRestore();
         }
 
         #endregion
@@ -147,11 +145,11 @@ namespace Service.Facade
         #region Ayuda Bitácora
 
         /// <summary>
-        /// Presenta la ayuda para consultar bitácoras.
+        /// Muestra la ayuda relativa a la consulta de la bitácora.
         /// </summary>
         public void AbrirAyudaBitacora()
         {
-            manualRepository.AbrirAyudaBitacora();
+            GetManualRepository().AbrirAyudaBitacora();
         }
 
         #endregion
@@ -163,7 +161,7 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaCrearCliente()
         {
-            manualRepository.AbrirAyudaCrearCliente();
+            GetManualRepository().AbrirAyudaCrearCliente();
         }
 
         /// <summary>
@@ -171,7 +169,7 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaModificarCliente()
         {
-            manualRepository.AbrirAyudaModificarCliente();
+            GetManualRepository().AbrirAyudaModificarCliente();
         }
 
         /// <summary>
@@ -179,7 +177,7 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaMostrarClientes()
         {
-            manualRepository.AbrirAyudaMostrarClientes();
+            GetManualRepository().AbrirAyudaMostrarClientes();
         }
 
         #endregion
@@ -191,7 +189,7 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaCrearProducto()
         {
-            manualRepository.AbrirAyudaCrearProducto();
+            GetManualRepository().AbrirAyudaCrearProducto();
         }
 
         /// <summary>
@@ -199,7 +197,7 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaModificarProducto()
         {
-            manualRepository.AbrirAyudaModificarProducto();
+            GetManualRepository().AbrirAyudaModificarProducto();
         }
 
         /// <summary>
@@ -207,7 +205,7 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaMostrarProductos()
         {
-            manualRepository.AbrirAyudaMostrarProductos();
+            GetManualRepository().AbrirAyudaMostrarProductos();
         }
 
         /// <summary>
@@ -215,7 +213,7 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaEliminarProducto()
         {
-            manualRepository.AbrirAyudaEliminarProducto();
+            GetManualRepository().AbrirAyudaEliminarProducto();
         }
 
         #endregion
@@ -227,7 +225,7 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaCrearProveedor()
         {
-            manualRepository.AbrirAyudaCrearProveedor();
+            GetManualRepository().AbrirAyudaCrearProveedor();
         }
 
         /// <summary>
@@ -235,7 +233,7 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaModificarProveedor()
         {
-            manualRepository.AbrirAyudaModificarProveedor();
+            GetManualRepository().AbrirAyudaModificarProveedor();
         }
 
         /// <summary>
@@ -243,7 +241,7 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaMostrarProveedores()
         {
-            manualRepository.AbrirAyudaMostrarProveedores();
+            GetManualRepository().AbrirAyudaMostrarProveedores();
         }
 
         #endregion
@@ -255,7 +253,7 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaMostrarStock()
         {
-            manualRepository.AbrirAyudaMostrarStock();
+            GetManualRepository().AbrirAyudaMostrarStock();
         }
 
         /// <summary>
@@ -263,7 +261,7 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaModificarStock()
         {
-            manualRepository.AbrirAyudaModificarStock();
+            GetManualRepository().AbrirAyudaModificarStock();
         }
 
         #endregion
@@ -275,7 +273,7 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaCrearPedido()
         {
-            manualRepository.AbrirAyudaCrearPedido();
+            GetManualRepository().AbrirAyudaCrearPedido();
         }
 
         /// <summary>
@@ -283,7 +281,7 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaModificarPedido()
         {
-            manualRepository.AbrirAyudaModificarPedido();
+            GetManualRepository().AbrirAyudaModificarPedido();
         }
 
         /// <summary>
@@ -291,7 +289,7 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaMostrarPedidos()
         {
-            manualRepository.AbrirAyudaMostrarPedidos();
+            GetManualRepository().AbrirAyudaMostrarPedidos();
         }
 
         /// <summary>
@@ -299,7 +297,7 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaDetallePedido()
         {
-            manualRepository.AbrirAyudaDetallePedido();
+            GetManualRepository().AbrirAyudaDetallePedido();
         }
 
         #endregion
@@ -311,7 +309,7 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaReporteStockBajo()
         {
-            manualRepository.AbrirAyudaReporteStockBajo();
+            GetManualRepository().AbrirAyudaReporteStockBajo();
         }
 
         /// <summary>
@@ -319,7 +317,7 @@ namespace Service.Facade
         /// </summary>
         public void AbrirAyudaReporteProductosMasVendidos()
         {
-            manualRepository.AbrirAyudaReporteProductosMasVendidos();
+            GetManualRepository().AbrirAyudaReporteProductosMasVendidos();
         }
 
         #endregion
